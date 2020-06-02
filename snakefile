@@ -316,30 +316,33 @@ rule index_mismatch_bam:
 
 rule flagstat:
     input:
-      sort = MAP_DIR + "{S}" + ".sorted.bam",
-      nodup = MAP_DIR + "{S}" + ".sorted.nodup.bam",
-      zero = MAP_DIR + "{S}" + ".sorted.nodup.nm.0.0.bam",
-      one =  MAP_DIR + "{S}" + ".sorted.nodup.nm.0.1.bam",
-      two =  MAP_DIR + "{S}" + ".sorted.nodup.nm.0.2.bam",
-      three =  MAP_DIR + "{S}" + ".sorted.nodup.nm.0.3.bam",
-      four =  MAP_DIR + "{S}" + ".sorted.nodup.nm.0.4.bam"
+      expand(MAP_DIR + "{S}" + ".sorted" + "{VAL}" + ".bam", S = ID, VAL = ["", ".nodup", ".nodup.nm.0.0", ".nodup.nm.0.1",".nodup.nm.0.2",".nodup.nm.0.3",".nodup.nm.0.4"])
+      #sort = MAP_DIR + "{S}" + ".sorted.bam",
+      #nodup = MAP_DIR + "{S}" + ".sorted.nodup.bam",
+      #zero =  MAP_DIR + "{S}" + ".sorted.nodup.nm.0.0.bam",
+      #one =  MAP_DIR + "{S}" + ".sorted.nodup.nm.0.1.bam",
+      #two =  MAP_DIR + "{S}" + ".sorted.nodup.nm.0.2.bam",
+      #three =  MAP_DIR + "{S}" + ".sorted.nodup.nm.0.3.bam",
+      #four =  MAP_DIR + "{S}" + ".sorted.nodup.nm.0.4.bam"
     output:
-      sort = MAP_DIR + "{S}" + ".sorted.flagstat",
-      nodup = MAP_DIR + "{S}" + ".sorted.nodup.flagstat",
-      zero = MAP_DIR + "{S}" + ".sorted.nodup.nm.0.0.flagstat",
-      one =  MAP_DIR + "{S}" + ".sorted.nodup.nm.0.1.flagstat",
-      two =  MAP_DIR + "{S}" + ".sorted.nodup.nm.0.2.flagstat",
-      three =  MAP_DIR + "{S}" + ".sorted.nodup.nm.0.3.flagstat",
-      four =  MAP_DIR + "{S}" + ".sorted.nodup.nm.0.4.flagstat"
+      expand(MAP_DIR + "{S}" + ".sorted" + "{VAL}" + ".flagstat", S = ID, VAL = ["", ".nodup", ".nodup.nm.0.0", ".nodup.nm.0.1",".nodup.nm.0.2",".nodup.nm.0.3",".nodup.nm.0.4"])
+      #sort = MAP_DIR + "{S}" + ".sorted.flagstat",
+      #nodup = MAP_DIR + "{S}" + ".sorted.nodup.flagstat",
+      #zero =  MAP_DIR + "{S}" + ".sorted.nodup.nm.0.0.flagstat",
+      #one =  MAP_DIR + "{S}" + ".sorted.nodup.nm.0.1.flagstat",
+      #two =  MAP_DIR + "{S}" + ".sorted.nodup.nm.0.2.flagstat",
+      #three =  MAP_DIR + "{S}" + ".sorted.nodup.nm.0.3.flagstat",
+      #four =  MAP_DIR + "{S}" + ".sorted.nodup.nm.0.4.flagstat"
     shell:
         """
-        samtools flagstat {input.sort} > {output.sort} 
-        samtools flagstat {input.nodup} > {output.nodup} 
-        samtools flagstat {input.zero} > {output.zero} 
-        samtools flagstat {input.one} > {output.one} 
-        samtools flagstat {input.two} > {output.two} 
-        samtools flagstat {input.three} > {output.three} 
-        samtools flagstat {input.four} > {output.four} 
+        samtools flagstat {input} > {output} 
+        #samtools flagstat {input.sort} > {output.sort}
+        #samtools flagstat {input.nodup} > {output.nodup} 
+        #samtools flagstat {input.zero} > {output.zero} 
+        #samtools flagstat {input.one} > {output.one} 
+        #samtools flagstat {input.two} > {output.two} 
+        #samtools flagstat {input.three} > {output.three} 
+        #samtools flagstat {input.four} > {output.four} 
         """
 
 ##########################################################  
