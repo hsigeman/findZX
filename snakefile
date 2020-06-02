@@ -179,7 +179,7 @@ rule index_bam:
         samtools index {input}
         """
 
-# noy used
+# not used
 #rule count_reads_samtools: 
 #    input: 
 #        MAP_DIR + "{S}" + ".sorted.nodup.bam"
@@ -364,17 +364,20 @@ rule gencov_prepare_fasta:
 
 rule gencov_bedtoolsall:
     input: 
-        bam_f = MAP_DIR + FEMALE + ".sorted.nodup.bam",
-        bai_f = MAP_DIR + FEMALE + ".sorted.nodup.bam.bai",
-        bam_m = MAP_DIR + MALE + ".sorted.nodup.bam",
-        bai_m = MAP_DIR + MALE + ".sorted.nodup.bam.bai",
+        bam = expand(MAP_DIR + "{S}" + ".sorted.nodup.bam", S = ID),
+        bai = expand(MAP_DIR + "{S}" + ".sorted.nodup.bam.bai", S = ID),
+#        bam_f = MAP_DIR + FEMALE + ".sorted.nodup.bam",
+#        bai_f = MAP_DIR + FEMALE + ".sorted.nodup.bam.bai",
+#        bam_m = MAP_DIR + MALE + ".sorted.nodup.bam",
+#        bai_m = MAP_DIR + MALE + ".sorted.nodup.bam.bai",
         bed = GENCOV_DIR + "genome_5kb_windows.out"
     output: 
         GENCOV_DIR + "gencov.nodup.nm.all.out"
     threads: 2
     shell: 
         """
-        bedtools multicov -bams {input.bam_f} {input.bam_m} -bed {input.bed} > {output}
+        bedtools multicov -bams {input.bam} -bed {input.bed} > {output}
+#        bedtools multicov -bams {input.bam_f} {input.bam_m} -bed {input.bed} > {output}
         """
 
 rule gencov_bedtools0:
