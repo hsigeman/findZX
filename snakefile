@@ -188,129 +188,131 @@ rule count_reads_samtools:
         samtools view -c -F 4 {input} > {output}
         """ 
 
-rule mismatch_bam0: 
+rule mismatch_bam: 
     input: 
         bam = MAP_DIR + "{S}" + ".sorted.nodup.bam", 
         ref = REF_FASTA
     output: 
-        MAP_DIR + "{S}" + ".sorted.nodup.nm.0.0.bam"
-    threads: 2
-    shell: 
-        """
-        samtools view -@ {threads} {input.bam} | grep NM:i:0 | samtools view -bS -T {input.ref} - > {output}
-        """
-
-rule index_mismatch_bam0: 
-    input: 
-        MAP_DIR + "{S}" + ".sorted.nodup.nm.0.0.bam"
-    output: 
-        MAP_DIR + "{S}" + ".sorted.nodup.nm.0.0.bam.bai"
-    threads: 1
-    shell: 
-        """
-        samtools index {input}
-        """
-
-
-rule mismatch_bam1: 
-    input: 
-        bam = MAP_DIR + "{S}" + ".sorted.nodup.bam", 
-        ref = REF_FASTA
-    output: 
-        MAP_DIR + "{S}" + ".sorted.nodup.nm.0.1.bam"
+        MAP_DIR + "{S}" + ".sorted.nodup.nm.0." + "{NM}" + ".bam"
     threads: 2
     params:
-        "\"NM:i:[0-1]\""
+        "\"NM:i:[0-{NM}]\"" #the NM values need to get inserted in this params
     shell: 
         """
         samtools view -@ {threads} {input.bam} | grep -E {params} | samtools view -bS -T {input.ref} - > {output}
         """
 
-rule index_mismatch_bam1: 
+rule index_mismatch_bam: 
     input: 
-        MAP_DIR + "{S}" + ".sorted.nodup.nm.0.1.bam"
+        MAP_DIR + "{S}" + ".sorted.nodup.nm.0." + "{NM}" + ".bam"
     output: 
-        MAP_DIR + "{S}" + ".sorted.nodup.nm.0.1.bam.bai"
+        MAP_DIR + "{S}" + ".sorted.nodup.nm.0." + "{NM}" + ".bam.bai"
     threads: 1
     shell: 
         """
         samtools index {input}
         """
 
-rule mismatch_bam2: 
-    input: 
-        bam = MAP_DIR + "{S}" + ".sorted.nodup.bam", 
-        ref = REF_FASTA
-    output: 
-        MAP_DIR + "{S}" + ".sorted.nodup.nm.0.2.bam"
-    threads: 2
-    params:
-        "\"NM:i:[0-2]\""
-    shell: 
-        """
-        samtools view -@ {threads} {input.bam} | grep -E {params} | samtools view -bS -T {input.ref} - > {output}
-        """
 
-rule index_mismatch_bam2: 
-    input: 
-        MAP_DIR + "{S}" + ".sorted.nodup.nm.0.2.bam"
-    output: 
-        MAP_DIR + "{S}" + ".sorted.nodup.nm.0.2.bam.bai"
-    threads: 1
-    shell: 
-        """
-        samtools index {input}
-        """
+#rule mismatch_bam1: 
+#    input: 
+#        bam = MAP_DIR + "{S}" + ".sorted.nodup.bam", 
+#        ref = REF_FASTA
+#    output: 
+#        MAP_DIR + "{S}" + ".sorted.nodup.nm.0.1.bam"
+#    threads: 2
+#    params:
+#        "\"NM:i:[0-1]\""
+#    shell: 
+#        """
+#        samtools view -@ {threads} {input.bam} | grep -E {params} | samtools view -bS -T {input.ref} - > {output}
+#        """
 
-rule mismatch_bam3: 
-    input: 
-        bam = MAP_DIR + "{S}" + ".sorted.nodup.bam", 
-        ref = REF_FASTA
-    output: 
-        MAP_DIR + "{S}" + ".sorted.nodup.nm.0.3.bam"
-    threads: 2
-    params:
-        "\"NM:i:[0-3]\""
-    shell: 
-        """
-        samtools view -@ {threads} {input.bam} | grep -E {params} | samtools view -bS -T {input.ref} - > {output}
-        """
+#rule index_mismatch_bam1: 
+#    input: 
+#        MAP_DIR + "{S}" + ".sorted.nodup.nm.0.1.bam"
+#    output: 
+#        MAP_DIR + "{S}" + ".sorted.nodup.nm.0.1.bam.bai"
+#    threads: 1
+#    shell: 
+#        """
+#        samtools index {input}
+#        """
 
-rule index_mismatch_bam3: 
-    input: 
-        MAP_DIR + "{S}" + ".sorted.nodup.nm.0.3.bam"
-    output: 
-        MAP_DIR + "{S}" + ".sorted.nodup.nm.0.3.bam.bai"
-    threads: 1
-    shell: 
-        """
-        samtools index {input}
-        """
+#rule mismatch_bam2: 
+#    input: 
+#        bam = MAP_DIR + "{S}" + ".sorted.nodup.bam", 
+#        ref = REF_FASTA
+#    output: 
+#        MAP_DIR + "{S}" + ".sorted.nodup.nm.0.2.bam"
+#    threads: 2
+#    params:
+#        "\"NM:i:[0-2]\""
+#    shell: 
+#        """
+#        samtools view -@ {threads} {input.bam} | grep -E {params} | samtools view -bS -T {input.ref} - > {output}
+#        """
 
-rule mismatch_bam4: 
-    input: 
-        bam = MAP_DIR + "{S}" + ".sorted.nodup.bam", 
-        ref = REF_FASTA
-    output: 
-        MAP_DIR + "{S}" + ".sorted.nodup.nm.0.4.bam"
-    threads: 2
-    params:
-        "\"NM:i:[0-4]\""
-    shell: 
-        """
-        samtools view -@ {threads} {input.bam} | grep -E {params} | samtools view -bS -T {input.ref} - > {output}
-        """
+#rule index_mismatch_bam2: 
+#    input: 
+#        MAP_DIR + "{S}" + ".sorted.nodup.nm.0.2.bam"
+#    output: 
+#        MAP_DIR + "{S}" + ".sorted.nodup.nm.0.2.bam.bai"
+#    threads: 1
+#    shell: 
+#        """
+#        samtools index {input}
+#        """
 
-rule index_mismatch_bam4: 
-    input: 
-        MAP_DIR + "{S}" + ".sorted.nodup.nm.0.4.bam"
-    output: 
-        MAP_DIR + "{S}" + ".sorted.nodup.nm.0.4.bam.bai"
-    threads: 1
-    shell: 
-        """
-        samtools index {input}
-        """
+#rule mismatch_bam3: 
+#    input: 
+#        bam = MAP_DIR + "{S}" + ".sorted.nodup.bam", 
+#        ref = REF_FASTA
+#    output: 
+#        MAP_DIR + "{S}" + ".sorted.nodup.nm.0.3.bam"
+#    threads: 2
+#    params:
+#        "\"NM:i:[0-3]\""
+#    shell: 
+#        """
+#        samtools view -@ {threads} {input.bam} | grep -E {params} | samtools view -bS -T {input.ref} - > {output}
+#        """
+
+#rule index_mismatch_bam3: 
+#    input: 
+#        MAP_DIR + "{S}" + ".sorted.nodup.nm.0.3.bam"
+#    output: 
+#        MAP_DIR + "{S}" + ".sorted.nodup.nm.0.3.bam.bai"
+#    threads: 1
+#    shell: 
+#        """
+#        samtools index {input}
+#        """
+
+#rule mismatch_bam4: 
+#    input: 
+#        bam = MAP_DIR + "{S}" + ".sorted.nodup.bam", 
+#        ref = REF_FASTA
+#    output: 
+#        MAP_DIR + "{S}" + ".sorted.nodup.nm.0.4.bam"
+#    threads: 2
+#    params:
+#        "\"NM:i:[0-4]\""
+#    shell: 
+#        """
+#        samtools view -@ {threads} {input.bam} | grep -E {params} | samtools view -bS -T {input.ref} - > {output}
+#        """
+
+#rule index_mismatch_bam4: 
+#    input: 
+#        MAP_DIR + "{S}" + ".sorted.nodup.nm.0.4.bam"
+#    output: 
+#        MAP_DIR + "{S}" + ".sorted.nodup.nm.0.4.bam.bai"
+#    threads: 1
+#    shell: 
+#        """
+#        samtools index {input}
+#        """
 
 rule flagstat:
     input:
