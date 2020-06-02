@@ -101,15 +101,16 @@ rule index_fasta_samtools:
         samtools faidx {input}
         """
 
-rule count_reads: 
-    input: 
-        R1= FQ_DIR + "{S}_reverse_paired.fq.gz"
-    output: 
-        GENCOV_DIR + "{S}" + "_fastq_readcount.out"
-    shell:
-        """ 
-        echo {input.R1} | tr '\\n' '\\t' ; zcat {input.R1} | echo $((`wc -l`/4)) > {output}
-        """ 
+# Is not used
+#rule count_reads: 
+#    input: 
+#        R1= FQ_DIR + "{S}_reverse_paired.fq.gz"
+#    output: 
+#        GENCOV_DIR + "{S}" + "_fastq_readcount.out"
+#    shell:
+#        """ 
+#        echo {input.R1} | tr '\\n' '\\t' ; zcat {input.R1} | echo $((`wc -l`/4)) > {output}
+#        """ 
 
 
 ##########################################################  
@@ -178,15 +179,16 @@ rule index_bam:
         samtools index {input}
         """
 
-rule count_reads_samtools: 
-    input: 
-        MAP_DIR + "{S}" + ".sorted.nodup.bam"
-    output: 
-        GENCOV_DIR + "{S}" + "_fastq_readcount_samtools.out"
-    shell:
-        """ 
-        samtools view -c -F 4 {input} > {output}
-        """ 
+# noy used
+#rule count_reads_samtools: 
+#    input: 
+#        MAP_DIR + "{S}" + ".sorted.nodup.bam"
+#    output: 
+#        GENCOV_DIR + "{S}" + "_fastq_readcount_samtools.out"
+#    shell:
+#        """ 
+#        samtools view -c -F 4 {input} > {output}
+#        """ 
 
 rule mismatch_bam: 
     input: 
