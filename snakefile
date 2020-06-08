@@ -195,10 +195,10 @@ rule gencov_prepare_fasta:
 
 rule gencov_bedtools:
     input: 
-        bam_f = MAP_DIR + FEMALE + ".sorted" + "{V}" + ".bam",	# V = ".nodup.nm.all", ".nodup.nm.0.0", ".nodup.nm.0.1", ".nodup.nm.0.2", ".nodup.nm.0.3", ".nodup.nm.0.4"
-        bai_f = MAP_DIR + FEMALE + ".sorted" + "{V}" + ".bam.bai",
-        bam_m = MAP_DIR + MALE + ".sorted" + "{V}" + ".bam",
-        bai_m = MAP_DIR + MALE + ".sorted" + "{V}" + ".bam.bai",
+        bam_f = expand(MAP_DIR + "{female}" + ".sorted" + "{V}" + ".bam", female = FEMALE),
+        bai_f = expand(MAP_DIR + "{female}" + ".sorted" + "{V}" + ".bam.bai", female = FEMALE),
+        bam_m = expand(MAP_DIR + "{male}" + ".sorted" + "{V}" + ".bam", male = MALE),
+        bai_m = expand(MAP_DIR + "{male}" + ".sorted" + "{V}" + ".bam.bai", male = MALE),
         bed = GENCOV_DIR + "genome_5kb_windows.out"
     output: 
         GENCOV_DIR + "gencov" + "{V}" + ".out"
@@ -229,8 +229,8 @@ rule freebayes_parallel:
     input: 
         ref = REF_FASTA,
         regions = VCF_DIR + SPECIES + ".100kbp.regions",
-        f = MAP_DIR + FEMALE + ".sorted.nodup.nm.all.bam",
-        m = MAP_DIR + MALE + ".sorted.nodup.nm.all.bam"
+        f = expand(MAP_DIR + "{female}" + ".sorted.nodup.nm.all.bam", female = FEMALE),
+        m = expand(MAP_DIR + "{male}" + ".sorted.nodup.nm.all.bam", male = MALE)
     output: 
         vcf = VCF_DIR + SPECIES + ".vcf",
         log = VCF_DIR + SPECIES + ".vcf.status"
