@@ -2,19 +2,19 @@ samples:
     SJ-2333-Aarv-043-NL : SJ-2333-Aarv-043-NL
     SJ-2333-Aarv-052-NL : SJ-2333-Aarv-052-NL
     SJ-2333-Aarv-313-NL : SJ-2333-Aarv-313-NL
-    SJ-2333-Aarv-475-NL : SJ-2333-Aarv-475-NL
-    SJ-2333-Aarv-504-NL : SJ-2333-Aarv-504-NL
-    SJ-2333-Aarv-558-NL : SJ-2333-Aarv-558-NL
-    SJ-2333-Aarv-618-NL : SJ-2333-Aarv-618-NL
-    SJ-2333-Aarv-621-NL : SJ-2333-Aarv-621-NL
+#    SJ-2333-Aarv-475-NL : SJ-2333-Aarv-475-NL
+#    SJ-2333-Aarv-504-NL : SJ-2333-Aarv-504-NL
+#    SJ-2333-Aarv-558-NL : SJ-2333-Aarv-558-NL
+#    SJ-2333-Aarv-618-NL : SJ-2333-Aarv-618-NL
+#    SJ-2333-Aarv-621-NL : SJ-2333-Aarv-621-NL
     SJ-2333-Aarv-249-IT : SJ-2333-Aarv-249-IT
     SJ-2333-Aarv-252-IT : SJ-2333-Aarv-252-IT
     SJ-2333-Aarv-389-IT : SJ-2333-Aarv-389-IT
-    SJ-2333-Aarv-441-IT : SJ-2333-Aarv-441-IT
-    SJ-2333-Aarv-444-IT : SJ-2333-Aarv-444-IT
-    SJ-2333-Aarv-449-IT : SJ-2333-Aarv-449-IT
-    SJ-2333-Aarv-460-IT : SJ-2333-Aarv-460-IT
-    SJ-2333-Aarv-939-IT : SJ-2333-Aarv-939-IT
+#    SJ-2333-Aarv-441-IT : SJ-2333-Aarv-441-IT
+#    SJ-2333-Aarv-444-IT : SJ-2333-Aarv-444-IT
+#    SJ-2333-Aarv-449-IT : SJ-2333-Aarv-449-IT
+#    SJ-2333-Aarv-460-IT : SJ-2333-Aarv-460-IT
+#    SJ-2333-Aarv-939-IT : SJ-2333-Aarv-939-IT
 species: AlaArv
 female: 
     SJ-2333-Aarv-052-NL
