@@ -11,40 +11,56 @@ species=args[1]
 female=args[2]
 male=args[3]
 
+cov=read.table("../../Supplementary Code 2020/code/R/gencov.nodup.nm.0.0.zf.out",header=FALSE,fill=TRUE,stringsAsFactor=FALSE)
+cov <- plyr::rename(cov, c("V1"="contig", "V2"="contig_start","V3"="contig_end", 
+                           "V4"="chr", "V5"="start", "V6"="end", "V7"="F_cov", 
+                           "V8"="M_cov"))
 
-cov=read.table(args[4],header=FALSE,fill=TRUE,stringsAsFactor=FALSE)
-cov <- plyr::rename(cov, c("V1"="contig", "V2"="contig_start","V3"="contig_end", "V4"="chr", "V7"="F_cov", "V8"="M_cov", "V5"="start", "V6"="end"))
+cov <- remove_chr_less_than_1mb(cov)
+# # Remove chromosomes smaller than 1 Mb #
+# max_per_chr <- setDT(cov)[, .SD[which.max(end)], by=chr]
+# chr_over_1mb <- subset(max_per_chr$chr, max_per_chr$end>1000000)
+# cov <- cov[ cov$chr %in% chr_over_1mb, ]
+# 
+# cov <- subset(cov, cov$chr!="Un")
+# random <- unique(cov$chr[grep("random", cov$chr)])
+# cov <- cov[ ! cov$chr %in% random, ]
+# random <- unique(cov$chr[grep("LG", cov$chr)])
+# cov <- cov[ ! cov$chr %in% random, ]
+# random <- unique(cov$chr[grep("MT", cov$chr)])
+# cov <- cov[ ! cov$chr %in% random, ]
 
-# Remove chromosomes smaller than 1 Mb #
-max_per_chr <- setDT(cov)[, .SD[which.max(end)], by=chr]
-chr_over_1mb <- subset(max_per_chr$chr, max_per_chr$end>1000000)
-cov <- cov[ cov$chr %in% chr_over_1mb, ]
-
-cov <- subset(cov, cov$chr!="Un")
-random <- unique(cov$chr[grep("random", cov$chr)])
-cov <- cov[ ! cov$chr %in% random, ]
-random <- unique(cov$chr[grep("LG", cov$chr)])
-cov <- cov[ ! cov$chr %in% random, ]
-random <- unique(cov$chr[grep("MT", cov$chr)])
-cov <- cov[ ! cov$chr %in% random, ]
 
 cov$chr <- ordered(cov$chr,
                    levels = c("1", "1A", "1B", "2", "3", "4", "4A", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", 
                               "15", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "Z"))
 
-cov$cov_ratio <- cov$F_cov/cov$M_cov
-cov$cov_ratio_scaled <- cov$cov_ratio / median(cov$cov_ratio, na.rm = TRUE)
-cov <- subset(cov, cov$cov_ratio != "Inf")
-cov <- subset(cov, cov$cov_ratio_scaled != "Inf")
+cov <- calculate_cov_ratio(cov)
+# cov$cov_ratio <- cov$F_cov/cov$M_cov
+# cov$cov_ratio_scaled <- cov$cov_ratio / median(cov$cov_ratio, na.rm = TRUE)
+# cov <- subset(cov, cov$cov_ratio != "Inf")
+# cov <- subset(cov, cov$cov_ratio_scaled != "Inf")
 
 # Remove outliers
-outliers <- boxplot(cov_ratio_scaled ~ chr, data=cov)$out
-cov <- cov[-which(cov$cov_ratio_scaled %in% outliers),]
+cov <- remove_outliers(cov)
+# outliers <- boxplot(cov_ratio_scaled ~ chr, data=cov)$out
+# cov <- cov[-which(cov$cov_ratio_scaled %in% outliers),]
 
-cov_1Mb_ranges <- transform(cov, range=round(end/1000000))
-cov_1Mb_ranges_sum <- summaryBy(cov_ratio_scaled ~ chr + range, data=cov_1Mb_ranges, keep.names=TRUE)
-cov_100kb_ranges <- transform(cov, range=round(end/100000))
-cov_100kb_ranges_sum <- summaryBy(cov_ratio_scaled ~ chr + range, data=cov_100kb_ranges, keep.names=TRUE)
+cov_1Mb_ranges_sum <- calculate_cov_in_win(cov, 1000000)
+cov_100kb_ranges_sum <- calculate_cov_in_win(cov, 100000)
+# cov_1Mb_ranges <- transform(cov, range=round(end/1000000))
+# cov_1Mb_ranges_sum <- summaryBy(cov_ratio_scaled ~ chr + range, data=cov_1Mb_ranges, keep.names=TRUE)
+# cov_100kb_ranges <- transform(cov, range=round(end/100000))
+# cov_100kb_ranges_sum <- summaryBy(cov_ratio_scaled ~ chr + range, data=cov_100kb_ranges, keep.names=TRUE)
+
+outfile <- sprintf(paste("results/",species,"/",species,".1Mbp_cov_scaled.nm.00.txt",sep=""))
+write.table(cov_1Mb_ranges_sum, outfile, quote=FALSE, sep="\t", row.names = F, col.names = F, na = "NA")
+
+outfile <- sprintf(paste("results/",species,"/",species,".100kbp_cov_scaled.nm.00.txt",sep=""))
+write.table(cov_100kb_ranges_sum, outfile, quote=FALSE, sep="\t", row.names = F, col.names = F, na = "NA")
+
+
+
 cov <- cov_1Mb_ranges_sum
 cov$chr <- as.factor(cov$chr)
 
@@ -63,13 +79,6 @@ cov.select.00 <- cov.select
 
 cov_chr_sum.00 <- summaryBy(y ~ factor, data=cov.select.00, keep.names=TRUE)
 cov_chr_sum.00$type <- "cov.00"
-
-outfile <- sprintf(paste("results/",species,"/",species,".1Mbp_cov_scaled.nm.00.txt",sep=""))
-write.table(cov_1Mb_ranges_sum, outfile, quote=FALSE, sep="\t", row.names = F, col.names = F, na = "NA")
-
-outfile <- sprintf(paste("results/",species,"/",species,".100kbp_cov_scaled.nm.00.txt",sep=""))
-write.table(cov_100kb_ranges_sum, outfile, quote=FALSE, sep="\t", row.names = F, col.names = F, na = "NA")
-
 
 #####################
 
@@ -182,8 +191,8 @@ min.cov.04
 
 cov.select.04 <- cov.select
 
-cov_chr_sum.04 <- summaryBy(y ~ factor, data=cov.select.04, keep.names=TRUE)
-cov_chr_sum.04$type <- "cov.04"
+#cov_chr_sum.04 <- summaryBy(y ~ factor, data=cov.select.04, keep.names=TRUE)
+#cov_chr_sum.04$type <- "cov.04"
 
 outfile <- sprintf(paste("results/",species,"/",species,".1Mbp_cov_scaled.nm.04.txt",sep=""))
 write.table(cov_1Mb_ranges_sum, outfile, quote=FALSE, sep="\t", row.names = F, col.names = F, na = "NA")
@@ -221,15 +230,20 @@ snp <- subset(snp, snp$V1=="S")
 ### Count private female and male alleles per chromosome and Mb
 snp_1Mb_ranges <- transform(snp, range=round(V5/1000000))
 snp_1Mb_ranges_count <- aggregate(count ~ V4 + V3 + range, data = snp_1Mb_ranges[which(snp_1Mb_ranges$V1=="S"),], sum)
+
 ### Transform to wide format
-snp_1Mb_ranges_count_wide <- dcast(snp_1Mb_ranges_count, V4 + range ~ V3, value.var="count")
+snp_1Mb_ranges_count_wide <- reshape2::dcast(snp_1Mb_ranges_count, V4 + range ~ V3, value.var="count")
 snp_1Mb_ranges_count_wide[is.na(snp_1Mb_ranges_count_wide)] <- 0
+
 names(snp_1Mb_ranges_count_wide)[names(snp_1Mb_ranges_count_wide)==female] <- "female"
 names(snp_1Mb_ranges_count_wide)[names(snp_1Mb_ranges_count_wide)==male] <- "male"
+
 snp_1Mb_ranges_count_wide$snp_diff <- snp_1Mb_ranges_count_wide$female - snp_1Mb_ranges_count_wide$male
 snp_1Mb_ranges_count_wide$snp_ratio <- snp_1Mb_ranges_count_wide$female/snp_1Mb_ranges_count_wide$male
+
 names(snp_1Mb_ranges_count_wide)[names(snp_1Mb_ranges_count_wide)=="V4"] <- "chr"
 head(snp_1Mb_ranges_count_wide)
+
 snp_1Mb_ranges_count_wide <- subset(snp_1Mb_ranges_count_wide, snp_1Mb_ranges_count_wide$snp_ratio != "Inf")
 snp_1Mb_ranges_count_wide$snp_ratio_scaled <- snp_1Mb_ranges_count_wide$snp_ratio / median(snp_1Mb_ranges_count_wide$snp_ratio, na.rm = TRUE)
 snp_1Mb_ranges_count_wide$snp_diff_scaled <- snp_1Mb_ranges_count_wide$snp_diff / median(snp_1Mb_ranges_count_wide$snp_diff, na.rm = TRUE)
