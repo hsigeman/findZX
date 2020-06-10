@@ -98,7 +98,7 @@ snp_chr_sum$type <- "snv"
 factor.nr <- as.numeric(length(unique(cov.select.04$factor)))
 
 circos.clear()
-pdf(file=paste("results/",species,"/",species,".pdf",sep=""), width = 9, height = 9)
+pdf(file=args[8], width = 9, height = 9)
 par(mar = c(1, 1, 1, 1), lwd = 0.1, cex = 0.7) 
 circos.par(cell.padding = c(0, 0, 0, 0), "track.height" = 0.15, gap.after = c(rep(1, factor.nr-1), 10))
 circos.initialize(factors = cov.select.04$factor, x = cov.select.04$x)
