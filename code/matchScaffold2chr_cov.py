@@ -1,13 +1,10 @@
 import sys
 import panda as pn
 
-best_match =  argv[1]
-cov = argv[2]
+best_match = pn.read_csv(argv[1], sep='\t')
+cov = pn.read_csv(argv[2], sep='\t')
 
-#read in best_match as a data_frame
-#read in cov as a data_fram
-
-gencov_zf = pn.merge(best_match, cov, how='inner', left_on=['1','2'], right_on=['1','2'])
+gencov_zf = pn.merge(best_match, cov, how='inner', left_on=['1','2','3'], right_on=['1','2','3'])
 
 #drop columns that are not needed
 
