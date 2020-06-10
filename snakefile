@@ -28,7 +28,7 @@ MATCHDIR = "intermediate/synteny_match/" + PREFIX + "/"
 RESULTDIR = "results/" + PREFIX + "/"
 
 COMP_GEN_ZF = "intermediate/lastal_ZF/" + PREFIX + "/"
-ZF_DB = "data/meta/myZFdb"
+ZF_DB = "../pipeline-test/data/meta/myZFdb"
 
 EDIT_DIST = ["all", "0.0", "0.1", "0.2", "0.3", "0.4"]
 
@@ -40,12 +40,12 @@ rule all:
      input: 
         REF_FASTA + ".bwt",
         REF_FASTA + ".fai" ,
-        expand(MAP_DIR + "{S}" + ".sorted.status", S = ID),
-        expand(MAP_DIR + "{S}" + ".sorted.nodup.nm.all.status", S = ID),
+        expand(MAP_DIR + "{S}.sorted.status", S = ID),
+        expand(MAP_DIR + "{S}.sorted.nodup.nm.all.status", S = ID),
         expand(MAP_DIR + "{S}.sorted.nodup.nm.{ED}.bam.bai", S = ID, ED = EDIT_DIST),
         VCF_DIR + SPECIES + ".vcf.status",
         COMP_GEN_ZF + SPECIES + "_align_converted",
-        expand(MAP_DIR + "{S}" + ".sorted.flagstat", S = ID),
+        expand(MAP_DIR + "{S}.sorted.flagstat", S = ID),
         expand(MAP_DIR + "{S}.sorted.nodup.nm.{ED}.flagstat", S = ID, ED = EDIT_DIST),
         MATCHDIR + "genome_windows.out",
         MATCHDIR + "bestMatch.status",
@@ -95,12 +95,12 @@ rule index_fasta_samtools:
 
 rule map: 
     input: 
-        R1= FQ_DIR + "{S}_forward_paired.fq.gz",
-        R2= FQ_DIR + "{S}_reverse_paired.fq.gz",
+        R1= FQ_DIR + "{S}_forward_paired.fq",
+        R2= FQ_DIR + "{S}_reverse_paired.fq",
         ref = REF_FASTA, 
         ref_bwt = REF_FASTA + ".bwt"
     output: 
-        temp(MAP_DIR + "{S}" + ".bam")
+        temp(MAP_DIR + "{S}.bam")
     message: "Mapping reads to ref"
     threads: 20
     params:
@@ -112,13 +112,13 @@ rule map:
 
 rule sort_bam:
     input:
-        MAP_DIR + "{S}" + ".bam"
+        MAP_DIR + "{S}.bam"
     output:
-        out = temp(MAP_DIR + "{S}" + ".sorted.bam"),
-        log = MAP_DIR + "{S}" + ".sorted.status"
+        out = temp(MAP_DIR + "{S}.sorted.bam"),
+        log = MAP_DIR + "{S}.sorted.status"
     threads: 3
     params:
-        tmpdir = MAP_DIR + "{S}" + "_temp_sort/"
+        tmpdir = MAP_DIR + "{S}_temp_sort/"
     shell:
         """
         mkdir {params.tmpdir}
@@ -129,12 +129,12 @@ rule sort_bam:
 
 rule remove_duplicates: 
     input: 
-        MAP_DIR + "{S}" + ".sorted.bam"
+        MAP_DIR + "{S}.sorted.bam"
     output: 
-        out = MAP_DIR + "{S}" + ".sorted.nodup.nm.all.bam",
-        log = MAP_DIR + "{S}" + ".sorted.nodup.nm.all.status"
+        out = MAP_DIR + "{S}.sorted.nodup.nm.all.bam",
+        log = MAP_DIR + "{S}.sorted.nodup.nm.all.status"
     params:
-        tmpdir = MAP_DIR + "{S}" + "_temp_dupl/"
+        tmpdir = MAP_DIR + "{S}_temp_dupl/"
     shell: 
         """
         mkdir {params.tmpdir}
@@ -145,9 +145,9 @@ rule remove_duplicates:
 
 rule index_bam: 
     input: 
-        MAP_DIR + "{S}" + ".sorted" + "{V}" + ".bam"	# V = ".nodup.nm.all", ".nodup.nm.0.0", ".nodup.nm.0.1", ".nodup.nm.0.2", ".nodup.nm.0.3", ".nodup.nm.0.4"
+        MAP_DIR + "{S}.sorted.nodup.nm.{ED}.bam"	# ED = "all", "0.0", "0.1", "0.2", "0.3", "0.4"
     output: 
-        MAP_DIR + "{S}" + ".sorted" + "{V}" + ".bam.bai"
+        MAP_DIR + "{S}.sorted.nodup.nm.{ED}.bam.bai"
     threads: 1
     shell: 
         """
@@ -156,10 +156,10 @@ rule index_bam:
 
 rule mismatch_bam: 
     input: 
-        bam = MAP_DIR + "{S}" + ".sorted.nodup.nm.all.bam", 
+        bam = MAP_DIR + "{S}.sorted.nodup.nm.all.bam", 
         ref = REF_FASTA
     output: 
-        MAP_DIR + "{S}" + ".sorted.nodup.nm.0.{ED, [0-9]+}.bam"	# ED = 0, 1, 2, 3, 4
+        MAP_DIR + "{S}.sorted.nodup.nm.0.{ED, [0-9]+}.bam"	# ED = 0, 1, 2, 3, 4
     threads: 2
     params:
         "\"NM:i:[0-{ED}]\""
@@ -170,9 +170,9 @@ rule mismatch_bam:
 
 rule flagstat:
     input:
-      MAP_DIR + "{S}" + ".sorted" + "{V}" + "bam" 		# V = ".", ".nodup.nm.all.", ".nodup.nm.0.0.", ".nodup.nm.0.1.", ".nodup.nm.0.2.", ".nodup.nm.0.3.", ".nodup.nm.0.4."
+      MAP_DIR + "{S}.sorted{V}bam" 		# V = ".", ".nodup.nm.all.", ".nodup.nm.0.0.", ".nodup.nm.0.1.", ".nodup.nm.0.2.", ".nodup.nm.0.3.", ".nodup.nm.0.4."
     output:
-      MAP_DIR + "{S}" + ".sorted" + "{V}" + "flagstat",
+      MAP_DIR + "{S}.sorted{V}flagstat",
     shell:
         """
         samtools flagstat {input} > {output}  
@@ -195,13 +195,13 @@ rule gencov_prepare_fasta:
 
 rule gencov_bedtools:
     input: 
-        bam_f = expand(MAP_DIR + "{female}" + ".sorted" + "{V}" + ".bam", female = FEMALE),
-        bai_f = expand(MAP_DIR + "{female}" + ".sorted" + "{V}" + ".bam.bai", female = FEMALE),
-        bam_m = expand(MAP_DIR + "{male}" + ".sorted" + "{V}" + ".bam", male = MALE),
-        bai_m = expand(MAP_DIR + "{male}" + ".sorted" + "{V}" + ".bam.bai", male = MALE),
+        bam_f = expand(MAP_DIR + "{female}.sorted.nodup.nm.{{V}}.bam", female = FEMALE), # V = "all", "0.0", "0.1", "0.2", "0.3", "0.4"
+        bai_f = expand(MAP_DIR + "{female}.sorted.nodup.nm.{{V}}.bam.bai", female = FEMALE),
+        bam_m = expand(MAP_DIR + "{male}.sorted.nodup.nm.{{V}}.bam", male = MALE),
+        bai_m = expand(MAP_DIR + "{male}.sorted.nodup.nm.{{V}}.bam.bai", male = MALE),
         bed = GENCOV_DIR + "genome_5kb_windows.out"
     output: 
-        GENCOV_DIR + "gencov" + "{V}" + ".out"
+        GENCOV_DIR + "gencov.nodup.nm.{V}.out"
     threads: 2
     shell: 
         """
@@ -229,8 +229,8 @@ rule freebayes_parallel:
     input: 
         ref = REF_FASTA,
         regions = VCF_DIR + SPECIES + ".100kbp.regions",
-        f = expand(MAP_DIR + "{female}" + ".sorted.nodup.nm.all.bam", female = FEMALE),
-        m = expand(MAP_DIR + "{male}" + ".sorted.nodup.nm.all.bam", male = MALE)
+        f = expand(MAP_DIR + "{female}.sorted.nodup.nm.all.bam", female = FEMALE),
+        m = expand(MAP_DIR + "{male}.sorted.nodup.nm.all.bam", male = MALE)
     output: 
         vcf = VCF_DIR + SPECIES + ".vcf",
         log = VCF_DIR + SPECIES + ".vcf.status"
@@ -353,9 +353,9 @@ rule matchScaffold2Chr_snp:
 rule matchScaffold2Chr_cov:
     input:
         bestMatch = MATCHDIR + "bestMatch.list",
-        cov = GENCOV_DIR + "gencov.nodup.nm" + "{ED}" + ".out", # ED = all, 0.0, 0.1, 0.2, 0.3, 0.4
+        cov = GENCOV_DIR + "gencov.nodup.nm{ED}.out", # ED = all, 0.0, 0.1, 0.2, 0.3, 0.4
     output:
-        MATCHDIR + "gencov.nodup.nm" + "{ED}" + ".zf.out",
+        MATCHDIR + "gencov.nodup.nm{ED}.zf.out",
     shell:
         """
         join -j 1 -o 1.1,1.2,1.7,1.8,1.9,2.3,2.4 <(cat {input.bestMatch} | sed 's/\t/STARTCOORD/' | sort -k 1b,1 -k2,2) <(cat {input.cov} | awk '$3-$2=="5000" {{ print $0}}' | sed 's/\t/STARTCOORD/' | sort -k 1b,1 -k2,2) | sed 's/STARTCOORD/\t/' | sed 's/\ /\t/g' > {output}
