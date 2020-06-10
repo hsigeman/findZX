@@ -1,18 +1,20 @@
 #install.packages("circlize")
-library(circlize)
+#library(circlize)
 library(doBy)
 library(data.table)
 
 set.seed(999)
 
-args <- commandArgs(trailingOnly = TRUE)
+#args <- commandArgs(trailingOnly = TRUE)
 
-species=args[1]
-edit_dist=args[2]
+species= "LocLus" #args[1]
+edit_dist= args[2]
+filename= args[3]
+
 
 source("functions.R")
 
-cov=read.table("../../SupplementaryCode2020/code/R/gencov.nodup.nm.0.0.zf.out",header=FALSE,fill=TRUE,stringsAsFactor=FALSE)
+cov=read.table(filename,header=FALSE,fill=TRUE,stringsAsFactor=FALSE)
 cov <- plyr::rename(cov, c("V1"="contig", "V2"="contig_start","V3"="contig_end", 
                            "V4"="chr", "V5"="start", "V6"="end", "V7"="female", 
                            "V8"="male"))

@@ -1,17 +1,18 @@
 #install.packages("circlize")
-library(circlize)
+#library(circlize)
 library(doBy)
 library(data.table)
 
 set.seed(999)
 
-args <- commandArgs(trailingOnly = TRUE)
+#args <- commandArgs(trailingOnly = TRUE)
 
-species=args[1]
-female=args[2]
-male=args[3]
+species= "LocLus" #args[1]
+female= "QF-1504-LOCLUS-43_S1_L001" #args[2]
+male= "QF-1504-LOCLUS-24_S3_L001" #args[3]
+filename= "../../SupplementaryCode2020/code/R/LocLus.singleton.bestMatch.zf.small" #args[7]
 
-snp=read.table("../../SupplementaryCode2020/code/R/LocLus.singleton.bestMatch.zf.small",header=FALSE,fill=TRUE,stringsAsFactor=FALSE)
+snp=read.table(filename,header=FALSE,fill=TRUE,stringsAsFactor=FALSE)
 
 snp <- plyr::rename(snp, c("V1"="type", "V2"="allel","V3"="sample", 
                            "V4"="chr", "V5"="start", "V6"="end"))
