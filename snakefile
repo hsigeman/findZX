@@ -246,6 +246,8 @@ rule freebayes_parallel:
         echo "DONE" > {output.log}
         """
 
+#run twice, one for females, one for males
+##vcftools --vcf {input} --site-pi --window-pi {win} --indv {females/males} --remove-filtered-geno-all --minQ 20 --minDP 3 --stdout
 rule vcftools_singletons:
     input: 
         VCF_DIR + SPECIES + ".vcf"
