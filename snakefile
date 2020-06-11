@@ -358,7 +358,7 @@ rule matchScaffold2Chr_cov:
         MATCHDIR + "gencov.nodup.nm{ED}.zf.out",
     shell:
         """
-        join -j 1 -o 1.1,1.2,1.7,1.8,1.9,2.3,2.4 <(cat {input.bestMatch} | sed 's/\t/STARTCOORD/' | sort -k 1b,1 -k2,2) <(cat {input.cov} | awk '$3-$2=="5000" {{ print $0}}' | sed 's/\t/STARTCOORD/' | sort -k 1b,1 -k2,2) | sed 's/STARTCOORD/\t/' | sed 's/\ /\t/g' > {output}
+        python3 code/matchScaffold2chr_cov.py {input.bestMatch} {input.cov} > {output}
         """
 
 ##########################################################  
