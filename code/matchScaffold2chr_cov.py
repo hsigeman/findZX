@@ -15,7 +15,7 @@ best_match = best_match.drop(best_match.columns[[3, 4, 5, 6]], axis=1)
 
 gencov = pn.read_csv(sys.argv[2], sep='\t', header=None)
 
-gencov_ref = pn.merge(best_match, gencov, how='inner')
+gencov_ref = pn.merge(best_match, gencov, how='inner', on=[0,1,2])
 
 sys.stdout.write(gencov_ref.to_csv(header=None, index=None, sep='\t'))
 
