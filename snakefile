@@ -369,6 +369,7 @@ rule matchScaffold2Chr_cov:
 ################### MODIFY REF GENOME ####################      
 ########################################################## 
 
+# Use major allele instead or HISAT2
 rule modify_genome:
     input: 
         vcf = VCF_DIR + SPECIES + ".vcf",
