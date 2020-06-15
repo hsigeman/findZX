@@ -14,6 +14,10 @@ cov_00 =read.table(paste("results/",species,"/",species,".1Mbp_cov_scaled.nm.00.
                    header=FALSE,fill=TRUE,stringsAsFactor=FALSE)
 cov_00$V1 <- as.factor(cov_00$V1)
 
+cov_00$V1 <- ordered(cov_00$V1,
+                  levels = c("1", "1A", "1B", "2", "3", "4", "4A", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", 
+                             "15", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "Z"))
+
 myvars <- c("V1", "V2", "V3")
 setDF(cov_00)
 cov.select.00 <- cov_00[myvars]
@@ -34,6 +38,10 @@ cov_02 =read.table(paste("results/",species,"/",species,".1Mbp_cov_scaled.nm.02.
                    header=FALSE,fill=TRUE,stringsAsFactor=FALSE)
 cov_02$V1 <- as.factor(cov_02$V1)
 
+cov_02$V1 <- ordered(cov_02$V1,
+                  levels = c("1", "1A", "1B", "2", "3", "4", "4A", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14",
+                             "15", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "Z"))
+
 myvars <- c("V1", "V2", "V3")
 setDF(cov_02)
 cov.select.02 <- cov_02[myvars]
@@ -50,9 +58,13 @@ cov_chr_sum.02$type <- "cov.02"
 
 
 
-cov_04 =read.table(paste("results/",species,"/",species,".1Mbp_cov_scaled.nm.00.txt",sep=""),
+cov_04 =read.table(paste("results/",species,"/",species,".1Mbp_cov_scaled.nm.04.txt",sep=""),
                    header=FALSE,fill=TRUE,stringsAsFactor=FALSE)
 cov_04$V1 <- as.factor(cov_04$V1)
+
+cov_04$V1 <- ordered(cov_04$V1,
+                  levels = c("1", "1A", "1B", "2", "3", "4", "4A", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14",
+                             "15", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "Z"))
 
 myvars <- c("V1", "V2", "V3")
 setDF(cov_04)
@@ -71,14 +83,19 @@ cov_chr_sum.04$type <- "cov.04"
 
 
 
-snp =read.table(paste("results/",species,"/",species,".100kbp_snp_diff.txt",sep=""),
+snp =read.table(paste("results/",species,"/",species,".1Mbp_snp_diff.txt",sep=""),
                    header=FALSE,fill=TRUE,stringsAsFactor=FALSE)
 snp$V1 <- as.factor(snp$V1)
-myvars <- c("V1", "V2", "V3")
+
+snp$V1 <- ordered(snp$V1,
+                  levels = c("1", "1A", "1B", "2", "3", "4", "4A", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14",
+                             "15", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "Z"))
+
+myvars <- c("V1", "V2", "V5")
 setDF(snp)
 snp.select <- snp[myvars]
 snp.select <- na.omit(snp.select)
-snp.select <- plyr::rename(snp.select, c("V1"="factor", "V2"="x", "V3"="y"))
+snp.select <- plyr::rename(snp.select, c("V1"="factor", "V2"="x", "V5"="y"))
 
 max.snp <- max(snp.select$y)
 max.snp
