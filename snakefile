@@ -338,6 +338,7 @@ rule matchScaffold2Chr:
         echo "DONE" > {params.absLog}
         """
 
+# Replace with python script
 rule matchScaffold2Chr_snp:
     input:
         bestMatch = MATCHDIR + "bestMatch.list",
@@ -352,6 +353,7 @@ rule matchScaffold2Chr_snp:
         cat {output.bestMatch_singleton} | cut -f 4,5,6,14,15,16 > {output.bestMatch_singleton_small}
         """
 
+# Replace with python script + normalization python script
 rule matchScaffold2Chr_cov:
     input:
         bestMatch = MATCHDIR + "bestMatch.list",
@@ -384,6 +386,7 @@ rule modify_genome:
         cat {input.ref} | bcftools consensus {output.gz} > {output.ref}
         """
 
+# Replace with cal_cov_ratio_ranges.R (calculates ratios) and add another rule which does the plotting
 rule plotting:
     input: 
         cov0 = MATCHDIR + "gencov.nodup.nm.0.0.zf.out",
