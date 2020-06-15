@@ -1,4 +1,3 @@
-#install.packages("circlize")
 library(circlize)
 library(doBy)
 library(data.table)
@@ -8,10 +7,12 @@ set.seed(999)
 args <- commandArgs(trailingOnly = TRUE)
 
 species= args[1]
+file00= args[2]
+file02= args[3]
+file04= args[4]
+filesnp= args[5]
 
-
-cov_00 =read.table(paste("results/",species,"/",species,".1Mbp_cov_scaled.nm.00.txt",sep=""),
-                   header=FALSE,fill=TRUE,stringsAsFactor=FALSE)
+cov_00 =read.table(file00, header=FALSE,fill=TRUE,stringsAsFactor=FALSE)
 cov_00$V1 <- as.factor(cov_00$V1)
 
 cov_00$V1 <- ordered(cov_00$V1,
@@ -34,8 +35,7 @@ cov_chr_sum.00$type <- "cov.00"
 
 
 
-cov_02 =read.table(paste("results/",species,"/",species,".1Mbp_cov_scaled.nm.02.txt",sep=""),
-                   header=FALSE,fill=TRUE,stringsAsFactor=FALSE)
+cov_02 =read.table(file02, header=FALSE,fill=TRUE,stringsAsFactor=FALSE)
 cov_02$V1 <- as.factor(cov_02$V1)
 
 cov_02$V1 <- ordered(cov_02$V1,
@@ -58,8 +58,7 @@ cov_chr_sum.02$type <- "cov.02"
 
 
 
-cov_04 =read.table(paste("results/",species,"/",species,".1Mbp_cov_scaled.nm.04.txt",sep=""),
-                   header=FALSE,fill=TRUE,stringsAsFactor=FALSE)
+cov_04 =read.table(file04, header=FALSE,fill=TRUE,stringsAsFactor=FALSE)
 cov_04$V1 <- as.factor(cov_04$V1)
 
 cov_04$V1 <- ordered(cov_04$V1,
@@ -83,8 +82,7 @@ cov_chr_sum.04$type <- "cov.04"
 
 
 
-snp =read.table(paste("results/",species,"/",species,".1Mbp_snp_diff.txt",sep=""),
-                   header=FALSE,fill=TRUE,stringsAsFactor=FALSE)
+snp =read.table(filesnp, header=FALSE,fill=TRUE,stringsAsFactor=FALSE)
 snp$V1 <- as.factor(snp$V1)
 
 snp$V1 <- ordered(snp$V1,
@@ -112,7 +110,7 @@ snp_chr_sum$type <- "snv"
 factor.nr <- as.numeric(length(unique(cov.select.04$factor)))
 
 circos.clear()
-pdf(file=args[2], width = 9, height = 9)
+pdf(file=paste("results/",species,"/",species,".pdf",sep=""), width = 9, height = 9)
 par(mar = c(1, 1, 1, 1), lwd = 0.1, cex = 0.7) 
 circos.par(cell.padding = c(0, 0, 0, 0), "track.height" = 0.15, gap.after = c(rep(1, factor.nr-1), 10))
 circos.initialize(factors = cov.select.04$factor, x = cov.select.04$x)
