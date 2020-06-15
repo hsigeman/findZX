@@ -5,9 +5,9 @@ library(data.table)
 
 set.seed(999)
 
-#args <- commandArgs(trailingOnly = TRUE)
+args <- commandArgs(trailingOnly = TRUE)
 
-species= "LocLus" #args[1]
+species= args[1]
 edit_dist= args[2]
 filename= args[3]
 

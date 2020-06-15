@@ -7,10 +7,7 @@ set.seed(999)
 
 args <- commandArgs(trailingOnly = TRUE)
 
-species= "LocLus" #args[1]
-#female=args[2]
-#male=args[3]
-
+species= args[1]
 
 
 cov_00 =read.table(paste("results/",species,"/",species,".1Mbp_cov_scaled.nm.00.txt",sep=""),
@@ -76,12 +73,12 @@ cov_chr_sum.04$type <- "cov.04"
 
 snp =read.table(paste("results/",species,"/",species,".100kbp_snp_diff.txt",sep=""),
                    header=FALSE,fill=TRUE,stringsAsFactor=FALSE)
-myvars <- c("V1", "V2", "V7")
+snp$V1 <- as.factor(snp$V1)
+myvars <- c("V1", "V2", "V3")
+setDF(snp)
 snp.select <- snp[myvars]
 snp.select <- na.omit(snp.select)
-snp.select <- plyr::rename(snp.select, c("V1"="factor", "V2"="x", "V7"="y"))
-
-head(snp.select)
+snp.select <- plyr::rename(snp.select, c("V1"="factor", "V2"="x", "V3"="y"))
 
 max.snp <- max(snp.select$y)
 max.snp
