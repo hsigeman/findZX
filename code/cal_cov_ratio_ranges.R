@@ -1,5 +1,6 @@
 #install.packages("circlize")
 #library(circlize)
+#install.packages("doBy")
 library(doBy)
 library(data.table)
 
@@ -12,7 +13,7 @@ edit_dist= args[2]
 filename= args[3]
 
 
-source("functions.R")
+source("../snakemake-sex-chr/code/functions.R")
 
 cov=read.table(filename,header=FALSE,fill=TRUE,stringsAsFactor=FALSE)
 cov <- plyr::rename(cov, c("V1"="contig", "V2"="contig_start","V3"="contig_end", 
