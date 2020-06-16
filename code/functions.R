@@ -24,15 +24,15 @@ calculate_ratio <- function(data_table) {
   
   data_table$ratio <- data_table$female/data_table$male
   data_table <- subset(data_table, data_table$ratio != "Inf")
-  data_table$ratio_scaled <- data_table$ratio / median(data_table$ratio, na.rm = TRUE)
+  #data_table$ratio_scaled <- data_table$ratio / median(data_table$ratio, na.rm = TRUE)
   
   return(data_table)
 }
 
 remove_outliers <- function(cov_table) {
   
-  outliers <- boxplot(ratio_scaled ~ chr, data=cov_table)$out
-  cov_table <- cov_table[-which(cov_table$ratio_scaled %in% outliers),]
+  outliers <- boxplot(ratio ~ chr, data=cov_table)$out
+  cov_table <- cov_table[-which(cov_table$ratio %in% outliers),]
   
   return(cov_table)
 }
@@ -41,7 +41,7 @@ count_cov_win <- function(cov_table, win_len) {
   # calculates the mean coverage ration in range windows (1Mbp, 100kbp)
   
   cov_table <- transform(cov_table, range=round(end/win_len))
-  cov_table <- summaryBy(ratio_scaled ~ chr + range, data=cov_table, keep.names=TRUE)
+  cov_table <- summaryBy(ratio ~ chr + range, data=cov_table, keep.names=TRUE)
   
   return(cov_table)
 }
