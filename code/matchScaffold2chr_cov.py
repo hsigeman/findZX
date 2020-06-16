@@ -3,11 +3,12 @@ import pandas as pn
 
 if len(sys.argv)==1:
 	print("Pyton-script written for the matchScaffold2Chr rule in snakemake pipe-line.")
-	print("Joins two tab-separated files on the contig name and window start and stop.\n")
+	print("Joins two tab-separated files on the contig name and window start and stop.")
+	print("Normalizes each sample on the mean of that sample and then takes the mean over each sex.\n")
 	sys.exit()
 elif not len(sys.argv)==3:
 	print("\nError:\tincorrect number of command-line arguments")
-	print("Syntax:\tmatchScaffold2chr_cov.py [bestMatch.list] [genCov.out]\n")
+	print("Syntax:\tmatchScaffold2chr_cov.py [bestMatch.list] [genCov] \n")
 	sys.exit()
 
 best_match = pn.read_csv(sys.argv[1], sep='\t', header=None)
@@ -17,5 +18,22 @@ gencov = pn.read_csv(sys.argv[2], sep='\t', header=None)
 
 gencov_ref = pn.merge(best_match, gencov, how='inner', on=[0,1,2])
 
-sys.stdout.write(gencov_ref.to_csv(header=None, index=None, sep='\t'))
+nr_samples = gencov_ref.apply(max).tolist()
+
+nr_samples_each_sex = int((len(nr_samples) - 6)/2)
+
+samples = list(range(6, len(nr_samples)))
+females = list(range(6, nr_samples_each_sex + 6))
+males = list(range(6 + nr_samples_each_sex, len(nr_samples)))
+
+
+norm = gencov_ref.loc[:,samples].div(gencov_ref.loc[:,samples].mean())	
+mean_f = norm.loc[:,females].mean(axis=1)
+mean_m = norm.loc[:,males].mean(axis=1)
+
+
+mean_fm = pn.concat([mean_f, mean_m], axis=1)
+gencov_mean = pn.merge(gencov_ref.loc[:,[0,1,2,3,4,5]],mean_fm, left_index=True, right_index=True)
+
+sys.stdout.write(gencov_mean.to_csv(header=None, index=None, sep='\t'))
 
