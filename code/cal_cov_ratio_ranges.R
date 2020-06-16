@@ -10,7 +10,7 @@ file_type= args[2]
 filename= args[3]
 
 
-source("functions.R")
+source("code/functions.R")
 
 cov=read.table(filename,header=FALSE,fill=TRUE,stringsAsFactor=FALSE)
 cov <- plyr::rename(cov, c("V1"="contig", "V2"="contig_start","V3"="contig_end", 
