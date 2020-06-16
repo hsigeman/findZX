@@ -89,11 +89,11 @@ snp$V1 <- ordered(snp$V1,
                   levels = c("1", "1A", "1B", "2", "3", "4", "4A", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14",
                              "15", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "Z"))
 
-myvars <- c("V1", "V2", "V5")
+myvars <- c("V1", "V2", "V3")
 setDF(snp)
 snp.select <- snp[myvars]
 snp.select <- na.omit(snp.select)
-snp.select <- plyr::rename(snp.select, c("V1"="factor", "V2"="x", "V5"="y"))
+snp.select <- plyr::rename(snp.select, c("V1"="factor", "V2"="x", "V3"="y"))
 
 max.snp <- max(snp.select$y)
 max.snp
@@ -110,7 +110,7 @@ snp_chr_sum$type <- "snv"
 factor.nr <- as.numeric(length(unique(cov.select.04$factor)))
 
 circos.clear()
-pdf(file=paste("results/",species,"/",species,".pdf",sep=""), width = 9, height = 9)
+pdf(file=args[6], width = 9, height = 9)
 par(mar = c(1, 1, 1, 1), lwd = 0.1, cex = 0.7) 
 circos.par(cell.padding = c(0, 0, 0, 0), "track.height" = 0.15, gap.after = c(rep(1, factor.nr-1), 10))
 circos.initialize(factors = cov.select.04$factor, x = cov.select.04$x)
