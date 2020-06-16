@@ -11,7 +11,8 @@ samples = list(range(6, len(gmax)))
 females = list(range(6, nr_samples_each_sex + 6))
 males = list(range(6 + nr_samples_each_sex, len(gmax)))
 
-norm = gencov.loc[:,samples].div(gencov.loc[:,samples].max())
+#norm = gencov.loc[:,samples].div(gencov.loc[:,samples].max())
+norm = gencov.loc[:,samples].div(gencov.loc[:,samples].mean())	#normalize with mean instead of max-value
 mean_f = norm.loc[:,females].mean(axis=1)
 mean_m = norm.loc[:,males].mean(axis=1)
 
