@@ -49,11 +49,13 @@ rule all:
         expand(MAP_DIR + "{S}.sorted.nodup.nm.{ED}.flagstat", S = ID, ED = EDIT_DIST),
         MATCHDIR + "genome_windows.out",
         MATCHDIR + "bestMatch.status",
-        MATCHDIR + SPECIES + ".singleton.bestMatch.zf.small",
-        expand(MATCHDIR + "gencov.nodup.nm.{ED}.zf.out", ED = EDIT_DIST),
+        #MATCHDIR + SPECIES + ".singleton.bestMatch.zf.small",
+        VCF_DIR + SPECIES + "female.allDiv.bed"
+        VCF_DIR + SPECIES + "male.allDiv.bed"
+        #expand(MATCHDIR + "gencov.nodup.nm.{ED}.zf.out", ED = EDIT_DIST),
         VCF_DIR + SPECIES + ".non-ref-ac_2_biallelic_qual.vcf",
         VCF_DIR + SPECIES + ".non-ref-ac_2_biallelic_qual.vcf.gz",
-        REF_DIR + REF_NAME + "_nonRefAc_consensus.fasta",
+        #REF_DIR + REF_NAME + "_nonRefAc_consensus.fasta",
         RESULTDIR + SPECIES + ".circlize.pdf"
 
 
@@ -248,16 +250,44 @@ rule freebayes_parallel:
 
 #run twice, one for females, one for males
 ##vcftools --vcf {input} --site-pi --window-pi {win} --indv {females/males} --remove-filtered-geno-all --minQ 20 --minDP 3 --stdout
-rule vcftools_singletons:
-    input: 
+#rule vcftools_singletons:
+#    input: 
+#        VCF_DIR + SPECIES + ".vcf"
+#    output: 
+#        VCF_DIR + SPECIES + ".singletons.bed"
+#    threads: 1
+#    shell: 
+#        """
+#        vcftools --vcf {input} --singletons --remove-filtered-geno-all --minQ 20 --minDP 3 --stdout | awk -v OFS=\"\\t\" \'{{print $1,$2,$2+1,$3,$4,$5}}\' > {output}
+#        """
+
+rule vcftools_alleleDiv_f:
+    input:
         VCF_DIR + SPECIES + ".vcf"
-    output: 
-        VCF_DIR + SPECIES + ".singletons.bed"
+    output:
+        VCF_DIR + SPECIES + "female.allDiv.bed"
     threads: 1
-    shell: 
+    params:
+        keep_indv = expand("--indv {female}", females=FEMALE)
+    shell:
         """
-        vcftools --vcf {input} --singletons --remove-filtered-geno-all --minQ 20 --minDP 3 --stdout | awk -v OFS=\"\\t\" \'{{print $1,$2,$2+1,$3,$4,$5}}\' > {output}
+        vcftools --vcf {input} --window-pi 5000 {params.keep_indv} --remove-filtered-geno-all --minQ 20 --minDP 3 --stdout > {output}
         """
+
+rule vcftools_alleleDiv_m:
+    input:
+        VCF_DIR + SPECIES + ".vcf"
+    output:
+        VCF_DIR + SPECIES + "male.allDiv.bed"
+    threads: 1
+    params:
+        keep_indv = expand("--indv {male}", males=MALE)
+    shell:
+        """
+        vcftools --vcf {input} --window-pi 5000 {params.keep_indv} --remove-filtered-geno-all --minQ 20 --minDP 3 --stdout > {output}
+        """
+
+
 
 ##########################################################  
 #################### SYNTENY ANALYSIS ####################      
@@ -339,27 +369,41 @@ rule matchScaffold2Chr:
         """
 
 # Replace with python script
+#rule matchScaffold2Chr_snp:
+#    input:
+#        bestMatch = MATCHDIR + "bestMatch.list",
+#        vcf = VCF_DIR + SPECIES + ".singletons.bed"
+#    output:
+#        bestMatch_singleton = MATCHDIR + SPECIES + ".singleton.bestMatch.zf",
+#        bestMatch_singleton_small = MATCHDIR + SPECIES + ".singleton.bestMatch.zf.small"
+#    shell:
+#        """
+#        cat {input.vcf} | grep -v CHROM | sed 's/ /\t/g' | bedtools intersect -a stdin -b {input.bestMatch} -wa -wb > {output.bestMatch_singleton}
+#
+#        cat {output.bestMatch_singleton} | cut -f 4,5,6,14,15,16 > {output.bestMatch_singleton_small}
+#        """
+
 rule matchScaffold2Chr_snp:
     input:
         bestMatch = MATCHDIR + "bestMatch.list",
-        vcf = VCF_DIR + SPECIES + ".singletons.bed"
+        female_allDiv = VCF_DIR + SPECIES + "female.allDiv.bed"
+        male_allDiv = VCF_DIR + SPECIES + "female.allDiv.bed"
     output:
-        bestMatch_singleton = MATCHDIR + SPECIES + ".singleton.bestMatch.zf",
-        bestMatch_singleton_small = MATCHDIR + SPECIES + ".singleton.bestMatch.zf.small"
+        bestMatch_allDiv = MATCHDIR + "allDiv.bestMatch.zf.out",
     shell:
         """
-        cat {input.vcf} | grep -v CHROM | sed 's/ /\t/g' | bedtools intersect -a stdin -b {input.bestMatch} -wa -wb > {output.bestMatch_singleton}
-
-        cat {output.bestMatch_singleton} | cut -f 4,5,6,14,15,16 > {output.bestMatch_singleton_small}
+        python3 code/matchScaffold2chr_snp.py {input.bestMatch} {input.female_allDiv} {input.male_allDiv} > {output.bestMatch_allDiv}
         """
+
 
 # Replace with python script + normalization python script
 rule matchScaffold2Chr_cov:
     input:
         bestMatch = MATCHDIR + "bestMatch.list",
-        cov = GENCOV_DIR + "gencov.nodup.nm{ED}.out", # ED = all, 0.0, 0.1, 0.2, 0.3, 0.4
+        cov = GENCOV_DIR + "gencov.nodup.nm.{ED}.out", # ED = all, 0.0, 0.1, 0.2, 0.3, 0.4
     output:
-        MATCHDIR + "gencov.nodup.nm{ED}.zf.out",
+        MATCHDIR + "gencov.nodup.nm.{ED}.norm.zf.out"
+    threads: 1
     shell:
         """
         python3 code/matchScaffold2chr_cov.py {input.bestMatch} {input.cov} > {output}
@@ -370,38 +414,48 @@ rule matchScaffold2Chr_cov:
 ########################################################## 
 
 # Use major allele instead or HISAT2
-rule modify_genome:
-    input: 
-        vcf = VCF_DIR + SPECIES + ".vcf",
-        ref = REF_FASTA
-    output: 
-        vcf = VCF_DIR + SPECIES + ".non-ref-ac_2_biallelic_qual.vcf",
-        gz = VCF_DIR + SPECIES + ".non-ref-ac_2_biallelic_qual.vcf.gz",
-        ref = REF_DIR + REF_NAME + "_nonRefAc_consensus.fasta"
+#rule modify_genome:
+#    input: 
+#        vcf = VCF_DIR + SPECIES + ".vcf",
+#        ref = REF_FASTA
+#    output: 
+#        vcf = VCF_DIR + SPECIES + ".non-ref-ac_2_biallelic_qual.vcf",
+#        gz = VCF_DIR + SPECIES + ".non-ref-ac_2_biallelic_qual.vcf.gz",
+#        ref = REF_DIR + REF_NAME + "_nonRefAc_consensus.fasta"
+#    threads: 1
+#    shell: 
+#        """
+#        vcftools --vcf {input.vcf} --non-ref-ac 2 --min-alleles 2 --max-alleles 2 --remove-filtered-all --recode --stdout > {output.vcf}
+#        bgzip -c {output.vcf} > {output.gz}
+#        tabix -p vcf {output.gz}
+#        cat {input.ref} | bcftools consensus {output.gz} > {output.ref}
+#        """
+
+rule calculate_ratio:
+    input:
+        MATCHDIR + "{type}.zf.out"
+    output:
+        1Mb = RESULTDIR + SPECIES + "{type}.1Mbp.txt"
+        100kb = RESULTDIR + SPECIES + "{type}.100kbp.txt"
+    params:
+        species = PREFIX
     threads: 1
-    shell: 
-        """
-        vcftools --vcf {input.vcf} --non-ref-ac 2 --min-alleles 2 --max-alleles 2 --remove-filtered-all --recode --stdout > {output.vcf}
-        bgzip -c {output.vcf} > {output.gz}
-        tabix -p vcf {output.gz}
-        cat {input.ref} | bcftools consensus {output.gz} > {output.ref}
-        """
+    shell:
+        Rscript code/cal_cov_ratio_ranges.R {params.species} {input} {output.1Mb} {output.100kb}
 
 # Replace with cal_cov_ratio_ranges.R (calculates ratios) and add another rule which does the plotting
 rule plotting:
     input: 
-        cov0 = MATCHDIR + "gencov.nodup.nm.0.0.zf.out",
-        cov2 = MATCHDIR + "gencov.nodup.nm.0.2.zf.out",
-        cov4 = MATCHDIR + "gencov.nodup.nm.0.4.zf.out",
-        snp = MATCHDIR + SPECIES + ".singleton.bestMatch.zf.small"
+        cov0 = RESULTDIR + SPECIES + "gencov.nodup.nm.0.0.norm.1Mbp.txt",
+        cov2 = RESULTDIR + SPECIES + "gencov.nodup.nm.0.0.norm.1Mbp.txt",
+        cov4 = RESULTDIR + SPECIES + "gencov.nodup.nm.0.0.norm.1Mbp.txt",
+        snp = RESULTDIR + SPECIES + "allDiv.bestMatch.1Mbp.txt"
     output: 
         RESULTDIR + SPECIES + ".circlize.pdf"
     params:
-        female = FEMALE,
-        male = MALE,
         species = PREFIX
     threads: 1
     shell: 
         """
-        Rscript code/Rscript_norm_plot.R {params.species} {params.female} {params.male} {input.cov0} {input.cov2} {input.cov4} {input.snp} {output}
+        Rscript code/plot_norm.R {params.species} {input.cov0} {input.cov2} {input.cov4} {input.snp} {output}
         """
