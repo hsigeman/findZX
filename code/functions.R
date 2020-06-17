@@ -24,7 +24,7 @@ calculate_ratio <- function(data_table) {
   
   data_table$ratio <- data_table$female/data_table$male
   data_table <- subset(data_table, data_table$ratio != "Inf")
-  #data_table$ratio_scaled <- data_table$ratio / median(data_table$ratio, na.rm = TRUE)
+  data_table$ratio_scaled <- data_table$ratio / median(data_table$ratio, na.rm = TRUE)
   
   return(data_table)
 }
@@ -58,7 +58,7 @@ calculate_diff <- function(data_table) {
 transform_wide <- function(snp_table) {
   # Transform to wide format and replace NA with 0
   
-  snp_table <- reshape2::dcast(snp_table, chr + range ~ sample, value.var="count")
+  snp_table <- reshape2::dcast(snp_table, chr + range ~ sex, value.var="count")
   snp_table[is.na(snp_table)] <- 0
   
   return(snp_table)
@@ -68,7 +68,7 @@ count_snp_win <- function(snp_table, win_len) {
   # Count private female and male alleles per chromosome and win_len
   
   snp_table <- transform(snp_table, range=round(start/win_len))
-  snp_table <- aggregate(count ~ chr + sample + range, data = snp_table[which(snp_table$type=="S"),], sum)
+  snp_table <- aggregate(count ~ chr + sex + range, data = snp_table, sum)
   
   return(snp_table)
 }
