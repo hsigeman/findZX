@@ -3,6 +3,7 @@ library(data.table)
 
 set.seed(999)
 
+source("code/functions.R")
 args <- commandArgs(trailingOnly = TRUE)
 
 species= args[1]
