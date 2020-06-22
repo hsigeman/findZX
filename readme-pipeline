@@ -1,0 +1,72 @@
+# ================================================ #
+#  Snakemake workflow for finding sex chromosomes  #
+#                      README                      #
+#                                                  #
+# Written by Hanna Sigeman, February 6, 2020       #
+# hanna.sigeman@biol.lu.se                         #
+#                                                  #
+# ================================================ #
+
+# Purpose:
+
+### This directory contain code for running a snakemake workflow which will reproduce the results from the paper "Whole-genome analysis across ten songbird families within Sylvioidea reveals a novel autosome–sex chromosome fusion". The workflow aligns a female and male sample of paired-end sequences to a reference genome and identifies putative sex-linked regions according to the method described in the paper (based on sex-specific genome coverage and single nucleotide variations). The figure snakemake_rulegraph.png show an overview of all the steps of the workflow
+
+# ================================================ #
+
+# Data availability:
+
+### Whole genome sequencing data (2x150 bp Illumina HiSeqX paired-end) was uploaded to NCBI (Bioproject accession number PRJNA578893)
+
+# ================================================ #
+
+# Before use (see snakefile and configuration files for how to name and where to place these files):
+
+### Assemble the reference genome of the homogametic sex (male; ZZ) of the species of interest. We used nesoni v0.115 and spades v.3.13.1 with these settings:
+
+python -m nesoni clip: clipped --out-separate yes --gzip no --quality 20 --length 20 pairs: <forward reads> <reverse reads>
+
+spades.py -k 21,33,55,77,127 --careful --pe1-1 clipped_R1.fq  --pe1-2 clipped_R2.fq -o spades_output -t 16 -m 256
+
+
+### Trimming and quality filtering of raw data. We used trimmomatic v0.36 and these settings:
+
+trimmomatic PE -threads 18 <sample>_R1_001.fastq.gz <sample>_R2_001.fastq.gz <sample>_forward_paired.fq.gz <sample>_forward_unpaired.fq.gz <sample>_reverse_paired.fq.gz <sample>_reverse_unpaired.fq.gz ILLUMINACLIP:/path/to/trimmomatic/adapters/TruSeq3-PE.fa:2:30:10 LEADING:15 TRAILING:30 SLIDINGWINDOW:4:20 MINLEN:90
+
+
+### Create a last database for the zebra finch genome (used to anchor scaffolds to chromosome positions):
+
+lastdb -uNEAR -R01 myZFdb Taeniopygia_guttata.taeGut3.2.4.dna.toplevel.fasta
+
+# ================================================ #
+
+# Files:
+
+snakefile # The snakefile
+
+cluster.json # A file specifying the number of cores and time required to run the snakefile on a server cluster. Adapt to fit your server cluster configuration.
+
+snakemake_config_files # This directory contain configuration files for all ten species used in the study. The paths in the configuration files will need to be edited to match your file structure.
+
+environment.yml # A conda environment file containing all programs that were installed in the conda environment that was used to run the snakemake workflow. Adjust path in file to your conda/miniconda installation.
+
+# ================================================ #
+
+# How to use:
+
+snakemake -s snakefile -j 15 -R all --configfile <config_file> --cluster-config cluster.json --cluster " sbatch -A {cluster.account} -t {cluster.time} -n {cluster.n}"
+
+### To run the snakemake workflow with the "homogametic-reference method", use the config files ending with "config". When the workflow has finished it will have produced the reference genome used for the "consensus-reference method". To run the workflow again with the new genome, simply replace the old config file with the one ending with "consensus".
+
+### Example first run:
+snakemake -s snakefile -j 15 -R all --configfile snakemake_config_files/CisJun_config --cluster-config cluster.json --cluster " sbatch -A {cluster.account} -t {cluster.time} -n {cluster.n}"
+
+### Example second run:
+snakemake -s snakefile -j 15 -R all --configfile snakemake_config_files/CisJun_config_consensus --cluster-config cluster.json --cluster " sbatch -A {cluster.account} -t {cluster.time} -n {cluster.n}"
+
+# ================================================ #
+
+# Final output:
+
+- A "consensus" reference genome (data/internal_raw/genome/)
+- Chromosome anchored and normalized mean values of female-male single nucleotide variation and female-to-male genome coverage ratios across 1 Mbp and 100 kbp windows for all chromosomes larger than 1 Mbp. (results/)
+- A circlize plot (https://jokergoo.github.io/circlize_book/book/) of these values (results/)
