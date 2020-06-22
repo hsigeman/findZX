@@ -58,7 +58,7 @@ snakemake -s snakefile -j 15 -R all --configfile <config_file> --cluster-config 
 ### To run the snakemake workflow with the "homogametic-reference method", use the config files ending with "config". When the workflow has finished it will have produced the reference genome used for the "consensus-reference method". To run the workflow again with the new genome, simply replace the old config file with the one ending with "consensus".
 
 ### Example first run:
-snakemake -s snakefile -j 15 -R all --configfile snakemake_config_files/CisJun_config --cluster-config cluster.json --cluster " sbatch -A {cluster.account} -t {cluster.time} -n {cluster.n}"
+snakemake -s snakefile -j 15 <name_of_consensus_genome.fasta> --configfile snakemake_config_files/CisJun_config --cluster-config cluster.json --cluster " sbatch -A {cluster.account} -t {cluster.time} -n {cluster.n}"
 
 ### Example second run:
 snakemake -s snakefile -j 15 -R all --configfile snakemake_config_files/CisJun_config_consensus --cluster-config cluster.json --cluster " sbatch -A {cluster.account} -t {cluster.time} -n {cluster.n}"
