@@ -58,7 +58,6 @@ rule all:
         #REF_DIR + REF_NAME + "_nonRefAc_consensus.fasta",
         RESULTDIR + SPECIES + ".circlize.pdf"
 
-
 ##########################################################  
 ##################### INDEX GENOME #######################      
 ##########################################################
@@ -89,11 +88,9 @@ rule index_fasta_samtools:
         samtools faidx {input}
         """
 
-
 ##########################################################  
 ######################## MAPPING #########################       
 ##########################################################   
-
 
 rule map: 
     input: 
@@ -210,11 +207,9 @@ rule gencov_bedtools:
         bedtools multicov -bams {input.bam_f} {input.bam_m} -bed {input.bed} > {output}
         """
 
-
 ##########################################################  
 #################### VARIANT CALLING #####################      
 ########################################################## 
-
 
 rule freebayes_prep:
     input: 
@@ -274,12 +269,9 @@ rule vcftools_alleleDiv_m:
         vcftools --vcf {input} --window-pi 5000 {params.keep_indv} --remove-filtered-geno-all --minQ 20 --minDP 3 --stdout > {output}
         """
 
-
-
 ##########################################################  
 #################### SYNTENY ANALYSIS ####################      
 ########################################################## 
-
 
 rule fasta_formatter:
     input: 
@@ -316,12 +308,9 @@ rule maf_convert_zf:
         maf-convert psl {input} > {output}
         """
 
-
-
 ##########################################################  
 ################### MATCHING DATASETS ####################      
 ########################################################## 
-
 
 rule matchScaffold2Chr:
     input:
@@ -367,8 +356,6 @@ rule matchScaffold2Chr_snp:
         python3 code/matchScaffold2chr_snp.py {input.bestMatch} {input.female_allDiv} {input.male_allDiv} > {output.bestMatch_allDiv}
         """
 
-
-# Replace with python script + normalization python script
 rule matchScaffold2Chr_cov:
     input:
         bestMatch = MATCHDIR + "bestMatch.list",
@@ -417,7 +404,6 @@ rule calculate_ratio:
         Rscript code/cal_cov_ratio_ranges.R {params.species} {input} {output.Mb} {output.kb}
         """
 
-# Replace with cal_cov_ratio_ranges.R (calculates ratios) and add another rule which does the plotting
 rule plotting:
     input: 
         cov0 = RESULTDIR + SPECIES + ".gencov.nodup.nm.0.0.norm.1Mbp.txt",
