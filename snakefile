@@ -386,8 +386,8 @@ rule matchScaffold2Chr:
 rule matchScaffold2Chr_snp:
     input:
         bestMatch = MATCHDIR + "bestMatch.list",
-        female_allDiv = VCF_DIR + SPECIES + "female.allDiv.bed"
-        male_allDiv = VCF_DIR + SPECIES + "female.allDiv.bed"
+        female_allDiv = VCF_DIR + SPECIES + ".female.allDiv.bed"
+        male_allDiv = VCF_DIR + SPECIES + ".female.allDiv.bed"
     output:
         bestMatch_allDiv = MATCHDIR + "allDiv.bestMatch.zf.out",
     shell:
