@@ -11,8 +11,8 @@ dir_path = os.getcwd()
 
 ID = config["samples"]
 SPECIES = config["species"]
-FEMALE = config["female"]
-MALE = config["male"]
+HETEROGAMETIC = config["heterogametic"]
+HOMOGAMETIC = config["homogametic"]
 FQ_DIR = config["fastq"]
 REF_SPECIES = config["ref_species"]
 REF_DIR = config["ref_dir"]
@@ -50,8 +50,8 @@ rule all:
         MATCHDIR + "genome_windows.out",
         MATCHDIR + "bestMatch.status",
         MATCHDIR + "allDiv.bestMatch.zf.out",
-        VCF_DIR + SPECIES + ".female.allDiv.bed",
-        VCF_DIR + SPECIES + ".male.allDiv.bed",
+        VCF_DIR + SPECIES + ".heterogametic.allDiv.bed",
+        VCF_DIR + SPECIES + ".homogametic.allDiv.bed",
         expand(MATCHDIR + "gencov.nodup.nm.{ED}.norm.zf.out", ED = EDIT_DIST),
         #VCF_DIR + SPECIES + ".non-ref-ac_2_biallelic_qual.vcf",
         #VCF_DIR + SPECIES + ".non-ref-ac_2_biallelic_qual.vcf.gz",
@@ -194,17 +194,17 @@ rule gencov_prepare_fasta:
 
 rule gencov_bedtools:
     input: 
-        bam_f = expand(MAP_DIR + "{female}.sorted.nodup.nm.{{V}}.bam", female = FEMALE), # V = "all", "0.0", "0.1", "0.2", "0.3", "0.4"
-        bai_f = expand(MAP_DIR + "{female}.sorted.nodup.nm.{{V}}.bam.bai", female = FEMALE),
-        bam_m = expand(MAP_DIR + "{male}.sorted.nodup.nm.{{V}}.bam", male = MALE),
-        bai_m = expand(MAP_DIR + "{male}.sorted.nodup.nm.{{V}}.bam.bai", male = MALE),
+        bam_hetero = expand(MAP_DIR + "{heterogametic}.sorted.nodup.nm.{{V}}.bam", heterogametic = HETEROGAMETIC), # V = "all", "0.0", "0.1", "0.2", "0.3", "0.4"
+        bai_hetero = expand(MAP_DIR + "{heterogametic}.sorted.nodup.nm.{{V}}.bam.bai", heterogametic = HETEROGAMETIC),
+        bam_homo = expand(MAP_DIR + "{homogametic}.sorted.nodup.nm.{{V}}.bam", homogametic = HOMOGAMETIC),
+        bai_homo = expand(MAP_DIR + "{homogametic}.sorted.nodup.nm.{{V}}.bam.bai", homogametic = HOMOGAMETIC),
         bed = GENCOV_DIR + "genome_5kb_windows.out"
     output: 
         GENCOV_DIR + "gencov.nodup.nm.{V}.out"
     threads: 2
     shell: 
         """
-        bedtools multicov -bams {input.bam_f} {input.bam_m} -bed {input.bed} > {output}
+        bedtools multicov -bams {input.bam_hetero} {input.bam_homo} -bed {input.bed} > {output}
         """
 
 ##########################################################  
@@ -226,8 +226,8 @@ rule freebayes_parallel:
     input: 
         ref = REF_FASTA,
         regions = VCF_DIR + SPECIES + ".100kbp.regions",
-        f = expand(MAP_DIR + "{female}.sorted.nodup.nm.all.bam", female = FEMALE),
-        m = expand(MAP_DIR + "{male}.sorted.nodup.nm.all.bam", male = MALE)
+        f = expand(MAP_DIR + "{heterogametic}.sorted.nodup.nm.all.bam", heterogametic = HETEROGAMETIC),
+        m = expand(MAP_DIR + "{homogametic}.sorted.nodup.nm.all.bam", homogametic = HOMOGAMETIC)
     output: 
         vcf = VCF_DIR + SPECIES + ".vcf",
         log = VCF_DIR + SPECIES + ".vcf.status"
@@ -243,27 +243,27 @@ rule freebayes_parallel:
         echo "DONE" > {output.log}
         """
 
-rule vcftools_alleleDiv_f:
+rule vcftools_alleleDiv_hetero:
     input:
         VCF_DIR + SPECIES + ".vcf"
     output:
-        VCF_DIR + SPECIES + ".female.allDiv.bed"
+        VCF_DIR + SPECIES + ".heterogametic.allDiv.bed"
     threads: 1
     params:
-        keep_indv = expand("--indv {female}", female=FEMALE)
+        keep_indv = expand("--indv {heterogametic}", heterogametic=HETEROGAMETIC)
     shell:
         """
         vcftools --vcf {input} --window-pi 5000 {params.keep_indv} --remove-filtered-geno-all --minQ 20 --minDP 3 --stdout > {output}
         """
 
-rule vcftools_alleleDiv_m:
+rule vcftools_alleleDiv_homo:
     input:
         VCF_DIR + SPECIES + ".vcf"
     output:
-        VCF_DIR + SPECIES + ".male.allDiv.bed"
+        VCF_DIR + SPECIES + ".homogametic.allDiv.bed"
     threads: 1
     params:
-        keep_indv = expand("--indv {male}", male=MALE)
+        keep_indv = expand("--indv {homogametic}", homogametic=HOMOGAMETIC)
     shell:
         """
         vcftools --vcf {input} --window-pi 5000 {params.keep_indv} --remove-filtered-geno-all --minQ 20 --minDP 3 --stdout > {output}
@@ -347,13 +347,13 @@ rule matchScaffold2Chr:
 rule matchScaffold2Chr_snp:
     input:
         bestMatch = MATCHDIR + "bestMatch.list",
-        female_allDiv = VCF_DIR + SPECIES + ".female.allDiv.bed",
-        male_allDiv = VCF_DIR + SPECIES + ".male.allDiv.bed"
+        heterogametic_allDiv = VCF_DIR + SPECIES + ".heterogametic.allDiv.bed",
+        homogametic_allDiv = VCF_DIR + SPECIES + ".homogametic.allDiv.bed"
     output:
         bestMatch_allDiv = MATCHDIR + "allDiv.bestMatch.zf.out",
     shell:
         """
-        python3 code/matchScaffold2chr_snp.py {input.bestMatch} {input.female_allDiv} {input.male_allDiv} > {output.bestMatch_allDiv}
+        python3 code/matchScaffold2chr_snp.py {input.bestMatch} {input.heterogametic_allDiv} {input.homogametic_allDiv} > {output.bestMatch_allDiv}
         """
 
 rule matchScaffold2Chr_cov:
