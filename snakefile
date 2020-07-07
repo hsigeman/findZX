@@ -97,8 +97,8 @@ rule index_fasta_samtools:
 
 rule map: 
     input: 
-        R1= FQ_DIR + "{S}_forward_paired.fq",
-        R2= FQ_DIR + "{S}_reverse_paired.fq",
+        R1= FQ_DIR + "{S}_forward_paired.fq.gz",
+        R2= FQ_DIR + "{S}_reverse_paired.fq.gz",
         ref = REF_FASTA, 
         ref_bwt = REF_FASTA + ".bwt"
     output: 
