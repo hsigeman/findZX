@@ -38,3 +38,4 @@ fastq: /proj/uppstore2018211/delivery02942/trimmed_files_birds/
 ref_species: AlaArv
 ref_dir: data/internal_raw/genome/
 ref_name: skylark_min1kb
+synteny_species: zebra_finch
