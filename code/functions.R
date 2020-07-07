@@ -22,7 +22,7 @@ calculate_ratio <- function(data_table) {
   # Calculates the coverage or snp ratio between female and male normalized by the
   # median ratio. Infinite values are removed.
   
-  data_table$ratio <- data_table$female/data_table$male
+  data_table$ratio <- data_table$heterogametic_sex/data_table$homogametic_sex
   data_table <- subset(data_table, data_table$ratio != "Inf")
   data_table$ratio_scaled <- data_table$ratio / median(data_table$ratio, na.rm = TRUE)
   
@@ -49,7 +49,7 @@ count_cov_win <- function(cov_table, win_len) {
 calculate_diff <- function(data_table) {
   # calculates the normalized difference between the number of female and male snps
   
-  data_table$diff <- data_table$female - data_table$male
+  data_table$diff <- data_table$heterogametic_sex - data_table$homogametic_sex
   data_table$diff_scaled <- data_table$diff / median(data_table$diff, na.rm = TRUE)
   
   return(data_table)
