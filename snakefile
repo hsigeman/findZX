@@ -144,7 +144,7 @@ rule remove_duplicates:
 
 rule index_bam: 
     input: 
-        MAP_DIR + "{S}.sorted.nodup.nm.{ED}.bam"	# ED = "all", "0.0", "0.1", "0.2", "0.3", "0.4"
+        MAP_DIR + "{S}.sorted.nodup.nm.{ED}.bam"
     output: 
         MAP_DIR + "{S}.sorted.nodup.nm.{ED}.bam.bai"
     threads: 1
@@ -158,7 +158,7 @@ rule mismatch_bam:
         bam = MAP_DIR + "{S}.sorted.nodup.nm.all.bam", 
         ref = REF_FASTA
     output: 
-        MAP_DIR + "{S}.sorted.nodup.nm.0.{ED, [0-9]+}.bam"	# ED = 0, 1, 2, 3, 4
+        MAP_DIR + "{S}.sorted.nodup.nm.0.{ED, [0-9]+}.bam"
     threads: 2
     params:
         "\"NM:i:[0-{ED}]\""
@@ -194,7 +194,7 @@ rule gencov_prepare_fasta:
 
 rule gencov_bedtools:
     input: 
-        bam_hetero = expand(MAP_DIR + "{heterogametic}.sorted.nodup.nm.{{V}}.bam", heterogametic = HETEROGAMETIC), # V = "all", "0.0", "0.1", "0.2", "0.3", "0.4"
+        bam_hetero = expand(MAP_DIR + "{heterogametic}.sorted.nodup.nm.{{V}}.bam", heterogametic = HETEROGAMETIC),
         bai_hetero = expand(MAP_DIR + "{heterogametic}.sorted.nodup.nm.{{V}}.bam.bai", heterogametic = HETEROGAMETIC),
         bam_homo = expand(MAP_DIR + "{homogametic}.sorted.nodup.nm.{{V}}.bam", homogametic = HOMOGAMETIC),
         bai_homo = expand(MAP_DIR + "{homogametic}.sorted.nodup.nm.{{V}}.bam.bai", homogametic = HOMOGAMETIC),
