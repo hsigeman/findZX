@@ -16,7 +16,7 @@ samples:
 #    SJ-2333-Aarv-460-IT : SJ-2333-Aarv-460-IT
 #    SJ-2333-Aarv-939-IT : SJ-2333-Aarv-939-IT
 species: AlaArv
-female: 
+heterogametic: 
     SJ-2333-Aarv-052-NL
 #    SJ-2333-Aarv-475-NL
 #    SJ-2333-Aarv-504-NL
@@ -25,7 +25,7 @@ female:
     SJ-2333-Aarv-252-IT
 #    SJ-2333-Aarv-441-IT
 #    SJ-2333-Aarv-460-IT
-male: 
+homogametic: 
     SJ-2333-Aarv-043-NL
     SJ-2333-Aarv-313-NL
 #    SJ-2333-Aarv-558-NL
