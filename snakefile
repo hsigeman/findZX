@@ -248,19 +248,6 @@ rule freebayes_parallel:
         echo "DONE" > {output.log}
         """
 
-#run twice, one for females, one for males
-##vcftools --vcf {input} --site-pi --window-pi {win} --indv {females/males} --remove-filtered-geno-all --minQ 20 --minDP 3 --stdout
-#rule vcftools_singletons:
-#    input: 
-#        VCF_DIR + SPECIES + ".vcf"
-#    output: 
-#        VCF_DIR + SPECIES + ".singletons.bed"
-#    threads: 1
-#    shell: 
-#        """
-#        vcftools --vcf {input} --singletons --remove-filtered-geno-all --minQ 20 --minDP 3 --stdout | awk -v OFS=\"\\t\" \'{{print $1,$2,$2+1,$3,$4,$5}}\' > {output}
-#        """
-
 rule vcftools_alleleDiv_f:
     input:
         VCF_DIR + SPECIES + ".vcf"
