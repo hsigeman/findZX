@@ -265,10 +265,10 @@ rule vcftools_alleleDiv_f:
     input:
         VCF_DIR + SPECIES + ".vcf"
     output:
-        VCF_DIR + SPECIES + "female.allDiv.bed"
+        VCF_DIR + SPECIES + ".female.allDiv.bed"
     threads: 1
     params:
-        keep_indv = expand("--indv {female}", females=FEMALE)
+        keep_indv = expand("--indv {female}", female=FEMALE)
     shell:
         """
         vcftools --vcf {input} --window-pi 5000 {params.keep_indv} --remove-filtered-geno-all --minQ 20 --minDP 3 --stdout > {output}
@@ -278,10 +278,10 @@ rule vcftools_alleleDiv_m:
     input:
         VCF_DIR + SPECIES + ".vcf"
     output:
-        VCF_DIR + SPECIES + "male.allDiv.bed"
+        VCF_DIR + SPECIES + ".male.allDiv.bed"
     threads: 1
     params:
-        keep_indv = expand("--indv {male}", males=MALE)
+        keep_indv = expand("--indv {male}", male=MALE)
     shell:
         """
         vcftools --vcf {input} --window-pi 5000 {params.keep_indv} --remove-filtered-geno-all --minQ 20 --minDP 3 --stdout > {output}
