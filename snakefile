@@ -355,21 +355,6 @@ rule matchScaffold2Chr:
         echo "DONE" > {params.absLog}
         """
 
-# Replace with python script
-#rule matchScaffold2Chr_snp:
-#    input:
-#        bestMatch = MATCHDIR + "bestMatch.list",
-#        vcf = VCF_DIR + SPECIES + ".singletons.bed"
-#    output:
-#        bestMatch_singleton = MATCHDIR + SPECIES + ".singleton.bestMatch.zf",
-#        bestMatch_singleton_small = MATCHDIR + SPECIES + ".singleton.bestMatch.zf.small"
-#    shell:
-#        """
-#        cat {input.vcf} | grep -v CHROM | sed 's/ /\t/g' | bedtools intersect -a stdin -b {input.bestMatch} -wa -wb > {output.bestMatch_singleton}
-#
-#        cat {output.bestMatch_singleton} | cut -f 4,5,6,14,15,16 > {output.bestMatch_singleton_small}
-#        """
-
 rule matchScaffold2Chr_snp:
     input:
         bestMatch = MATCHDIR + "bestMatch.list",
