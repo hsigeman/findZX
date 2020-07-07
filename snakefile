@@ -386,8 +386,8 @@ rule matchScaffold2Chr:
 rule matchScaffold2Chr_snp:
     input:
         bestMatch = MATCHDIR + "bestMatch.list",
-        female_allDiv = VCF_DIR + SPECIES + ".female.allDiv.bed"
-        male_allDiv = VCF_DIR + SPECIES + ".female.allDiv.bed"
+        female_allDiv = VCF_DIR + SPECIES + ".female.allDiv.bed",
+        male_allDiv = VCF_DIR + SPECIES + ".male.allDiv.bed"
     output:
         bestMatch_allDiv = MATCHDIR + "allDiv.bestMatch.zf.out",
     shell:
@@ -435,21 +435,23 @@ rule calculate_ratio:
     input:
         MATCHDIR + "{type}.zf.out"
     output:
-        1Mb = RESULTDIR + SPECIES + "{type}.1Mbp.txt"
-        100kb = RESULTDIR + SPECIES + "{type}.100kbp.txt"
+        Mb = RESULTDIR + SPECIES + ".{type}.1Mbp.txt",
+        kb = RESULTDIR + SPECIES + ".{type}.100kbp.txt"
     params:
         species = PREFIX
     threads: 1
     shell:
-        Rscript code/cal_cov_ratio_ranges.R {params.species} {input} {output.1Mb} {output.100kb}
+        """
+        Rscript code/cal_cov_ratio_ranges.R {params.species} {input} {output.Mb} {output.kb}
+        """
 
 # Replace with cal_cov_ratio_ranges.R (calculates ratios) and add another rule which does the plotting
 rule plotting:
     input: 
-        cov0 = RESULTDIR + SPECIES + "gencov.nodup.nm.0.0.norm.1Mbp.txt",
-        cov2 = RESULTDIR + SPECIES + "gencov.nodup.nm.0.0.norm.1Mbp.txt",
-        cov4 = RESULTDIR + SPECIES + "gencov.nodup.nm.0.0.norm.1Mbp.txt",
-        snp = RESULTDIR + SPECIES + "allDiv.bestMatch.1Mbp.txt"
+        cov0 = RESULTDIR + SPECIES + ".gencov.nodup.nm.0.0.norm.1Mbp.txt",
+        cov2 = RESULTDIR + SPECIES + ".gencov.nodup.nm.0.2.norm.1Mbp.txt",
+        cov4 = RESULTDIR + SPECIES + ".gencov.nodup.nm.0.4.norm.1Mbp.txt",
+        snp = RESULTDIR + SPECIES + ".allDiv.bestMatch.1Mbp.txt"
     output: 
         RESULTDIR + SPECIES + ".circlize.pdf"
     params:
