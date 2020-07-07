@@ -27,8 +27,9 @@ VCF_DIR = "intermediate/freebayes/" + PREFIX + "/"
 MATCHDIR = "intermediate/synteny_match/" + PREFIX + "/"
 RESULTDIR = "results/" + PREFIX + "/"
 
-COMP_GEN_ZF = "intermediate/lastal_ZF/" + PREFIX + "/"
-ZF_DB = "../pipeline-test/data/meta/myZFdb"
+SYNTENY_SPECIES = config["synteny_species"]
+COMP_GEN_SYNS = "intermediate/lastal_" + SYNTENY_SPECIES + "/" + PREFIX + "/"
+SYNS_DB = "../pipeline-test/data/meta/my" + SYNTENY_SPECIES + "db"
 
 EDIT_DIST = ["all", "0.0", "0.1", "0.2", "0.3", "0.4"]
 
@@ -44,15 +45,15 @@ rule all:
         expand(MAP_DIR + "{S}.sorted.nodup.nm.all.status", S = ID),
         expand(MAP_DIR + "{S}.sorted.nodup.nm.{ED}.bam.bai", S = ID, ED = EDIT_DIST),
         VCF_DIR + SPECIES + ".vcf.status",
-        COMP_GEN_ZF + SPECIES + "_align_converted",
+        COMP_GEN_SYNS + SPECIES + "_align_converted",
         expand(MAP_DIR + "{S}.sorted.flagstat", S = ID),
         expand(MAP_DIR + "{S}.sorted.nodup.nm.{ED}.flagstat", S = ID, ED = EDIT_DIST),
         MATCHDIR + "genome_windows.out",
         MATCHDIR + "bestMatch.status",
-        MATCHDIR + "allDiv.bestMatch.zf.out",
+        MATCHDIR + "allDiv.bestMatch." + SYNTENY_SPECIES + ".out",
         VCF_DIR + SPECIES + ".heterogametic.allDiv.bed",
         VCF_DIR + SPECIES + ".homogametic.allDiv.bed",
-        expand(MATCHDIR + "gencov.nodup.nm.{ED}.norm.zf.out", ED = EDIT_DIST),
+        expand(MATCHDIR + "gencov.nodup.nm.{ED}.norm." + SYNTENY_SPECIES + ".out", ED = EDIT_DIST),
         #VCF_DIR + SPECIES + ".non-ref-ac_2_biallelic_qual.vcf",
         #VCF_DIR + SPECIES + ".non-ref-ac_2_biallelic_qual.vcf.gz",
         #REF_DIR + REF_NAME + "_nonRefAc_consensus.fasta",
@@ -284,24 +285,24 @@ rule fasta_formatter:
         fasta_formatter -i {input} -w 80 -o {output}
         """
 
-rule lastal_zf:
+rule lastal_syns:
     input: 
         REF_PATH + "wrap.fasta"
     output: 
-        COMP_GEN_ZF + SPECIES + "_align"
+        COMP_GEN_SYNS + SPECIES + "_align"
     params: 
-        db = ZF_DB
+        db = SYNS_DB
     threads: 15
     shell: 
         """
         lastal {params.db} {input} -P 15 | last-split > {output}
         """
 
-rule maf_convert_zf:
+rule maf_convert_syns:
     input: 
-        COMP_GEN_ZF + SPECIES + "_align"
+        COMP_GEN_SYNS + SPECIES + "_align"
     output: 
-        COMP_GEN_ZF + SPECIES + "_align_converted"
+        COMP_GEN_SYNS + SPECIES + "_align_converted"
     threads: 1
     shell: 
         """
@@ -314,7 +315,7 @@ rule maf_convert_zf:
 
 rule matchScaffold2Chr:
     input:
-        zf = COMP_GEN_ZF + SPECIES + "_align_converted",
+        syns = COMP_GEN_SYNS + SPECIES + "_align_converted",
         gencov = GENCOV_DIR + "genome_5kb_windows.out"
     output:
         windows = MATCHDIR  + "genome_windows.out",
@@ -328,7 +329,7 @@ rule matchScaffold2Chr:
         absLog = dir_path + "/" + MATCHDIR + "bestMatch.status"
     shell:
         """
-        cat {input.zf} | awk '{{print $10,$12,$13,$14,$16,$17,$1}}' | sed 's/ /\t/g' | bedtools intersect -a stdin -b {input.gencov} -wa -wb | awk '{{if($10-$9==\"5000\") print $8,$9,$10,$7,$1,$2,$3,$4,$5,$6}}' | sed 's/ /\t/g' | sed 's/\t/STARTCOORD/' | sed 's/\t/ENDCOORD/' > {output.windows}
+        cat {input.syns} | awk '{{print $10,$12,$13,$14,$16,$17,$1}}' | sed 's/ /\t/g' | bedtools intersect -a stdin -b {input.gencov} -wa -wb | awk '{{if($10-$9==\"5000\") print $8,$9,$10,$7,$1,$2,$3,$4,$5,$6}}' | sed 's/ /\t/g' | sed 's/\t/STARTCOORD/' | sed 's/\t/ENDCOORD/' > {output.windows}
 
         mkdir {params.temp}
         cd {params.temp}
@@ -350,7 +351,7 @@ rule matchScaffold2Chr_snp:
         heterogametic_allDiv = VCF_DIR + SPECIES + ".heterogametic.allDiv.bed",
         homogametic_allDiv = VCF_DIR + SPECIES + ".homogametic.allDiv.bed"
     output:
-        bestMatch_allDiv = MATCHDIR + "allDiv.bestMatch.zf.out",
+        bestMatch_allDiv = MATCHDIR + "allDiv.bestMatch." + SYNTENY_SPECIES + ".out"
     shell:
         """
         python3 code/matchScaffold2chr_snp.py {input.bestMatch} {input.heterogametic_allDiv} {input.homogametic_allDiv} > {output.bestMatch_allDiv}
@@ -361,7 +362,7 @@ rule matchScaffold2Chr_cov:
         bestMatch = MATCHDIR + "bestMatch.list",
         cov = GENCOV_DIR + "gencov.nodup.nm.{ED}.out", # ED = all, 0.0, 0.1, 0.2, 0.3, 0.4
     output:
-        MATCHDIR + "gencov.nodup.nm.{ED}.norm.zf.out"
+        MATCHDIR + "gencov.nodup.nm.{ED}.norm." + SYNTENY_SPECIES + ".out"
     threads: 1
     shell:
         """
@@ -392,7 +393,7 @@ rule matchScaffold2Chr_cov:
 
 rule calculate_ratio:
     input:
-        MATCHDIR + "{type}.zf.out"
+        MATCHDIR + "{type}." + SYNTENY_SPECIES + ".out"
     output:
         Mb = RESULTDIR + SPECIES + ".{type}.1Mbp.txt",
         kb = RESULTDIR + SPECIES + ".{type}.100kbp.txt"
