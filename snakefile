@@ -49,12 +49,12 @@ rule all:
         expand(MAP_DIR + "{S}.sorted.nodup.nm.{ED}.flagstat", S = ID, ED = EDIT_DIST),
         MATCHDIR + "genome_windows.out",
         MATCHDIR + "bestMatch.status",
-        #MATCHDIR + SPECIES + ".singleton.bestMatch.zf.small",
-        VCF_DIR + SPECIES + "female.allDiv.bed"
-        VCF_DIR + SPECIES + "male.allDiv.bed"
-        #expand(MATCHDIR + "gencov.nodup.nm.{ED}.zf.out", ED = EDIT_DIST),
-        VCF_DIR + SPECIES + ".non-ref-ac_2_biallelic_qual.vcf",
-        VCF_DIR + SPECIES + ".non-ref-ac_2_biallelic_qual.vcf.gz",
+        MATCHDIR + "allDiv.bestMatch.zf.out",
+        VCF_DIR + SPECIES + ".female.allDiv.bed",
+        VCF_DIR + SPECIES + ".male.allDiv.bed",
+        expand(MATCHDIR + "gencov.nodup.nm.{ED}.norm.zf.out", ED = EDIT_DIST),
+        #VCF_DIR + SPECIES + ".non-ref-ac_2_biallelic_qual.vcf",
+        #VCF_DIR + SPECIES + ".non-ref-ac_2_biallelic_qual.vcf.gz",
         #REF_DIR + REF_NAME + "_nonRefAc_consensus.fasta",
         RESULTDIR + SPECIES + ".circlize.pdf"
 
