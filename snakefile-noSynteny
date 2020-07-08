@@ -27,9 +27,9 @@ VCF_DIR = "intermediate/freebayes/" + PREFIX + "/"
 MATCHDIR = "intermediate/synteny_match/" + PREFIX + "/"
 RESULTDIR = "results/" + PREFIX + "/"
 
-SYNTENY_SPECIES = config["synteny_species"]
-COMP_GEN_SYNS = "intermediate/lastal_" + SYNTENY_SPECIES + "/" + PREFIX + "/"
-SYNS_DB = "../pipeline-test/data/meta/my" + SYNTENY_SPECIES + "db"
+#SYNTENY_SPECIES = config["synteny_species"]
+#COMP_GEN_SYNS = "intermediate/lastal_" + SYNTENY_SPECIES + "/" + PREFIX + "/"
+#SYNS_DB = "../pipeline-test/data/meta/my" + SYNTENY_SPECIES + "db"
 
 EDIT_DIST = ["all", "0.0", "0.1", "0.2", "0.3", "0.4"]
 
@@ -45,15 +45,15 @@ rule all:
         expand(MAP_DIR + "{S}.sorted.nodup.nm.all.status", S = ID),
         expand(MAP_DIR + "{S}.sorted.nodup.nm.{ED}.bam.bai", S = ID, ED = EDIT_DIST),
         VCF_DIR + SPECIES + ".vcf.status",
-        COMP_GEN_SYNS + SPECIES + "_align_converted",
+        #COMP_GEN_SYNS + SPECIES + "_align_converted",
         expand(MAP_DIR + "{S}.sorted.flagstat", S = ID),
         expand(MAP_DIR + "{S}.sorted.nodup.nm.{ED}.flagstat", S = ID, ED = EDIT_DIST),
-        MATCHDIR + "genome_windows.out",
-        MATCHDIR + "bestMatch.status",
-        MATCHDIR + "allDiv.bestMatch." + SYNTENY_SPECIES + ".out",
+        #MATCHDIR + "genome_windows.out",
+        #MATCHDIR + "bestMatch.status",
+        #MATCHDIR + "allDiv.bestMatch." + SYNTENY_SPECIES + ".out",
         VCF_DIR + SPECIES + ".heterogametic.allDiv.bed",
         VCF_DIR + SPECIES + ".homogametic.allDiv.bed",
-        expand(MATCHDIR + "gencov.nodup.nm.{ED}.norm." + SYNTENY_SPECIES + ".out", ED = EDIT_DIST),
+        #expand(MATCHDIR + "gencov.nodup.nm.{ED}.norm." + SYNTENY_SPECIES + ".out", ED = EDIT_DIST),
         #VCF_DIR + SPECIES + ".non-ref-ac_2_biallelic_qual.vcf",
         #VCF_DIR + SPECIES + ".non-ref-ac_2_biallelic_qual.vcf.gz",
         #REF_DIR + REF_NAME + "_nonRefAc_consensus.fasta",
