@@ -11,45 +11,45 @@ Sigeman, H., Ponnikas, S. & Hansson, B. Whole-genome analysis across 10 songbird
 
 
 
-Work directory
-	- intermediate
-		- bedtools
-			- species_refSpecies
-				- gencov-files
-		- bwa
-			- species_refSpecies
-				- bam-files (nodup, nm)
-				- bai-files (nodup, nm)
-				- flagstat-files
-				- status-file
-				- duplicatedata.txt
-		- freebayes
-			- species_refSpecies
-				- VCF-file
-				- hetero/homogametic.bed-files (allele divergence, allele frequency, proportion heterozygosity)
-				- status-file
-				- regions-file
-		- lastal_ZF
-			- align-files
-		- synteny_match
-			- species_refSpecies
-				- bestmatch-filer
-				- gencov.zf-filer
-				- allDiv, allFreq, propHetZyg
-	- results
-		- species_refSpecies
-			- plots
-			- 100kbp-filer (gencov, allDiv, allFreq, propHetZyg)
-			- 1Mbp-filer (gencov, allDiv, allFreq, propHetZyg)
-	- code
-	- data
-		- genome
-			- consensus genome
-		- meta
-			- zf-database
-Reads directory
-	- fastQ-files
-Reference genome
-	- reference genome
-	- index files
+Work directory  
+	- intermediate  
+		- bedtools  
+			- species_refSpecies  
+				- gencov-files  
+		- bwa  
+			- species_refSpecies  
+				- bam-files (nodup, nm)  
+				- bai-files (nodup, nm)  
+				- flagstat-files  
+				- status-file  
+				- duplicatedata.txt  
+		- freebayes  
+			- species_refSpecies  
+				- VCF-file  
+				- hetero/homogametic.bed-files (allele divergence, allele frequency, proportion heterozygosity)  
+				- status-file  
+				- regions-file  
+		- lastal_ZF  
+			- align-files  
+		- synteny_match  
+			- species_refSpecies  
+				- bestmatch-filer  
+				- gencov.zf-filer  
+				- allDiv, allFreq, propHetZyg  
+	- results  
+		- species_refSpecies  
+			- plots  
+			- 100kbp-filer (gencov, allDiv, allFreq, propHetZyg)  
+			- 1Mbp-filer (gencov, allDiv, allFreq, propHetZyg)  
+	- code  
+	- data  
+		- genome  
+			- consensus genome  
+		- meta  
+			- zf-database  
+Reads directory  
+	- fastQ-files  
+Reference genome  
+	- reference genome  
+	- index files  
 
