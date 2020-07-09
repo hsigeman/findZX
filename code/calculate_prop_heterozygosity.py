@@ -47,16 +47,17 @@ with open(sys.argv[1], 'r') as vcfFile:
 				elif info_fields[i].startswith('0/0') or info_fields[i].startswith('1/1'):
 					hetero_count = 1 + heterogameticSex_count
 
-			heterogameticSex_heterozygotRatio = heterogameticSex_heterozygotCount/heterogameticSex_count
+			if heterogameticSex_count > 0:
+				heterogameticSex_heterozygotRatio = heterogameticSex_heterozygotCount/heterogameticSex_count
 
-			if heterogameticSex_heterozygotRatio >= 0.9:
-				out_file_09.write('\t'.join(info_fields[0:2] + [str(int(info_fields[1])+1), 'heterogametic', str(heterogameticSex_heterozygotRatio)]) + '\n')
+				if heterogameticSex_heterozygotRatio >= 0.9:
+					out_file_09.write('\t'.join(info_fields[0:2] + [str(int(info_fields[1])+1), 'heterogametic', str(heterogameticSex_heterozygotRatio)]) + '\n')
 
-			if heterogameticSex_heterozygotRatio >= 0.8:
-				out_file_08.write('\t'.join(info_fields[0:2] + [str(int(info_fields[1])+1), 'heterogametic', str(heterogameticSex_heterozygotRatio)]) + '\n')
+				if heterogameticSex_heterozygotRatio >= 0.8:
+					out_file_08.write('\t'.join(info_fields[0:2] + [str(int(info_fields[1])+1), 'heterogametic', str(heterogameticSex_heterozygotRatio)]) + '\n')
 
-			if heterogameticSex_heterozygotRatio >= 0.5:
-				out_file_05.write('\t'.join(info_fields[0:2] + [str(int(info_fields[1])+1), 'heterogametic', str(heterogameticSex_heterozygotRatio)]) + '\n')
+				if heterogameticSex_heterozygotRatio >= 0.5:
+					out_file_05.write('\t'.join(info_fields[0:2] + [str(int(info_fields[1])+1), 'heterogametic', str(heterogameticSex_heterozygotRatio)]) + '\n')
 
 
 
@@ -67,16 +68,17 @@ with open(sys.argv[1], 'r') as vcfFile:
 				elif info_fields[i].startswith('0/0') or info_fields[i].startswith('1/1'):
 					homogameticSex_count = 1 + homogameticSex_count
 
-			homogameticSex_heterozygotRatio = homogameticSex_heterozygotCount/homogameticSex_count
+			if homogameticSex_count > 0:
+				homogameticSex_heterozygotRatio = homogameticSex_heterozygotCount/homogameticSex_count
 
-			if homogameticSex_heterozygotRatio >= 0.9:
-				out_file_09.write('\t'.join(info_fields[0:2] + [str(int(info_fields[1])+1), 'homogametic', str(homogameticSex_heterozygotRatio)]) + '\n')
+				if homogameticSex_heterozygotRatio >= 0.9:
+					out_file_09.write('\t'.join(info_fields[0:2] + [str(int(info_fields[1])+1), 'homogametic', str(homogameticSex_heterozygotRatio)]) + '\n')
 
-			if homogameticSex_heterozygotRatio >= 0.8:
-				out_file_08.write('\t'.join(info_fields[0:2] + [str(int(info_fields[1])+1), 'homogametic', str(homogameticSex_heterozygotRatio)]) + '\n')
+				if homogameticSex_heterozygotRatio >= 0.8:
+					out_file_08.write('\t'.join(info_fields[0:2] + [str(int(info_fields[1])+1), 'homogametic', str(homogameticSex_heterozygotRatio)]) + '\n')
 
-			if homogameticSex_heterozygotRatio >= 0.5:
-				out_file_05.write('\t'.join(info_fields[0:2] + [str(int(info_fields[1])+1), 'homogametic', str(homogameticSex_heterozygotRatio)]) + '\n')
+				if homogameticSex_heterozygotRatio >= 0.5:
+					out_file_05.write('\t'.join(info_fields[0:2] + [str(int(info_fields[1])+1), 'homogametic', str(homogameticSex_heterozygotRatio)]) + '\n')
 
 
 
