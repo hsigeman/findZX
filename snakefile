@@ -248,7 +248,7 @@ rule vcftools_filter:
      input:
          VCF_DIR + SPECIES + ".vcf"
      output:
-         VCF_DIR + SPECIES + ".bialleleic.minQ20.minDP3.vcf"
+         VCF_DIR + SPECIES + ".biallelic.minQ20.minDP3.vcf"
      threads: 1
      shell:
          """
@@ -257,7 +257,7 @@ rule vcftools_filter:
 
 rule proportion_heterozygosity:
      input:
-         VCF_DIR + SPECIES + ".bialleleic.minQ20.minDP3.vcf"
+         VCF_DIR + SPECIES + ".biallelic.minQ20.minDP3.vcf"
      output:
          VCF_DIR + SPECIES + ".propHeterozygosity.05.bed"
      threads: 1
@@ -372,7 +372,7 @@ rule matchScaffold2Chr_snp:
         bestMatch = MATCHDIR + "bestMatch.list",
         heterozygosity = VCF_DIR + SPECIES + ".propHeterozygosity.05.bed"
     output:
-        bestmatch = MATCHDIR + SPECIES + ".propHeterozygosity.05.bestMatch." + SYNTENY_SPECIES
+        bestmatch = MATCHDIR + SPECIES + ".propHeterozygosity.05.bestMatch." + SYNTENY_SPECIES,
         bestmatch_small = MATCHDIR + SPECIES + ".propHeterozygosity.05.bestMatch." + SYNTENY_SPECIES + ".small"
     shell:
         """
@@ -442,6 +442,7 @@ rule calculate_heterozygosity:
     shell:
         """
         Rscript code/calculate_snpCount_windows.R {input} {output.Mb} {output.kb}
+        """
 
 rule calculate_ratio:
     input:
