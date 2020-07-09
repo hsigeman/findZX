@@ -244,31 +244,40 @@ rule freebayes_parallel:
         echo "DONE" > {output.log}
         """
 
-rule vcftools_alleleDiv_hetero:
-    input:
-        VCF_DIR + SPECIES + ".vcf"
-    output:
-        VCF_DIR + SPECIES + ".heterogametic.allDiv.bed"
-    threads: 1
-    params:
-        keep_indv = expand("--indv {heterogametic}", heterogametic=HETEROGAMETIC)
-    shell:
-        """
-        vcftools --vcf {input} --window-pi 5000 {params.keep_indv} --remove-filtered-geno-all --minQ 20 --minDP 3 --stdout > {output}
-        """
+rule vcftools_filter:
+     input:
+         VCF_DIR + SPECIES + ".vcf"
+     output:
+         VCF_DIR + SPECIES + ".bialleleic.minQ20.minDP3.vcf"
+     threads: 1
+     shell:
+         vcftools --vcf {input} --min-alleles 2 --max-alleles 2 --remove-filtered-geno-all --minQ 20 --minDP 3 --recode --stdout > {output}
 
-rule vcftools_alleleDiv_homo:
-    input:
-        VCF_DIR + SPECIES + ".vcf"
-    output:
-        VCF_DIR + SPECIES + ".homogametic.allDiv.bed"
-    threads: 1
-    params:
-        keep_indv = expand("--indv {homogametic}", homogametic=HOMOGAMETIC)
-    shell:
-        """
-        vcftools --vcf {input} --window-pi 5000 {params.keep_indv} --remove-filtered-geno-all --minQ 20 --minDP 3 --stdout > {output}
-        """
+#rule vcftools_alleleDiv_hetero:
+#    input:
+#        VCF_DIR + SPECIES + ".vcf"
+#    output:
+#        VCF_DIR + SPECIES + ".heterogametic.allDiv.bed"
+#    threads: 1
+#    params:
+#        keep_indv = expand("--indv {heterogametic}", heterogametic=HETEROGAMETIC)
+#    shell:
+#        """
+#        vcftools --vcf {input} --window-pi 5000 {params.keep_indv} --remove-filtered-geno-all --minQ 20 --minDP 3 --stdout > {output}
+#        """
+
+#rule vcftools_alleleDiv_homo:
+#    input:
+#        VCF_DIR + SPECIES + ".vcf"
+#    output:
+#        VCF_DIR + SPECIES + ".homogametic.allDiv.bed"
+#    threads: 1
+#    params:
+#        keep_indv = expand("--indv {homogametic}", homogametic=HOMOGAMETIC)
+#    shell:
+#        """
+#        vcftools --vcf {input} --window-pi 5000 {params.keep_indv} --remove-filtered-geno-all --minQ 20 --minDP 3 --stdout > {output}
+#        """
 
 ##########################################################  
 #################### SYNTENY ANALYSIS ####################      
