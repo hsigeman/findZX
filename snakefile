@@ -39,21 +39,21 @@ EDIT_DIST = ["all", "0.0", "0.1", "0.2", "0.3", "0.4"]
 
 rule all: 
      input: 
-        #REF_FASTA + ".bwt",
-        #REF_FASTA + ".fai" ,
-        #expand(MAP_DIR + "{S}.sorted.status", S = ID),
-        #expand(MAP_DIR + "{S}.sorted.nodup.nm.all.status", S = ID),
-        #expand(MAP_DIR + "{S}.sorted.nodup.nm.{ED}.bam.bai", S = ID, ED = EDIT_DIST),
-        #VCF_DIR + SPECIES + ".vcf.status",
-        #COMP_GEN_SYNS + SPECIES + "_align_converted",
-        #expand(MAP_DIR + "{S}.sorted.flagstat", S = ID),
-        #expand(MAP_DIR + "{S}.sorted.nodup.nm.{ED}.flagstat", S = ID, ED = EDIT_DIST),
-        #MATCHDIR + "genome_windows.out",
-        #MATCHDIR + "bestMatch.status",
+        REF_FASTA + ".bwt",
+        REF_FASTA + ".fai" ,
+        expand(MAP_DIR + "{S}.sorted.status", S = ID),
+        expand(MAP_DIR + "{S}.sorted.nodup.nm.all.status", S = ID),
+        expand(MAP_DIR + "{S}.sorted.nodup.nm.{ED}.bam.bai", S = ID, ED = EDIT_DIST),
+        VCF_DIR + SPECIES + ".vcf.status",
+        COMP_GEN_SYNS + SPECIES + "_align_converted",
+        expand(MAP_DIR + "{S}.sorted.flagstat", S = ID),
+        expand(MAP_DIR + "{S}.sorted.nodup.nm.{ED}.flagstat", S = ID, ED = EDIT_DIST),
+        MATCHDIR + "genome_windows.out",
+        MATCHDIR + "bestMatch.status",
         #MATCHDIR + "allDiv.bestMatch." + SYNTENY_SPECIES + ".out",
         #VCF_DIR + SPECIES + ".heterogametic.allDiv.bed",
         #VCF_DIR + SPECIES + ".homogametic.allDiv.bed",
-        #expand(MATCHDIR + "gencov.nodup.nm.{ED}.norm." + SYNTENY_SPECIES + ".out", ED = EDIT_DIST),
+        expand(MATCHDIR + "gencov.nodup.nm.{ED}.norm." + SYNTENY_SPECIES + ".out", ED = EDIT_DIST),
         #VCF_DIR + SPECIES + ".non-ref-ac_2_biallelic_qual.vcf",
         #VCF_DIR + SPECIES + ".non-ref-ac_2_biallelic_qual.vcf.gz",
         #REF_DIR + REF_NAME + "_nonRefAc_consensus.fasta",
@@ -263,7 +263,7 @@ rule proportion_heterozygosity:
      threads: 1
      shell:
          """
-         python3 code/cal_heteroHomoRatio.py {input} {output}
+         python3 code/calculate_prop_heterozygosity.py {input} {output}
          """
 
 #rule vcftools_alleleDiv_hetero:
@@ -438,11 +438,10 @@ rule calculate_heterozygosity:
     output:
         Mb = RESULTDIR + SPECIES + ".propHeterozygosity.05.1Mbp.out",
         kb = RESULTDIR + SPECIES + ".propHeterozygosity.05.100kbp.out"
-    params:
-        species = PREFIX
+    threads: 1
     shell:
         """
-        Rscript code/cal_snp_density_ranges.R {params.species} {input} {output.Mb} {output.kb}
+        Rscript code/calculate_snpCount_windows.R {input} {output.Mb} {output.kb}
 
 rule calculate_ratio:
     input:
@@ -450,12 +449,10 @@ rule calculate_ratio:
     output:
         Mb = RESULTDIR + SPECIES + ".{type}.1Mbp.out",
         kb = RESULTDIR + SPECIES + ".{type}.100kbp.out"
-    params:
-        species = PREFIX
     threads: 1
     shell:
         """
-        Rscript code/cal_cov_ratio_ranges.R {params.species} {input} {output.Mb} {output.kb}
+        Rscript code/calculate_gencov_windows.R {input} {output.Mb} {output.kb}
         """
 
 rule plotting:
@@ -466,12 +463,10 @@ rule plotting:
         snp = RESULTDIR + SPECIES + ".propHeterozygosity.05.1Mbp.out"
     output: 
         RESULTDIR + SPECIES + ".circlize.pdf"
-    params:
-        species = PREFIX
     threads: 1
     shell: 
         """
-        Rscript code/plot_norm.R {params.species} {input.cov0} {input.cov2} {input.cov4} {input.snp} {output}
+        Rscript code/circlize_plot.R {input.cov0} {input.cov2} {input.cov4} {input.snp} {output}
         """
 
 
