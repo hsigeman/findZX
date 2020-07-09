@@ -259,7 +259,7 @@ rule proportion_heterozygosity:
      input:
          VCF_DIR + SPECIES + ".bialleleic.minQ20.minDP3.vcf"
      output:
-         VCF_DIR + SPECIES + ".proportionHeterozygosity.05.bed"
+         VCF_DIR + SPECIES + ".propHeterozygosity.05.bed"
      threads: 1
      shell:
          """
@@ -370,10 +370,10 @@ rule matchScaffold2Chr:
 rule matchScaffold2Chr_snp:
     input:
         bestMatch = MATCHDIR + "bestMatch.list",
-        heterozygosity = VCF_DIR + SPECIES + ".proportionHeterozygosity.05.bed"
+        heterozygosity = VCF_DIR + SPECIES + ".propHeterozygosity.05.bed"
     output:
-        bestmatch = MATCHDIR + SPECIES + ".proportionHeterozygosity.05.bestMatch." + SYNTENY_SPECIES
-        bestmatch_small = MATCHDIR + SPECIES + ".proportionHeterozygosity.05.bestMatch." + SYNTENY_SPECIES + ".small"
+        bestmatch = MATCHDIR + SPECIES + ".propHeterozygosity.05.bestMatch." + SYNTENY_SPECIES
+        bestmatch_small = MATCHDIR + SPECIES + ".propHeterozygosity.05.bestMatch." + SYNTENY_SPECIES + ".small"
     shell:
         """
         bedtools intersect -a {input.heterozygosity} -b {input.bestMatch} -wa -wb > {output.bestmatch}
@@ -432,13 +432,24 @@ rule matchScaffold2Chr_cov:
 ################# STATISTIC CALCULATIONS ##################
 ###########################################################
 
+rule calculate_heterozygosity:
+    input:
+        MATCHDIR + SPECIES + ".propHeterozygosity.05.bestMatch." + SYNTENY_SPECIES + ".small"
+    output:
+        Mb = RESULTDIR + SPECIES + ".propHeterozygosity.05.1Mbp.out",
+        kb = RESULTDIR + SPECIES + ".propHeterozygosity.05.100kbp.out"
+    params:
+        species = PREFIX
+    shell:
+        """
+        Rscript code/cal_snp_density_ranges.R {params.species} {input} {output.Mb} {output.kb}
 
 rule calculate_ratio:
     input:
         MATCHDIR + "{type}." + SYNTENY_SPECIES + ".out"
     output:
-        Mb = RESULTDIR + SPECIES + ".{type}.1Mbp.txt",
-        kb = RESULTDIR + SPECIES + ".{type}.100kbp.txt"
+        Mb = RESULTDIR + SPECIES + ".{type}.1Mbp.out",
+        kb = RESULTDIR + SPECIES + ".{type}.100kbp.out"
     params:
         species = PREFIX
     threads: 1
@@ -449,10 +460,10 @@ rule calculate_ratio:
 
 rule plotting:
     input: 
-        cov0 = RESULTDIR + SPECIES + ".gencov.nodup.nm.0.0.norm.1Mbp.txt",
-        cov2 = RESULTDIR + SPECIES + ".gencov.nodup.nm.0.2.norm.1Mbp.txt",
-        cov4 = RESULTDIR + SPECIES + ".gencov.nodup.nm.0.4.norm.1Mbp.txt",
-        snp = RESULTDIR + SPECIES + ".allDiv.bestMatch.1Mbp.txt"
+        cov0 = RESULTDIR + SPECIES + ".gencov.nodup.nm.0.0.norm.1Mbp.out",
+        cov2 = RESULTDIR + SPECIES + ".gencov.nodup.nm.0.2.norm.1Mbp.out",
+        cov4 = RESULTDIR + SPECIES + ".gencov.nodup.nm.0.4.norm.1Mbp.out",
+        snp = RESULTDIR + SPECIES + ".propHeterozygosity.05.1Mbp.out"
     output: 
         RESULTDIR + SPECIES + ".circlize.pdf"
     params:
@@ -462,3 +473,5 @@ rule plotting:
         """
         Rscript code/plot_norm.R {params.species} {input.cov0} {input.cov2} {input.cov4} {input.snp} {output}
         """
+
+
