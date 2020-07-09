@@ -1,0 +1,30 @@
+##########################################################  
+##################### INDEX GENOME #######################      
+##########################################################
+
+rule index_fasta_bwa:
+    input: 
+        ref = REF_FASTA
+    output:
+        ref_bwt = REF_FASTA + ".bwt" 
+    priority : 80   
+    message:
+        """--- Indexing {input} with BWA index."""
+    threads: 2
+    shell:
+        """
+        bwa index {input}
+        """
+
+rule index_fasta_samtools: 
+    input: 
+        ref = REF_FASTA
+    output: 
+        ref_fai = REF_FASTA + ".fai"
+    priority : 70
+    threads: 2
+    shell: 
+        """
+        samtools faidx {input}
+        """
+

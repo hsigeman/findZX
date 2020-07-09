@@ -1,0 +1,46 @@
+###########################################################
+################# STATISTICAL CALCULATIONS ##################
+###########################################################
+
+rule calculate_heterozygosity:
+    input:
+        MATCHDIR + SPECIES + ".propHeterozygosity.05.bestMatch." + SYNTENY_SPECIES + ".small"
+    output:
+        Mb = RESULTDIR + SPECIES + ".propHeterozygosity.05.1Mbp.out",
+        kb = RESULTDIR + SPECIES + ".propHeterozygosity.05.100kbp.out"
+    params:
+        species = PREFIX
+    shell:
+        """
+        Rscript code/cal_snp_density_ranges.R {params.species} {input} {output.Mb} {output.kb}
+
+rule calculate_ratio:
+    input:
+        MATCHDIR + "{type}." + SYNTENY_SPECIES + ".out"
+    output:
+        Mb = RESULTDIR + SPECIES + ".{type}.1Mbp.out",
+        kb = RESULTDIR + SPECIES + ".{type}.100kbp.out"
+    params:
+        species = PREFIX
+    threads: 1
+    shell:
+        """
+        Rscript code/cal_cov_ratio_ranges.R {params.species} {input} {output.Mb} {output.kb}
+        """
+
+rule plotting:
+    input: 
+        cov0 = RESULTDIR + SPECIES + ".gencov.nodup.nm.0.0.norm.1Mbp.out",
+        cov2 = RESULTDIR + SPECIES + ".gencov.nodup.nm.0.2.norm.1Mbp.out",
+        cov4 = RESULTDIR + SPECIES + ".gencov.nodup.nm.0.4.norm.1Mbp.out",
+        snp = RESULTDIR + SPECIES + ".propHeterozygosity.05.1Mbp.out"
+    output: 
+        RESULTDIR + SPECIES + ".circlize.pdf"
+    params:
+        species = PREFIX
+    threads: 1
+    shell: 
+        """
+        Rscript code/plot_norm.R {params.species} {input.cov0} {input.cov2} {input.cov4} {input.snp} {output}
+        """
+
