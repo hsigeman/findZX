@@ -1,0 +1,44 @@
+{
+    "__default__" :
+    {
+        "account" : "snic2019-3-374",
+        "time" : "4:00:00",
+        "n" : 1,
+        "partition" : "core"
+    },
+    "map" :
+    {
+        "time" : "10:00:00",
+        "n" : 20
+    },
+    "sort_bam" :
+    {
+        "time" : "4:00:00",
+        "n" : 4
+    },
+    "remove_duplicates" :
+    {
+        "time" : "8:00:00",
+        "n" : 8
+    },
+    "gencov_bedtools" :
+    {
+        "time" : "8:00:00",
+        "n" : 2
+    },
+    "lastal_zf" :
+    {
+        "time" : "4:00:00",
+        "n" : 12
+    },
+    "mismatch_bam" :
+    {
+        "time" : "5:00:00",
+        "n" : 2
+    },
+    "freebayes_parallel" :
+    {
+        "time" : "4-00:00:00",
+        "n" : 19
+    }
+}
