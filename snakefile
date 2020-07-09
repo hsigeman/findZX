@@ -253,6 +253,15 @@ rule vcftools_filter:
      shell:
          vcftools --vcf {input} --min-alleles 2 --max-alleles 2 --remove-filtered-geno-all --minQ 20 --minDP 3 --recode --stdout > {output}
 
+rule proportion_heterozygosity:
+     input:
+         VCF_DIR + SPECIES + ".bialleleic.minQ20.minDP3.vcf"
+     output:
+         VCF_DIR + SPECIES + ".proportionHeterozygosity.05.bed"
+     threads: 1
+     shell:
+         python3 code/cal_heteroHomoRatio.py {input} {output}
+
 #rule vcftools_alleleDiv_hetero:
 #    input:
 #        VCF_DIR + SPECIES + ".vcf"
@@ -399,6 +408,12 @@ rule matchScaffold2Chr_cov:
 #        tabix -p vcf {output.gz}
 #        cat {input.ref} | bcftools consensus {output.gz} > {output.ref}
 #        """
+
+
+###########################################################
+################# STATISTIC CALCULATIONS ##################
+###########################################################
+
 
 rule calculate_ratio:
     input:
