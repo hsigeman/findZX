@@ -259,7 +259,7 @@ rule proportion_heterozygosity:
      input:
          VCF_DIR + SPECIES + ".biallelic.minQ20.minDP3.vcf"
      output:
-         VCF_DIR + SPECIES + ".propHeterozygosity.05.bed"
+         VCF_DIR + SPECIES + ".propHeterozygosity"
      threads: 1
      shell:
          """
