@@ -251,7 +251,9 @@ rule vcftools_filter:
          VCF_DIR + SPECIES + ".bialleleic.minQ20.minDP3.vcf"
      threads: 1
      shell:
+         """
          vcftools --vcf {input} --min-alleles 2 --max-alleles 2 --remove-filtered-geno-all --minQ 20 --minDP 3 --recode --stdout > {output}
+         """
 
 rule proportion_heterozygosity:
      input:
@@ -260,7 +262,9 @@ rule proportion_heterozygosity:
          VCF_DIR + SPECIES + ".proportionHeterozygosity.05.bed"
      threads: 1
      shell:
+         """
          python3 code/cal_heteroHomoRatio.py {input} {output}
+         """
 
 #rule vcftools_alleleDiv_hetero:
 #    input:
@@ -366,14 +370,28 @@ rule matchScaffold2Chr:
 rule matchScaffold2Chr_snp:
     input:
         bestMatch = MATCHDIR + "bestMatch.list",
-        heterogametic_allDiv = VCF_DIR + SPECIES + ".heterogametic.allDiv.bed",
-        homogametic_allDiv = VCF_DIR + SPECIES + ".homogametic.allDiv.bed"
+        heterozygosity = VCF_DIR + SPECIES + ".proportionHeterozygosity.05.bed"
     output:
-        bestMatch_allDiv = MATCHDIR + "allDiv.bestMatch." + SYNTENY_SPECIES + ".out"
+        bestmatch = MATCHDIR + SPECIES + ".proportionHeterozygosity.05.bestMatch." + SYNTENY_SPECIES
+        bestmatch_small = MATCHDIR + SPECIES + ".proportionHeterozygosity.05.bestMatch." + SYNTENY_SPECIES + ".small"
     shell:
         """
-        python3 code/matchScaffold2chr_snp.py {input.bestMatch} {input.heterogametic_allDiv} {input.homogametic_allDiv} > {output.bestMatch_allDiv}
+        bedtools intersect -a {input.heterozygosity} -b {input.bestMatch} -wa -wb > {output.bestmatch}
+        
+        cat {output.bestmatch} | cut -f 4,13,14,15 > {output.bestmatch_small}
         """
+
+#rule matchScaffold2Chr_snp:
+#    input:
+#        bestMatch = MATCHDIR + "bestMatch.list",
+#        heterogametic_allDiv = VCF_DIR + SPECIES + ".heterogametic.allDiv.bed",
+#        homogametic_allDiv = VCF_DIR + SPECIES + ".homogametic.allDiv.bed"
+#    output:
+#        bestMatch_allDiv = MATCHDIR + "allDiv.bestMatch." + SYNTENY_SPECIES + ".out"
+#    shell:
+#        """
+#        python3 code/matchScaffold2chr_snp.py {input.bestMatch} {input.heterogametic_allDiv} {input.homogametic_allDiv} > {output.bestMatch_allDiv}
+#        """
 
 rule matchScaffold2Chr_cov:
     input:
