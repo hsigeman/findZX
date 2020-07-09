@@ -1,9 +1,16 @@
 import sys
 
 if len(sys.argv)==1:
+	print("Calculates the proportion off heterozygot individuals from a VCF-file and")
+	print("prints sites with at least a certain proportion of heterozygosity. Assumes")
+	print("that the first half of the individuals are the heterogametic sex.\n")
+	print("Call: python3 cal_heteroHomoRatio.py {VCF} {OUT_PREFIX}")
 	sys.exit()
 elif not len(sys.argv)==3:
+	Print("ERROR: wrong number of input arguments")
+	print("Call: python3 cal_heteroHomoRatio.py {VCF} {OUT_PREFIX}")
 	sys.exit()
+
 
 prefix_out = sys.argv[2]
 
@@ -15,48 +22,61 @@ out_file_05 = open(prefix_out + '.05.bed', 'w')
 with open(sys.argv[1], 'r') as vcfFile:
 	for line in vcfFile:
 		if line.startswith('#CHROM'):
-			fields = line.strip('\n').split('\t')
-			nr_samples_each_sex = int((len(fields) - 9)/2)
-			heterogametic_sex = list(range(9, 9 + nr_samples_each_sex))
-			homogametic_sex = list(range(9 + nr_samples_each_sex, 9 + 2*nr_samples_each_sex))
+
+			info_fields = line.strip('\n').split('\t')
+
+			nr_samples_each_sex      = int((len(info_fields) - 9)/2)
+			heterogameticSex_indexes = list(range(9, 9 + nr_samples_each_sex))
+			homogameticSex_indexes   = list(range(9 + nr_samples_each_sex, 9 + 2*nr_samples_each_sex))
+
 		elif not line.startswith('#'):
-			fields = line.strip('\n').split('\t')
+			info_fields = line.strip('\n').split('\t')
 
-			heterozygout_count_hetero_sex = 0
-			heterozygout_count_homo_sex = 0
+			heterogameticSex_heterozygotCount = 0
+			homogameticSex_heterozygotCount   = 0
 
-			for i in heterogametic_sex:
-				if fields[i].startswith('0/1'):
-					heterozygout_count_hetero_sex = heterozygout_count_hetero_sex + 1
-					
-			heterozygot_ratio_hetero_sex = heterozygout_count_hetero_sex/nr_samples_each_sex
-#			print(heterozygot_ratio_hetero_sex >= 0.9)
-			if heterozygot_ratio_hetero_sex >= 0.9:
-				out_file_09.write('\t'.join(fields[0:2] + [str(int(fields[1])+1), 'heterogametic', str(heterozygot_ratio_hetero_sex)]) + '\n')
-				out_file_08.write('\t'.join(fields[0:2] + [str(int(fields[1])+1), 'heterogametic', str(heterozygot_ratio_hetero_sex)]) + '\n')
-				out_file_05.write('\t'.join(fields[0:2] + [str(int(fields[1])+1), 'heterogametic', str(heterozygot_ratio_hetero_sex)]) + '\n')
-			elif heterozygot_ratio_hetero_sex >= 0.8:
-				out_file_08.write('\t'.join(fields[0:2] + [str(int(fields[1])+1), 'heterogametic', str(heterozygot_ratio_hetero_sex)]) + '\n')
-				out_file_05.write('\t'.join(fields[0:2] + [str(int(fields[1])+1), 'heterogametic', str(heterozygot_ratio_hetero_sex)]) + '\n')
-			elif heterozygot_ratio_hetero_sex >= 0.5:
-				out_file_05.write('\t'.join(fields[0:2] + [str(int(fields[1])+1), 'heterogametic', str(heterozygot_ratio_hetero_sex)]) + '\n')
+			heterogameticSex_count = 0
+			homogameticSex_count   = 0
 
 
-			for i in homogametic_sex:
-				if fields[i].startswith('0/1'):
-					heterozygout_count_homo_sex= heterozygout_count_homo_sex + 1
 
-			heterozygot_ratio_homo_sex = heterozygout_count_homo_sex/nr_samples_each_sex
-#			print(heterozygot_ratio_homo_sex)
-			if heterozygot_ratio_homo_sex >= 0.9:
-				out_file_09.write('\t'.join(fields[0:2] + [str(int(fields[1])+1), 'homogametic', str(heterozygot_ratio_homo_sex)]) + '\n')
-				out_file_08.write('\t'.join(fields[0:2] + [str(int(fields[1])+1), 'homogametic', str(heterozygot_ratio_homo_sex)]) + '\n')
-				out_file_05.write('\t'.join(fields[0:2] + [str(int(fields[1])+1), 'homogametic', str(heterozygot_ratio_homo_sex)]) + '\n')
-			elif heterozygot_ratio_homo_sex >= 0.8:
-				out_file_08.write('\t'.join(fields[0:2] + [str(int(fields[1])+1), 'homogametic', str(heterozygot_ratio_homo_sex)]) + '\n')
-				out_file_05.write('\t'.join(fields[0:2] + [str(int(fields[1])+1), 'homogametic', str(heterozygot_ratio_homo_sex)]) + '\n')
-			elif heterozygot_ratio_homo_sex >= 0.5:
-				out_file_05.write('\t'.join(fields[0:2] + [str(int(fields[1])+1), 'homogametic', str(heterozygot_ratio_homo_sex)]) + '\n')
+			for i in heterogameticSex_indexes:
+				if info_fields[i].startswith('0/1'):
+					heterogameticSex_heterozygotCount = 1 + heterogameticSex_heterozygotCount
+
+				elif info_fields[i].startswith('0/0') or info_fields[i].startswith('1/1'):
+					hetero_count = 1 + heterogameticSex_count
+
+			heterogameticSex_heterozygotRatio = heterogameticSex_heterozygotCount/heterogameticSex_count
+
+			if heterogameticSex_heterozygotRatio >= 0.9:
+				out_file_09.write('\t'.join(info_fields[0:2] + [str(int(info_fields[1])+1), 'heterogametic', str(heterogameticSex_heterozygotRatio)]) + '\n')
+
+			if heterogameticSex_heterozygotRatio >= 0.8:
+				out_file_08.write('\t'.join(info_fields[0:2] + [str(int(info_fields[1])+1), 'heterogametic', str(heterogameticSex_heterozygotRatio)]) + '\n')
+
+			if heterogameticSex_heterozygotRatio >= 0.5:
+				out_file_05.write('\t'.join(info_fields[0:2] + [str(int(info_fields[1])+1), 'heterogametic', str(heterogameticSex_heterozygotRatio)]) + '\n')
+
+
+
+			for i in homogameticSex_indexes:
+				if info_fields[i].startswith('0/1'):
+					homogameticSex_heterozygotCount = 1 + homogameticSex_heterozygotCount
+
+				elif info_fields[i].startswith('0/0') or info_fields[i].startswith('1/1'):
+					homogameticSex_count = 1 + homogameticSex_count
+
+			homogameticSex_heterozygotRatio = homogameticSex_heterozygotCount/homogameticSex_count
+
+			if homogameticSex_heterozygotRatio >= 0.9:
+				out_file_09.write('\t'.join(info_fields[0:2] + [str(int(info_fields[1])+1), 'homogametic', str(homogameticSex_heterozygotRatio)]) + '\n')
+
+			if homogameticSex_heterozygotRatio >= 0.8:
+				out_file_08.write('\t'.join(info_fields[0:2] + [str(int(info_fields[1])+1), 'homogametic', str(homogameticSex_heterozygotRatio)]) + '\n')
+
+			if homogameticSex_heterozygotRatio >= 0.5:
+				out_file_05.write('\t'.join(info_fields[0:2] + [str(int(info_fields[1])+1), 'homogametic', str(homogameticSex_heterozygotRatio)]) + '\n')
 
 
 
