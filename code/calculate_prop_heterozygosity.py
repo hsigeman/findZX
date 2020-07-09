@@ -1,14 +1,14 @@
 import sys
 
 if len(sys.argv)==1:
-	print("Calculates the proportion off heterozygot individuals from a VCF-file and")
+	print("\nCalculates the proportion off heterozygot individuals from a VCF-file and")
 	print("prints sites with at least a certain proportion of heterozygosity. Assumes")
 	print("that the first half of the individuals are the heterogametic sex.\n")
-	print("Call: python3 {python-script} {VCF} {OUT_PREFIX}")
+	print("Call: python3 {python-script} {VCF} {OUT_PREFIX}\n")
 	sys.exit()
 elif not len(sys.argv)==3:
-	print("ERROR: wrong number of input arguments")
-	print("Call: python3 {python-script} {VCF} {OUT_PREFIX}")
+	print("\nERROR: wrong number of input arguments")
+	print("Call: python3 {python-script} {VCF} {OUT_PREFIX}\n")
 	sys.exit()
 
 

@@ -2,12 +2,12 @@ import sys
 import pandas as pn
 
 if len(sys.argv)==1:
-	print("Filters an allele frequency file and keeps sites that have a")
-	print("frequency between 0.4 and 0.6. Prints to stdout.")
+	print("\nFilters an allele frequency file and keeps sites that have a")
+	print("frequency between 0.4 and 0.6. Prints to stdout.\n")
 	sys.exit()
 elif not len(sys.argv)==3:
-	print("ERROR: wrong number of input arguments")
-	print("Call: python3 {script} {Allele Frequency} {sex}")
+	print("\nERROR: wrong number of input arguments")
+	print("Call: python3 {script} {Allele Frequency} {sex}\n")
 	sys.exit()
 
 allFreq = pn.read_csv(sys.argv[1], sep='\t', skiprows=1, header=None)
