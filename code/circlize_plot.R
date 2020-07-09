@@ -9,7 +9,7 @@ library(data.table)
 ########## FUNCTIONS ##########
 
 gen_data_4plotting <- function(filename, y_column) {
-	data_table =read.table(filename, header=FALSE,fill=TRUE,stringsAsFactor=FALSE)
+	data_table =read.table(filename, header=TRUE,fill=TRUE,stringsAsFactor=FALSE)
 	data_table$chr <- as.factor(data_table$chr)
 
 	data_table$chr <- ordered(data_table$chr,
