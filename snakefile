@@ -429,7 +429,7 @@ rule matchScaffold2Chr_cov:
 
 
 ###########################################################
-################# STATISTIC CALCULATIONS ##################
+################# STATISTICAL CALCULATIONS ##################
 ###########################################################
 
 rule calculate_heterozygosity:
