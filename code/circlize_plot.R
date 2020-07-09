@@ -16,7 +16,7 @@ gen_data_4plotting <- function(filename, y_column) {
 				levels = c("1", "1A", "1B", "2", "3", "4", "4A", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", 
 					"15", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "Z"))
 
-	myvars <- c("V1", "V2", y_column)
+	myvars <- c("chr", "range", y_column)
 	setDF(data_table)
 	data_table.select <- data_table[myvars]
 	data_table.select <- na.omit(data_table.select)
@@ -41,7 +41,7 @@ file04 = args[3]
 filesnp = args[4]
 
 
-cov_00 <- gen_data_4plotting(file00, "V3")
+cov_00 <- gen_data_4plotting(file00, "ratio")
 cov.select.00 <- cov_00$df
 max.cov.00 <- cov_00$max
 max.cov.00
@@ -49,21 +49,21 @@ min.cov.00 <- cov_00$min
 min.cov.00
 
 
-cov_02 <- gen_data_4plotting(file02, "V3")
+cov_02 <- gen_data_4plotting(file02, "ratio")
 cov.select.02 <- cov_02$df
 max.cov.02 <- cov_02$max
 max.cov.02
 min.cov.02 <- cov_02$min
 min.cov.02
 
-cov_04 <- gen_data_4plotting(file04, "V3")
+cov_04 <- gen_data_4plotting(file04, "ratio")
 cov.select.04 <- cov_04$df
 max.cov.04 <- cov_04$max
 max.cov.04
 min.cov.04 <- cov_04$min
 min.cov.04
 
-snp <- gen_data_4plotting(filesnp, "V8")
+snp <- gen_data_4plotting(filesnp, "diff_scaled")
 snp.select <- snp$df
 max.snp <- snp$max
 max.snp
