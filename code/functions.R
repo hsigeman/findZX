@@ -29,25 +29,25 @@ calculate_ratio <- function(data_table) {
   return(data_table)
 }
 
-remove_outliers <- function(cov_table) {
+remove_outliers <- function(data_table) {
   
-  outliers <- boxplot(ratio ~ chr, data=cov_table)$out
-  cov_table <- cov_table[-which(cov_table$ratio %in% outliers),]
+  outliers <- boxplot(ratio ~ chr, data=data_table)$out
+  data_table <- data_table[-which(data_table$ratio %in% outliers),]
   
-  return(cov_table)
+  return(data_table)
 }
 
-count_cov_win <- function(cov_table, win_len) {
-  # calculates the mean coverage ration in range windows (1Mbp, 100kbp)
+mean_win <- function(data_table, win_len) {
+  # calculates the mean in windows (1Mbp, 100kbp)
   
-  cov_table <- transform(cov_table, range=round(end/win_len))
-  cov_table <- summaryBy(ratio ~ chr + range, data=cov_table, keep.names=TRUE)
+  data_table <- transform(data_table, range=round(end/win_len))
+  data_table <- summaryBy(ratio ~ chr + range, data=data_table, keep.names=TRUE)
   
-  return(cov_table)
+  return(data_table)
 }
 
 calculate_diff <- function(data_table) {
-  # calculates the normalized difference between the number of female and male snps
+  # calculates the normalized difference between the number of sites in a window
   
   data_table$diff <- data_table$heterogametic - data_table$homogametic
   data_table$diff_scaled <- data_table$diff / median(data_table$diff, na.rm = TRUE)
@@ -55,20 +55,21 @@ calculate_diff <- function(data_table) {
   return(data_table)
 }
 
-transform_wide <- function(snp_table) {
+transform_wide <- function(data_table) {
   # Transform to wide format and replace NA with 0
   
-  snp_table <- reshape2::dcast(snp_table, chr + range ~ sex, value.var="count")
-  snp_table[is.na(snp_table)] <- 0
+  data_table <- reshape2::dcast(data_table, chr + range ~ sex, value.var="count")
+  data_table[is.na(data_table)] <- 0
   
-  return(snp_table)
+  return(data_table)
 }
 
 count_snp_win <- function(snp_table, win_len) {
-  # Count private female and male alleles per chromosome and win_len
+  # Count sites for each sex and per chromosome and window
   
   snp_table <- transform(snp_table, range=round(start/win_len))
   snp_table <- aggregate(count ~ chr + sex + range, data = snp_table, sum)
   
   return(snp_table)
 }
+
