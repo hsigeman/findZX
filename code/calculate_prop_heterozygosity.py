@@ -7,7 +7,7 @@ if len(sys.argv)==1:
 	print("Call: python3 {python-script} {VCF} {OUT_PREFIX}")
 	sys.exit()
 elif not len(sys.argv)==3:
-	Print("ERROR: wrong number of input arguments")
+	print("ERROR: wrong number of input arguments")
 	print("Call: python3 {python-script} {VCF} {OUT_PREFIX}")
 	sys.exit()
 
