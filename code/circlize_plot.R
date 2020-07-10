@@ -24,8 +24,9 @@ gen_data_4plotting <- function(filename, y_column) {
 
 	max.data_table <- max(data_table.select$y)
 	min.data_table <- min(data_table.select$y)
+	median.data_table <- median(data_table.select$y)
 
-	return(list(df = data_table.select, max = max.data_table, min = min.data_table))
+	return(list(df = data_table.select, max = max.data_table, min = min.data_table, mean = median.data_table))
 }
 
 
@@ -47,7 +48,8 @@ max.cov.00 <- cov_00$max
 max.cov.00
 min.cov.00 <- cov_00$min
 min.cov.00
-
+median.cov.00 <- cov_00$median
+median.cov.00
 
 cov_02 <- gen_data_4plotting(file02, "ratio")
 cov.select.02 <- cov_02$df
@@ -55,6 +57,8 @@ max.cov.02 <- cov_02$max
 max.cov.02
 min.cov.02 <- cov_02$min
 min.cov.02
+median.cov.02 <- cov_02$median
+median.cov.02
 
 cov_04 <- gen_data_4plotting(file04, "ratio")
 cov.select.04 <- cov_04$df
@@ -62,6 +66,8 @@ max.cov.04 <- cov_04$max
 max.cov.04
 min.cov.04 <- cov_04$min
 min.cov.04
+median.cov.04 <- cov_04$median
+median.cov.04
 
 snp <- gen_data_4plotting(filesnp, "diff")
 snp.select <- snp$df
@@ -69,6 +75,8 @@ max.snp <- snp$max
 max.snp
 min.snp <- snp$min
 min.snp
+median.snp <- snp$median
+median.snp
 
 ########## PLOTTING ##########
 
@@ -88,7 +96,7 @@ circos.trackPlotRegion(factors = snp.select$factor, ylim = c(min.snp,max.snp), x
   xlim = get.cell.meta.data("xlim")
   ylim = get.cell.meta.data("ylim")
   circos.text(mean(xlim), mean(ylim) + uy(9, "mm"), cex = 1.1, sector.index) 
-  circos.lines(x, y, col = "blue", area = TRUE, baseline = 1)
+  circos.lines(x, y, col = "blue", area = TRUE, baseline = mean.snp)
   circos.yaxis(side = "left", sector.index = 1)
 })
 
@@ -98,7 +106,7 @@ circos.trackPlotRegion(factors = cov.select.00$factor, ylim = c(min.cov.00,max.c
   sector.index = get.cell.meta.data("sector.index")
   xlim = get.cell.meta.data("xlim")
   ylim = get.cell.meta.data("ylim")
-  circos.lines(x, y, col = "red", area = TRUE, baseline = 1)
+  circos.lines(x, y, col = "red", area = TRUE, baseline = mean.cov.00)
   circos.yaxis(side = "left", sector.index = 1)
 })
 
@@ -108,7 +116,7 @@ circos.trackPlotRegion(factors = cov.select.02$factor, ylim = c(min.cov.02,max.c
   sector.index = get.cell.meta.data("sector.index")
   xlim = get.cell.meta.data("xlim")
   ylim = get.cell.meta.data("ylim")
-  circos.lines(x, y, col = "red", area = TRUE, baseline = 1)
+  circos.lines(x, y, col = "red", area = TRUE, baseline = mean.cov.02)
   circos.yaxis(side = "left", sector.index = 1)
 })
 
@@ -118,7 +126,7 @@ circos.trackPlotRegion(factors = cov.select.04$factor, ylim = c(min.cov.04,max.c
   sector.index = get.cell.meta.data("sector.index")
   xlim = get.cell.meta.data("xlim")
   ylim = get.cell.meta.data("ylim")
-  circos.lines(x, y, col = "red", area = TRUE, baseline = 1)
+  circos.lines(x, y, col = "red", area = TRUE, baseline = mean.cov.04)
   circos.yaxis(side = "left", sector.index = 1)
   circos.axis("bottom", direction = "inside", labels.facing = "reverse.clockwise")
 })
