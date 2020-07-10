@@ -29,7 +29,7 @@ RESULTDIR = "results/" + PREFIX + "/"
 
 SYNTENY_SPECIES = config["synteny_species"]
 COMP_GEN_SYNS = "intermediate/lastal_" + SYNTENY_SPECIES + "/" + PREFIX + "/"
-SYNS_DB = "../pipeline-test/data/meta/my" + SYNTENY_SPECIES + "db"
+SYNS_DB = "data/meta/my" + SYNTENY_SPECIES + "db"
 
 EDIT_DIST = ["all", "0.0", "0.1", "0.2", "0.3", "0.4"]
 
