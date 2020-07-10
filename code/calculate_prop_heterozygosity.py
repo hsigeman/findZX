@@ -41,8 +41,6 @@ with open(sys.argv[1], 'r') as vcfFile:
 				if not info_fields[i].startswith('./.'):
 					heterogameticSex_count = 1 + heterogameticSex_count
 
-			heterogameticSex_heterozygotRatio = heterogameticSex_heterozygotCount/heterogameticSex_count
-
 
 			for i in homogameticSex_indexes:
 				if info_fields[i].startswith('0/1'):
@@ -51,15 +49,18 @@ with open(sys.argv[1], 'r') as vcfFile:
 				if not info_fields[i].startswith('./.'):
 					homogameticSex_count = 1 + homogameticSex_count
 
-			homogameticSex_heterozygotRatio = homogameticSex_heterozygotCount/homogameticSex_count
 
+			if heterogameticSex_count > 0 and homogameticSex_count > 0:
+				heterogameticSex_heterozygotRatio = heterogameticSex_heterozygotCount/heterogameticSex_count
+				homogameticSex_heterozygotRatio = homogameticSex_heterozygotCount/homogameticSex_count
 
-			diff_heterozygotRatio = heterogameticSex_heterozygotRatio - homogameticSex_heterozygotRatio
+				diff_heterozygotRatio = heterogameticSex_heterozygotRatio - homogameticSex_heterozygotRatio
 
-			out_file.write('\t'.join(info_fields[0:2] + [str(int(info_fields[1])+1), str(diff_heterozygotRatio)]) + '\n')
+				out_file.write('\t'.join(info_fields[0:2] + [str(int(info_fields[1])+1), str(diff_heterozygotRatio)]) + '\n')
 
 
 out_file.close()
+
 
 
 
