@@ -63,7 +63,7 @@ max.cov.04
 min.cov.04 <- cov_04$min
 min.cov.04
 
-snp <- gen_data_4plotting(filesnp, "diff_scaled")
+snp <- gen_data_4plotting(filesnp, "diff")
 snp.select <- snp$df
 max.snp <- snp$max
 max.snp
