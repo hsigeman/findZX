@@ -50,9 +50,6 @@ rule all:
         expand(MAP_DIR + "{S}.sorted.nodup.nm.{ED}.flagstat", S = ID, ED = EDIT_DIST),
         MATCHDIR + "genome_windows.out",
         MATCHDIR + "bestMatch.status",
-        #MATCHDIR + "allDiv.bestMatch." + SYNTENY_SPECIES + ".out",
-        #VCF_DIR + SPECIES + ".heterogametic.allDiv.bed",
-        #VCF_DIR + SPECIES + ".homogametic.allDiv.bed",
         expand(MATCHDIR + "gencov.nodup.nm.{ED}.norm." + SYNTENY_SPECIES + ".out", ED = EDIT_DIST),
         #VCF_DIR + SPECIES + ".non-ref-ac_2_biallelic_qual.vcf",
         #VCF_DIR + SPECIES + ".non-ref-ac_2_biallelic_qual.vcf.gz",
@@ -259,7 +256,7 @@ rule proportion_heterozygosity:
      input:
          VCF_DIR + SPECIES + ".biallelic.minQ20.minDP3.vcf"
      output:
-         VCF_DIR + SPECIES + ".propHeterozygosity.05.bed"
+         VCF_DIR + SPECIES + ".diffHeterozygosity.bed"
      threads: 1
      shell:
          """
@@ -370,15 +367,15 @@ rule matchScaffold2Chr:
 rule matchScaffold2Chr_snp:
     input:
         bestMatch = MATCHDIR + "bestMatch.list",
-        heterozygosity = VCF_DIR + SPECIES + ".propHeterozygosity.05.bed"
+        heterozygosity = VCF_DIR + SPECIES + ".diffHeterozygosity.bed"
     output:
-        bestmatch = MATCHDIR + SPECIES + ".propHeterozygosity.05.bestMatch." + SYNTENY_SPECIES,
-        bestmatch_small = MATCHDIR + SPECIES + ".propHeterozygosity.05.bestMatch." + SYNTENY_SPECIES + ".small"
+        bestmatch = MATCHDIR + SPECIES + ".diffHeterozygosity.bestMatch." + SYNTENY_SPECIES,
+        bestmatch_small = MATCHDIR + SPECIES + ".diffHeterozygosity.bestMatch." + SYNTENY_SPECIES + ".small"
     shell:
         """
         bedtools intersect -a {input.heterozygosity} -b {input.bestMatch} -wa -wb > {output.bestmatch}
         
-        cat {output.bestmatch} | cut -f 4,13,14,15 > {output.bestmatch_small}
+        cat {output.bestmatch} | cut -f 4,12,13,14 > {output.bestmatch_small}
         """
 
 #rule matchScaffold2Chr_snp:
@@ -434,14 +431,14 @@ rule matchScaffold2Chr_cov:
 
 rule calculate_heterozygosity:
     input:
-        MATCHDIR + SPECIES + ".propHeterozygosity.05.bestMatch." + SYNTENY_SPECIES + ".small"
+        MATCHDIR + SPECIES + ".diffHeterozygosity.bestMatch." + SYNTENY_SPECIES + ".small"
     output:
-        Mb = RESULTDIR + SPECIES + ".propHeterozygosity.05.1Mbp.out",
-        kb = RESULTDIR + SPECIES + ".propHeterozygosity.05.100kbp.out"
+        Mb = RESULTDIR + SPECIES + ".diffHeterozygosity.1Mbp.out",
+        kb = RESULTDIR + SPECIES + ".diffHeterozygosity.100kbp.out"
     threads: 1
     shell:
         """
-        Rscript code/calculate_snpCount_windows.R {input} {output.Mb} {output.kb}
+        Rscript code/calculate_heterozygosityDiff_windows.R {input} {output.Mb} {output.kb}
         """
 
 rule calculate_ratio:
@@ -461,7 +458,7 @@ rule plotting:
         cov0 = RESULTDIR + SPECIES + ".gencov.nodup.nm.0.0.norm.1Mbp.out",
         cov2 = RESULTDIR + SPECIES + ".gencov.nodup.nm.0.2.norm.1Mbp.out",
         cov4 = RESULTDIR + SPECIES + ".gencov.nodup.nm.0.4.norm.1Mbp.out",
-        snp = RESULTDIR + SPECIES + ".propHeterozygosity.05.1Mbp.out"
+        snp = RESULTDIR + SPECIES + ".diffHeterozygosity.1Mbp.out"
     output: 
         RESULTDIR + SPECIES + ".circlize.pdf"
     threads: 1
