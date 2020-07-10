@@ -46,6 +46,15 @@ mean_win <- function(data_table, win_len) {
   return(data_table)
 }
 
+mean_diff_win <- function(data_table, win_len) {
+  # calculates the mean in windows (1Mbp, 100kbp)
+
+  data_table <- transform(data_table, range=round(end/win_len))
+  data_table <- summaryBy(diff ~ chr + range, data=data_table, keep.names=TRUE)
+
+  return(data_table)
+}
+
 calculate_diff <- function(data_table) {
   # calculates the normalized difference between the number of sites in a window
   
