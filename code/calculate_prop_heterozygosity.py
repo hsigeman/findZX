@@ -1,25 +1,18 @@
 import sys
 
 if len(sys.argv)==1:
-	print("\nCalculates the proportion off heterozygot individuals from a VCF-file and")
-	print("prints sites with at least a certain proportion of heterozygosity. Assumes")
-	print("that the first half of the individuals are the heterogametic sex.\n")
-	print("Call: python3 {python-script} {VCF} {OUTFILE}\n")
+#	print("\nCalculates the proportion off heterozygot individuals from a VCF-file and")
+#	print("prints sites with at least a certain proportion of heterozygosity. Assumes")
+#	print("that the first half of the individuals are the heterogametic sex.\n")
+#	print("Call: python3 {python-script} {VCF} {OUTFILE}\n")
 	sys.exit()
 elif not len(sys.argv)==3:
 	print("\nERROR: wrong number of input arguments")
-	print("Call: python3 {python-script} {VCF} {OUT_PREFIX}\n")
+	print("Call: python3 {python-script} {VCF} {OUT}\n")
 	sys.exit()
 
 
-#prefix_out = sys.argv[2]
-
-out_file_05 = open(sys.argv[2], 'w')
-
-#out_file_09 = open(prefix_out + '.09.bed', 'w')
-#out_file_08 = open(prefix_out + '.08.bed', 'w')
-#out_file_05 = open(prefix_out + '.05.bed', 'w')
-
+out_file = open(sys.argv[2], 'w')
 
 with open(sys.argv[1], 'r') as vcfFile:
 	for line in vcfFile:
@@ -41,7 +34,6 @@ with open(sys.argv[1], 'r') as vcfFile:
 			homogameticSex_count   = 0
 
 
-
 			for i in heterogameticSex_indexes:
 				if info_fields[i].startswith('0/1'):
 					heterogameticSex_heterozygotCount = 1 + heterogameticSex_heterozygotCount
@@ -49,18 +41,7 @@ with open(sys.argv[1], 'r') as vcfFile:
 				if not info_fields[i].startswith('./.'):
 					heterogameticSex_count = 1 + heterogameticSex_count
 
-			if heterogameticSex_count > 0:
-				heterogameticSex_heterozygotRatio = heterogameticSex_heterozygotCount/heterogameticSex_count
-
-#				if heterogameticSex_heterozygotRatio >= 0.9:
-#					out_file_09.write('\t'.join(info_fields[0:2] + [str(int(info_fields[1])+1), 'heterogametic', str(heterogameticSex_heterozygotRatio)]) + '\n')
-
-#				if heterogameticSex_heterozygotRatio >= 0.8:
-#					out_file_08.write('\t'.join(info_fields[0:2] + [str(int(info_fields[1])+1), 'heterogametic', str(heterogameticSex_heterozygotRatio)]) + '\n')
-
-				if heterogameticSex_heterozygotRatio >= 0.5:
-					out_file_05.write('\t'.join(info_fields[0:2] + [str(int(info_fields[1])+1), 'heterogametic', str(heterogameticSex_heterozygotRatio)]) + '\n')
-
+			heterogameticSex_heterozygotRatio = heterogameticSex_heterozygotCount/heterogameticSex_count
 
 
 			for i in homogameticSex_indexes:
@@ -70,23 +51,15 @@ with open(sys.argv[1], 'r') as vcfFile:
 				if not info_fields[i].startswith('./.'):
 					homogameticSex_count = 1 + homogameticSex_count
 
-			if homogameticSex_count > 0:
-				homogameticSex_heterozygotRatio = homogameticSex_heterozygotCount/homogameticSex_count
-
-#				if homogameticSex_heterozygotRatio >= 0.9:
-#					out_file_09.write('\t'.join(info_fields[0:2] + [str(int(info_fields[1])+1), 'homogametic', str(homogameticSex_heterozygotRatio)]) + '\n')
-
-#				if homogameticSex_heterozygotRatio >= 0.8:
-#					out_file_08.write('\t'.join(info_fields[0:2] + [str(int(info_fields[1])+1), 'homogametic', str(homogameticSex_heterozygotRatio)]) + '\n')
-
-				if homogameticSex_heterozygotRatio >= 0.5:
-					out_file_05.write('\t'.join(info_fields[0:2] + [str(int(info_fields[1])+1), 'homogametic', str(homogameticSex_heterozygotRatio)]) + '\n')
+			homogameticSex_heterozygotRatio = homogameticSex_heterozygotCount/homogameticSex_count
 
 
+			diff_heterozygotRatio = heterogameticSex_heterozygotRatio - homogameticSex_heterozygotRatio
 
-#out_file_09.close()
-#out_file_08.close()
-out_file_05.close()
+			out_file.write('\t'.join(info_fields[0:2] + [str(int(info_fields[1])+1), str(diff_heterozygotRatio)]) + '\n')
+
+
+out_file.close()
 
 
 
