@@ -10,15 +10,15 @@ elif not len(sys.argv)==2:
 	print("Syntax:\tmatchScaffold2chr_cov.py [genCov] \n")
 	sys.exit()
 
-gencov_ref = pn.read_csv(sys.argv[2], sep='\t', header=None)
+gencov_ref = pn.read_csv(sys.argv[1], sep='\t', header=None)
 gencov_ref = gencov_ref.drop(gencov_ref.columns[[3, 4, 5, 6, 10, 11, 12]], axis=1)
 
 nr_samples = gencov_ref.apply(max).tolist()
 nr_samples_each_sex = int((len(nr_samples) - 6)/2)
 
-samples = list(range(3, 3 + 2*nr_samples_each_sex))
-heterogametic_sex = list(range(3, 3 + nr_samples_each_sex))
-homogametic_sex = list(range(3 + nr_samples_each_sex, 3 + 2*nr_samples_each_sex))
+samples = list(range(13, 13 + 2*nr_samples_each_sex))
+heterogametic_sex = list(range(13, 13 + nr_samples_each_sex))
+homogametic_sex = list(range(13 + nr_samples_each_sex, 13 + 2*nr_samples_each_sex))
 
 norm = gencov_ref.loc[:,samples].div(gencov_ref.loc[:,samples].mean())	
 mean_hetero = norm.loc[:,heterogametic_sex].mean(axis=1)
