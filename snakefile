@@ -395,11 +395,14 @@ rule matchScaffold2Chr_cov:
         bestMatch = MATCHDIR + "bestMatch.list",
         cov = GENCOV_DIR + "gencov.nodup.nm.{ED}.out", # ED = all, 0.0, 0.1, 0.2, 0.3, 0.4
     output:
-        MATCHDIR + "gencov.nodup.nm.{ED}.norm." + SYNTENY_SPECIES + ".out"
+        bestMatch = MATCHDIR + "gencov.nodup.nm.{ED}." + SYNTENY_SPECIES + ".out"
+        bestMatch_norm = MATCHDIR + "gencov.nodup.nm.{ED}.norm." + SYNTENY_SPECIES + ".out"
     threads: 1
     shell:
         """
-        python3 code/matchScaffold2chr_cov.py {input.bestMatch} {input.cov} > {output}
+        bedtools intersect -a {input.cov} -b {input.bestMatch} -wa -wb > {output.bestMatch}
+
+        python3 code/matchScaffold2chr_cov.py {input.bestMatch} {output.bestMatch} > {output.bestMatch_norm}
         """
 
 ##########################################################  
