@@ -18,6 +18,8 @@ elif not len(sys.argv)==3:
 
 gencov_ref = pn.read_csv(sys.argv[2], sep='\t', header=None)
 
+gencov_ref = gencov_ref.drop(gencov_ref.columns[[3, 4, 5, 6, 10, 11, 12]], axis=1)
+
 #gencov_ref = pn.merge(best_match, gencov, how='inner', on=[0,1,2])
 
 nr_samples = gencov_ref.apply(max).tolist()
