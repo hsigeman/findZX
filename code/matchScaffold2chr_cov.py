@@ -11,14 +11,14 @@ elif not len(sys.argv)==3:
 	print("Syntax:\tmatchScaffold2chr_cov.py [bestMatch.list] [genCov] \n")
 	sys.exit()
 
-best_match = pn.read_csv(sys.argv[1], sep='\t', header=None)
-best_match = best_match.drop(best_match.columns[[3, 4, 5, 6]], axis=1)
+#best_match = pn.read_csv(sys.argv[1], sep='\t', header=None)
+#best_match = best_match.drop(best_match.columns[[3, 4, 5, 6]], axis=1)
 
-best_match.columns = [0,1,2,'chr','start','end']
+#best_match.columns = [0,1,2,'chr','start','end']
 
-gencov = pn.read_csv(sys.argv[2], sep='\t', header=None)
+gencov_ref = pn.read_csv(sys.argv[2], sep='\t', header=None)
 
-gencov_ref = pn.merge(best_match, gencov, how='inner', on=[0,1,2])
+#gencov_ref = pn.merge(best_match, gencov, how='inner', on=[0,1,2])
 
 nr_samples = gencov_ref.apply(max).tolist()
 
