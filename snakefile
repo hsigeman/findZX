@@ -23,12 +23,15 @@ REF_PATH = REF_DIR + REF_NAME
 REF_FASTA = REF_DIR + REF_NAME + ".fasta"
 MAP_DIR = "intermediate/bwa/" + PREFIX + "/" 
 GENCOV_DIR = "intermediate/bedtools/" + PREFIX + "/"
+GENCOV_DIR_REF = "intermediate/bedtools/" + REF_NAME + "/"
 VCF_DIR = "intermediate/freebayes/" + PREFIX + "/"
+VCF_DIR_REF = "intermediate/freebayes/" + REF_NAME + "/"
 MATCHDIR = "intermediate/synteny_match/" + PREFIX + "/"
 RESULTDIR = "results/" + PREFIX + "/"
 
 SYNTENY_SPECIES = config["synteny_species"]
-COMP_GEN_SYNS = "intermediate/lastal_" + SYNTENY_SPECIES + "/" + PREFIX + "/"
+#COMP_GEN_SYNS = "intermediate/lastal_" + SYNTENY_SPECIES + "/" + PREFIX + "/"
+COMP_GEN_SYNS = "intermediate/lastal_" + SYNTENY_SPECIES + "/" + REF_NAME + "/"
 SYNS_DB = "data/meta/my" + SYNTENY_SPECIES + "db"
 
 EDIT_DIST = ["all", "0.0", "0.1", "0.2", "0.3", "0.4"]
@@ -183,7 +186,7 @@ rule gencov_prepare_fasta:
     input: 
         ref_fai = REF_FASTA + ".fai"
     output: 
-        GENCOV_DIR + "genome_5kb_windows.out"
+        GENCOV_DIR_REF + "genome_5kb_windows.out"
     threads: 1
     shell: 
         """
@@ -196,7 +199,7 @@ rule gencov_bedtools:
         bai_hetero = expand(MAP_DIR + "{heterogametic}.sorted.nodup.nm.{{V}}.bam.bai", heterogametic = HETEROGAMETIC),
         bam_homo = expand(MAP_DIR + "{homogametic}.sorted.nodup.nm.{{V}}.bam", homogametic = HOMOGAMETIC),
         bai_homo = expand(MAP_DIR + "{homogametic}.sorted.nodup.nm.{{V}}.bam.bai", homogametic = HOMOGAMETIC),
-        bed = GENCOV_DIR + "genome_5kb_windows.out"
+        bed = GENCOV_DIR_REF + "genome_5kb_windows.out"
     output: 
         GENCOV_DIR + "gencov.nodup.nm.{V}.out"
     threads: 2
@@ -213,7 +216,7 @@ rule freebayes_prep:
     input: 
         REF_FASTA + ".fai"
     output: 
-        VCF_DIR + SPECIES + ".100kbp.regions"
+        VCF_DIR_REF + SPECIES + ".100kbp.regions"
     threads: 4
     shell: 
         """
@@ -223,7 +226,7 @@ rule freebayes_prep:
 rule freebayes_parallel:
     input: 
         ref = REF_FASTA,
-        regions = VCF_DIR + SPECIES + ".100kbp.regions",
+        regions = VCF_DIR_REF + SPECIES + ".100kbp.regions",
         f = expand(MAP_DIR + "{heterogametic}.sorted.nodup.nm.all.bam", heterogametic = HETEROGAMETIC),
         m = expand(MAP_DIR + "{homogametic}.sorted.nodup.nm.all.bam", homogametic = HOMOGAMETIC)
     output: 
