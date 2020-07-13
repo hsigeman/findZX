@@ -26,7 +26,7 @@ gen_data_4plotting <- function(filename, y_column) {
 	min.data_table <- min(data_table.select$y)
 	median.data_table <- median(data_table.select$y)
 
-	return(list(df = data_table.select, max = max.data_table, min = min.data_table, mean = median.data_table))
+	return(list(df = data_table.select, max = max.data_table, min = min.data_table, median = median.data_table))
 }
 
 
@@ -96,7 +96,7 @@ circos.trackPlotRegion(factors = snp.select$factor, ylim = c(min.snp,max.snp), x
   xlim = get.cell.meta.data("xlim")
   ylim = get.cell.meta.data("ylim")
   circos.text(mean(xlim), mean(ylim) + uy(9, "mm"), cex = 1.1, sector.index) 
-  circos.lines(x, y, col = "blue", area = TRUE, baseline = mean.snp)
+  circos.lines(x, y, col = "blue", area = TRUE, baseline = median.snp)
   circos.yaxis(side = "left", sector.index = 1)
 })
 
@@ -106,7 +106,7 @@ circos.trackPlotRegion(factors = cov.select.00$factor, ylim = c(min.cov.00,max.c
   sector.index = get.cell.meta.data("sector.index")
   xlim = get.cell.meta.data("xlim")
   ylim = get.cell.meta.data("ylim")
-  circos.lines(x, y, col = "red", area = TRUE, baseline = mean.cov.00)
+  circos.lines(x, y, col = "red", area = TRUE, baseline = median.cov.00)
   circos.yaxis(side = "left", sector.index = 1)
 })
 
@@ -116,7 +116,7 @@ circos.trackPlotRegion(factors = cov.select.02$factor, ylim = c(min.cov.02,max.c
   sector.index = get.cell.meta.data("sector.index")
   xlim = get.cell.meta.data("xlim")
   ylim = get.cell.meta.data("ylim")
-  circos.lines(x, y, col = "red", area = TRUE, baseline = mean.cov.02)
+  circos.lines(x, y, col = "red", area = TRUE, baseline = median.cov.02)
   circos.yaxis(side = "left", sector.index = 1)
 })
 
@@ -126,7 +126,7 @@ circos.trackPlotRegion(factors = cov.select.04$factor, ylim = c(min.cov.04,max.c
   sector.index = get.cell.meta.data("sector.index")
   xlim = get.cell.meta.data("xlim")
   ylim = get.cell.meta.data("ylim")
-  circos.lines(x, y, col = "red", area = TRUE, baseline = mean.cov.04)
+  circos.lines(x, y, col = "red", area = TRUE, baseline = median.cov.04)
   circos.yaxis(side = "left", sector.index = 1)
   circos.axis("bottom", direction = "inside", labels.facing = "reverse.clockwise")
 })
