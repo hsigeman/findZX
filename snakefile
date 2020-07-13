@@ -48,15 +48,13 @@ rule all:
         expand(MAP_DIR + "{S}.sorted.status", S = ID),
         expand(MAP_DIR + "{S}.sorted.nodup.nm.all.status", S = ID),
         expand(MAP_DIR + "{S}.sorted.nodup.nm.{ED}.bam.bai", S = ID, ED = EDIT_DIST),
-        VCF_DIR + SPECIES + ".vcf.status",
+        VCF_DIR + SPECIES + ".biallelic.minQ20.minDP3.vcf",
         COMP_GEN_SYNS + REF_SPECIES + "_align_converted",
         expand(MAP_DIR + "{S}.sorted.flagstat", S = ID),
         expand(MAP_DIR + "{S}.sorted.nodup.nm.{ED}.flagstat", S = ID, ED = EDIT_DIST),
         MATCHDIR_REF + "genome_windows.out",
         MATCHDIR_REF + "bestMatch.status",
         expand(MATCHDIR + "gencov.nodup.nm.{ED}.norm." + SYNTENY_SPECIES + ".out", ED = EDIT_DIST),
-        #VCF_DIR + SPECIES + ".non-ref-ac_2_biallelic_qual.vcf",
-        #VCF_DIR + SPECIES + ".non-ref-ac_2_biallelic_qual.vcf.gz",
         #REF_DIR + REF_NAME + "_nonRefAc_consensus.fasta",
         RESULTDIR + SPECIES + ".circlize.pdf"
 
@@ -267,32 +265,6 @@ rule proportion_heterozygosity:
          python3 code/calculate_prop_heterozygosity.py {input} {output}
          """
 
-#rule vcftools_alleleDiv_hetero:
-#    input:
-#        VCF_DIR + SPECIES + ".vcf"
-#    output:
-#        VCF_DIR + SPECIES + ".heterogametic.allDiv.bed"
-#    threads: 1
-#    params:
-#        keep_indv = expand("--indv {heterogametic}", heterogametic=HETEROGAMETIC)
-#    shell:
-#        """
-#        vcftools --vcf {input} --window-pi 5000 {params.keep_indv} --remove-filtered-geno-all --minQ 20 --minDP 3 --stdout > {output}
-#        """
-
-#rule vcftools_alleleDiv_homo:
-#    input:
-#        VCF_DIR + SPECIES + ".vcf"
-#    output:
-#        VCF_DIR + SPECIES + ".homogametic.allDiv.bed"
-#    threads: 1
-#    params:
-#        keep_indv = expand("--indv {homogametic}", homogametic=HOMOGAMETIC)
-#    shell:
-#        """
-#        vcftools --vcf {input} --window-pi 5000 {params.keep_indv} --remove-filtered-geno-all --minQ 20 --minDP 3 --stdout > {output}
-#        """
-
 ##########################################################  
 #################### SYNTENY ANALYSIS ####################      
 ########################################################## 
@@ -381,18 +353,6 @@ rule matchScaffold2Chr_snp:
         
         cat {output.bestmatch} | cut -f 4,12,13,14 > {output.bestmatch_small}
         """
-
-#rule matchScaffold2Chr_snp:
-#    input:
-#        bestMatch = MATCHDIR + "bestMatch.list",
-#        heterogametic_allDiv = VCF_DIR + SPECIES + ".heterogametic.allDiv.bed",
-#        homogametic_allDiv = VCF_DIR + SPECIES + ".homogametic.allDiv.bed"
-#    output:
-#        bestMatch_allDiv = MATCHDIR + "allDiv.bestMatch." + SYNTENY_SPECIES + ".out"
-#    shell:
-#        """
-#        python3 code/matchScaffold2chr_snp.py {input.bestMatch} {input.heterogametic_allDiv} {input.homogametic_allDiv} > {output.bestMatch_allDiv}
-#        """
 
 rule matchScaffold2Chr_cov:
     input:
