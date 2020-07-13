@@ -405,6 +405,17 @@ rule matchScaffold2Chr_cov:
         python3 code/matchScaffold2chr_cov.py {input.bestMatch} {output.bestMatch} > {output.bestMatch_norm}
         """
 
+rule confirm_sexing:
+    input:
+        MATCHDIR + "gencov.nodup.nm.all." + SYNTENY_SPECIES + ".out"
+    output:
+        RESULTDIR + SPECIES + ".gencovIndv.pdf"
+    threads: 1
+    shell:
+        """
+        Rscript ...
+        """
+
 ##########################################################  
 ################### MODIFY REF GENOME ####################      
 ########################################################## 
