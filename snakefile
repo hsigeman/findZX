@@ -21,12 +21,13 @@ PREFIX = SPECIES + "_ref_" + REF_SPECIES
 
 REF_PATH = REF_DIR + REF_NAME
 REF_FASTA = REF_DIR + REF_NAME + ".fasta"
-MAP_DIR = "intermediate/bwa/" + PREFIX + "/" 
+MAP_DIR = "intermediate/bwa/"
 GENCOV_DIR = "intermediate/bedtools/" + PREFIX + "/"
 GENCOV_DIR_REF = "intermediate/bedtools/" + REF_NAME + "/"
 VCF_DIR = "intermediate/freebayes/" + PREFIX + "/"
 VCF_DIR_REF = "intermediate/freebayes/" + REF_NAME + "/"
 MATCHDIR = "intermediate/synteny_match/" + PREFIX + "/"
+MATCHDIR_REF = "intermediate/synteny_match/" + REF_NAME + "/"
 RESULTDIR = "results/" + PREFIX + "/"
 
 SYNTENY_SPECIES = config["synteny_species"]
@@ -48,11 +49,11 @@ rule all:
         expand(MAP_DIR + "{S}.sorted.nodup.nm.all.status", S = ID),
         expand(MAP_DIR + "{S}.sorted.nodup.nm.{ED}.bam.bai", S = ID, ED = EDIT_DIST),
         VCF_DIR + SPECIES + ".vcf.status",
-        COMP_GEN_SYNS + SPECIES + "_align_converted",
+        COMP_GEN_SYNS + REF_SPECIES + "_align_converted",
         expand(MAP_DIR + "{S}.sorted.flagstat", S = ID),
         expand(MAP_DIR + "{S}.sorted.nodup.nm.{ED}.flagstat", S = ID, ED = EDIT_DIST),
-        MATCHDIR + "genome_windows.out",
-        MATCHDIR + "bestMatch.status",
+        MATCHDIR_REF + "genome_windows.out",
+        MATCHDIR_REF + "bestMatch.status",
         expand(MATCHDIR + "gencov.nodup.nm.{ED}.norm." + SYNTENY_SPECIES + ".out", ED = EDIT_DIST),
         #VCF_DIR + SPECIES + ".non-ref-ac_2_biallelic_qual.vcf",
         #VCF_DIR + SPECIES + ".non-ref-ac_2_biallelic_qual.vcf.gz",
@@ -216,7 +217,7 @@ rule freebayes_prep:
     input: 
         REF_FASTA + ".fai"
     output: 
-        VCF_DIR_REF + SPECIES + ".100kbp.regions"
+        VCF_DIR_REF + REF_SPECIES + ".100kbp.regions"
     threads: 4
     shell: 
         """
@@ -226,7 +227,7 @@ rule freebayes_prep:
 rule freebayes_parallel:
     input: 
         ref = REF_FASTA,
-        regions = VCF_DIR_REF + SPECIES + ".100kbp.regions",
+        regions = VCF_DIR_REF + REF_SPECIES + ".100kbp.regions",
         f = expand(MAP_DIR + "{heterogametic}.sorted.nodup.nm.all.bam", heterogametic = HETEROGAMETIC),
         m = expand(MAP_DIR + "{homogametic}.sorted.nodup.nm.all.bam", homogametic = HOMOGAMETIC)
     output: 
@@ -311,7 +312,7 @@ rule lastal_syns:
     input: 
         REF_PATH + "wrap.fasta"
     output: 
-        COMP_GEN_SYNS + SPECIES + "_align"
+        COMP_GEN_SYNS + REF_SPECIES + "_align"
     params: 
         db = SYNS_DB
     threads: 15
@@ -322,9 +323,9 @@ rule lastal_syns:
 
 rule maf_convert_syns:
     input: 
-        COMP_GEN_SYNS + SPECIES + "_align"
+        COMP_GEN_SYNS + REF_SPECIES + "_align"
     output: 
-        COMP_GEN_SYNS + SPECIES + "_align_converted"
+        COMP_GEN_SYNS + REF_SPECIES + "_align_converted"
     threads: 1
     shell: 
         """
@@ -337,18 +338,18 @@ rule maf_convert_syns:
 
 rule matchScaffold2Chr:
     input:
-        syns = COMP_GEN_SYNS + SPECIES + "_align_converted",
-        gencov = GENCOV_DIR + "genome_5kb_windows.out"
+        syns = COMP_GEN_SYNS + REF_SPECIES + "_align_converted",
+        gencov = GENCOV_DIR_REF + "genome_5kb_windows.out"
     output:
-        windows = MATCHDIR  + "genome_windows.out",
-        bestMatch = MATCHDIR + "bestMatch.list",
-        log = MATCHDIR + "bestMatch.status"
+        windows = MATCHDIR_REF  + "genome_windows.out",
+        bestMatch = MATCHDIR_REF + "bestMatch.list",
+        log = MATCHDIR_REF + "bestMatch.status"
     params:
-        temp = MATCHDIR + "temp/",
-        abswindow = dir_path + "/" + MATCHDIR  + "genome_windows.out",
-        absBestMatch = dir_path + "/" + MATCHDIR + "bestMatch.list",
+        temp = MATCHDIR_REF + "temp/",
+        abswindow = dir_path + "/" + MATCHDIR_REF  + "genome_windows.out",
+        absBestMatch = dir_path + "/" + MATCHDIR_REF + "bestMatch.list",
         windowsfile= "genome_windows.out",
-        absLog = dir_path + "/" + MATCHDIR + "bestMatch.status"
+        absLog = dir_path + "/" + MATCHDIR_REF + "bestMatch.status"
     shell:
         """
         cat {input.syns} | awk '{{print $10,$12,$13,$14,$16,$17,$1}}' | sed 's/ /\t/g' | bedtools intersect -a stdin -b {input.gencov} -wa -wb | awk '{{if($10-$9==\"5000\") print $8,$9,$10,$7,$1,$2,$3,$4,$5,$6}}' | sed 's/ /\t/g' | sed 's/\t/STARTCOORD/' | sed 's/\t/ENDCOORD/' > {output.windows}
@@ -369,7 +370,7 @@ rule matchScaffold2Chr:
 
 rule matchScaffold2Chr_snp:
     input:
-        bestMatch = MATCHDIR + "bestMatch.list",
+        bestMatch = MATCHDIR_REF + "bestMatch.list",
         heterozygosity = VCF_DIR + SPECIES + ".diffHeterozygosity.bed"
     output:
         bestmatch = MATCHDIR + SPECIES + ".diffHeterozygosity.bestMatch." + SYNTENY_SPECIES,
@@ -395,10 +396,10 @@ rule matchScaffold2Chr_snp:
 
 rule matchScaffold2Chr_cov:
     input:
-        bestMatch = MATCHDIR + "bestMatch.list",
-        cov = GENCOV_DIR + "gencov.nodup.nm.{ED}.out", # ED = all, 0.0, 0.1, 0.2, 0.3, 0.4
+        bestMatch = MATCHDIR_REF + "bestMatch.list",
+        cov = GENCOV_DIR + "gencov.nodup.nm.{ED}.out" # ED = all, 0.0, 0.1, 0.2, 0.3, 0.4
     output:
-        bestMatch = MATCHDIR + "gencov.nodup.nm.{ED}." + SYNTENY_SPECIES + ".out"
+        bestMatch = MATCHDIR + "gencov.nodup.nm.{ED}." + SYNTENY_SPECIES + ".out",
         bestMatch_norm = MATCHDIR + "gencov.nodup.nm.{ED}.norm." + SYNTENY_SPECIES + ".out"
     threads: 1
     shell:
