@@ -211,7 +211,7 @@ rule gencov_bedtools:
 
 rule freebayes_prep:
     input: 
-        ref_fai = REF_FASTA + ".fai"
+        REF_FASTA + ".fai"
     output: 
         VCF_DIR + SPECIES + ".100kbp.regions"
     threads: 4
@@ -400,9 +400,9 @@ rule matchScaffold2Chr_cov:
     threads: 1
     shell:
         """
-        bedtools intersect -a {input.cov} -b {input.bestMatch} -wa -wb > {output.bestMatch}
+        bedtools intersect -a {input.bestMatch} -b {input.cov} -wa -wb > {output.bestMatch}
 
-        python3 code/matchScaffold2chr_cov.py {input.bestMatch} {output.bestMatch} > {output.bestMatch_norm}
+        python3 code/matchScaffold2chr_cov.py {output.bestMatch} > {output.bestMatch_norm}
         """
 
 rule confirm_sexing:
