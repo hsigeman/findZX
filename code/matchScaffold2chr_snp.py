@@ -17,7 +17,7 @@ hetero_allDiv = pn.read_csv(sys.argv[2], sep='\t')
 hetero_allDiv = hetero_allDiv.drop(hetero_allDiv.columns[3], axis=1)
 
 homo_allDiv = pn.read_csv(sys.argv[3], sep='\t')
-homo_allDiv = m_allDiv.drop(homo_allDiv.columns[3], axis=1)
+homo_allDiv = homo_allDiv.drop(homo_allDiv.columns[3], axis=1)
 
 allDiv = pn.merge(hetero_allDiv, homo_allDiv, how='inner', on=["CHROM","BIN_START","BIN_END"])
 
