@@ -56,7 +56,8 @@ rule all:
         MATCHDIR_REF + "bestMatch.status",
         expand(MATCHDIR + "gencov.nodup.nm.{ED}.norm." + SYNTENY_SPECIES + ".out", ED = EDIT_DIST),
         #REF_DIR + REF_NAME + "_nonRefAc_consensus.fasta",
-        RESULTDIR + SPECIES + ".circlize.pdf"
+        RESULTDIR + SPECIES + ".circlize.pdf",
+        VCF_DIR + SPECIES + ".diffHeterozygosity.bed"
 
 ##########################################################  
 ##################### INDEX GENOME #######################      
@@ -256,15 +257,16 @@ rule vcftools_filter:
 
 rule proportion_heterozygosity:
      input:
-         vcf = VCF_DIR + SPECIES + ".biallelic.minQ20.minDP3.vcf",
-         heterogametic = HETEROGAMETIC,
-	 homogametic = HOMOGAMETIC
+         vcf = VCF_DIR + SPECIES + ".biallelic.minQ20.minDP3.vcf"
      output:
          VCF_DIR + SPECIES + ".diffHeterozygosity.bed"
+     params:
+         hetero = expand("{heterogametic}", heterogametic = HETEROGAMETIC),
+         homo = expand("{homogametic}", homogametic = HOMOGAMETIC)
      threads: 1
      shell:
          """
-         python3 code/calculate_prop_heterozygosity.py {input.vcf} {output} {input.heterogametic} {input.homogametic}
+         python3 code/calculate_prop_heterozygosity.py {input.vcf} {output} {params.hetero} {params.homo}
          """
 
 ##########################################################  
