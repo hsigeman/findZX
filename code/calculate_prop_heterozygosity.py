@@ -1,16 +1,28 @@
 import sys
 
 if len(sys.argv)==1:
-#	print("\nCalculates the proportion off heterozygot individuals from a VCF-file and")
-#	print("prints sites with at least a certain proportion of heterozygosity. Assumes")
-#	print("that the first half of the individuals are the heterogametic sex.\n")
-#	print("Call: python3 {python-script} {VCF} {OUTFILE}\n")
+	print("\nCalculates the difference in heterozygot individuals from a VCF-file")
+	print("between hetero and homogametic samples.\n")
+	print("Call: python3 {python-script} {VCF} {OUT} {heterogametic-samples} {homogametic-samples}\n")
 	sys.exit()
-elif not len(sys.argv)==3:
+elif not len(sys.argv)>3:
 	print("\nERROR: wrong number of input arguments")
-	print("Call: python3 {python-script} {VCF} {OUT}\n")
+	print("Call: python3 {python-script} {VCF} {OUT} {heterogametic-samples} {homogametic-samples}\n")
 	sys.exit()
 
+
+nr_samples_each_sex = int((len(sys.argv) - 2)/2)
+
+heterogametic_argv = list(range(3, 3 + nr_samples_each_sex))
+homogametic_argv =  list(range(3 + nr_samples_each_sex, 3 + 2*nr_samples_each_sex))
+
+heterogametic_samples = []
+for i in heterogametic_argv:
+	heterogametic_samples.append(sys.argv[i])
+
+homogametic_samples = []
+for i in homogametic_argv:
+	homogametic_samples.append(sys.argv[i])
 
 out_file = open(sys.argv[2], 'w')
 
@@ -20,9 +32,14 @@ with open(sys.argv[1], 'r') as vcfFile:
 
 			info_fields = line.strip('\n').split('\t')
 
-			nr_samples_each_sex      = int((len(info_fields) - 9)/2)
-			heterogameticSex_indexes = list(range(9, 9 + nr_samples_each_sex))
-			homogameticSex_indexes   = list(range(9 + nr_samples_each_sex, 9 + 2*nr_samples_each_sex))
+			heterogameticSex_indexes = []
+			homogameticSex_indexes = []
+
+			for i in range(9, len(info_fields)):
+				if info_fields[i] in heterogametic_samples:
+					heterogameticSex_indexes.append(i)
+				if info_fields[i] in homogametic_samples:
+					homogameticSex_indexes.append(i)
 
 		elif not line.startswith('#'):
 			info_fields = line.strip('\n').split('\t')
@@ -60,7 +77,5 @@ with open(sys.argv[1], 'r') as vcfFile:
 
 
 out_file.close()
-
-
 
 
