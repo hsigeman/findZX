@@ -21,7 +21,7 @@ PREFIX = SPECIES + "_ref_" + REF_SPECIES
 
 REF_PATH = REF_DIR + REF_NAME
 REF_FASTA = REF_DIR + REF_NAME + ".fasta"
-MAP_DIR = "intermediate/bwa/"
+MAP_DIR = "intermediate/bwa/" + REF_NAME + "/"
 GENCOV_DIR = "intermediate/bedtools/" + PREFIX + "/"
 GENCOV_DIR_REF = "intermediate/bedtools/" + REF_NAME + "/"
 VCF_DIR = "intermediate/freebayes/" + PREFIX + "/"
