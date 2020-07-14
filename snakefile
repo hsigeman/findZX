@@ -256,13 +256,15 @@ rule vcftools_filter:
 
 rule proportion_heterozygosity:
      input:
-         VCF_DIR + SPECIES + ".biallelic.minQ20.minDP3.vcf"
+         vcf = VCF_DIR + SPECIES + ".biallelic.minQ20.minDP3.vcf",
+         heterogametic = HETEROGAMETIC,
+	 homogametic = HOMOGAMETIC
      output:
          VCF_DIR + SPECIES + ".diffHeterozygosity.bed"
      threads: 1
      shell:
          """
-         python3 code/calculate_prop_heterozygosity.py {input} {output}
+         python3 code/calculate_prop_heterozygosity.py {input.vcf} {output} {input.heterogametic} {input.homogametic}
          """
 
 ##########################################################  
