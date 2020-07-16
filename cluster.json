@@ -33,7 +33,7 @@
     },
     "mismatch_bam" :
     {
-        "time" : "8:00:00",
+        "time" : "18:00:00",
         "n" : 2
     },
     "freebayes_parallel" :
