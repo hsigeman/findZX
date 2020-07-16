@@ -2,7 +2,7 @@ library(doBy)
 library(data.table)
 
 # read gencov
-cov = read.table("Data/gencov.nodup.nm.all.ZF.out",header=FALSE,fill=TRUE,stringsAsFactor=FALSE)
+cov = read.table("Data/gencov.nodup.nm.0.2.ZF.out",header=FALSE,fill=TRUE,stringsAsFactor=FALSE)
 
 # look at only Z chromosome
 cov <- subset(cov, cov$V8=="Z")
@@ -19,7 +19,7 @@ cov_mean <- summaryBy(V14 + V15 + V16 + V17 + V18 + V19 + V20 + V21 + V22 + V23 
 
 
 #cov_mean <- transform(cov_mean, range = as.factor(range))
-pdf("figures/gencov.nm.all.pdf", width = 14)
+pdf("figures/gencov.nm.02.pdf", width = 14)
 
 # plot all samples, first half is heterogametic, second half is homogametic
 par(mfrow=c(1,2), mar=c(1,2,2,1))
