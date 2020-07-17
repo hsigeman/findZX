@@ -57,7 +57,7 @@ rule all:
         expand(MATCHDIR + "gencov.nodup.nm.{ED}.norm." + SYNTENY_SPECIES + ".out", ED = EDIT_DIST),
         #REF_DIR + REF_NAME + "_nonRefAc_consensus.fasta",
         RESULTDIR + SPECIES + ".circlize.pdf",
-        VCF_DIR + SPECIES + ".diffHeterozygosity.bed"
+        VCF_DIR + SPECIES + ".diffHeterozygosity.bed",
         RESULTDIR + SPECIES + ".gencovIndv.pdf"
 
 ##########################################################  
@@ -66,9 +66,9 @@ rule all:
 
 rule index_fasta_bwa:
     input: 
-        ref = REF_FASTA
+        REF_FASTA
     output:
-        ref_bwt = REF_FASTA + ".bwt" 
+        REF_FASTA + ".bwt" 
     priority : 80   
     message:
         """--- Indexing {input} with BWA index."""
@@ -80,9 +80,9 @@ rule index_fasta_bwa:
 
 rule index_fasta_samtools: 
     input: 
-        ref = REF_FASTA
+        REF_FASTA
     output: 
-        ref_fai = REF_FASTA + ".fai"
+        REF_FASTA + ".fai"
     priority : 70
     threads: 2
     shell: 
@@ -171,9 +171,9 @@ rule mismatch_bam:
 
 rule flagstat:
     input:
-      MAP_DIR + "{S}.sorted{V}bam" 		# V = ".", ".nodup.nm.all.", ".nodup.nm.0.0.", ".nodup.nm.0.1.", ".nodup.nm.0.2.", ".nodup.nm.0.3.", ".nodup.nm.0.4."
+      MAP_DIR + "{S}.sorted{V}bam"
     output:
-      MAP_DIR + "{S}.sorted{V}flagstat",
+      MAP_DIR + "{S}.sorted{V}flagstat"
     shell:
         """
         samtools flagstat {input} > {output}  
@@ -185,7 +185,7 @@ rule flagstat:
 
 rule gencov_prepare_fasta:
     input: 
-        ref_fai = REF_FASTA + ".fai"
+        REF_FASTA + ".fai"
     output: 
         GENCOV_DIR_REF + "genome_5kb_windows.out"
     threads: 1
@@ -246,29 +246,29 @@ rule freebayes_parallel:
         """
 
 rule vcftools_filter:
-     input:
-         VCF_DIR + SPECIES + ".vcf"
-     output:
-         VCF_DIR + SPECIES + ".biallelic.minQ20.minDP3.vcf"
-     threads: 1
-     shell:
-         """
-         vcftools --vcf {input} --min-alleles 2 --max-alleles 2 --remove-filtered-geno-all --minQ 20 --minDP 3 --recode --stdout > {output}
-         """
+    input:
+        VCF_DIR + SPECIES + ".vcf"
+    output:
+        VCF_DIR + SPECIES + ".biallelic.minQ20.minDP3.vcf"
+    threads: 1
+    shell:
+        """
+        vcftools --vcf {input} --min-alleles 2 --max-alleles 2 --remove-filtered-geno-all --minQ 20 --minDP 3 --recode --stdout > {output}
+        """
 
 rule proportion_heterozygosity:
-     input:
-         vcf = VCF_DIR + SPECIES + ".biallelic.minQ20.minDP3.vcf"
-     output:
-         VCF_DIR + SPECIES + ".diffHeterozygosity.bed"
-     params:
-         hetero = expand("{heterogametic}", heterogametic = HETEROGAMETIC),
-         homo = expand("{homogametic}", homogametic = HOMOGAMETIC)
-     threads: 1
-     shell:
-         """
-         python3 code/calculate_prop_heterozygosity.py {input.vcf} {output} {params.hetero} {params.homo}
-         """
+    input:
+        VCF_DIR + SPECIES + ".biallelic.minQ20.minDP3.vcf"
+    output:
+        VCF_DIR + SPECIES + ".diffHeterozygosity.bed"
+    params:
+        hetero = expand("{heterogametic}", heterogametic = HETEROGAMETIC),
+        homo = expand("{homogametic}", homogametic = HOMOGAMETIC)
+    threads: 1
+    shell:
+        """
+        python3 code/calculate_prop_heterozygosity.py {input} {output} {params.hetero} {params.homo}
+        """
 
 ##########################################################  
 #################### SYNTENY ANALYSIS ####################      
@@ -276,7 +276,7 @@ rule proportion_heterozygosity:
 
 rule fasta_formatter:
     input: 
-        ref = REF_FASTA
+        REF_FASTA
     output: 
         REF_PATH + "wrap.fasta"
     threads: 1
@@ -379,9 +379,9 @@ rule confirm_sexing:
         MATCHDIR + "gencov.nodup.nm.all." + SYNTENY_SPECIES + ".out"
     output:
         RESULTDIR + SPECIES + ".gencovIndv.pdf"
-     params:
-         hetero = expand("{heterogametic}", heterogametic = HETEROGAMETIC),
-         homo = expand("{homogametic}", homogametic = HOMOGAMETIC)
+    params:
+        hetero = expand("{heterogametic}", heterogametic = HETEROGAMETIC),
+        homo = expand("{homogametic}", homogametic = HOMOGAMETIC)
     threads: 1
     shell:
         """
@@ -429,10 +429,10 @@ rule calculate_heterozygosity:
 
 rule calculate_ratio:
     input:
-        MATCHDIR + "{type}." + SYNTENY_SPECIES + ".out"
+        MATCHDIR + "{ED}." + SYNTENY_SPECIES + ".out"
     output:
-        Mb = RESULTDIR + SPECIES + ".{type}.1Mbp.out",
-        kb = RESULTDIR + SPECIES + ".{type}.100kbp.out"
+        Mb = RESULTDIR + SPECIES + ".{ED}.1Mbp.out",
+        kb = RESULTDIR + SPECIES + ".{ED}.100kbp.out"
     threads: 1
     shell:
         """
