@@ -132,7 +132,7 @@ rule remove_duplicates:
     input: 
         MAP_DIR + "{S}.sorted.bam"
     output: 
-        out = MAP_DIR + "{S}.sorted.nodup.nm.all.bam",
+        out = protected(MAP_DIR + "{S}.sorted.nodup.nm.all.bam"),
         log = MAP_DIR + "{S}.sorted.nodup.nm.all.status"
     params:
         tmpdir = MAP_DIR + "{S}_temp_dupl/"
@@ -202,7 +202,7 @@ rule gencov_bedtools:
         bai_homo = expand(MAP_DIR + "{homogametic}.sorted.nodup.nm.{{V}}.bam.bai", homogametic = HOMOGAMETIC),
         bed = GENCOV_DIR_REF + "genome_5kb_windows.out"
     output: 
-        GENCOV_DIR + "gencov.nodup.nm.{V}.out"
+        protected(GENCOV_DIR + "gencov.nodup.nm.{V}.out")
     threads: 2
     shell: 
         """
@@ -231,7 +231,7 @@ rule freebayes_parallel:
         hetero = expand(MAP_DIR + "{heterogametic}.sorted.nodup.nm.all.bam", heterogametic = HETEROGAMETIC),
         homo = expand(MAP_DIR + "{homogametic}.sorted.nodup.nm.all.bam", homogametic = HOMOGAMETIC)
     output: 
-        vcf = VCF_DIR + SPECIES + ".vcf",
+        vcf = protected(VCF_DIR + SPECIES + ".vcf"),
         log = VCF_DIR + SPECIES + ".vcf.status"
     threads: 18
     params:
@@ -249,7 +249,7 @@ rule vcftools_filter:
     input:
         VCF_DIR + SPECIES + ".vcf"
     output:
-        VCF_DIR + SPECIES + ".biallelic.minQ20.minDP3.vcf"
+        protected(VCF_DIR + SPECIES + ".biallelic.minQ20.minDP3.vcf")
     threads: 1
     shell:
         """
@@ -378,7 +378,7 @@ rule confirm_sexing:
     input:
         MATCHDIR + "gencov.nodup.nm.all." + SYNTENY_SPECIES + ".out"
     output:
-        RESULTDIR + SPECIES + ".gencovIndv.pdf"
+        protected(RESULTDIR + SPECIES + ".gencovIndv.pdf")
     params:
         hetero = expand("{heterogametic}", heterogametic = HETEROGAMETIC),
         homo = expand("{homogametic}", homogametic = HOMOGAMETIC)
@@ -446,7 +446,7 @@ rule plotting:
         cov4 = RESULTDIR + SPECIES + ".gencov.nodup.nm.0.4.norm.1Mbp.out",
         snp = RESULTDIR + SPECIES + ".diffHeterozygosity.1Mbp.out"
     output: 
-        RESULTDIR + SPECIES + ".circlize.pdf"
+        protected(RESULTDIR + SPECIES + ".circlize.pdf")
     threads: 1
     shell: 
         """
