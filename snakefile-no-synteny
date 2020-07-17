@@ -1,4 +1,4 @@
-snakemake.utils import min_version
+from snakemake.utils import min_version
 min_version("4.4.0")
 
 
@@ -33,7 +33,7 @@ EDIT_DIST = ["all", "0.0", "0.1", "0.2", "0.3", "0.4"]
 ################## RULES ######################
 ###############################################
 
-include: "snakefiles/snakefile-base"
+include: "snakefile-base"
 
 rule all:
      input:
@@ -47,8 +47,8 @@ rule all:
         expand(MAP_DIR + "{S}.sorted.nodup.nm.{ED}.flagstat", S = ID, ED = EDIT_DIST),
         expand(GENCOV_DIR + "gencov.nodup.nm.{ED}.norm.out", ED = EDIT_DIST),
         VCF_DIR + SPECIES + ".diffHeterozygosity.bed",
-        RESULTDIR + SPECIES + ".gencovIndv.pdf"
-
+        #RESULTDIR + SPECIES + ".gencovIndv.pdf",
+        RESULTDIR + SPECIES + ".circlize.pdf"
 
 rule normalize_cov:
      input:
@@ -64,7 +64,7 @@ rule calculate_heterozygosity:
      input:
         VCF_DIR + SPECIES + ".diffHeterozygosity.bed"
      output:
-        Mb = RESULTDIR + SPECIES + ".diffHeterozygosity.1MBP.out",
+        Mb = RESULTDIR + SPECIES + ".diffHeterozygosity.1Mbp.out",
         kb = RESULTDIR + SPECIES + ".diffHeterozygosity.1kbp.out"
      shell:
         """
@@ -75,8 +75,8 @@ rule calculate_ratio:
      input:
         GENCOV_DIR + "gencov.nodup.nm.{ED}.norm.out"
      output:
-        Mb = RESULTDIR + SPECIES + ".{ED}.1MBP.out",
-        kb = RESULTDIR + SPECIES + ".{ED}.1kbp.out"
+        Mb = RESULTDIR + SPECIES + ".gencov.nodup.nm.{ED}.1Mbp.out",
+        kb = RESULTDIR + SPECIES + ".gencov.nodup.nm.{ED}.1kbp.out"
      shell:
         """
         Rscript calculate_gencov_windows.R {input} {output.Mb} {output.kb}
