@@ -58,6 +58,7 @@ rule all:
         #REF_DIR + REF_NAME + "_nonRefAc_consensus.fasta",
         RESULTDIR + SPECIES + ".circlize.pdf",
         VCF_DIR + SPECIES + ".diffHeterozygosity.bed"
+        RESULTDIR + SPECIES + ".gencovIndv.pdf"
 
 ##########################################################  
 ##################### INDEX GENOME #######################      
@@ -378,10 +379,13 @@ rule confirm_sexing:
         MATCHDIR + "gencov.nodup.nm.all." + SYNTENY_SPECIES + ".out"
     output:
         RESULTDIR + SPECIES + ".gencovIndv.pdf"
+     params:
+         hetero = expand("{heterogametic}", heterogametic = HETEROGAMETIC),
+         homo = expand("{homogametic}", homogametic = HOMOGAMETIC)
     threads: 1
     shell:
         """
-        Rscript ...
+        Rscript code/confirm_sexing.R {input} {output} {params.hetero} {params.homo}
         """
 
 ##########################################################  
