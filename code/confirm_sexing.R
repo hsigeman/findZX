@@ -40,7 +40,7 @@ barplot(as.matrix(cov_mean), beside = TRUE, horiz=T, las = 1, col = c("#99CCFF",
 legend("right", legend = c("chr Z", "chr 4"), fill = c("#99CCFF", "#CCCCFF"))
 
 barplot(covZ_mean/cov4_mean, horiz=T, las = 1, 
-        cex.axis = 0.7, col = "#9999CC", names.arg = c("","","","","","","","","",""), 
+        cex.axis = 0.7, col = "#9999CC", names.arg = FALSE, 
         xlab = "Ratio in median coverage chr Z/chr 4")
 
 dev.off()
