@@ -228,8 +228,8 @@ rule freebayes_parallel:
     input: 
         ref = REF_FASTA,
         regions = VCF_DIR_REF + REF_SPECIES + ".100kbp.regions",
-        f = expand(MAP_DIR + "{heterogametic}.sorted.nodup.nm.all.bam", heterogametic = HETEROGAMETIC),
-        m = expand(MAP_DIR + "{homogametic}.sorted.nodup.nm.all.bam", homogametic = HOMOGAMETIC)
+        hetero = expand(MAP_DIR + "{heterogametic}.sorted.nodup.nm.all.bam", heterogametic = HETEROGAMETIC),
+        homo = expand(MAP_DIR + "{homogametic}.sorted.nodup.nm.all.bam", homogametic = HOMOGAMETIC)
     output: 
         vcf = VCF_DIR + SPECIES + ".vcf",
         log = VCF_DIR + SPECIES + ".vcf.status"
@@ -240,7 +240,7 @@ rule freebayes_parallel:
         """
         mkdir {params.tmpdir}
         export TMPDIR={params.tmpdir}
-        freebayes-parallel {input.regions} {threads} -f {input.ref} {input.f} {input.m} > {output.vcf}
+        freebayes-parallel {input.regions} {threads} -f {input.ref} {input.hetero} {input.homo} > {output.vcf}
         rm -r {params.tmpdir}
         echo "DONE" > {output.log}
         """
