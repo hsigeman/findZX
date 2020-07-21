@@ -345,6 +345,20 @@ rule calculate_ratio:
         Rscript calculate_gencov_windows.R {input} {output.Mb} {output.kb}
         """
 
+rule confirm_sexing:
+    input:
+        GENCOV_DIR + "gencov.nodup.nm.{ED}.out"
+    output:
+        protected(RESULTDIR + SPECIES + ".gencovIndv.pdf")
+    params:
+        hetero = expand("{heterogametic}", heterogametic = HETEROGAMETIC),
+        homo = expand("{homogametic}", homogametic = HOMOGAMETIC)
+    threads: 1
+    shell:
+        """
+        Rscript code/confirm_sexing.R {input} {output} {params.hetero} {params.homo}
+        """
+
 ##########################################################  
 #################### SYNTENY ANALYSIS ####################      
 ########################################################## 
@@ -451,7 +465,7 @@ rule confirm_sexing:
     input:
         MATCHDIR + "gencov.nodup.nm.all." + SYNTENY_SPECIES + ".out"
     output:
-        protected(RESULTDIR + SPECIES + ".gencovIndv.pdf")
+        protected(RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencovIndv.pdf")
     params:
         hetero = expand("{heterogametic}", heterogametic = HETEROGAMETIC),
         homo = expand("{homogametic}", homogametic = HOMOGAMETIC)
