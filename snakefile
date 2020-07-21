@@ -298,6 +298,53 @@ rule fileter_allele_frequency:
         python3 code/filter_allFreq.py {input.homo} homogametic >> {output}
         """
 
+##########################################################
+################## NO SYNTENY ANALYSIS ###################
+##########################################################
+
+rule normalize_cov:
+     input:
+        GENCOV_DIR + "gencov.nodup.nm.{ED}.out"
+     output:
+        GENCOV_DIR + "gencov.nodup.nm.{ED}.norm.out"
+     shell:
+        """
+        python3 normalize_coverage.py {input} > {output}
+        """
+
+rule calculate_heterozygosity:
+     input:
+        VCF_DIR + SPECIES + ".diffHeterozygosity.bed"
+     output:
+        Mb = RESULTDIR + SPECIES + ".diffHeterozygosity.1Mbp.out",
+        kb = RESULTDIR + SPECIES + ".diffHeterozygosity.1kbp.out"
+     shell:
+        """
+        Rscript calculate_heterozygosityDiff_windows.R {input} {output.Mb} {output.kb}
+        """
+
+rule calculate_allFreq:
+    input:
+        VCF_DIR + SPECIES + ".allFreq.bed"
+    output:
+        Mb = RESULTDIR + SPECIES + ".allFreq.1Mbp.out",
+        kb = RESULTDIR + SPECIES + ".allFreq.100kbp.out"
+    shell:
+        """
+        Rscript code/calculate_snpCount_windows.R {input} {output.Mb} {output.kb}
+        """
+
+rule calculate_ratio:
+     input:
+        GENCOV_DIR + "gencov.nodup.nm.{ED}.norm.out"
+     output:
+        Mb = RESULTDIR + SPECIES + ".gencov.nodup.nm.{ED}.1Mbp.out",
+        kb = RESULTDIR + SPECIES + ".gencov.nodup.nm.{ED}.1kbp.out"
+     shell:
+        """
+        Rscript calculate_gencov_windows.R {input} {output.Mb} {output.kb}
+        """
+
 ##########################################################  
 #################### SYNTENY ANALYSIS ####################      
 ########################################################## 
@@ -337,9 +384,7 @@ rule maf_convert_syns:
         maf-convert psl {input} > {output}
         """
 
-##########################################################  
 ################### MATCHING DATASETS ####################      
-########################################################## 
 
 rule matchScaffold2Chr:
     input:
@@ -416,78 +461,80 @@ rule confirm_sexing:
         Rscript code/confirm_sexing.R {input} {output} {params.hetero} {params.homo}
         """
 
-##########################################################  
-################### MODIFY REF GENOME ####################      
-########################################################## 
+################ STATISTICAL CALCULATIONS ################
 
-rule modify_genome:
-    input: 
-        vcf = VCF_DIR + SPECIES + ".vcf",
-        ref = REF_FASTA
-    output: 
-        vcf = VCF_DIR + SPECIES + ".non-ref-ac_2_biallelic_qual.vcf",
-        gz = VCF_DIR + SPECIES + ".non-ref-ac_2_biallelic_qual.vcf.gz",
-        ref = REF_DIR + REF_NAME + "_nonRefAf_consensus.fasta"
-    threads: 1
-    shell: 
-        """
-        vcftools --vcf {input.vcf} --non-ref-af 0.5 --min-alleles 2 --max-alleles 2 --remove-filtered-all --recode --stdout > {output.vcf}
-        bgzip -c {output.vcf} > {output.gz}
-        tabix -p vcf {output.gz}
-        cat {input.ref} | bcftools consensus {output.gz} > {output.ref}
-        """
-
-###########################################################
-################# STATISTICAL CALCULATIONS ##################
-###########################################################
-
-rule calculate_heterozygosity:
+rule calculate_heterozygosity_synteny:
     input:
         MATCHDIR + SPECIES + ".diffHeterozygosity.bestMatch." + SYNTENY_SPECIES + ".small"
     output:
-        Mb = RESULTDIR + SPECIES + ".diffHeterozygosity.1Mbp.out",
-        kb = RESULTDIR + SPECIES + ".diffHeterozygosity.100kbp.out"
+        Mb = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".diffHeterozygosity.1Mbp.out",
+        kb = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".diffHeterozygosity.100kbp.out"
     threads: 1
     shell:
         """
         Rscript code/calculate_heterozygosityDiff_windows.R {input} {output.Mb} {output.kb}
         """
 
-rule calculate_allFreq:
+rule calculate_allFreq_synteny:
     input:
         MATCHDIR + SPECIES + ".allFreq.bestMatch." + SYNTENY_SPECIES + ".small"
     output:
-        Mb = RESULTDIR + SPECIES + ".allFreq.1Mbp.out",
-        kb = RESULTDIR + SPECIES + ".allFreq.100kbp.out"
+        Mb = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".allFreq.1Mbp.out",
+        kb = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".allFreq.100kbp.out"
     shell:
         """
         Rscript code/calculate_snpCount_windows.R {input} {output.Mb} {output.kb}
         """
 
-rule calculate_ratio:
+rule calculate_ratio_synteny:
     input:
         MATCHDIR + "{ED}." + SYNTENY_SPECIES + ".out"
     output:
-        Mb = RESULTDIR + SPECIES + ".{ED}.1Mbp.out",
-        kb = RESULTDIR + SPECIES + ".{ED}.100kbp.out"
+        Mb = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".{ED}.1Mbp.out",
+        kb = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".{ED}.100kbp.out"
     threads: 1
     shell:
         """
         Rscript code/calculate_gencov_windows.R {input} {output.Mb} {output.kb}
         """
 
+##########################################################
+####################### PLOTTING #########################
+##########################################################
+
 rule plotting:
     input: 
-        cov0 = RESULTDIR + SPECIES + ".gencov.nodup.nm.0.0.norm.1Mbp.out",
-        cov2 = RESULTDIR + SPECIES + ".gencov.nodup.nm.0.2.norm.1Mbp.out",
-        cov4 = RESULTDIR + SPECIES + ".gencov.nodup.nm.0.4.norm.1Mbp.out",
-        snp = RESULTDIR + SPECIES + ".diffHeterozygosity.1Mbp.out"
+        cov0 = RESULTDIR + SPECIES + "{synteny}gencov.nodup.nm.0.0.norm.1Mbp.out",
+        cov2 = RESULTDIR + SPECIES + "{synteny}gencov.nodup.nm.0.2.norm.1Mbp.out",
+        cov4 = RESULTDIR + SPECIES + "{synteny}gencov.nodup.nm.0.4.norm.1Mbp.out",
+        snp = RESULTDIR + SPECIES + "{synteny}diffHeterozygosity.1Mbp.out"
     output: 
-        protected(RESULTDIR + SPECIES + ".circlize.pdf")
+        protected(RESULTDIR + SPECIES + "{synteny}circlize.pdf")
     threads: 1
     shell: 
         """
         Rscript code/circlize_plot.R {input.cov0} {input.cov2} {input.cov4} {input.snp} {output}
+        """
+
+##########################################################
+################### MODIFY REF GENOME ####################
+##########################################################
+
+rule modify_genome:
+    input:
+        vcf = VCF_DIR + SPECIES + ".vcf",
+        ref = REF_FASTA
+    output:
+        vcf = VCF_DIR + SPECIES + ".non-ref-ac_2_biallelic_qual.vcf",
+        gz = VCF_DIR + SPECIES + ".non-ref-ac_2_biallelic_qual.vcf.gz",
+        ref = REF_DIR + REF_NAME + "_nonRefAf_consensus.fasta"
+    threads: 1
+    shell:
+        """
+        vcftools --vcf {input.vcf} --non-ref-af 0.5 --min-alleles 2 --max-alleles 2 --remove-filtered-all --recode --stdout > {output.vcf}
+        bgzip -c {output.vcf} > {output.gz}
+        tabix -p vcf {output.gz}
+        cat {input.ref} | bcftools consensus {output.gz} > {output.ref}
         """
 
 
