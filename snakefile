@@ -57,7 +57,9 @@ rule all:
         REF_DIR + REF_NAME + "_nonRefAf_consensus.fasta",
         RESULTDIR + SPECIES + ".circlize.pdf",
         VCF_DIR + SPECIES + ".diffHeterozygosity.bed",
-        RESULTDIR + SPECIES + ".gencovIndv.pdf"
+        RESULTDIR + SPECIES + ".gencovIndv.pdf",
+        RESULTDIR + SPECIES + ".allFreq.1Mbp.out",
+        RESULTDIR + SPECIES + ".allFreq.100kbp.out"
 
 ##########################################################  
 ##################### INDEX GENOME #######################      
@@ -269,6 +271,33 @@ rule proportion_heterozygosity:
         python3 code/calculate_prop_heterozygosity.py {input} {output} {params.hetero} {params.homo}
         """
 
+rule allele_frequency:
+    input:
+        VCF_DIR + SPECIES + ".biallelic.minQ20.minDP3.vcf"
+    output:
+        hetero = VCF_DIR + SPECIES + ".allFreq.heterogametic.out",
+        homo = VCF_DIR + SPECIES + ".allFreq.homogametic.out"
+    params:
+        hetero = expand("--indv {heterogametic}", heterogametic = HETEROGAMETIC),
+        homo = expand("{--indv homogametic}", homogametic = HOMOGAMETIC)
+    shell:
+        """
+        vcftools --vcf {input} {params.hetero} --freq --stdout > {output.hetero}
+        vcftools --vcf {input} {params.homo} --freq --stdout > {output.homo}
+        """
+
+rule fileter_allele_frequency:
+    input:
+        hetero = VCF_DIR + SPECIES + ".allFreq.heterogametic.out",
+        homo = VCF_DIR + SPECIES + ".allFreq.homogametic.out"
+    output:
+        VCF_DIR + SPECIES + ".allFreq.bed"
+    shell:
+        """
+        python3 code/filter_allFreq.py {input.hetero} heterogametic > {output}
+        python3 code/filter_allFreq.py {input.homo} homogametic >> {output}
+        """
+
 ##########################################################  
 #################### SYNTENY ANALYSIS ####################      
 ########################################################## 
@@ -347,13 +376,13 @@ rule matchScaffold2Chr:
 rule matchScaffold2Chr_snp:
     input:
         bestMatch = MATCHDIR_REF + "bestMatch.list",
-        heterozygosity = VCF_DIR + SPECIES + ".diffHeterozygosity.bed"
+        snp_statistic = VCF_DIR + SPECIES + ".{snp_statistic}.bed"
     output:
-        bestmatch = MATCHDIR + SPECIES + ".diffHeterozygosity.bestMatch." + SYNTENY_SPECIES,
-        bestmatch_small = MATCHDIR + SPECIES + ".diffHeterozygosity.bestMatch." + SYNTENY_SPECIES + ".small"
+        bestmatch = MATCHDIR + SPECIES + ".{snp_statistic}.bestMatch." + SYNTENY_SPECIES,
+        bestmatch_small = MATCHDIR + SPECIES + ".{snp_statistic}.bestMatch." + SYNTENY_SPECIES + ".small"
     shell:
         """
-        bedtools intersect -a {input.heterozygosity} -b {input.bestMatch} -wa -wb > {output.bestmatch}
+        bedtools intersect -a {input.snp_statistic} -b {input.bestMatch} -wa -wb > {output.bestmatch}
         
         cat {output.bestmatch} | cut -f 4,12,13,14 > {output.bestmatch_small}
         """
@@ -422,6 +451,17 @@ rule calculate_heterozygosity:
     shell:
         """
         Rscript code/calculate_heterozygosityDiff_windows.R {input} {output.Mb} {output.kb}
+        """
+
+rule calculate_allFreq:
+    input:
+        MATCHDIR + SPECIES + ".allFreq.bestMatch." + SYNTENY_SPECIES + ".small"
+    output:
+        Mb = RESULTDIR + SPECIES + ".allFreq.1Mbp.out",
+        kb = RESULTDIR + SPECIES + ".allFreq.100kbp.out"
+    shell:
+        """
+        Rscript code/calculate_snpCount_windows.R {input} {output.Mb} {output.kb}
         """
 
 rule calculate_ratio:
