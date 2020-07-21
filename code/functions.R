@@ -1,6 +1,6 @@
 
 remove_chr_less_than_1mb <- function(data_table) {
-  # removes all chromosomes that are < 1Mbp, unkown, random, 
+  # removes all chromosomes that are < 1Mbp, unknown, random, 
   # LG or MT chromosomes.
   
   max_per_chr <- setDT(data_table)[, .SD[which.max(end)], by=chr]
