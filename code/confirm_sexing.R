@@ -8,19 +8,19 @@ library(data.table)
 args <- commandArgs(trailingOnly = TRUE)
 filename = args[1]
 outfilename = args[2]
+synteny = args[3]
 
-sample_names <- args[3:length(args)]
+sample_names <- args[4:length(args)]
 
 # read gencov
 cov = read.table(filename,header=FALSE,fill=TRUE,stringsAsFactor=FALSE)
 
 # look at only Z chromosome
-cov <- cov[-4:-7][-7:-9]
-cov <- plyr::rename(cov, c("V1"="contig", "V2"="range_start","V3"="range_end", 
-                           "V8"="chr", "V9"="start", "V10"="end"))
+if (synteny == "with-synteny") {
+  cov <- cov[-4:-7][-7:-9]
+}
 
-colnames(cov) <- c("contig", "range_start", "range_end", "chr", "start", "end", 
-                   sample_names)
+colnames(cov) <- c("chr", "start", "end", sample_names)
 
 covZ <- subset(cov, cov$chr=="Z")
 cov4 <- subset(cov, cov$chr=="4")

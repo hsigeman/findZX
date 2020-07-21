@@ -14,8 +14,8 @@ filename = args[1]
 
 snp = read.table(filename,header=FALSE,fill=TRUE,stringsAsFactor=FALSE)
 
-snp <- plyr::rename(snp, c("V1"="sex", "V2"="chr",
-                           "V3"="start", "V4"="end"))
+snp <- plyr::rename(snp, c("V1"="chr", "V2"="start",
+                           "V3"="end", "V4"="sex"))
 
 snp <- remove_chr_less_than_1mb(snp)
 
