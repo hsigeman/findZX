@@ -1,0 +1,65 @@
+from snakemake.utils import min_version
+min_version("4.4.0")
+
+# Written by Hanna Sigeman, Nov 2019
+
+dir_path = os.getcwd()
+
+###############################################
+################## PATHS ######################
+###############################################
+
+ID = config["samples"]
+SPECIES = config["species"]
+HETEROGAMETIC = config["heterogametic"]
+HOMOGAMETIC = config["homogametic"]
+FQ_DIR = config["fastq"]
+REF_SPECIES = config["ref_species"]
+REF_DIR = config["ref_dir"]
+REF_NAME = config["ref_name"]
+PREFIX = SPECIES + "_ref_" + REF_SPECIES
+
+REF_PATH = REF_DIR + REF_NAME
+REF_FASTA = REF_DIR + REF_NAME + ".fasta"
+MAP_DIR = "intermediate/bwa/" + REF_NAME + "/"
+GENCOV_DIR = "intermediate/bedtools/" + PREFIX + "/"
+GENCOV_DIR_REF = "intermediate/bedtools/" + REF_NAME + "/"
+VCF_DIR = "intermediate/freebayes/" + PREFIX + "/"
+VCF_DIR_REF = "intermediate/freebayes/" + REF_NAME + "/"
+MATCHDIR = "intermediate/synteny_match/" + PREFIX + "/"
+MATCHDIR_REF = "intermediate/synteny_match/" + REF_NAME + "/"
+RESULTDIR = "results/" + PREFIX + "/"
+
+SYNTENY_SPECIES = config["synteny_species"]
+COMP_GEN_SYNS = "intermediate/lastal_" + SYNTENY_SPECIES + "/" + REF_NAME + "/"
+SYNS_DB = "data/meta/my" + SYNTENY_SPECIES + "db"
+
+EDIT_DIST = ["all", "0.0", "0.1", "0.2", "0.3", "0.4"]
+
+###############################################
+################## RULES ######################
+###############################################
+
+rule all:
+     input:
+        REF_FASTA + ".bwt",
+        REF_FASTA + ".fai" ,
+        expand(MAP_DIR + "{S}.sorted.status", S = ID),
+        expand(MAP_DIR + "{S}.sorted.nodup.nm.all.status", S = ID),
+        expand(MAP_DIR + "{S}.sorted.nodup.nm.{ED}.bam.bai", S = ID, ED = EDIT_DIST),
+        expand(MAP_DIR + "{S}.sorted.flagstat", S = ID),
+        expand(MAP_DIR + "{S}.sorted.nodup.nm.{ED}.flagstat", S = ID, ED = EDIT_DIST),
+        COMP_GEN_SYNS + REF_SPECIES + "_align_converted",
+        MATCHDIR_REF + "genome_windows.out",
+        MATCHDIR_REF + "bestMatch.status",
+        expand(MATCHDIR + "gencov.nodup.nm.{ED}.norm." + SYNTENY_SPECIES + ".out", ED = EDIT_DIST),
+        REF_DIR + REF_NAME + "_nonRefAf_consensus.fasta",
+        VCF_DIR + SPECIES + ".diffHeterozygosity.bed",
+        VCF_DIR + SPECIES + ".biallelic.minQ20.minDP3.vcf",
+        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".circlize.pdf",
+        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencovIndv.pdf",
+        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".allFreq.1Mbp.out",
+        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".allFreq.100kbp.out"
+
+include: "snakefile"
+
