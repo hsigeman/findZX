@@ -151,9 +151,9 @@ rule matchScaffold2Chr_snp:
         bestmatch_small = MATCHDIR + SPECIES + ".{snp_statistic}.bestMatch." + SYNTENY_SPECIES + ".small"
     shell:
         """
-        bedtools intersect -a {input.snp_statistic} -b {input.bestMatch} -wa -wb > {output.bestmatch}
+        bedtools intersect -a {input.bestMatch} -b {input.snp_statistic} -wa -wb > {output.bestmatch}
         
-        cat {output.bestmatch} | cut -f 4,12,13,14 > {output.bestmatch_small}
+        cat {output.bestmatch} | cut -f 8,9,10,14 > {output.bestmatch_small}
         """
 
 rule matchScaffold2Chr_cov:
