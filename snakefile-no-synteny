@@ -43,7 +43,7 @@ rule all:
         expand(MAP_DIR + "{S}.sorted.nodup.nm.{ED}.bam.bai", S = ID, ED = EDIT_DIST),
         expand(MAP_DIR + "{S}.sorted.flagstat", S = ID),
         expand(MAP_DIR + "{S}.sorted.nodup.nm.{ED}.flagstat", S = ID, ED = EDIT_DIST),
-        expand(GENCOV_DIR + "gencov.nodup.nm.{ED}.norm.out", ED = EDIT_DIST),
+        expand(GENCOV_DIR + "gencov.nodup.nm.{ED}.out.norm", ED = EDIT_DIST),
         VCF_DIR + SPECIES + ".diffHeterozygosity.bed",
         VCF_DIR + SPECIES + ".biallelic.minQ20.minDP3.vcf",
         REF_DIR + REF_NAME + "_nonRefAf_consensus.fasta",
