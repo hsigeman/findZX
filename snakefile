@@ -31,7 +31,6 @@ MATCHDIR_REF = "intermediate/synteny_match/" + REF_NAME + "/"
 RESULTDIR = "results/" + PREFIX + "/"
 
 SYNTENY_SPECIES = config["synteny_species"]
-#COMP_GEN_SYNS = "intermediate/lastal_" + SYNTENY_SPECIES + "/" + PREFIX + "/"
 COMP_GEN_SYNS = "intermediate/lastal_" + SYNTENY_SPECIES + "/" + REF_NAME + "/"
 SYNS_DB = "data/meta/my" + SYNTENY_SPECIES + "db"
 
@@ -55,7 +54,7 @@ rule all:
         MATCHDIR_REF + "genome_windows.out",
         MATCHDIR_REF + "bestMatch.status",
         expand(MATCHDIR + "gencov.nodup.nm.{ED}.norm." + SYNTENY_SPECIES + ".out", ED = EDIT_DIST),
-        #REF_DIR + REF_NAME + "_nonRefAc_consensus.fasta",
+        REF_DIR + REF_NAME + "_nonRefAf_consensus.fasta",
         RESULTDIR + SPECIES + ".circlize.pdf",
         VCF_DIR + SPECIES + ".diffHeterozygosity.bed",
         RESULTDIR + SPECIES + ".gencovIndv.pdf"
@@ -362,7 +361,7 @@ rule matchScaffold2Chr_snp:
 rule matchScaffold2Chr_cov:
     input:
         bestMatch = MATCHDIR_REF + "bestMatch.list",
-        cov = GENCOV_DIR + "gencov.nodup.nm.{ED}.out" # ED = all, 0.0, 0.1, 0.2, 0.3, 0.4
+        cov = GENCOV_DIR + "gencov.nodup.nm.{ED}.out"
     output:
         bestMatch = MATCHDIR + "gencov.nodup.nm.{ED}." + SYNTENY_SPECIES + ".out",
         bestMatch_norm = MATCHDIR + "gencov.nodup.nm.{ED}.norm." + SYNTENY_SPECIES + ".out"
@@ -392,24 +391,22 @@ rule confirm_sexing:
 ################### MODIFY REF GENOME ####################      
 ########################################################## 
 
-# Use major allele instead or HISAT2
-#rule modify_genome:
-#    input: 
-#        vcf = VCF_DIR + SPECIES + ".vcf",
-#        ref = REF_FASTA
-#    output: 
-#        vcf = VCF_DIR + SPECIES + ".non-ref-ac_2_biallelic_qual.vcf",
-#        gz = VCF_DIR + SPECIES + ".non-ref-ac_2_biallelic_qual.vcf.gz",
-#        ref = REF_DIR + REF_NAME + "_nonRefAc_consensus.fasta"
-#    threads: 1
-#    shell: 
-#        """
-#        vcftools --vcf {input.vcf} --non-ref-ac 2 --min-alleles 2 --max-alleles 2 --remove-filtered-all --recode --stdout > {output.vcf}
-#        bgzip -c {output.vcf} > {output.gz}
-#        tabix -p vcf {output.gz}
-#        cat {input.ref} | bcftools consensus {output.gz} > {output.ref}
-#        """
-
+rule modify_genome:
+    input: 
+        vcf = VCF_DIR + SPECIES + ".vcf",
+        ref = REF_FASTA
+    output: 
+        vcf = VCF_DIR + SPECIES + ".non-ref-ac_2_biallelic_qual.vcf",
+        gz = VCF_DIR + SPECIES + ".non-ref-ac_2_biallelic_qual.vcf.gz",
+        ref = REF_DIR + REF_NAME + "_nonRefAf_consensus.fasta"
+    threads: 1
+    shell: 
+        """
+        vcftools --vcf {input.vcf} --non-ref-af 0.5 --min-alleles 2 --max-alleles 2 --remove-filtered-all --recode --stdout > {output.vcf}
+        bgzip -c {output.vcf} > {output.gz}
+        tabix -p vcf {output.gz}
+        cat {input.ref} | bcftools consensus {output.gz} > {output.ref}
+        """
 
 ###########################################################
 ################# STATISTICAL CALCULATIONS ##################
