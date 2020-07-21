@@ -5,9 +5,9 @@ min_version("4.4.0")
 
 dir_path = os.getcwd()
 
-###############################################
-################## PATHS ######################
-###############################################
+##########################################################
+######################## PATHS ###########################
+##########################################################
 
 ID = config["samples"]
 SPECIES = config["species"]
@@ -30,9 +30,9 @@ RESULTDIR = "results/" + PREFIX + "/"
 
 EDIT_DIST = ["all", "0.0", "0.1", "0.2", "0.3", "0.4"]
 
-###############################################
-################## RULES ######################
-###############################################
+##########################################################
+######################## RULES ###########################
+##########################################################
 
 rule all:
      input:
@@ -52,5 +52,77 @@ rule all:
         RESULTDIR + SPECIES + ".allFreq.1Mbp.out",
         RESULTDIR + SPECIES + ".allFreq.100kbp.out"
 
+##########################################################
+################### INCLUDE SNAKEFILE ####################
+##########################################################
+
 include: "snakefile"
 
+##########################################################
+################## NO SYNTENY ANALYSIS ###################
+##########################################################
+
+rule normalize_cov:
+     input:
+        GENCOV_DIR + "gencov.nodup.nm.{ED}.out"
+     output:
+        GENCOV_DIR + "gencov.nodup.nm.{ED}.out.norm"
+     shell:
+        """
+        python3 normalize_coverage.py {input} > {output}
+        """
+
+##########################################################
+##################### CONFIRM SEXING #####################
+##########################################################
+
+rule confirm_sexing:
+    input:
+        GENCOV_DIR + "gencov.nodup.nm.all.out"
+    output:
+        protected(RESULTDIR + SPECIES + ".gencovIndv.pdf")
+    params:
+        hetero = expand("{heterogametic}", heterogametic = HETEROGAMETIC),
+        homo = expand("{homogametic}", homogametic = HOMOGAMETIC)
+    threads: 1
+    shell:
+        """
+        Rscript code/confirm_sexing.R {input} {output} {params.hetero} {params.homo}
+        """
+
+##########################################################
+################ STATISTICAL CALCULATIONS ################
+##########################################################
+
+rule calculate_heterozygosity:
+     input:
+        VCF_DIR + SPECIES + ".diffHeterozygosity.bed"
+     output:
+        Mb = RESULTDIR + SPECIES + ".diffHeterozygosity.1Mbp.out",
+        kb = RESULTDIR + SPECIES + ".diffHeterozygosity.1kbp.out"
+     shell:
+        """
+        Rscript calculate_heterozygosityDiff_windows.R {input} {output.Mb} {output.kb}
+        """
+
+rule calculate_allFreq:
+    input:
+        VCF_DIR + SPECIES + ".allFreq.bed"
+    output:
+        Mb = RESULTDIR + SPECIES + ".allFreq.1Mbp.out",
+        kb = RESULTDIR + SPECIES + ".allFreq.100kbp.out"
+    shell:
+        """
+        Rscript code/calculate_snpCount_windows.R {input} {output.Mb} {output.kb}
+        """
+
+rule calculate_ratio:
+     input:
+        GENCOV_DIR + "gencov.nodup.nm.{ED}.out.norm"
+     output:
+        Mb = RESULTDIR + SPECIES + ".gencov.nodup.nm.{ED}.1Mbp.out",
+        kb = RESULTDIR + SPECIES + ".gencov.nodup.nm.{ED}.1kbp.out"
+     shell:
+        """
+        Rscript calculate_gencov_windows.R {input} {output.Mb} {output.kb}
+        """
