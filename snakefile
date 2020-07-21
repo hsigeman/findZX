@@ -218,14 +218,14 @@ rule allele_frequency:
         homo = VCF_DIR + SPECIES + ".allFreq.homogametic.out"
     params:
         hetero = expand("--indv {heterogametic}", heterogametic = HETEROGAMETIC),
-        homo = expand("{--indv homogametic}", homogametic = HOMOGAMETIC)
+        homo = expand("--indv {homogametic}", homogametic = HOMOGAMETIC)
     shell:
         """
         vcftools --vcf {input} {params.hetero} --freq --stdout > {output.hetero}
         vcftools --vcf {input} {params.homo} --freq --stdout > {output.homo}
         """
 
-rule fileter_allele_frequency:
+rule filter_allele_frequency:
     input:
         hetero = VCF_DIR + SPECIES + ".allFreq.heterogametic.out",
         homo = VCF_DIR + SPECIES + ".allFreq.homogametic.out"
@@ -245,7 +245,7 @@ rule normalize_cov:
      input:
         GENCOV_DIR + "gencov.nodup.nm.{ED}.out"
      output:
-        GENCOV_DIR + "gencov.nodup.nm.{ED}.norm.out"
+        GENCOV_DIR + "gencov.nodup.nm.{ED}.out.norm"
      shell:
         """
         python3 normalize_coverage.py {input} > {output}
@@ -275,7 +275,7 @@ rule calculate_allFreq:
 
 rule calculate_ratio:
      input:
-        GENCOV_DIR + "gencov.nodup.nm.{ED}.norm.out"
+        GENCOV_DIR + "gencov.nodup.nm.{ED}.out.norm"
      output:
         Mb = RESULTDIR + SPECIES + ".gencov.nodup.nm.{ED}.1Mbp.out",
         kb = RESULTDIR + SPECIES + ".gencov.nodup.nm.{ED}.1kbp.out"
@@ -286,7 +286,7 @@ rule calculate_ratio:
 
 rule confirm_sexing:
     input:
-        GENCOV_DIR + "gencov.nodup.nm.{ED}.out"
+        GENCOV_DIR + "gencov.nodup.nm.all.out"
     output:
         protected(RESULTDIR + SPECIES + ".gencovIndv.pdf")
     params:
@@ -400,7 +400,7 @@ rule matchScaffold2Chr_cov:
         python3 code/matchScaffold2chr_cov.py {output.bestMatch} > {output.bestMatch_norm}
         """
 
-rule confirm_sexing:
+rule confirm_sexing_synteny:
     input:
         MATCHDIR + "gencov.nodup.nm.all." + SYNTENY_SPECIES + ".out"
     output:
