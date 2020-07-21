@@ -247,9 +247,9 @@ rule filter_allele_frequency:
 
 rule plotting:
     input: 
-        cov0 = RESULTDIR + SPECIES + "{synteny}gencov.nodup.nm.0.0.norm.1Mbp.out",
-        cov2 = RESULTDIR + SPECIES + "{synteny}gencov.nodup.nm.0.2.norm.1Mbp.out",
-        cov4 = RESULTDIR + SPECIES + "{synteny}gencov.nodup.nm.0.4.norm.1Mbp.out",
+        cov0 = RESULTDIR + SPECIES + "{synteny}gencov.nodup.nm.0.0.1Mbp.out",
+        cov2 = RESULTDIR + SPECIES + "{synteny}gencov.nodup.nm.0.2.1Mbp.out",
+        cov4 = RESULTDIR + SPECIES + "{synteny}gencov.nodup.nm.0.4.1Mbp.out",
         snp = RESULTDIR + SPECIES + "{synteny}diffHeterozygosity.1Mbp.out"
     output: 
         protected(RESULTDIR + SPECIES + "{synteny}circlize.pdf")

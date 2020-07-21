@@ -52,7 +52,7 @@ rule all:
         COMP_GEN_SYNS + REF_SPECIES + "_align_converted",
         MATCHDIR_REF + "genome_windows.out",
         MATCHDIR_REF + "bestMatch.status",
-        expand(MATCHDIR + "gencov.nodup.nm.{ED}.norm." + SYNTENY_SPECIES + ".out", ED = EDIT_DIST),
+        expand(MATCHDIR + "gencov.nodup.nm.{ED}." + SYNTENY_SPECIES + ".out.norm", ED = EDIT_DIST),
         REF_DIR + REF_NAME + "_nonRefAf_consensus.fasta",
         VCF_DIR + SPECIES + ".diffHeterozygosity.bed",
         VCF_DIR + SPECIES + ".biallelic.minQ20.minDP3.vcf",
@@ -162,7 +162,7 @@ rule matchScaffold2Chr_cov:
         cov = GENCOV_DIR + "gencov.nodup.nm.{ED}.out"
     output:
         bestMatch = MATCHDIR + "gencov.nodup.nm.{ED}." + SYNTENY_SPECIES + ".out",
-        bestMatch_norm = MATCHDIR + "gencov.nodup.nm.{ED}.norm." + SYNTENY_SPECIES + ".out"
+        bestMatch_norm = MATCHDIR + "gencov.nodup.nm.{ED}." + SYNTENY_SPECIES + ".out.norm"
     threads: 1
     shell:
         """
@@ -218,10 +218,10 @@ rule calculate_allFreq_synteny:
 
 rule calculate_ratio_synteny:
     input:
-        MATCHDIR + "{ED}." + SYNTENY_SPECIES + ".out"
+        MATCHDIR + "gencov.nodup.nm.{ED}." + SYNTENY_SPECIES + ".out.norm"
     output:
-        Mb = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".{ED}.1Mbp.out",
-        kb = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".{ED}.100kbp.out"
+        Mb = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov.nodup.nm.{ED}.1Mbp.out",
+        kb = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov.nodup.nm.{ED}.100kbp.out"
     threads: 1
     shell:
         """
