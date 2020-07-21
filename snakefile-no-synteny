@@ -87,7 +87,7 @@ rule confirm_sexing:
     threads: 1
     shell:
         """
-        Rscript code/confirm_sexing.R {input} {output} {params.hetero} {params.homo}
+        Rscript code/confirm_sexing.R {input} {output} no-synteny {params.hetero} {params.homo}
         """
 
 ##########################################################

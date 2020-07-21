@@ -186,7 +186,7 @@ rule confirm_sexing_synteny:
     threads: 1
     shell:
         """
-        Rscript code/confirm_sexing.R {input} {output} {params.hetero} {params.homo}
+        Rscript code/confirm_sexing.R {input} {output} with-synteny {params.hetero} {params.homo}
         """
 
 ##########################################################
