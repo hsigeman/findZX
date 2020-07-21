@@ -12,9 +12,9 @@ gen_data_4plotting <- function(filename, y_column) {
 	data_table =read.table(filename, header=TRUE,fill=TRUE,stringsAsFactor=FALSE)
 	data_table$chr <- as.factor(data_table$chr)
 
-	data_table$chr <- ordered(data_table$chr,
-				levels = c("1", "1A", "1B", "2", "3", "4", "4A", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", 
-					"15", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "Z"))
+	#data_table$chr <- ordered(data_table$chr,
+	#			levels = c("1", "1A", "1B", "2", "3", "4", "4A", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", 
+	#				"15", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "Z"))
 
 	myvars <- c("chr", "range", y_column)
 	setDF(data_table)
