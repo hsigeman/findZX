@@ -25,7 +25,7 @@ mean_hetero = norm.loc[:,heterogametic_sex].mean(axis=1)
 mean_homo = norm.loc[:,homogametic_sex].mean(axis=1)
 
 mean_sexes = pn.concat([mean_hetero, mean_homo], axis=1)
-gencov_mean = pn.merge(gencov_ref.loc[:,[0,1,2,7,8,9]],mean_sexes, left_index=True, right_index=True)
+gencov_mean = pn.merge(gencov_ref.loc[:,[7,8,9]],mean_sexes, left_index=True, right_index=True)
 
 sys.stdout.write(gencov_mean.to_csv(header=None, index=None, sep='\t'))
 

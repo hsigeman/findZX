@@ -15,9 +15,8 @@ filename = args[1]
 source("code/functions.R")
 
 cov = read.table(filename,header=FALSE,fill=TRUE,stringsAsFactor=FALSE)
-cov <- plyr::rename(cov, c("V1"="contig", "V2"="contig_start","V3"="contig_end", 
-                           "V4"="chr", "V5"="start", "V6"="end", "V7"="heterogametic", 
-                           "V8"="homogametic"))
+cov <- plyr::rename(cov, c("V1"="chr", "V2"="start", "V3"="end", "V4"="heterogametic", 
+                           "V5"="homogametic"))
 
 cov <- remove_chr_less_than_1mb(cov)
 
