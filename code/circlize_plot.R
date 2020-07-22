@@ -97,7 +97,7 @@ circos.trackPlotRegion(factors = snp.select$factor, ylim = c(min.snp,max.snp), x
   ylim = get.cell.meta.data("ylim")
   circos.text(mean(xlim), mean(ylim) + uy(9, "mm"), cex = 1.1, sector.index) 
   circos.lines(x, y, col = "blue", area = TRUE, baseline = median.snp)
-  circos.yaxis(side = "left", sector.index = 1)
+  circos.yaxis(side = "left", sector.index = factors[1])
 })
 
 circos.trackPlotRegion(factors = cov.select.00$factor, ylim = c(min.cov.00,max.cov.00), x = cov.select.00$x, y = cov.select.00$y, panel.fun = function(x, y) {
@@ -107,7 +107,7 @@ circos.trackPlotRegion(factors = cov.select.00$factor, ylim = c(min.cov.00,max.c
   xlim = get.cell.meta.data("xlim")
   ylim = get.cell.meta.data("ylim")
   circos.lines(x, y, col = "red", area = TRUE, baseline = median.cov.00)
-  circos.yaxis(side = "left", sector.index = 1)
+  circos.yaxis(side = "left", sector.index = factors[1])
 })
 
 circos.trackPlotRegion(factors = cov.select.02$factor, ylim = c(min.cov.02,max.cov.02), x = cov.select.02$x, y = cov.select.02$y, panel.fun = function(x, y) {
@@ -117,7 +117,7 @@ circos.trackPlotRegion(factors = cov.select.02$factor, ylim = c(min.cov.02,max.c
   xlim = get.cell.meta.data("xlim")
   ylim = get.cell.meta.data("ylim")
   circos.lines(x, y, col = "red", area = TRUE, baseline = median.cov.02)
-  circos.yaxis(side = "left", sector.index = 1)
+  circos.yaxis(side = "left", sector.index = factors[1])
 })
 
 circos.trackPlotRegion(factors = cov.select.04$factor, ylim = c(min.cov.04,max.cov.04), x = cov.select.04$x, y = cov.select.04$y, panel.fun = function(x, y) {
@@ -127,7 +127,7 @@ circos.trackPlotRegion(factors = cov.select.04$factor, ylim = c(min.cov.04,max.c
   xlim = get.cell.meta.data("xlim")
   ylim = get.cell.meta.data("ylim")
   circos.lines(x, y, col = "red", area = TRUE, baseline = median.cov.04)
-  circos.yaxis(side = "left", sector.index = 1)
+  circos.yaxis(side = "left", sector.index = factors[1])
   circos.axis("bottom", direction = "inside", labels.facing = "reverse.clockwise")
 })
 
