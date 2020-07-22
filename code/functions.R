@@ -26,6 +26,8 @@ calculate_ratio <- function(data_table) {
   data_table <- subset(data_table, data_table$ratio != "Inf")
   data_table$ratio_scaled <- data_table$ratio / median(data_table$ratio, na.rm = TRUE)
   
+  data_table[is.na(data_table)] <- 0
+  
   return(data_table)
 }
 
@@ -60,6 +62,8 @@ calculate_diff <- function(data_table) {
   
   data_table$diff <- data_table$heterogametic - data_table$homogametic
   data_table$diff_scaled <- data_table$diff / median(data_table$diff, na.rm = TRUE)
+  
+  data_table[is.na(data_table)] <- 0
   
   return(data_table)
 }
