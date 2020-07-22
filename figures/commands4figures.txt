@@ -1,9 +1,0 @@
-#from directory: pipeline-test-multSamp
-
-Rscript plot_compare.R ratioHetHom/AlaArv.mutSamp.05.1Mbp.out ratioHetHom/AlaArv.mutSamp.08.1Mbp.out results/AlaArv_ref_AlaArv/AlaArv.allFreq.bestMatch.1Mbp.txt results/AlaArv_ref_AlaArv/AlaArv.allDiv.bestMatch.1Mbp.txt results/AlaArv_ref_AlaArv/AlaArv.hetSites0508.allFreq.allDiv.circlize.pdf
-
-
-#from directory: pipeline-test-alt2Singletons
-
-Rscript plot_compare.R ../pipeline-test-org/results/AlaArv_ref_AlaArv/AlaArv_ref_AlaArv.1Mbp_snp_diff.txt ratioHetHom/AlaArv-filtered.minQ20.minDP3.05.1Mbp.out allFreq/allFreq.1Mb.snp.txt allDiv/results/alaarv_dnorm/alaarv_norm.1Mbp.snp.txt AlaArv.singletons.hetSites.allFreq.allDiv.circlize.pdf
-
