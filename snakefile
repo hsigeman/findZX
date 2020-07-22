@@ -268,8 +268,8 @@ rule modify_genome:
         vcf = VCF_DIR + SPECIES + ".vcf",
         ref = REF_FASTA
     output:
-        vcf = VCF_DIR + SPECIES + ".non-ref-ac_2_biallelic_qual.vcf",
-        gz = VCF_DIR + SPECIES + ".non-ref-ac_2_biallelic_qual.vcf.gz",
+        vcf = VCF_DIR + SPECIES + ".non-ref-ac_05_biallelic_qual.vcf",
+        gz = VCF_DIR + SPECIES + ".non-ref-ac_05_biallelic_qual.vcf.gz",
         ref = REF_DIR + REF_NAME + "_nonRefAf_consensus.fasta"
     threads: 1
     shell:
