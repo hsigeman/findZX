@@ -46,8 +46,8 @@ rule all:
         expand(GENCOV_DIR + "gencov.nodup.nm.{ED}.out.norm", ED = EDIT_DIST),
         VCF_DIR + SPECIES + ".diffHeterozygosity.bed",
         VCF_DIR + SPECIES + ".biallelic.minQ20.minDP3.vcf",
-        #REF_DIR + REF_NAME + "_nonRefAf_consensus.fasta",
-        #RESULTDIR + SPECIES + ".gencovIndv.pdf",
+        REF_DIR + REF_NAME + "_nonRefAf_consensus.fasta",
+        RESULTDIR + SPECIES + ".gencovIndv.pdf",
         RESULTDIR + SPECIES + ".circlize.pdf",
         RESULTDIR + SPECIES + ".allFreq.1Mbp.out",
         RESULTDIR + SPECIES + ".allFreq.100kbp.out"
@@ -87,7 +87,7 @@ rule confirm_sexing:
     threads: 1
     shell:
         """
-        Rscript code/confirm_sexing.R {input} {output} no-synteny {params.hetero} {params.homo}
+        Rscript code/confirm_sexing_histograms.R {input} {output} no-synteny {params.hetero} {params.homo}
         """
 
 ##########################################################
