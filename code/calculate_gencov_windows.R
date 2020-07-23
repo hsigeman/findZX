@@ -18,12 +18,14 @@ cov = read.table(filename,header=FALSE,fill=TRUE,stringsAsFactor=FALSE)
 cov <- plyr::rename(cov, c("V1"="chr", "V2"="start", "V3"="end", "V4"="heterogametic", 
                            "V5"="homogametic"))
 
-cov <- remove_chr_less_than_1mb(cov)
-
 cov <- calculate_ratio(cov)
 
 # Remove outliers
 cov <- remove_outliers(cov)
+
+mean_chr <- mean_chr(cov)
+
+cov <- remove_chr_less_than_1mb(cov)
 
 mean_1Mb_ranges <- mean_win(cov, 1000000)
 mean_100kb_ranges <- mean_win(cov, 100000)
@@ -31,3 +33,5 @@ mean_100kb_ranges <- mean_win(cov, 100000)
 write.table(mean_1Mb_ranges, args[2], quote=FALSE, sep="\t", row.names = F, col.names = T, na = "NA")
 
 write.table(mean_100kb_ranges, args[3], quote=FALSE, sep="\t", row.names = F, col.names = T, na = "NA")
+
+write.table(mean_chr, args[4], quote=FALSE, sep="\t", row.names = F, col.names = T, na = "NA")

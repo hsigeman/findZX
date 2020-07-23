@@ -48,6 +48,22 @@ mean_win <- function(data_table, win_len) {
   return(data_table)
 }
 
+mean_chr <- function(data_table) {
+  # calculates the mean in ratio for each chr
+  
+  data_table <- summaryBy(ratio ~ chr, data=data_table, keep.names=TRUE)
+  
+  return(data_table)
+}
+
+mean_diff_chr <- function(data_table) {
+  # calculates the mean in diff for each chr
+  
+  data_table <- summaryBy(diff ~ chr, data=data_table, keep.names=TRUE)
+  
+  return(data_table)
+}
+
 mean_diff_win <- function(data_table, win_len) {
   # calculates the mean in windows (1Mbp, 100kbp)
 

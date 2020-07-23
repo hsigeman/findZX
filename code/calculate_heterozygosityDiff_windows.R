@@ -16,6 +16,11 @@ snp = read.table(filename,header=FALSE,fill=TRUE,stringsAsFactor=FALSE)
 snp <- plyr::rename(snp, c("V1"="chr", "V2"="start",
                            "V3"="end", "V4"="diff"))
 
+snp_mean_chr <- mean_diff_chr(snp)
+
+write.table(snp_mean_chr, args[4], quote=FALSE, sep="\t", row.names = F, col.names = T, na = "NA")
+
+
 snp <- remove_chr_less_than_1mb(snp)
 
 
