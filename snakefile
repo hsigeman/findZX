@@ -205,8 +205,8 @@ rule proportion_heterozygosity:
     output:
         VCF_DIR + SPECIES + ".diffHeterozygosity.bed"
     params:
-        hetero = expand("{heterogametic}", heterogametic = HETEROGAMETIC),
-        homo = expand("{homogametic}", homogametic = HOMOGAMETIC)
+        hetero = expand("het:{heterogametic}", heterogametic = HETEROGAMETIC),
+        homo = expand("homo:{homogametic}", homogametic = HOMOGAMETIC)
     threads: 1
     shell:
         """

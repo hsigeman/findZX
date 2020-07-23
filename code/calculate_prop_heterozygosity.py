@@ -11,18 +11,21 @@ elif not len(sys.argv)>3:
 	sys.exit()
 
 
-nr_samples_each_sex = int((len(sys.argv) - 2)/2)
-
-heterogametic_argv = list(range(3, 3 + nr_samples_each_sex))
-homogametic_argv =  list(range(3 + nr_samples_each_sex, 3 + 2*nr_samples_each_sex))
+nr_samples = int(len(sys.argv) - 2)
 
 heterogametic_samples = []
-for i in heterogametic_argv:
-	heterogametic_samples.append(sys.argv[i])
-
 homogametic_samples = []
-for i in homogametic_argv:
-	homogametic_samples.append(sys.argv[i])
+
+for i in range(3, len(sys.argv)):
+	sample_args = sys.argv[i].split(':')
+
+	if sys.argv[i].startswith('het'):
+		heterogametic_samples.append(sample_args[1])
+
+	elif sys.argv[i].startswith('homo'):
+		homogametic_samples.append(sample_args[1])
+
+print(heterogametic_samples)
 
 out_file = open(sys.argv[2], 'w')
 
