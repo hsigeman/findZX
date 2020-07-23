@@ -1,24 +1,12 @@
 library(doBy)
 library(data.table)
 
+# reads in gencov and plots cov and het in windows against each other
+# colours windows after which chromosome they are on
+
 ########## FUNCTIONS ##########
 
-gen_data_4plotting <- function(filename, y_column) {
-  data_table =read.table(filename, header=TRUE,fill=TRUE,stringsAsFactor=FALSE)
-  data_table$chr <- as.factor(data_table$chr)
-  
-  myvars <- c("chr", "range", y_column)
-  setDF(data_table)
-  data_table.select <- data_table[myvars]
-  data_table.select <- na.omit(data_table.select)
-  colnames(data_table.select) <- c("factor", "x", "y")
-
-  max.data_table <- max(data_table.select$y)
-  min.data_table <- min(data_table.select$y)
-  median.data_table <- median(data_table.select$y)
-
-  return(list(df = data_table.select, max = max.data_table, min = min.data_table, median = median.data_table))
-}
+source("code/functions.R")
 
 color_pallete_function <- colorRampPalette(
   colors = c("red", "orange", "blue"),
@@ -37,7 +25,7 @@ file04 = args[3]
 filesnp = args[4]
 
 
-cov_00 <- gen_data_4plotting(file00, "ratio")
+cov_00 <- gen_data_4plotting(file00, c("chr", "range", "ratio"))
 cov.select.00 <- cov_00$df
 max.cov.00 <- cov_00$max
 max.cov.00
@@ -46,7 +34,7 @@ min.cov.00
 median.cov.00 <- cov_00$median
 median.cov.00
 
-cov_02 <- gen_data_4plotting(file02, "ratio")
+cov_02 <- gen_data_4plotting(file02, c("chr", "range", "ratio"))
 cov.select.02 <- cov_02$df
 max.cov.02 <- cov_02$max
 max.cov.02
@@ -55,7 +43,7 @@ min.cov.02
 median.cov.02 <- cov_02$median
 median.cov.02
 
-cov_04 <- gen_data_4plotting(file04, "ratio")
+cov_04 <- gen_data_4plotting(file04, c("chr", "range", "ratio"))
 cov.select.04 <- cov_04$df
 max.cov.04 <- cov_04$max
 max.cov.04
@@ -64,7 +52,7 @@ min.cov.04
 median.cov.04 <- cov_04$median
 median.cov.04
 
-snp <- gen_data_4plotting(filesnp, "diff")
+snp <- gen_data_4plotting(filesnp, c("chr", "range", "diff"))
 snp.select <- snp$df
 max.snp <- snp$max
 max.snp
@@ -102,5 +90,3 @@ abline(h = median.snp)
 abline(v = median.cov.04)
 
 
-# plot het/cov color after chr len
-# 3d plot het/cov/len
