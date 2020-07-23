@@ -21,7 +21,7 @@ file04 = args[3]
 filesnp = args[4]
 
 
-cov_00 <- gen_data_4plotting(file00, "ratio")
+cov_00 <- gen_data_4plotting(file00, c("chr", "range", "ratio"))
 cov.select.00 <- cov_00$df
 max.cov.00 <- cov_00$max
 max.cov.00
@@ -30,7 +30,7 @@ min.cov.00
 median.cov.00 <- cov_00$median
 median.cov.00
 
-cov_02 <- gen_data_4plotting(file02, "ratio")
+cov_02 <- gen_data_4plotting(file02, c("chr", "range", "ratio"))
 cov.select.02 <- cov_02$df
 max.cov.02 <- cov_02$max
 max.cov.02
@@ -39,7 +39,7 @@ min.cov.02
 median.cov.02 <- cov_02$median
 median.cov.02
 
-cov_04 <- gen_data_4plotting(file04, "ratio")
+cov_04 <- gen_data_4plotting(file04, c("chr", "range", "ratio"))
 cov.select.04 <- cov_04$df
 max.cov.04 <- cov_04$max
 max.cov.04
@@ -48,7 +48,7 @@ min.cov.04
 median.cov.04 <- cov_04$median
 median.cov.04
 
-snp <- gen_data_4plotting(filesnp, "diff")
+snp <- gen_data_4plotting(filesnp, c("chr", "range", "diff"))
 snp.select <- snp$df
 max.snp <- snp$max
 max.snp

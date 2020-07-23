@@ -111,11 +111,11 @@ count_snp_win <- function(snp_table, win_len) {
   return(snp_table)
 }
 
-gen_data_4plotting <- function(filename, y_column) {
+gen_data_4plotting <- function(filename, columns) {
   data_table =read.table(filename, header=TRUE,fill=TRUE,stringsAsFactor=FALSE)
   data_table$chr <- as.factor(data_table$chr)
   
-  myvars <- c("chr", "range", y_column)
+  myvars <- columns
   setDF(data_table)
   data_table.select <- data_table[myvars]
   data_table.select <- na.omit(data_table.select)
