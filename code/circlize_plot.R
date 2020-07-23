@@ -6,28 +6,7 @@ library(data.table)
 # Hard coded, if you change something with the input file, use with caution
 # Zebra finch chromosomes
 
-########## FUNCTIONS ##########
-
-gen_data_4plotting <- function(filename, y_column) {
-	data_table =read.table(filename, header=TRUE,fill=TRUE,stringsAsFactor=FALSE)
-	data_table$chr <- as.factor(data_table$chr)
-
-	#data_table$chr <- ordered(data_table$chr,
-	#			levels = c("1", "1A", "1B", "2", "3", "4", "4A", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", 
-	#				"15", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "Z"))
-
-	myvars <- c("chr", "range", y_column)
-	setDF(data_table)
-	data_table.select <- data_table[myvars]
-	data_table.select <- na.omit(data_table.select)
-	colnames(data_table.select) <- c("factor", "x", "y")
-
-	max.data_table <- max(data_table.select$y)
-	min.data_table <- min(data_table.select$y)
-	median.data_table <- median(data_table.select$y)
-
-	return(list(df = data_table.select, max = max.data_table, min = min.data_table, median = median.data_table))
-}
+source("code/functions.R")
 
 
 ########## CALCULATION ##########

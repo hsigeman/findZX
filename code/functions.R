@@ -111,3 +111,19 @@ count_snp_win <- function(snp_table, win_len) {
   return(snp_table)
 }
 
+gen_data_4plotting <- function(filename, y_column) {
+  data_table =read.table(filename, header=TRUE,fill=TRUE,stringsAsFactor=FALSE)
+  data_table$chr <- as.factor(data_table$chr)
+  
+  myvars <- c("chr", "range", y_column)
+  setDF(data_table)
+  data_table.select <- data_table[myvars]
+  data_table.select <- na.omit(data_table.select)
+  colnames(data_table.select) <- c("factor", "x", "y")
+  
+  max.data_table <- max(data_table.select$y)
+  min.data_table <- min(data_table.select$y)
+  median.data_table <- median(data_table.select$y)
+  
+  return(list(df = data_table.select, max = max.data_table, min = min.data_table, median = median.data_table))
+}
