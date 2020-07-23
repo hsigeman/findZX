@@ -7,7 +7,8 @@ if len(sys.argv)==1:
 	sys.exit()
 elif not len(sys.argv)>3:
 	print("\nERROR: wrong number of input arguments")
-	print("Call: python3 {python-script} {VCF} {OUT} {heterogametic-samples} {homogametic-samples}\n")
+	print("Call: python3 {python-script} {VCF} {OUT} {heterogametic-samples, prefix 'het:'}") 
+	print("{homogametic-samples, prefix 'homo:'}\n")
 	sys.exit()
 
 
@@ -24,8 +25,6 @@ for i in range(3, len(sys.argv)):
 
 	elif sys.argv[i].startswith('homo'):
 		homogametic_samples.append(sample_args[1])
-
-print(heterogametic_samples)
 
 out_file = open(sys.argv[2], 'w')
 
