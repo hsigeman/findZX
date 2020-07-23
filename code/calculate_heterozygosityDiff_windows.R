@@ -16,7 +16,12 @@ snp = read.table(filename,header=FALSE,fill=TRUE,stringsAsFactor=FALSE)
 snp <- plyr::rename(snp, c("V1"="chr", "V2"="start",
                            "V3"="end", "V4"="diff"))
 
+
 snp_mean_chr <- mean_diff_chr(snp)
+len_chr <- length_chr(snp)
+colnames(len_chr) <- c("chr", "length")
+
+snp_mean_chr <- merge(snp_mean_chr, len_chr, by = "chr")
 
 write.table(snp_mean_chr, args[4], quote=FALSE, sep="\t", row.names = F, col.names = T, na = "NA")
 

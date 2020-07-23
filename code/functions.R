@@ -18,6 +18,15 @@ remove_chr_less_than_1mb <- function(data_table) {
   return(data_table)
 }
 
+length_chr <- function(data_table) {
+  
+  max_per_chr <- setDT(data_table)[, .SD[which.max(end)], by=chr]
+  
+  max_per_chr <- as.data.frame(matrix(c(max_per_chr$chr, max_per_chr$end), ncol = 2, byrow = FALSE))
+  
+  return(max_per_chr)
+}
+
 calculate_ratio <- function(data_table) {
   # Calculates the coverage or snp ratio between female and male normalized by the
   # median ratio. Infinite values are removed.
