@@ -66,6 +66,7 @@ cov.select <- merge(cov.select, cov.select.04, by = c("factor", "x"))
 cov.select <- merge(cov.select, snp.select, by = c("factor", "x"))
 
 colnames(cov.select) <- c("factor", "x", "cov00", "cov02", "cov04", "hetDiff")
+cov.select <- cov.select[order(cov.select$x),]
 
 # Color each chromosome with a unique color
 c <- color_pallete_function(length(unique(cov.select$factor)))

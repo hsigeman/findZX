@@ -62,7 +62,20 @@ cov.select <- merge(cov.select, snp.select, by = c("factor"))
 cov.select <- cov.select[-6]
 colnames(cov.select) <- c("factor", "x", "cov00", "cov02", "cov04", "hetDiff")
 
+cov.select <- cov.select[order(cov.select$x),]
+
+c <- colorRampPalette(colors = c('grey96','red3','black'))(length(unique(cov.select$x)))
+
 # plot het/cov color after chr len
+plot(cov.select$cov00, cov.select$hetDiff, col = c, pch = 20)
+lgd_ = rep(NA, 11)
+lgd_[c(1,11)] = c(max(cov.select$x),min(cov.select$x))
+legend("bottomright",
+       legend = lgd_,
+       fill = colorRampPalette(colors = c('grey96','red3','black'))(11),
+       border = NA,
+       y.intersp = 0.5)
+
 # 3d plot het/cov/len
 scatterplot3d(cov.select$x, cov.select$cov00, cov.select$hetDiff)
 
