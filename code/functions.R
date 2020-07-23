@@ -33,8 +33,8 @@ calculate_ratio <- function(data_table) {
 
 remove_outliers <- function(data_table) {
   
-  outliers <- boxplot(ratio ~ chr, data=data_table)$out
-  data_table[!(data_table$ratio %in% outliers),]
+  outliers <- boxplot(ratio ~ chr, data=data_table, plot = FALSE)$out
+  data_table <- data_table[!(data_table$ratio %in% outliers),]
   
   return(data_table)
 }
