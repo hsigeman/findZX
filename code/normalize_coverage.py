@@ -2,22 +2,40 @@ import sys
 import pandas as pn
 
 if len(sys.argv)==1:
-	print("Pyton-script written for the matchScaffold2Chr rule in snakemake pipe-line.")
+	print("Pyton-script written to normalize and take mean of coverage for each sex.")
 	print("Normalizes each sample on the mean of that sample and then takes the mean over each sex.\n")
 	sys.exit()
-elif not len(sys.argv)==2:
+elif not len(sys.argv)>=2:
 	print("\nError:\tincorrect number of command-line arguments")
-	print("Syntax:\tmatchScaffold2chr_cov.py [genCov] \n")
+	print("Syntax:\tmatchScaffold2chr_cov.py [genCov] {heterogametic samples. prefix 'het:'}")
+	print("{homogametic samples. prefix 'homo:'} \n")
 	sys.exit()
+
+
+nr_samples = int(len(sys.argv) - 1)
+
+heterogametic_samples = []
+homogametic_samples = []
+
+for i in range(2, len(sys.argv)):
+        sample_args = sys.argv[i].split(':')
+
+        if sys.argv[i].startswith('het'):
+                heterogametic_samples.append(sample_args[1])
+
+        elif sys.argv[i].startswith('homo'):
+                homogametic_samples.append(sample_args[1])
+
+nr_heterogametic = len(heterogametic_samples)
+nr_homogametic = len(homogametic_samples)
+
 
 gencov_ref = pn.read_csv(sys.argv[1], sep='\t', header=None)
 
-nr_samples = gencov_ref.apply(max).tolist()
-nr_samples_each_sex = int((len(nr_samples) - 3)/2)
+samples = list(range(3, 3 + nr_samples))
+heterogametic_sex = list(range(3, 3 + nr_heterogametic))
+homogametic_sex = list(range(3 + nr_heterogametic, 3 + nr_heterogametic + nr_homogametic))
 
-samples = list(range(3, 3 + 2*nr_samples_each_sex))
-heterogametic_sex = list(range(3, 3 + nr_samples_each_sex))
-homogametic_sex = list(range(3 + nr_samples_each_sex, 3 + 2*nr_samples_each_sex))
 
 norm = gencov_ref.loc[:,samples].div(gencov_ref.loc[:,samples].mean())	
 mean_hetero = norm.loc[:,heterogametic_sex].mean(axis=1)

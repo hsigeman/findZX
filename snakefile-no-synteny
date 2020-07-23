@@ -63,13 +63,16 @@ include: "snakefile"
 ##########################################################
 
 rule normalize_cov:
-     input:
+    input:
         GENCOV_DIR + "gencov.nodup.nm.{ED}.out"
-     output:
+    output:
         GENCOV_DIR + "gencov.nodup.nm.{ED}.out.norm"
-     shell:
+    params:
+        hetero = expand("het:{heterogametic}", heterogametic = HETEROGAMETIC),
+        homo = expand("homo:{homogametic}", homogametic = HOMOGAMETIC)
+    shell:
         """
-        python3 code/normalize_coverage.py {input} > {output}
+        python3 code/normalize_coverage.py {input} {params.hetero} {params.homo} > {output}
         """
 
 ##########################################################
