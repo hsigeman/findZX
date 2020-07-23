@@ -163,12 +163,15 @@ rule matchScaffold2Chr_cov:
     output:
         bestMatch = MATCHDIR + "gencov.nodup.nm.{ED}." + SYNTENY_SPECIES + ".out",
         bestMatch_norm = MATCHDIR + "gencov.nodup.nm.{ED}." + SYNTENY_SPECIES + ".out.norm"
+    params:
+        hetero = expand("het:{heterogametic}", heterogametic = HETEROGAMETIC),
+        homo = expand("homo:{homogametic}", homogametic = HOMOGAMETIC)
     threads: 1
     shell:
         """
         bedtools intersect -a {input.bestMatch} -b {input.cov} -wa -wb > {output.bestMatch}
 
-        python3 code/matchScaffold2chr_cov.py {output.bestMatch} > {output.bestMatch_norm}
+        python3 code/matchScaffold2chr_cov.py {output.bestMatch} {params.hetero} {params.homo} > {output.bestMatch_norm}
         """
 
 ##########################################################
