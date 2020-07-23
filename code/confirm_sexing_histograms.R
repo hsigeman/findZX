@@ -5,46 +5,62 @@ library(data.table)
 # Calculates the mean coverage on chr Z and 4 for each individual
 # and plots the coverage and the ratio chr z/4
 
-# remove outliers
-remove_outliers <- function(data_table) {
+################################################################################
+################################## FUNCTIONS ###################################
+################################################################################
+
+remove_outliers <- function(column) {
   
-  outliers <- boxplot(data_table$S)$out
-  data_table <- data_table[-which(data_table$S %in% outliers),]
+  outliers <- boxplot(column, plot = FALSE)$out
+  column <- column[!(column %in% outliers)]
   
-  return(data_table)
+  return(column)
 }
 
+normalize <- function(column) {
+  
+  column_median <- median(column)
+  column_normalized <- column/column_median
+  
+  return(column_normalized)
+}
 
+################################################################################
+################################################################################
+################################################################################
 
 args <- commandArgs(trailingOnly = TRUE)
-
 
 filename = args[1]
 outfilename = args[2]
 synteny = args[3]
-sample_names <- args[4:length(args)]
+sample_names = args[4:length(args)]
 
 # read gencov
 cov = read.table(filename,header=FALSE,fill=TRUE,stringsAsFactor=FALSE)
 
 if (synteny == "with-synteny") {
-  cov <- cov[-1:-10][-1:-3]
+  cov <- cov[-1:-13]
+} else {
+  cov <- cov[-1:-3]
 }
 
-outliers <- boxplot(cov$V14)$out
-cov$V14 <- cov[-which(cov$V14 %in% outliers),]
+colnames(cov) <- c(sample_names)
 
-# normalize
+# remove outliers for each sample, save resulting array in a list
+# samples should be able to have different lengths
+cov_no_outliers <- apply(cov, 2, remove_outliers)
 
-par(mfrow=c(2,5), mar=c(1,1,1,1), oma=c(0,0,0,0), xpd=TRUE)
+# normalize on median of each sample
+cov_norm <- lapply(cov_no_outliers, normalize)
 
-hist(cov$V14, breaks = 50)
-hist(cov$V15, breaks = 50)
-hist(cov$V16, breaks = 50)
-hist(cov$V17, breaks = 50)
-hist(cov$V18, breaks = 50)
-hist(cov$V19, breaks = 50)
-hist(cov$V20, breaks = 50)
-hist(cov$V21, breaks = 50)
-hist(cov$V22, breaks = 50)
-hist(cov$V23, breaks = 50)
+# plot histogram for each sample
+pdf(outfilename, width = 14)
+
+par(mfrow=c(2,(length(cov_norm)/2)), mar=c(5,4,4,2), oma=c(0,1,0,0))
+
+args <- list(xlab="gen.cov. normalized on median")
+titles <- colnames(cov)
+mapply(hist, cov_norm, breaks = 100, main=titles, MoreArgs=args)
+
+dev.off()
