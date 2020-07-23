@@ -99,10 +99,11 @@ rule calculate_heterozygosity:
         VCF_DIR + SPECIES + ".diffHeterozygosity.bed"
      output:
         Mb = RESULTDIR + SPECIES + ".diffHeterozygosity.1Mbp.out",
-        kb = RESULTDIR + SPECIES + ".diffHeterozygosity.100kbp.out"
+        kb = RESULTDIR + SPECIES + ".diffHeterozygosity.100kbp.out",
+        chr = RESULTDIR + SPECIES + ".diffHeterozygosity.chr.out"
      shell:
         """
-        Rscript code/calculate_heterozygosityDiff_windows.R {input} {output.Mb} {output.kb}
+        Rscript code/calculate_heterozygosityDiff_windows.R {input} {output.Mb} {output.kb} {output.chr}
         """
 
 rule calculate_allFreq:
@@ -121,8 +122,9 @@ rule calculate_ratio:
         GENCOV_DIR + "gencov.nodup.nm.{ED}.out.norm"
      output:
         Mb = RESULTDIR + SPECIES + ".gencov.nodup.nm.{ED}.1Mbp.out",
-        kb = RESULTDIR + SPECIES + ".gencov.nodup.nm.{ED}.100kbp.out"
+        kb = RESULTDIR + SPECIES + ".gencov.nodup.nm.{ED}.100kbp.out",
+        chr = RESULTDIR + SPECIES + ".gencov.nodup.nm.{ED}.chr.out"
      shell:
         """
-        Rscript code/calculate_gencov_windows.R {input} {output.Mb} {output.kb}
+        Rscript code/calculate_gencov_windows.R {input} {output.Mb} {output.kb} {output.chr}
         """

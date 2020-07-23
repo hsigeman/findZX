@@ -198,11 +198,12 @@ rule calculate_heterozygosity_synteny:
         MATCHDIR + SPECIES + ".diffHeterozygosity.bestMatch." + SYNTENY_SPECIES + ".small"
     output:
         Mb = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".diffHeterozygosity.1Mbp.out",
-        kb = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".diffHeterozygosity.100kbp.out"
+        kb = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".diffHeterozygosity.100kbp.out",
+        chr = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".diffHeterozygosity.chr.out"
     threads: 1
     shell:
         """
-        Rscript code/calculate_heterozygosityDiff_windows.R {input} {output.Mb} {output.kb}
+        Rscript code/calculate_heterozygosityDiff_windows.R {input} {output.Mb} {output.kb} {output.chr}
         """
 
 rule calculate_allFreq_synteny:
@@ -221,10 +222,11 @@ rule calculate_ratio_synteny:
         MATCHDIR + "gencov.nodup.nm.{ED}." + SYNTENY_SPECIES + ".out.norm"
     output:
         Mb = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov.nodup.nm.{ED}.1Mbp.out",
-        kb = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov.nodup.nm.{ED}.100kbp.out"
+        kb = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov.nodup.nm.{ED}.100kbp.out",
+        chr = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov.nodup.nm.{ED}.chr.out"
     threads: 1
     shell:
         """
-        Rscript code/calculate_gencov_windows.R {input} {output.Mb} {output.kb}
+        Rscript code/calculate_gencov_windows.R {input} {output.Mb} {output.kb} {output.chr}
         """
 
