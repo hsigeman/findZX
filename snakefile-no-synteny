@@ -43,7 +43,7 @@ rule all:
         expand(MAP_DIR + "{S}.sorted.nodup.nm.{ED}.bam.bai", S = ID, ED = EDIT_DIST),
         expand(MAP_DIR + "{S}.sorted.flagstat", S = ID),
         expand(MAP_DIR + "{S}.sorted.nodup.nm.{ED}.flagstat", S = ID, ED = EDIT_DIST),
-        expand(GENCOV_DIR + "gencov.nodup.nm.{ED}.out.norm", ED = EDIT_DIST),
+        expand(GENCOV_DIR + SPECIES + ".gencov.nodup.nm.{ED}.out.norm", ED = EDIT_DIST),
         VCF_DIR + SPECIES + ".diffHeterozygosity.bed",
         VCF_DIR + SPECIES + ".biallelic.minQ20.minDP3.vcf",
         REF_DIR + REF_NAME + "_nonRefAf_consensus.fasta",
@@ -64,9 +64,9 @@ include: "snakefile"
 
 rule normalize_cov:
     input:
-        GENCOV_DIR + "gencov.nodup.nm.{ED}.out"
+        GENCOV_DIR + SPECIES + ".gencov.nodup.nm.{ED}.out"
     output:
-        GENCOV_DIR + "gencov.nodup.nm.{ED}.out.norm"
+        GENCOV_DIR + SPECIES + ".gencov.nodup.nm.{ED}.out.norm"
     params:
         hetero = expand("het:{heterogametic}", heterogametic = HETEROGAMETIC),
         homo = expand("homo:{homogametic}", homogametic = HOMOGAMETIC)
@@ -81,7 +81,7 @@ rule normalize_cov:
 
 rule confirm_sexing:
     input:
-        GENCOV_DIR + "gencov.nodup.nm.all.out"
+        GENCOV_DIR + SPECIES + ".gencov.nodup.nm.all.out"
     output:
         protected(RESULTDIR + SPECIES + ".gencovIndv.pdf")
     params:
@@ -122,7 +122,7 @@ rule calculate_allFreq:
 
 rule calculate_ratio:
      input:
-        GENCOV_DIR + "gencov.nodup.nm.{ED}.out.norm"
+        GENCOV_DIR + SPECIES + ".gencov.nodup.nm.{ED}.out.norm"
      output:
         Mb = RESULTDIR + SPECIES + ".gencov.nodup.nm.{ED}.1Mbp.out",
         kb = RESULTDIR + SPECIES + ".gencov.nodup.nm.{ED}.100kbp.out",
