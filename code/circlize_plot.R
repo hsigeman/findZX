@@ -3,15 +3,9 @@ library(doBy)
 library(data.table)
 
 # Reads genome coverage files and snp file and makes a circlized plot
-# Hard coded, if you change something with the input file, use with caution
-# Zebra finch chromosomes
+# and a 2D scatterplot between gencov and difference in heterozygosity
 
 source("code/functions.R")
-
-color_pallete_function <- colorRampPalette(
-  colors = c("red", "orange", "blue"),
-  space = "Lab" # Option used when colors do not represent a quantitative scale
-)
 
 ########## CALCULATION ##########
 
@@ -26,6 +20,8 @@ filesnp = args[4]
 
 circlize_out = args[5]
 scatter_out = args[6]
+chr_file = args[7]
+
 
 cov_00 <- gen_data_4plotting(file00, c("chr", "range", "ratio"))
 cov.select.00 <- cov_00$df
@@ -70,11 +66,28 @@ cov.select <- merge(cov.select, cov.select.04, by = c("factor", "x"))
 cov.select <- merge(cov.select, snp.select, by = c("factor", "x"))
 
 colnames(cov.select) <- c("factor", "x", "cov00", "cov02", "cov04", "hetDiff")
-cov.select <- cov.select[order(cov.select$x),]
+
+
+if (file.exists(chr_file)) {
+  print("yes")
+  chromosome <- read.csv(chr_file, header = FALSE, sep = ",")
+  
+  cov.select$factor <- ordered(cov.select$factor, chromosome)
+  cov.select.00$factor <- ordered(cov.select.00$factor, chromosome)
+  cov.select.02$factor <- ordered(cov.select.02$factor, chromosome)
+  cov.select.04$factor <- ordered(cov.select.04$factor, chromosome)
+  snp.select$factor <- ordered(snp.select$factor, chromosome)
+}
+cov.select <- cov.select[order(cov.select$factor),]
+cov.select.00 <- cov.select.00[order(cov.select.00$factor),]
+cov.select.02 <- cov.select.02[order(cov.select.02$factor),]
+cov.select.04 <- cov.select.04[order(cov.select.04$factor),]
+snp.select <- snp.select[order(snp.select$factor),]
+
 
 # Color each chromosome with a unique color
-c <- color_pallete_function(length(unique(cov.select$factor)))
-
+c <- colorRampPalette(colors = c('blue','green','yellow', 'red'))(length(unique(cov.select$factor)))
+palette(c)
 
 pdf(file=scatter_out, width = 9, height = 9)
 
@@ -97,6 +110,7 @@ abline(h = median.snp)
 abline(v = median.cov.04)
 
 dev.off()
+
 
 ########## CIRCLIZE PLOTTING ##########
 
