@@ -254,11 +254,12 @@ rule plotting:
         cov4 = RESULTDIR + SPECIES + "{synteny}gencov.nodup.nm.0.4.1Mbp.out",
         snp = RESULTDIR + SPECIES + "{synteny}diffHeterozygosity.1Mbp.out"
     output: 
-        protected(RESULTDIR + SPECIES + "{synteny}circlize.pdf")
+        circlize = protected(RESULTDIR + SPECIES + "{synteny}circlize.pdf"),
+        scatter = protected(RESULTDIR + SPECIES + "{synteny}scatter.pdf")
     threads: 1
     shell: 
         """
-        Rscript code/circlize_plot.R {input.cov0} {input.cov2} {input.cov4} {input.snp} {output}
+        Rscript code/circlize_plot.R {input.cov0} {input.cov2} {input.cov4} {input.snp} {output.circlize} {output.scatter}
         """
 
 ##########################################################

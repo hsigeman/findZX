@@ -60,7 +60,7 @@ rule all:
         RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov_indv.pdf",
         RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".heterozygosity_indv.pdf",
         RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".allFreq.1Mbp.out",
-        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".allFreq.100kbp.out"
+        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".allFreq.100kbp.out",
         MATCHDIR + SPECIES + ".heterozygosity.bestMatch." + SYNTENY_SPECIES + ".small"
 
 ##########################################################
