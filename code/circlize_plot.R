@@ -20,6 +20,7 @@ file02 = args[2]
 file04 = args[3]
 filesnp = args[4]
 
+# if files does not exist, print: no chr/scaffolds larger than 1Mbp
 
 cov_00 <- gen_data_4plotting(file00, c("chr", "range", "ratio"))
 cov.select.00 <- cov_00$df

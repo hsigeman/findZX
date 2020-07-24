@@ -27,7 +27,7 @@ write.table(snp_mean_chr, args[4], quote=FALSE, sep="\t", row.names = F, col.nam
 
 
 snp <- remove_chr_less_than_1mb(snp)
-
+# if no chromosomes left, print empty files
 
 snp_1Mb_ranges_mean <- mean_diff_win(snp, 1000000)
 

@@ -18,6 +18,7 @@ snp <- plyr::rename(snp, c("V1"="chr", "V2"="start",
                            "V3"="end", "V4"="sex"))
 
 snp <- remove_chr_less_than_1mb(snp)
+# if no chromosomes left, print empty file
 
 snp$count <- 1
 

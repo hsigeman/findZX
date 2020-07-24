@@ -31,6 +31,7 @@ mean_whole_chr <- merge(mean_whole_chr, len_chr, by = "chr")
 
 
 cov <- remove_chr_less_than_1mb(cov)
+# if no chromosomes are left, print empty files
 
 mean_1Mb_ranges <- mean_win(cov, 1000000)
 mean_100kb_ranges <- mean_win(cov, 100000)
