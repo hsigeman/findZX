@@ -16,6 +16,8 @@ file00 = args[1]
 file02 = args[2]
 file04 = args[3]
 filesnp = args[4]
+scatter2D_out = args[5]
+scatter3D_out = args[6]
 
 
 cov_00 <- gen_data_4plotting(file00, c("chr", "length", "ratio"))
@@ -64,20 +66,61 @@ colnames(cov.select) <- c("factor", "x", "cov00", "cov02", "cov04", "hetDiff")
 
 cov.select <- cov.select[order(cov.select$x),]
 
-c <- colorRampPalette(colors = c('grey96','red3','black'))(length(unique(cov.select$x)))
 
-# plot het/cov color after chr len
-plot(cov.select$cov00, cov.select$hetDiff, col = c, pch = 20)
+c <- colorRampPalette(colors = c('blue','green','yellow', 'red'))(length(cov.select$x))
+
+
+
+pdf(file=scatter2D_out, width = 18, height = 9)
+par(mfrow=c(1,3), mar=c(4,4,4,1), oma=c(1,1,0,0), xpd=TRUE)
+
+plot(cov.select$cov00, cov.select$hetDiff, col = c, pch = 20, 
+     main = "Statistics for each scaffold, nm = 0", xlab = "Mean genome coverage",
+     ylab = "Mean difference in heterozygosity")
 lgd_ = rep(NA, 11)
-lgd_[c(1,11)] = c(max(cov.select$x),min(cov.select$x))
+lgd_[c(1,11)] = c(min(cov.select$x),max(cov.select$x))
 legend("bottomright",
        legend = lgd_,
-       fill = colorRampPalette(colors = c('grey96','red3','black'))(11),
+       fill = colorRampPalette(colors = c('blue','green','yellow', 'red'))(11),
        border = NA,
-       y.intersp = 0.5)
+       y.intersp = 0.8,
+       title = "Scaffold length")
 
+plot(cov.select$cov02, cov.select$hetDiff, col = c, pch = 20, 
+     main = "Statistics for each scaffold, nm = 2", xlab = "Mean genome coverage",
+     ylab = "Mean difference in heterozygosity")
+
+plot(cov.select$cov04, cov.select$hetDiff, col = c, pch = 20, 
+     main = "Statistics for each scaffold, nm = 4", xlab = "Mean genome coverage",
+     ylab = "Mean difference in heterozygosity")
+
+dev.off()
+
+
+
+pdf(file=scatter3D_out, width = 18, height = 9)
+par(mfrow=c(1,3), mar=c(4,4,4,1), oma=c(1,1,0,0), xpd=TRUE)
 # 3d plot het/cov/len
-scatterplot3d(cov.select$x, cov.select$cov00, cov.select$hetDiff)
+scatterplot3d(cov.select$x, cov.select$cov00, cov.select$hetDiff,  color = c, 
+              pch = 20, angle = 150, main = "Statistics for each scaffold, nm = 0", 
+              xlab = "Scaffold length", ylab = "Mean genome coverage", 
+              zlab = "Mean difference in heterozygosity")
+legend("topright",
+       legend = lgd_,
+       fill = colorRampPalette(colors = c('blue','green','yellow', 'red'))(11),
+       border = NA,
+       y.intersp = 0.8,
+       title = "Scaffold length")
 
+scatterplot3d(cov.select$x, cov.select$cov02, cov.select$hetDiff, color = c, 
+              pch = 20, angle = 150, main = "Statistics for each scaffold, nm = 2", 
+              xlab = "Scaffold length", ylab = "Mean genome coverage", 
+              zlab = "Mean difference in heterozygosity")
 
+scatterplot3d(cov.select$x, cov.select$cov04, cov.select$hetDiff, color = c, 
+              pch = 20, angle = 150, main = "Statistics for each scaffold, nm = 4", 
+              xlab = "Scaffold length", ylab = "Mean genome coverage", 
+              zlab = "Mean difference in heterozygosity")
+
+dev.off()
 

@@ -69,7 +69,6 @@ colnames(cov.select) <- c("factor", "x", "cov00", "cov02", "cov04", "hetDiff")
 
 
 if (file.exists(chr_file)) {
-  print("yes")
   chromosome <- read.csv(chr_file, header = FALSE, sep = ",")
   
   cov.select$factor <- ordered(cov.select$factor, chromosome)
@@ -94,18 +93,21 @@ pdf(file=scatter_out, width = 9, height = 9)
 par(mfrow=c(3,1), mar=c(4,4,4,1), oma=c(0,10,0,0), xpd=TRUE)
 
 plot(cov.select$cov00, cov.select$hetDiff, col = cov.select$factor, xlim = c(min.cov.00, max.cov.00),
-     xlab = "Normalized genome coverage, nm = 0", ylab = "Difference in proportion of heterozygosity")
+     xlab = "Normalized genome coverage, nm = 0", ylab = "Difference in proportion of heterozygosity",
+     pch = 20)
 abline(h = median.snp)
 abline(v = median.cov.00)
 plot(cov.select$cov02, cov.select$hetDiff, col = cov.select$factor, xlim = c(min.cov.00, max.cov.00),
-     xlab = "Normalized genome coverage, nm = 2", ylab = "Difference in proportion of heterozygosity")
+     xlab = "Normalized genome coverage, nm = 2", ylab = "Difference in proportion of heterozygosity",
+     pch = 20)
 abline(h = median.snp)
 abline(v = median.cov.02)
 par(xpd=NA)
 legend("left", legend=unique(cov.select$factor),fill=1:length(cov.select$factor),inset=c(-0.2,0.6))
 par(xpd=TRUE)
 plot(cov.select$cov04, cov.select$hetDiff, col = cov.select$factor, xlim = c(min.cov.00, max.cov.00),
-     xlab = "Normalized genome coverage, nm = 4", ylab = "Difference in proportion of heterozygosity")
+     xlab = "Normalized genome coverage, nm = 4", ylab = "Difference in proportion of heterozygosity",
+     pch = 20)
 abline(h = median.snp)
 abline(v = median.cov.04)
 
