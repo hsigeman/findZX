@@ -2,8 +2,8 @@ library(doBy)
 library(data.table)
 
 # Reads in a bed-file with coverage values for each sample
-# Calculates the mean coverage on chr Z and 4 for each individual
-# and plots the coverage and the ratio chr z/4
+# Removes outliers and makes a histogram for each individual
+# over the mean genome coverage in 5kbp windows.
 
 ################################################################################
 ################################## FUNCTIONS ###################################
