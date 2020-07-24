@@ -53,7 +53,7 @@ rule all:
         MATCHDIR_REF + "genome_windows.out",
         MATCHDIR_REF + "bestMatch.status",
         expand(MATCHDIR + "gencov.nodup.nm.{ED}." + SYNTENY_SPECIES + ".out.norm", ED = EDIT_DIST),
-        REF_DIR + REF_NAME + "_nonRefAf_consensus.fasta",
+        #REF_DIR + REF_NAME + "_nonRefAf_consensus.fasta",
         VCF_DIR + SPECIES + ".diffHeterozygosity.bed",
         VCF_DIR + SPECIES + ".biallelic.minQ20.minDP3.vcf",
         RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".circlize.pdf",
