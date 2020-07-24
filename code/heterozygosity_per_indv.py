@@ -33,7 +33,7 @@ with open(sys.argv[1], 'r') as vcfFile:
 				else:
 					output_line.append('0')
 
-		if not line.startswith('#'):
+		if not line.startswith('##'):
 			out_file.write('\t'.join(output_line) + '\n')
 
 
