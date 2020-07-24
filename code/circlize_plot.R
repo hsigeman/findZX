@@ -8,6 +8,10 @@ library(data.table)
 
 source("code/functions.R")
 
+color_pallete_function <- colorRampPalette(
+  colors = c("red", "orange", "blue"),
+  space = "Lab" # Option used when colors do not represent a quantitative scale
+)
 
 ########## CALCULATION ##########
 
@@ -19,6 +23,9 @@ file00 = args[1]
 file02 = args[2]
 file04 = args[3]
 filesnp = args[4]
+
+circlize_out = args[5]
+scatter_out = args[6]
 
 cov_00 <- gen_data_4plotting(file00, c("chr", "range", "ratio"))
 cov.select.00 <- cov_00$df
@@ -56,12 +63,47 @@ min.snp
 median.snp <- snp$median
 median.snp
 
-########## PLOTTING ##########
+########## SCATTER PLOTTING ##########
+
+cov.select <- merge(cov.select.00, cov.select.02, by = c("factor", "x"))
+cov.select <- merge(cov.select, cov.select.04, by = c("factor", "x"))
+cov.select <- merge(cov.select, snp.select, by = c("factor", "x"))
+
+colnames(cov.select) <- c("factor", "x", "cov00", "cov02", "cov04", "hetDiff")
+cov.select <- cov.select[order(cov.select$x),]
+
+# Color each chromosome with a unique color
+c <- color_pallete_function(length(unique(cov.select$factor)))
+
+
+pdf(file=scatter_out, width = 9, height = 9)
+
+par(mfrow=c(3,1), mar=c(4,4,4,1), oma=c(0,10,0,0), xpd=TRUE)
+
+plot(cov.select$cov00, cov.select$hetDiff, col = cov.select$factor, xlim = c(min.cov.00, max.cov.00),
+     xlab = "Normalized genome coverage, nm = 0", ylab = "Difference in proportion of heterozygosity")
+abline(h = median.snp)
+abline(v = median.cov.00)
+plot(cov.select$cov02, cov.select$hetDiff, col = cov.select$factor, xlim = c(min.cov.00, max.cov.00),
+     xlab = "Normalized genome coverage, nm = 2", ylab = "Difference in proportion of heterozygosity")
+abline(h = median.snp)
+abline(v = median.cov.02)
+par(xpd=NA)
+legend("left", legend=unique(cov.select$factor),fill=1:length(cov.select$factor),inset=c(-0.2,0.6))
+par(xpd=TRUE)
+plot(cov.select$cov04, cov.select$hetDiff, col = cov.select$factor, xlim = c(min.cov.00, max.cov.00),
+     xlab = "Normalized genome coverage, nm = 4", ylab = "Difference in proportion of heterozygosity")
+abline(h = median.snp)
+abline(v = median.cov.04)
+
+dev.off()
+
+########## CIRCLIZE PLOTTING ##########
 
 factor.nr <- as.numeric(length(unique(cov.select.04$factor)))
 
 circos.clear()
-pdf(file=args[5], width = 9, height = 9)
+pdf(file=circlize_out, width = 9, height = 9)
 par(mar = c(1, 1, 1, 1), lwd = 0.1, cex = 0.7) 
 circos.par(cell.padding = c(0, 0, 0, 0), "track.height" = 0.15, gap.after = c(rep(1, factor.nr-1), 10))
 circos.initialize(factors = cov.select.04$factor, x = cov.select.04$x)
