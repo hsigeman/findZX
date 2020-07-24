@@ -142,7 +142,7 @@ rule gencov_bedtools:
         bai_homo = expand(MAP_DIR + "{homogametic}.sorted.nodup.nm.{{V}}.bam.bai", homogametic = HOMOGAMETIC),
         bed = GENCOV_DIR_REF + "genome_5kb_windows.out"
     output: 
-        protected(GENCOV_DIR + "gencov.nodup.nm.{V}.out")
+        protected(GENCOV_DIR + SPECIES + ".gencov.nodup.nm.{V}.out")
     threads: 2
     shell: 
         """
