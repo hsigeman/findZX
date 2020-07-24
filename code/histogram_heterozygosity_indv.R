@@ -13,6 +13,7 @@ outfilename = args[2]
 
 
 het = read.table(filename,header=TRUE,fill=TRUE,stringsAsFactor=FALSE)
+
 sample_names <- colnames(het)[-1:-3]
 
 

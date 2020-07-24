@@ -47,7 +47,8 @@ rule all:
         VCF_DIR + SPECIES + ".diffHeterozygosity.bed",
         VCF_DIR + SPECIES + ".biallelic.minQ20.minDP3.vcf",
         REF_DIR + REF_NAME + "_nonRefAf_consensus.fasta",
-        RESULTDIR + SPECIES + ".gencovIndv.pdf",
+        RESULTDIR + SPECIES + ".gencov_indv.pdf",
+        RESULTDIR + SPECIES + ".heterozygosity_indv.pdf",
         RESULTDIR + SPECIES + ".circlize.pdf",
         RESULTDIR + SPECIES + ".allFreq.1Mbp.out",
         RESULTDIR + SPECIES + ".allFreq.100kbp.out"
@@ -81,16 +82,20 @@ rule normalize_cov:
 
 rule confirm_sexing:
     input:
-        GENCOV_DIR + SPECIES + ".gencov.nodup.nm.all.out"
+        gencov = GENCOV_DIR + SPECIES + ".gencov.nodup.nm.all.out",
+        het = VCF_DIR + SPECIES + ".heterozygosity.bed" 
     output:
-        protected(RESULTDIR + SPECIES + ".gencovIndv.pdf")
+        gencov = protected(RESULTDIR + SPECIES + ".gencov_indv.pdf"),
+        het = protected(RESULTDIR + SPECIES + ".heterozygosity_indv.pdf")
     params:
         hetero = expand("{heterogametic}", heterogametic = HETEROGAMETIC),
         homo = expand("{homogametic}", homogametic = HOMOGAMETIC)
     threads: 1
     shell:
         """
-        Rscript code/confirm_sexing_histograms.R {input} {output} no-synteny {params.hetero} {params.homo}
+        Rscript code/histogram_gencov_indv.R {input.gencov} {output.gencov} no-synteny {params.hetero} {params.homo}
+
+        Rscript code/histogram_heterozygosity_indv.R {input.het} {output.het}
         """
 
 ##########################################################

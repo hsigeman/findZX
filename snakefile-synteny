@@ -53,13 +53,15 @@ rule all:
         MATCHDIR_REF + "genome_windows.out",
         MATCHDIR_REF + "bestMatch.status",
         expand(MATCHDIR + SPECIES + ".gencov.nodup.nm.{ED}." + SYNTENY_SPECIES + ".out.norm", ED = EDIT_DIST),
-        #REF_DIR + REF_NAME + "_nonRefAf_consensus.fasta",
+        REF_DIR + REF_NAME + "_nonRefAf_consensus.fasta",
         VCF_DIR + SPECIES + ".diffHeterozygosity.bed",
         VCF_DIR + SPECIES + ".biallelic.minQ20.minDP3.vcf",
         RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".circlize.pdf",
-        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencovIndv.pdf",
+        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov_indv.pdf",
+        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".heterozygosity_indv.pdf",
         RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".allFreq.1Mbp.out",
         RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".allFreq.100kbp.out"
+        MATCHDIR + SPECIES + ".heterozygosity.bestMatch." + SYNTENY_SPECIES + ".small"
 
 ##########################################################
 ################### INCLUDE SNAKEFILE ####################
@@ -180,16 +182,20 @@ rule matchScaffold2Chr_cov:
 
 rule confirm_sexing_synteny:
     input:
-        MATCHDIR + SPECIES + ".gencov.nodup.nm.all." + SYNTENY_SPECIES + ".out"
+        gencov = MATCHDIR + SPECIES + ".gencov.nodup.nm.all." + SYNTENY_SPECIES + ".out",
+        het = MATCHDIR + SPECIES + ".heterozygosity.bestMatch." + SYNTENY_SPECIES + ".small"
     output:
-        protected(RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencovIndv.pdf")
+        gencov = protected(RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov_indv.pdf"),
+        het = protected(RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".heterozygosity_indv.pdf")
     params:
         hetero = expand("{heterogametic}", heterogametic = HETEROGAMETIC),
         homo = expand("{homogametic}", homogametic = HOMOGAMETIC)
     threads: 1
     shell:
         """
-        Rscript code/confirm_sexing_histograms.R {input} {output} with-synteny {params.hetero} {params.homo}
+        Rscript code/histogram_gencov_indv.R {input.gencov} {output.gencov} with-synteny {params.hetero} {params.homo}
+
+        Rscript code/histogram_heterozygosity_indv.R {input.het} {output.het}
         """
 
 ##########################################################
