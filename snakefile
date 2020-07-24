@@ -203,14 +203,17 @@ rule proportion_heterozygosity:
     input:
         VCF_DIR + SPECIES + ".biallelic.minQ20.minDP3.vcf"
     output:
-        VCF_DIR + SPECIES + ".diffHeterozygosity.bed"
+        diff_het = VCF_DIR + SPECIES + ".diffHeterozygosity.bed",
+        het = VCF_DIR + SPECIES + ".heterozygosity.bed"
     params:
         hetero = expand("het:{heterogametic}", heterogametic = HETEROGAMETIC),
         homo = expand("homo:{homogametic}", homogametic = HOMOGAMETIC)
     threads: 1
     shell:
         """
-        python3 code/calculate_prop_heterozygosity.py {input} {output} {params.hetero} {params.homo}
+        python3 code/calculate_prop_heterozygosity.py {input} {output.diff_het} {params.hetero} {params.homo}
+
+        python3 snakemake-sex-chr/code/heterozygosity_per_indv.py {input} {output.het}
         """
 
 rule allele_frequency:
