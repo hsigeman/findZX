@@ -18,28 +18,32 @@ snp <- plyr::rename(snp, c("V1"="chr", "V2"="start",
                            "V3"="end", "V4"="sex"))
 
 snp <- remove_chr_less_than_1mb(snp)
-# if no chromosomes left, print empty file
 
-snp$count <- 1
-
-
-
-snp_1Mb_ranges_count <- count_snp_win(snp, 1000000)
-
-snp_1Mb_ranges_count_wide <- transform_wide(snp_1Mb_ranges_count)
-
-snp_1Mb_ranges_count_wide <- calculate_ratio(snp_1Mb_ranges_count_wide)
-snp_1Mb_ranges_count_wide <- calculate_diff(snp_1Mb_ranges_count_wide)
-
-write.table(snp_1Mb_ranges_count_wide, args[2], quote=FALSE, sep="\t", row.names = F, col.names = T, na = "NA")
-
-
-
-snp_100kbp_ranges_count <- count_snp_win(snp, 100000)
-
-snp_100kbp_ranges_count_wide <- transform_wide(snp_100kbp_ranges_count)
-
-snp_100kbp_ranges_count_wide <- calculate_ratio(snp_100kbp_ranges_count_wide)
-snp_100kbp_ranges_count_wide <- calculate_diff(snp_100kbp_ranges_count_wide)
-
-write.table(snp_100kbp_ranges_count_wide, args[3], quote=FALSE, sep="\t", row.names = F, col.names = T, na = "NA")
+if (dim(snp)[1] > 0) {
+  snp$count <- 1
+  
+  
+  
+  snp_1Mb_ranges_count <- count_snp_win(snp, 1000000)
+  
+  snp_1Mb_ranges_count_wide <- transform_wide(snp_1Mb_ranges_count)
+  
+  snp_1Mb_ranges_count_wide <- calculate_ratio(snp_1Mb_ranges_count_wide)
+  snp_1Mb_ranges_count_wide <- calculate_diff(snp_1Mb_ranges_count_wide)
+  
+  write.table(snp_1Mb_ranges_count_wide, args[2], quote=FALSE, sep="\t", row.names = F, col.names = T, na = "NA")
+  
+  
+  
+  snp_100kbp_ranges_count <- count_snp_win(snp, 100000)
+  
+  snp_100kbp_ranges_count_wide <- transform_wide(snp_100kbp_ranges_count)
+  
+  snp_100kbp_ranges_count_wide <- calculate_ratio(snp_100kbp_ranges_count_wide)
+  snp_100kbp_ranges_count_wide <- calculate_diff(snp_100kbp_ranges_count_wide)
+  
+  write.table(snp_100kbp_ranges_count_wide, args[3], quote=FALSE, sep="\t", row.names = F, col.names = T, na = "NA")
+  
+} else {
+  print("WARNING: No chromosomes/scaffold larger than 1Mbp")
+}

@@ -29,15 +29,21 @@ colnames(len_chr) <- c("chr", "length")
 
 mean_whole_chr <- merge(mean_whole_chr, len_chr, by = "chr")
 
+write.table(mean_whole_chr, args[4], quote=FALSE, sep="\t", row.names = F, col.names = T, na = "NA")
+
 
 cov <- remove_chr_less_than_1mb(cov)
-# if no chromosomes are left, print empty files
 
-mean_1Mb_ranges <- mean_win(cov, 1000000)
-mean_100kb_ranges <- mean_win(cov, 100000)
+if (dim(cov)[1] > 0) {
+  mean_1Mb_ranges <- mean_win(cov, 1000000)
+  mean_100kb_ranges <- mean_win(cov, 100000)
+  
+  write.table(mean_1Mb_ranges, args[2], quote=FALSE, sep="\t", row.names = F, col.names = T, na = "NA")
+  
+  write.table(mean_100kb_ranges, args[3], quote=FALSE, sep="\t", row.names = F, col.names = T, na = "NA")
+} else {
+  print("WARNING: No chromosomes/scaffold larger than 1Mbp")
+}
 
-write.table(mean_1Mb_ranges, args[2], quote=FALSE, sep="\t", row.names = F, col.names = T, na = "NA")
 
-write.table(mean_100kb_ranges, args[3], quote=FALSE, sep="\t", row.names = F, col.names = T, na = "NA")
 
-write.table(mean_whole_chr, args[4], quote=FALSE, sep="\t", row.names = F, col.names = T, na = "NA")

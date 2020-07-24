@@ -27,13 +27,18 @@ write.table(snp_mean_chr, args[4], quote=FALSE, sep="\t", row.names = F, col.nam
 
 
 snp <- remove_chr_less_than_1mb(snp)
-# if no chromosomes left, print empty files
 
-snp_1Mb_ranges_mean <- mean_diff_win(snp, 1000000)
+if (dim(snp)[1] > 0) {
+  snp_1Mb_ranges_mean <- mean_diff_win(snp, 1000000)
+  
+  write.table(snp_1Mb_ranges_mean, args[2], quote=FALSE, sep="\t", row.names = F, col.names = T, na = "NA")
+  
+  
+  snp_100kb_ranges_mean <- mean_diff_win(snp, 100000)
+  
+  write.table(snp_100kb_ranges_mean, args[3], quote=FALSE, sep="\t", row.names = F, col.names = T, na = "NA")
+} else {
+  print("WARNING: No chromosomes/scaffold larger than 1Mbp")
+}
 
-write.table(snp_1Mb_ranges_mean, args[2], quote=FALSE, sep="\t", row.names = F, col.names = T, na = "NA")
 
-
-snp_100kb_ranges_mean <- mean_diff_win(snp, 100000)
-
-write.table(snp_100kb_ranges_mean, args[3], quote=FALSE, sep="\t", row.names = F, col.names = T, na = "NA")
