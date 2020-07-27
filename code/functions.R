@@ -111,8 +111,8 @@ count_snp_win <- function(snp_table, win_len) {
   return(snp_table)
 }
 
-gen_data_4plotting <- function(filename, columns) {
-  data_table =read.table(filename, header=TRUE,fill=TRUE,stringsAsFactor=FALSE)
+gen_data_4plotting <- function(data_table, columns) {
+  
   data_table$chr <- as.factor(data_table$chr)
   
   myvars <- columns

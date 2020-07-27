@@ -23,41 +23,38 @@ scatter_out = args[6]
 chr_file = args[7]
 
 
-cov_00 <- gen_data_4plotting(file00, c("chr", "range", "ratio"))
+cov_00_table <- read.table(file00, header=TRUE,fill=TRUE,stringsAsFactor=FALSE)
+
+if (length(cov_00_table) == 1) {
+  stop("Warning: No chromsome/scaffold over 1Mbp! Check output based on chromosome instead.")
+}
+
+cov_00 <- gen_data_4plotting(cov_00_table, c("chr", "range", "ratio"))
 cov.select.00 <- cov_00$df
 max.cov.00 <- cov_00$max
-max.cov.00
 min.cov.00 <- cov_00$min
-min.cov.00
 median.cov.00 <- cov_00$median
-median.cov.00
 
-cov_02 <- gen_data_4plotting(file02, c("chr", "range", "ratio"))
+cov_02_table <- read.table(file02, header=TRUE,fill=TRUE,stringsAsFactor=FALSE)
+cov_02 <- gen_data_4plotting(cov_02_table, c("chr", "range", "ratio"))
 cov.select.02 <- cov_02$df
 max.cov.02 <- cov_02$max
-max.cov.02
 min.cov.02 <- cov_02$min
-min.cov.02
 median.cov.02 <- cov_02$median
-median.cov.02
 
-cov_04 <- gen_data_4plotting(file04, c("chr", "range", "ratio"))
+cov_04_table <- read.table(file04, header=TRUE,fill=TRUE,stringsAsFactor=FALSE)
+cov_04 <- gen_data_4plotting(cov_04_table, c("chr", "range", "ratio"))
 cov.select.04 <- cov_04$df
 max.cov.04 <- cov_04$max
-max.cov.04
 min.cov.04 <- cov_04$min
-min.cov.04
 median.cov.04 <- cov_04$median
-median.cov.04
 
-snp <- gen_data_4plotting(filesnp, c("chr", "range", "diff"))
+snp_table <- read.table(filesnp, header=TRUE,fill=TRUE,stringsAsFactor=FALSE)
+snp <- gen_data_4plotting(snp_table, c("chr", "range", "diff"))
 snp.select <- snp$df
 max.snp <- snp$max
-max.snp
 min.snp <- snp$min
-min.snp
 median.snp <- snp$median
-median.snp
 
 ########## SCATTER PLOTTING ##########
 
