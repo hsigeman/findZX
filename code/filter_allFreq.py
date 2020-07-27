@@ -1,5 +1,4 @@
 import sys
-import pandas as pn
 
 if len(sys.argv)==1:
 	print("\nFilters an allele frequency file and keeps sites that have a")
@@ -10,17 +9,20 @@ elif not len(sys.argv)==3:
 	print("Call: python3 {script} {Allele Frequency} {sex}\n")
 	sys.exit()
 
-allFreq = pn.read_csv(sys.argv[1], sep='\t', skiprows=1, header=None)
 
-allFreq.loc[:,4]= allFreq.loc[:,4].str.split(':').str[1].astype(float)
+sex = sys.argv[2]
 
-allFreqHet = allFreq.loc[(allFreq.loc[:,4] < 0.6) & (allFreq.loc[:,4] > 0.4),:]
+with open(sys.argv[1], 'r') as allFreq:
 
-allFreqHet = allFreqHet.drop(allFreqHet.columns[[2,3,4,5]], axis=1)
+	for line in allFreq:
 
-allFreqHet['pos_end'] = allFreq.loc[:,1]+1
-allFreqHet['sex'] = sys.argv[2]
+		if not line.startswith('CHROM\tPOS'):
 
-sys.stdout.write(allFreqHet.to_csv(header=None, index=None, sep='\t'))
+			fields = line.split('\t')
+			frequency = float(fields[4].split(':')[1])
+
+			if frequency < 0.6 and frequency > 0.4:
+
+				sys.stdout.write('\t'.join([fields[0], fields[1], str(int(fields[1]) + 1), sex]) + '\n')
 
 
