@@ -260,6 +260,21 @@ rule plotting:
         Rscript code/circlize_plot.R {input.cov0} {input.cov2} {input.cov4} {input.snp} {output.circlize} {output.scatter}
         """
 
+rule plotting_chr:
+    input:
+        cov0 = RESULTDIR + SPECIES + "{synteny}gencov.nodup.nm.0.0.chr.out",
+        cov2 = RESULTDIR + SPECIES + "{synteny}gencov.nodup.nm.0.2.chr.out",
+        cov4 = RESULTDIR + SPECIES + "{synteny}gencov.nodup.nm.0.4.chr.out",
+        snp = RESULTDIR + SPECIES + "{synteny}diffHeterozygosity.chr.out"
+    output:
+        scatter2D = protected(RESULTDIR + SPECIES + "{synteny}chr_scatter2D.pdf"),
+        scatter3D = protected(RESULTDIR + SPECIES + "{synteny}chr_scatter3D.pdf")
+    threads: 1
+    shell:
+        """
+        Rscript code/scatterplot3d_chr.R {input.cov0} {input.cov2} {input.cov4} {input.snp} {output.scatter2D} {output.scatter3D}
+        """
+
 ##########################################################
 ################### MODIFY REF GENOME ####################
 ##########################################################

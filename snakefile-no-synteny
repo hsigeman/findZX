@@ -51,7 +51,8 @@ rule all:
         RESULTDIR + SPECIES + ".heterozygosity_indv.pdf",
         RESULTDIR + SPECIES + ".circlize.pdf",
         RESULTDIR + SPECIES + ".allFreq.1Mbp.out",
-        RESULTDIR + SPECIES + ".allFreq.100kbp.out"
+        RESULTDIR + SPECIES + ".allFreq.100kbp.out",
+        RESULTDIR + SPECIES + ".chr_scatter2D.pdf"
 
 ##########################################################
 ################### INCLUDE SNAKEFILE ####################
