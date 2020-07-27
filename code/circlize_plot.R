@@ -26,8 +26,14 @@ chr_file = args[7]
 cov_00_table <- read.table(file00, header=TRUE,fill=TRUE,stringsAsFactor=FALSE)
 
 if (dim(cov_00_table)[1] == 0) {
-  stop("No chromsome/scaffold over 1Mbp! Check output based on chromosome instead.")
-}
+  print("Wrning: No chromsome/scaffold over 1Mbp! Check output based on chromosome instead.")
+  
+  pdf(file=scatter_out, width = 9, height = 9)
+  dev.off()
+  
+  pdf(file=circlize_out, width = 9, height = 9)
+  dev.off()
+} else {
 
 cov_00 <- gen_data_4plotting(cov_00_table, c("chr", "range", "ratio"))
 cov.select.00 <- cov_00$df
@@ -166,3 +172,4 @@ circos.trackPlotRegion(factors = cov.select.04$factor, ylim = c(min.cov.04,max.c
 
 dev.off()
 
+}
