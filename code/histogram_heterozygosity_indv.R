@@ -11,14 +11,15 @@ args <- commandArgs(trailingOnly = TRUE)
 filename = args[1]
 outfilename = args[2]
 synteny = args[3]
+sample_names = args[4:length(args)]
 
-het <- read.table(filename,header=TRUE,fill=TRUE,stringsAsFactor=FALSE)
+het <- read.table(filename,header=FALSE,fill=TRUE,stringsAsFactor=FALSE)
 
 if (synteny == "with-synteny") {
   het <- het[-1:-7][-4:-6]
 }
 
-sample_names <- colnames(het)[-1:-3]
+colnames(het) <- c("chr", "start", "end", sample_names)
 
 Thet <- transform(het, range=round(end/5000))
 
