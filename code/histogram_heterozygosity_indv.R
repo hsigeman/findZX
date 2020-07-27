@@ -19,6 +19,8 @@ if (synteny == "with-synteny") {
   het <- het[-1:-7][-4:-6]
 }
 
+sample_names <- gsub("-", "_", sample_names)
+
 colnames(het) <- c("chr", "start", "end", sample_names)
 
 Thet <- transform(het, range=round(end/5000))
