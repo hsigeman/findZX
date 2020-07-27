@@ -211,7 +211,7 @@ rule proportion_heterozygosity:
         """
         python3 code/calculate_prop_heterozygosity.py {input} {output.diff_het} {params.hetero} {params.homo}
 
-        python3 code/heterozygosity_per_indv.py {input} {output.het}
+        python3 code/heterozygosity_per_indv.py {input} {output.het} {params.hetero} {params.homo}
         """
 
 rule allele_frequency:

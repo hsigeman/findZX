@@ -183,7 +183,7 @@ rule matchScaffold2Chr_cov:
 rule confirm_sexing_synteny:
     input:
         gencov = MATCHDIR + SPECIES + ".gencov.nodup.nm.all." + SYNTENY_SPECIES + ".out",
-        het = VCF_DIR + SPECIES + ".heterozygosity.bed"
+        het = MATCHDIR + SPECIES + ".heterozygosity.bestMatch." + SYNTENY_SPECIES + ".small"
     output:
         gencov = protected(RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov_indv.pdf"),
         het = protected(RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".heterozygosity_indv.pdf")
@@ -195,7 +195,7 @@ rule confirm_sexing_synteny:
         """
         Rscript code/histogram_gencov_indv.R {input.gencov} {output.gencov} with-synteny {params.hetero} {params.homo}
 
-        Rscript code/histogram_heterozygosity_indv.R {input.het} {output.het}
+        Rscript code/histogram_heterozygosity_indv.R {input.het} {output.het} with-synteny {params.hetero} {params.homo}
         """
 
 ##########################################################

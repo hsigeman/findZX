@@ -95,7 +95,7 @@ rule confirm_sexing:
         """
         Rscript code/histogram_gencov_indv.R {input.gencov} {output.gencov} no-synteny {params.hetero} {params.homo}
 
-        Rscript code/histogram_heterozygosity_indv.R {input.het} {output.het}
+        Rscript code/histogram_heterozygosity_indv.R {input.het} {output.het} no-synteny {params.hetero} {params.homo}
         """
 
 ##########################################################
