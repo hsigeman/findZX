@@ -10,17 +10,20 @@ args <- commandArgs(trailingOnly = TRUE)
 
 filename = args[1]
 outfilename = args[2]
+synteny = args[3]
 
+het <- read.table(filename,header=TRUE,fill=TRUE,stringsAsFactor=FALSE)
 
-het = read.table(filename,header=TRUE,fill=TRUE,stringsAsFactor=FALSE)
+if (synteny == "with-synteny") {
+  het <- het[-1:-7][-4:-6]
+}
 
 sample_names <- colnames(het)[-1:-3]
 
-
-het <- transform(het, range=round(end/5000))
+Thet <- transform(het, range=round(end/5000))
 
 f <- as.formula(paste(paste(sample_names, collapse = "+"), "~", "chr + range"))
-het_mean <- summaryBy(f, data=het, keep.names=TRUE)
+het_mean <- summaryBy(f, data=Thet, keep.names=TRUE)
 
 het_mean <- het_mean[-1:-2]
 
