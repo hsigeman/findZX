@@ -189,7 +189,6 @@ rule vcftools_filter:
         VCF_DIR + SPECIES + ".vcf"
     output:
         protected(VCF_DIR + SPECIES + ".biallelic.minQ20.minDP3.vcf")
-    threads: 1
     shell:
         """
         vcftools --vcf {input} --min-alleles 2 --max-alleles 2 --remove-filtered-geno-all --minQ 20 --minDP 3 --recode --stdout > {output}
@@ -208,7 +207,6 @@ rule proportion_heterozygosity:
     params:
         hetero = expand("het:{heterogametic}", heterogametic = HETEROGAMETIC),
         homo = expand("homo:{homogametic}", homogametic = HOMOGAMETIC)
-    threads: 1
     shell:
         """
         python3 code/calculate_prop_heterozygosity.py {input} {output.diff_het} {params.hetero} {params.homo}
@@ -274,7 +272,6 @@ rule modify_genome:
         vcf = VCF_DIR + SPECIES + ".non-ref-ac_05_biallelic_qual.vcf",
         gz = VCF_DIR + SPECIES + ".non-ref-ac_05_biallelic_qual.vcf.gz",
         ref = REF_DIR + REF_NAME + "_nonRefAf_consensus.fasta"
-    threads: 1
     shell:
         """
         vcftools --vcf {input.vcf} --non-ref-af 0.5 --min-alleles 2 --max-alleles 2 --remove-filtered-all --recode --stdout > {output.vcf}
