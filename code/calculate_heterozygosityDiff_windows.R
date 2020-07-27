@@ -39,8 +39,8 @@ if (dim(snp)[1] > 0) {
   write.table(snp_100kb_ranges_mean, args[3], quote=FALSE, sep="\t", row.names = F, col.names = T, na = "NA")
 } else {
   print("WARNING: No chromosomes/scaffold larger than 1Mbp")
-  write.table("No chromosomes/scaffold larger than 1Mbp", args[2], quote=FALSE)
-  write.table("No chromosomes/scaffold larger than 1Mbp", args[3], quote=FALSE)
+  write.table("No chromosomes/scaffold larger than 1Mbp", args[2], quote=FALSE, row.names = F, col.names = F)
+  write.table("No chromosomes/scaffold larger than 1Mbp", args[3], quote=FALSE, row.names = F, col.names = F)
 }
 
 

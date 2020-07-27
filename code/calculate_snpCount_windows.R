@@ -46,6 +46,6 @@ if (dim(snp)[1] > 0) {
   
 } else {
   print("WARNING: No chromosomes/scaffold larger than 1Mbp")
-  write.table("No chromosomes/scaffold larger than 1Mbp", args[2], quote=FALSE)
-  write.table("No chromosomes/scaffold larger than 1Mbp", args[3], quote=FALSE)
+  write.table("No chromosomes/scaffold larger than 1Mbp", args[2], quote=FALSE, row.names = F, col.names = F)
+  write.table("No chromosomes/scaffold larger than 1Mbp", args[3], quote=FALSE, row.names = F, col.names = F)
 }
