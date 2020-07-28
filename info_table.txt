@@ -1,0 +1,27 @@
+Ran snakemake pipeline {date}
+species:
+Reference genome:
+
+Heterogametic samples:
+Homogametic samples:
+
+Synteny: yes/no {species}
+
+Genome coverage for each individual is found in:
+intermediate/bedtools/{species}/{species}.gencov.nodup.nm.0.0.out
+
+If synteny is used, genome coverage for each individual for the synteny chromosomes are found:
+intermediate/synteny_match/{species}/{species}.gencov.nodup.nm.0.0.ZF.out
+
+Samples are in the order:
+
+
+Number of chromosomes/scaffolds:
+
+
+Statistics calculated:
+The ratio in genome coverage between heterogametic and homogametic individuals. 
+The difference in proportion of heterozygosity between heterogametic and homogametic individuals.
+
+Chr/Scaff	length	median_gencov	max_gencov	min_gencov	median_diffhet	max_diffhet	min_diffhet	
+
