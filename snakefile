@@ -292,7 +292,7 @@ rule modify_genome:
         vcftools --vcf {input.vcf} --non-ref-af 0.5 --remove-indels --min-alleles 2 --max-alleles 2 --remove-filtered-all --recode --stdout > {output.vcf}
         bgzip -c {output.vcf} > {output.gz}
         tabix -p vcf {output.gz}
-        cat {input.ref} | bcftools consensus {output.gz} > {output.ref}
+        cat {input.ref} | bcftools consensus -i TYPE="snp" {output.gz} > {output.ref}
         """
 
 
