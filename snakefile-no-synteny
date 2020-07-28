@@ -46,7 +46,7 @@ rule all:
         expand(GENCOV_DIR + SPECIES + ".gencov.nodup.nm.{ED}.out.norm", ED = EDIT_DIST),
         VCF_DIR + SPECIES + ".diffHeterozygosity.bed",
         VCF_DIR + SPECIES + ".biallelic.minQ20.minDP3.vcf",
-#        REF_DIR + REF_NAME + "_nonRefAf_consensus.fasta",
+        REF_DIR + REF_NAME + "_nonRefAf_consensus.fasta",
         RESULTDIR + SPECIES + ".gencov_indv.pdf",
         RESULTDIR + SPECIES + ".heterozygosity_indv.pdf",
         RESULTDIR + SPECIES + ".circlize.pdf",
