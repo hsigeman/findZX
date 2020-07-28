@@ -289,10 +289,10 @@ rule modify_genome:
         ref = REF_DIR + REF_NAME + "_nonRefAf_consensus.fasta"
     shell:
         """
-        vcftools --vcf {input.vcf} --non-ref-af 0.5 --remove-indels --min-alleles 2 --max-alleles 2 --remove-filtered-all --recode --stdout > {output.vcf}
+        vcftools --vcf {input.vcf} --non-ref-af 0.5 --min-alleles 2 --max-alleles 2 --remove-filtered-all --recode --stdout > {output.vcf}
         bgzip -c {output.vcf} > {output.gz}
         tabix -p vcf {output.gz}
-        cat {input.ref} | bcftools consensus -i TYPE="snp" {output.gz} > {output.ref}
+        cat {input.ref} | bcftools consensus -I {output.gz} > {output.ref}
         """
 
 
