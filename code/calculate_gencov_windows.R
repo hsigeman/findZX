@@ -21,7 +21,7 @@ cov <- plyr::rename(cov, c("V1"="chr", "V2"="start", "V3"="end", "V4"="heterogam
 if (file.exists(chr_file)) { 
   
   chromosomes <- read.csv(chr_file, header = FALSE, sep = ",")
-  snp <- remove_chr_not_in_list(snp, chromosomes)
+  cov <- remove_chr_not_in_list(cov, chromosomes)
   
 }
 
