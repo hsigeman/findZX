@@ -10,7 +10,7 @@ set.seed(999)
 args <- commandArgs(trailingOnly = TRUE)
 
 filename = args[1]
-chr_file = args[2]
+chr_file = args[5]
 
 source("code/functions.R")
 

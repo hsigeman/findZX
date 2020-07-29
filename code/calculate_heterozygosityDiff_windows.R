@@ -11,7 +11,7 @@ source("code/functions.R")
 args <- commandArgs(trailingOnly = TRUE)
 
 filename = args[1]
-chr_file = args[2]
+chr_file = args[5]
 
 snp = read.table(filename,header=FALSE,fill=TRUE,stringsAsFactor=FALSE)
 
