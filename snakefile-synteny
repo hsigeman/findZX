@@ -18,6 +18,7 @@ REF_SPECIES = config["ref_species"]
 REF_DIR = config["ref_dir"]
 REF_NAME = config["ref_name"]
 PREFIX = SPECIES + "_ref_" + REF_SPECIES
+CHOMOSOMES = config["chr_file"]
 
 REF_PATH = REF_DIR + REF_NAME
 REF_FASTA = REF_DIR + REF_NAME + ".fasta"
@@ -211,9 +212,11 @@ rule calculate_heterozygosity_synteny:
         kb = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".diffHeterozygosity.100kbp.out",
         chr = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".diffHeterozygosity.chr.out"
     threads: 1
+    params:
+        chromosomes = CHOMOSOMES
     shell:
         """
-        Rscript code/calculate_heterozygosityDiff_windows.R {input} {output.Mb} {output.kb} {output.chr}
+        Rscript code/calculate_heterozygosityDiff_windows.R {input} {output.Mb} {output.kb} {output.chr} {params.chromosomes}
         """
 
 rule calculate_allFreq_synteny:
@@ -222,9 +225,11 @@ rule calculate_allFreq_synteny:
     output:
         Mb = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".allFreq.1Mbp.out",
         kb = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".allFreq.100kbp.out"
+    params:
+        chromosomes = CHOMOSOMES
     shell:
         """
-        Rscript code/calculate_snpCount_windows.R {input} {output.Mb} {output.kb}
+        Rscript code/calculate_snpCount_windows.R {input} {output.Mb} {output.kb} {params.chromosomes}
         """
 
 rule calculate_ratio_synteny:
@@ -235,8 +240,10 @@ rule calculate_ratio_synteny:
         kb = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov.nodup.nm.{ED}.100kbp.out",
         chr = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov.nodup.nm.{ED}.chr.out"
     threads: 1
+    params:
+        chromosomes = CHOMOSOMES
     shell:
         """
-        Rscript code/calculate_gencov_windows.R {input} {output.Mb} {output.kb} {output.chr}
+        Rscript code/calculate_gencov_windows.R {input} {output.Mb} {output.kb} {output.chr} {params.chromosomes}
         """
 

@@ -255,9 +255,11 @@ rule plotting:
         circlize = protected(RESULTDIR + SPECIES + "{synteny}circlize.pdf"),
         scatter = protected(RESULTDIR + SPECIES + "{synteny}scatter.pdf")
     threads: 1
+    params:
+        chromosomes = CHROMOSOMES
     shell: 
         """
-        Rscript code/circlize_plot.R {input.cov0} {input.cov2} {input.cov4} {input.snp} {output.circlize} {output.scatter}
+        Rscript code/circlize_plot.R {input.cov0} {input.cov2} {input.cov4} {input.snp} {output.circlize} {output.scatter} {params.chromosomes}
         """
 
 rule plotting_chr:
