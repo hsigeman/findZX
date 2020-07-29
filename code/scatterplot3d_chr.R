@@ -67,7 +67,7 @@ pdf(file=scatter2D_out, width = 18, height = 9)
 par(mfrow=c(1,3), mar=c(4,4,4,1), oma=c(1,1,0,0), xpd=TRUE)
 
 plot(log(cov.select$cov00), cov.select$hetDiff, col = rgb(cr(cov.select$x / max(cov.select$x))/255), pch = 20, 
-     main = "Statistics for each scaffold, nm = 0", xlab = "Mean genome coverage",
+     main = "Statistics for each scaffold, nm = 0", xlab = "Mean genome coverage [log-scale 10^x]",
      ylab = "Mean difference in heterozygosity")
 lgd_ = rep(NA, 11)
 lgd_[c(1,11)] = c(min(cov.select$x),max(cov.select$x))
@@ -75,11 +75,11 @@ legend("bottomright", legend = lgd_, fill = colorRampPalette(colors = c('blue','
        border = NA, y.intersp = 0.8, title = "Scaffold length")
 
 plot(log(cov.select$cov02), cov.select$hetDiff, col = rgb(cr(cov.select$x / max(cov.select$x))/255), pch = 20, 
-     main = "Statistics for each scaffold, nm = 2", xlab = "Mean genome coverage",
+     main = "Statistics for each scaffold, nm = 2", xlab = "Mean genome coverage [log-scale 10^x]",
      ylab = "Mean difference in heterozygosity")
 
 plot(log(cov.select$cov04), cov.select$hetDiff, col = rgb(cr(cov.select$x / max(cov.select$x))/255), pch = 20, 
-     main = "Statistics for each scaffold, nm = 4", xlab = "Mean genome coverage",
+     main = "Statistics for each scaffold, nm = 4", xlab = "Mean genome coverage [log-scale 10^x]",
      ylab = "Mean difference in heterozygosity")
 
 dev.off()
@@ -90,21 +90,21 @@ pdf(file=scatter3D_out, width = 18, height = 9)
 par(mfrow=c(1,3), mar=c(4,4,4,1), oma=c(1,1,0,0), xpd=TRUE)
 # 3d plot het/cov/len
 scatterplot3d(log(cov.select$x), log(cov.select$cov00), cov.select$hetDiff,  color = rgb(cr(cov.select$x / max(cov.select$x))/255), 
-              pch = 20, main = "Statistics for each scaffold, nm = 0", angle = 150,
-              xlab = "Scaffold length [log-scale 10^x bp]", ylab = "Mean normalized genome coverage",
+              pch = 20, main = "Statistics for each scaffold, nm = 0", angle = 270,
+              xlab = "Scaffold length [log-scale 10^x bp]", ylab = "Mean normalized genome coverage [log-scale 10^x]",
               zlab = "Mean difference in heterozygosity")
 
 legend("topright", legend = lgd_, fill = colorRampPalette(colors = c('blue','green','red'))(11),
        border = NA, y.intersp = 0.8, title = "Scaffold length", bg = "white", cex = 1.5)
 
 scatterplot3d(log(cov.select$x), log(cov.select$cov02), cov.select$hetDiff, color = rgb(cr(cov.select$x / max(cov.select$x))/255), 
-              pch = 20, main = "Statistics for each scaffold, nm = 2", angle = 150,
-              xlab = "Scaffold length [log-scale 10^x bp]", ylab = "Mean normalized genome coverage", 
+              pch = 20, main = "Statistics for each scaffold, nm = 2", angle = 270,
+              xlab = "Scaffold length [log-scale 10^x bp]", ylab = "Mean normalized genome coverage [log-scale 10^x]", 
               zlab = "Mean difference in heterozygosity")
 
 scatterplot3d(log(cov.select$x), log(cov.select$cov04), cov.select$hetDiff, color = rgb(cr(cov.select$x / max(cov.select$x))/255), 
-              pch = 20, main = "Statistics for each scaffold, nm = 4", angle = 150,
-              xlab = "Scaffold length [log-scale 10^x bp]", ylab = "Mean normalized genome coverage", 
+              pch = 20, main = "Statistics for each scaffold, nm = 4", angle = 270,
+              xlab = "Scaffold length [log-scale 10^x bp]", ylab = "Mean normalized genome coverage [log-scale 10^x]", 
               zlab = "Mean difference in heterozygosity")
 
 dev.off()
