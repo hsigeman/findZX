@@ -22,7 +22,7 @@ length_chr <- function(data_table) {
   
   max_per_chr <- setDT(data_table)[, .SD[which.max(end)], by=chr]
   
-  max_per_chr <- as.data.frame(matrix(c(max_per_chr$chr, max_per_chr$end), ncol = 2, byrow = FALSE))
+  max_per_chr <- as.data.frame(max_per_chr[,1:2])
   
   return(max_per_chr)
 }
