@@ -7,24 +7,33 @@ remove_chr_less_than_1mb <- function(data_table) {
   chr_over_1mb <- subset(max_per_chr$chr, max_per_chr$end>1000000)
   data_table <- data_table[ data_table$chr %in% chr_over_1mb, ]
   
-  data_table <- subset(data_table, data_table$chr!="Un")
-  random <- unique(data_table$chr[grep("random", data_table$chr)])
-  data_table <- data_table[ ! data_table$chr %in% random, ]
-  random <- unique(data_table$chr[grep("LG", data_table$chr)])
-  data_table <- data_table[ ! data_table$chr %in% random, ]
-  random <- unique(data_table$chr[grep("MT", data_table$chr)])
-  data_table <- data_table[ ! data_table$chr %in% random, ]
+  return(data_table)
+}
+
+remove_chr_not_in_list <- function(data_table, chr_list) {
+  # only keeps chromosomes specified in a list
+
+  data_table <- data_table[ data_table$chr %in% chr_list, ]
   
   return(data_table)
 }
 
 length_chr <- function(data_table) {
+  # returns the length of each chr/scaffold
   
   max_per_chr <- setDT(data_table)[, .SD[which.max(end)], by=chr]
   
   max_per_chr <- as.data.frame(max_per_chr[,1:2])
   
   return(max_per_chr)
+}
+
+remove_outliers <- function(data_table) {
+  
+  outliers <- boxplot(ratio ~ chr, data=data_table, plot = FALSE)$out
+  data_table <- data_table[!(data_table$ratio %in% outliers),]
+  
+  return(data_table)
 }
 
 calculate_ratio <- function(data_table) {
@@ -40,48 +49,6 @@ calculate_ratio <- function(data_table) {
   return(data_table)
 }
 
-remove_outliers <- function(data_table) {
-  
-  outliers <- boxplot(ratio ~ chr, data=data_table, plot = FALSE)$out
-  data_table <- data_table[!(data_table$ratio %in% outliers),]
-  
-  return(data_table)
-}
-
-mean_win <- function(data_table, win_len) {
-  # calculates the mean in windows (1Mbp, 100kbp)
-  
-  data_table <- transform(data_table, range=round(end/win_len))
-  data_table <- summaryBy(ratio ~ chr + range, data=data_table, keep.names=TRUE)
-  
-  return(data_table)
-}
-
-mean_chr <- function(data_table) {
-  # calculates the mean in ratio for each chr
-  
-  data_table <- summaryBy(ratio ~ chr, data=data_table, keep.names=TRUE)
-  
-  return(data_table)
-}
-
-mean_diff_chr <- function(data_table) {
-  # calculates the mean in diff for each chr
-  
-  data_table <- summaryBy(diff ~ chr, data=data_table, keep.names=TRUE)
-  
-  return(data_table)
-}
-
-mean_diff_win <- function(data_table, win_len) {
-  # calculates the mean in windows (1Mbp, 100kbp)
-
-  data_table <- transform(data_table, range=round(end/win_len))
-  data_table <- summaryBy(diff ~ chr + range, data=data_table, keep.names=TRUE)
-
-  return(data_table)
-}
-
 calculate_diff <- function(data_table) {
   # calculates the normalized difference between the number of sites in a window
   
@@ -89,6 +56,15 @@ calculate_diff <- function(data_table) {
   data_table$diff_scaled <- data_table$diff / median(data_table$diff, na.rm = TRUE)
   
   data_table[is.na(data_table)] <- 0
+  
+  return(data_table)
+}
+
+mean_win <- function(data_table, formula) {
+  # calculates the mean in ratio for each chr
+  #formula = ratio ~ chr, diff ~ chr, diff ~ chr + range, ratio ~ chr + range
+  
+  data_table <- summaryBy(formula, data=data_table, keep.names=TRUE)
   
   return(data_table)
 }

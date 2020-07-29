@@ -8,21 +8,28 @@ library(data.table)
 set.seed(999)
 
 source("code/functions.R")
-args <- commandArgs(trailingOnly = TRUE)
 
+args <- commandArgs(trailingOnly = TRUE)
 filename = args[1]
+chr_file = args[2]
 
 snp = read.table(filename,header=FALSE,fill=TRUE,stringsAsFactor=FALSE)
-
 snp <- plyr::rename(snp, c("V1"="chr", "V2"="start",
                            "V3"="end", "V4"="sex"))
 
+if (file.exists(chr_file)) { 
+  
+  chromosomes <- read.csv(chr_file, header = FALSE, sep = ",")
+  snp <- remove_chr_not_in_list(snp, chromosomes)
+
+}
+
 snp <- remove_chr_less_than_1mb(snp)
 
+
 if (dim(snp)[1] > 0) {
+  
   snp$count <- 1
-  
-  
   
   snp_1Mb_ranges_count <- count_snp_win(snp, 1000000)
   
@@ -45,7 +52,9 @@ if (dim(snp)[1] > 0) {
   write.table(snp_100kbp_ranges_count_wide, args[3], quote=FALSE, sep="\t", row.names = F, col.names = T, na = "NA")
   
 } else {
+  
   print("WARNING: No chromosomes/scaffold larger than 1Mbp")
   write.table("No chromosomes/scaffold larger than 1Mbp", args[2], quote=FALSE, row.names = F, col.names = F)
   write.table("No chromosomes/scaffold larger than 1Mbp", args[3], quote=FALSE, row.names = F, col.names = F)
+  
 }
