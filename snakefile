@@ -209,7 +209,7 @@ rule proportion_heterozygosity:
         homo = expand("homo:{homogametic}", homogametic = HOMOGAMETIC)
     shell:
         """
-        python3 code/calculate_prop_heterozygosity.py {input} {output.diff_het} {params.hetero} {params.homo}
+        python3 code/calculate_diff_heterozygosity.py {input} {output.diff_het} {params.hetero} {params.homo}
 
         python3 code/heterozygosity_per_indv.py {input} {output.het} {params.hetero} {params.homo}
         """
