@@ -81,7 +81,7 @@ transform_wide <- function(data_table) {
 count_snp_win <- function(snp_table, win_len) {
   # Count sites for each sex and per chromosome and window
   
-  snp_table <- transform(snp_table, range=round(start/win_len))
+  snp_table <- transform(snp_table, range=floor(start/win_len))
   snp_table <- aggregate(count ~ chr + sex + range, data = snp_table, sum)
   
   return(snp_table)

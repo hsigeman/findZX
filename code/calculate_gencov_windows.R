@@ -43,10 +43,10 @@ cov <- remove_chr_less_than_1mb(cov)
 
 if (dim(cov)[1] > 0) {
   
-  mean_1Mb <- transform(cov, range=round(end/1000000))
+  mean_1Mb <- transform(cov, range=floor(end/1000000))
   mean_1Mb <- mean_win(mean_1Mb, ratio ~ chr + range)
   
-  mean_100kb <- transform(cov, range=round(end/100000))
+  mean_100kb <- transform(cov, range=floor(end/100000))
   mean_100kb <- mean_win(mean_100kb, ratio ~ chr + range)
   
   write.table(mean_1Mb_ranges, args[2], quote=FALSE, sep="\t", row.names = F, col.names = T, na = "NA")

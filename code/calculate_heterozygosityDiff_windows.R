@@ -39,12 +39,12 @@ snp <- remove_chr_less_than_1mb(snp)
 
 if (dim(snp)[1] > 0) {
   
-  snp_1Mb_mean <- transform(snp, range=round(end/1000000))
+  snp_1Mb_mean <- transform(snp, range=floor(end/1000000))
   snp_1Mb_mean <- mean_win(snp_1Mb_mean, diff ~ chr + range)
   
   write.table(snp_1Mb_mean, args[2], quote=FALSE, sep="\t", row.names = F, col.names = T, na = "NA")
   
-  snp_100kbp_mean <- transform(snp, range=round(end/100000))
+  snp_100kbp_mean <- transform(snp, range=floor(end/100000))
   snp_100kbp_mean <- mean_win(snp_100kbp_mean, diff ~ chr + range)
   
   write.table(snp_100kb_ranges_mean, args[3], quote=FALSE, sep="\t", row.names = F, col.names = T, na = "NA")
