@@ -12,8 +12,6 @@ elif not len(sys.argv)>3:
 	sys.exit()
 
 
-nr_samples = int(len(sys.argv) - 2)
-
 heterogametic_samples = []
 homogametic_samples = []
 
