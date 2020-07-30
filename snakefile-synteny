@@ -17,8 +17,8 @@ FQ_DIR = config["fastq"]
 REF_SPECIES = config["ref_species"]
 REF_DIR = config["ref_dir"]
 REF_NAME = config["ref_name"]
-PREFIX = SPECIES + "_ref_" + REF_SPECIES
 CHOMOSOMES = config["chr_file"]
+PREFIX = SPECIES + "_ref_" + REF_SPECIES
 
 REF_PATH = REF_DIR + REF_NAME
 REF_FASTA = REF_DIR + REF_NAME + ".fasta"
@@ -50,20 +50,17 @@ rule all:
         expand(MAP_DIR + "{S}.sorted.nodup.nm.{ED}.bam.bai", S = ID, ED = EDIT_DIST),
         expand(MAP_DIR + "{S}.sorted.flagstat", S = ID),
         expand(MAP_DIR + "{S}.sorted.nodup.nm.{ED}.flagstat", S = ID, ED = EDIT_DIST),
-        COMP_GEN_SYNS + REF_SPECIES + "_align_converted",
-        MATCHDIR_REF + "genome_windows.out",
-        MATCHDIR_REF + "bestMatch.status",
         expand(MATCHDIR + SPECIES + ".gencov.nodup.nm.{ED}." + SYNTENY_SPECIES + ".out.norm", ED = EDIT_DIST),
-#        REF_DIR + REF_NAME + "_nonRefAf_consensus.fasta",
-        VCF_DIR + SPECIES + ".diffHeterozygosity.sorted.bed",
-        VCF_DIR + SPECIES + ".biallelic.minQ20.minDP3.vcf",
-        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".circlize.pdf",
-        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov_indv.pdf",
-        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".heterozygosity_indv.pdf",
         RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".allFreq.1Mbp.out",
         RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".allFreq.100kbp.out",
-        MATCHDIR + SPECIES + ".heterozygosity.bestMatch." + SYNTENY_SPECIES,
-        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".chr_scatter2D.pdf"
+        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov_indv.pdf",
+        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".heterozygosity_indv.pdf",
+	RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov_heterozygosity_indv.pdf",
+        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".circlize.pdf",
+        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".scatter.pdf",
+        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".chr_scatter2D.pdf",
+        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".chr_scatter3D.pdf"
+#        REF_DIR + REF_NAME + "_nonRefAf_consensus.fasta"
 
 ##########################################################
 ################### INCLUDE SNAKEFILE ####################
@@ -188,16 +185,15 @@ rule confirm_sexing_synteny:
         het = MATCHDIR + SPECIES + ".heterozygosity.bestMatch." + SYNTENY_SPECIES
     output:
         gencov = protected(RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov_indv.pdf"),
-        het = protected(RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".heterozygosity_indv.pdf")
+        het = protected(RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".heterozygosity_indv.pdf"),
+	gencov_het = protected(RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov_heterozygosity_indv.pdf")
     params:
         hetero = expand("{heterogametic}", heterogametic = HETEROGAMETIC),
         homo = expand("{homogametic}", homogametic = HOMOGAMETIC)
     threads: 1
     shell:
         """
-        Rscript code/histogram_gencov_indv.R {input.gencov} {output.gencov} with-synteny {params.hetero} {params.homo}
-
-        Rscript code/histogram_heterozygosity_indv.R {input.het} {output.het} with-synteny {params.hetero} {params.homo}
+        Rscript code/histogram_gencov_indv.R {input.gencov} {output.gencov} {output.het} {output.gencov_het} with-synteny {params.hetero} {params.homo}
         """
 
 ##########################################################

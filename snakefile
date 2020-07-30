@@ -170,7 +170,8 @@ rule freebayes_parallel:
         regions = VCF_DIR_REF + REF_SPECIES + ".100kbp.regions",
         samples = expand(MAP_DIR + "{S}.sorted.nodup.nm.all.bam", S = ID)
     output: 
-        vcf = protected(VCF_DIR + SPECIES + ".vcf"),
+	vcf = temp(VCF_DIR + SPECIES + ".vcf"),
+        gz = protected(VCF_DIR + SPECIES + ".vcf.gz"),
         log = VCF_DIR + SPECIES + ".vcf.status"
     threads: 18
     params:
@@ -181,17 +182,25 @@ rule freebayes_parallel:
         export TMPDIR={params.tmpdir}
         freebayes-parallel {input.regions} {threads} -f {input.ref} {input.samples} > {output.vcf}
         rm -r {params.tmpdir}
+
+	bgzip -c {output.vcf} > {output.gz}
+        tabix -p vcf {output.gz}
+
         echo "DONE" > {output.log}
         """
 
 rule vcftools_filter:
     input:
-        VCF_DIR + SPECIES + ".vcf"
+        VCF_DIR + SPECIES + ".vcf.gz"
     output:
-        protected(VCF_DIR + SPECIES + ".biallelic.minQ20.minDP3.vcf")
+        vcf = temp(VCF_DIR + SPECIES + ".biallelic.minQ20.minDP3.vcf"),
+	gz = protected(VCF_DIR + SPECIES + ".biallelic.minQ20.minDP3.vcf.gz")
     shell:
         """
-        vcftools --vcf {input} --min-alleles 2 --max-alleles 2 --remove-filtered-geno-all --minQ 20 --minDP 3 --recode --stdout > {output}
+        vcftools --vcf {input} --min-alleles 2 --max-alleles 2 --remove-filtered-geno-all --minQ 20 --minDP 3 --recode --stdout > {output.vcf}
+        
+	bgzip -c {output.vcf} > {output.gz}
+        tabix -p vcf {output.gz}
         """
 
 ##########################################################
@@ -200,7 +209,7 @@ rule vcftools_filter:
 
 rule proportion_heterozygosity:
     input:
-        VCF_DIR + SPECIES + ".biallelic.minQ20.minDP3.vcf"
+        VCF_DIR + SPECIES + ".biallelic.minQ20.minDP3.vcf.gz"
     output:
         diff_het = temp(VCF_DIR + SPECIES + ".diffHeterozygosity.bed"),
         het = temp(VCF_DIR + SPECIES + ".heterozygosity.bed"),
@@ -211,16 +220,16 @@ rule proportion_heterozygosity:
         homo = expand("homo:{homogametic}", homogametic = HOMOGAMETIC)
     shell:
         """
-        python3 code/calculate_diff_heterozygosity.py {input} {output.diff_het} {params.hetero} {params.homo}
+        python3 code/calculate_diff_heterozygosity.py <(less {input}) {output.diff_het} {params.hetero} {params.homo}
         sort {output.diff_het} -k 1,1 -k 2,2 > {output.diff_het_sorted}
 
-        python3 code/heterozygosity_per_indv.py {input} {output.het} {params.hetero} {params.homo}
+        python3 code/heterozygosity_per_indv.py <(less {input}) {output.het} {params.hetero} {params.homo}
         sort {output.het} -k 1,1 -k 2,2 > {output.het_sorted}
         """
 
 rule allele_frequency:
     input:
-        VCF_DIR + SPECIES + ".biallelic.minQ20.minDP3.vcf"
+        VCF_DIR + SPECIES + ".biallelic.minQ20.minDP3.vcf.gz"
     output:
         hetero = VCF_DIR + SPECIES + ".allFreq.heterogametic.out",
         homo = VCF_DIR + SPECIES + ".allFreq.homogametic.out"
@@ -289,10 +298,10 @@ rule plotting_chr:
 
 rule modify_genome:
     input:
-        vcf = VCF_DIR + SPECIES + ".vcf",
+        vcf = VCF_DIR + SPECIES + ".vcf.gz",
         ref = REF_FASTA
     output:
-        vcf = VCF_DIR + SPECIES + ".non-ref-ac_05_biallelic_qual.vcf",
+        vcf = temp(VCF_DIR + SPECIES + ".non-ref-ac_05_biallelic_qual.vcf"),
         gz = VCF_DIR + SPECIES + ".non-ref-ac_05_biallelic_qual.vcf.gz",
         ref = REF_DIR + REF_NAME + "_nonRefAf_consensus.fasta"
     shell:
