@@ -256,7 +256,7 @@ rule plotting:
         scatter = protected(RESULTDIR + SPECIES + "{synteny}scatter.pdf")
     threads: 1
     params:
-        chromosomes = CHROMOSOMES
+        chromosomes = CHOMOSOMES
     shell: 
         """
         Rscript code/circlize_plot.R {input.cov0} {input.cov2} {input.cov4} {input.snp} {output.circlize} {output.scatter} {params.chromosomes}
