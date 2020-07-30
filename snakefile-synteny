@@ -42,26 +42,26 @@ EDIT_DIST = ["all", "0.0", "0.1", "0.2", "0.3", "0.4"]
 ##########################################################
 
 rule all:
-     input:
-        REF_FASTA + ".bwt",
-        REF_FASTA + ".fai" ,
-        expand(MAP_DIR + "{S}.sorted.status", S = ID),
-        expand(MAP_DIR + "{S}.sorted.nodup.nm.all.status", S = ID),
-        expand(MAP_DIR + "{S}.sorted.nodup.nm.{ED}.bam.bai", S = ID, ED = EDIT_DIST),
-        expand(MAP_DIR + "{S}.sorted.flagstat", S = ID),
-        expand(MAP_DIR + "{S}.sorted.nodup.nm.{ED}.flagstat", S = ID, ED = EDIT_DIST),
-        expand(MATCHDIR + SPECIES + ".gencov.nodup.nm.{ED}." + SYNTENY_SPECIES + ".out.norm", ED = EDIT_DIST),
-        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".allFreq.1Mbp.out",
-        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".allFreq.100kbp.out",
-        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov_indv.pdf",
-        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".heterozygosity_indv.pdf",
-	RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov_heterozygosity_indv.pdf",
-        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".circlize.pdf",
-        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".scatter.pdf",
-        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".chr_scatter2D.pdf",
-        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".chr_scatter3D.pdf",
-	RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".report.html"
-#        REF_DIR + REF_NAME + "_nonRefAf_consensus.fasta"
+	input:
+		REF_FASTA + ".bwt",
+		REF_FASTA + ".fai" ,
+		expand(MAP_DIR + "{S}.sorted.status", S = ID),
+		expand(MAP_DIR + "{S}.sorted.nodup.nm.all.status", S = ID),
+		expand(MAP_DIR + "{S}.sorted.nodup.nm.{ED}.bam.bai", S = ID, ED = EDIT_DIST),
+		expand(MAP_DIR + "{S}.sorted.flagstat", S = ID),
+		expand(MAP_DIR + "{S}.sorted.nodup.nm.{ED}.flagstat", S = ID, ED = EDIT_DIST),
+		expand(MATCHDIR + SPECIES + ".gencov.nodup.nm.{ED}." + SYNTENY_SPECIES + ".out.norm", ED = EDIT_DIST),
+		RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".allFreq.1Mbp.out",
+		RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".allFreq.100kbp.out",
+		RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov_indv.pdf",
+		RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".heterozygosity_indv.pdf",
+		RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov_heterozygosity_indv.pdf",
+		RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".circlize.pdf",
+		RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".scatter.pdf",
+		RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".chr_scatter2D.pdf",
+		RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".chr_scatter3D.pdf",
+		RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".report.html"
+#		REF_DIR + REF_NAME + "_nonRefAf_consensus.fasta"
 
 ##########################################################
 ################### INCLUDE SNAKEFILE ####################
@@ -74,173 +74,173 @@ include: "snakefile"
 ########################################################## 
 
 rule fasta_formatter:
-    input: 
-        REF_FASTA
-    output: 
-        REF_PATH + "wrap.fasta"
-    threads: 1
-    shell: 
-        """
-        fasta_formatter -i {input} -w 80 -o {output}
-        """
+	input: 
+		REF_FASTA
+	output: 
+		REF_PATH + "wrap.fasta"
+	threads: 1
+	shell: 
+		"""
+		fasta_formatter -i {input} -w 80 -o {output}
+		"""
 
 rule lastal_syns:
-    input: 
-        REF_PATH + "wrap.fasta"
-    output: 
-        COMP_GEN_SYNS + REF_SPECIES + "_align"
-    params: 
-        db = SYNS_DB
-    threads: 15
-    shell: 
-        """
-        lastal {params.db} {input} -P 15 | last-split > {output}
-        """
+	input: 
+		REF_PATH + "wrap.fasta"
+	output: 
+		COMP_GEN_SYNS + REF_SPECIES + "_align"
+	params: 
+		db = SYNS_DB
+	threads: 15
+	shell: 
+		"""
+		lastal {params.db} {input} -P 15 | last-split > {output}
+		"""
 
 rule maf_convert_syns:
-    input: 
-        COMP_GEN_SYNS + REF_SPECIES + "_align"
-    output: 
-        COMP_GEN_SYNS + REF_SPECIES + "_align_converted"
-    threads: 1
-    shell: 
-        """
-        maf-convert psl {input} > {output}
-        """
+	input: 
+		COMP_GEN_SYNS + REF_SPECIES + "_align"
+	output: 
+		COMP_GEN_SYNS + REF_SPECIES + "_align_converted"
+	threads: 1
+	shell: 
+		"""
+		maf-convert psl {input} > {output}
+		"""
         
 ##########################################################
 ################### MATCHING DATASETS ####################      
 ##########################################################
 
 rule matchScaffold2Chr:
-    input:
-        syns = COMP_GEN_SYNS + REF_SPECIES + "_align_converted",
-        gencov = GENCOV_DIR_REF + "genome_5kb_windows.out"
-    output:
-        windows = MATCHDIR_REF  + "genome_windows.out",
-        bestMatch = MATCHDIR_REF + "bestMatch.list",
-        log = MATCHDIR_REF + "bestMatch.status"
-    params:
-        temp = MATCHDIR_REF + "temp/",
-        abswindow = dir_path + "/" + MATCHDIR_REF  + "genome_windows.out",
-        absBestMatch = dir_path + "/" + MATCHDIR_REF + "bestMatch.list",
-        windowsfile= "genome_windows.out",
-        absLog = dir_path + "/" + MATCHDIR_REF + "bestMatch.status"
-    shell:
-        """
-        cat {input.syns} | awk '{{print $10,$12,$13,$14,$16,$17,$1}}' | sed 's/ /\t/g' | bedtools intersect -a stdin -b {input.gencov} -wa -wb | awk '{{if($10-$9==\"5000\") print $8,$9,$10,$7,$1,$2,$3,$4,$5,$6}}' | sed 's/ /\t/g' | sed 's/\t/STARTCOORD/' | sed 's/\t/ENDCOORD/' > {output.windows}
+	input:
+		syns = COMP_GEN_SYNS + REF_SPECIES + "_align_converted",
+		gencov = GENCOV_DIR_REF + "genome_5kb_windows.out"
+	output:
+		windows = MATCHDIR_REF  + "genome_windows.out",
+		bestMatch = MATCHDIR_REF + "bestMatch.list",
+		log = MATCHDIR_REF + "bestMatch.status"
+	params:
+		temp = MATCHDIR_REF + "temp/",
+		abswindow = dir_path + "/" + MATCHDIR_REF  + "genome_windows.out",
+		absBestMatch = dir_path + "/" + MATCHDIR_REF + "bestMatch.list",
+		windowsfile= "genome_windows.out",
+		absLog = dir_path + "/" + MATCHDIR_REF + "bestMatch.status"
+	shell:
+		"""
+		cat {input.syns} | awk '{{print $10,$12,$13,$14,$16,$17,$1}}' | sed 's/ /\t/g' | bedtools intersect -a stdin -b {input.gencov} -wa -wb | awk '{{if($10-$9==\"5000\") print $8,$9,$10,$7,$1,$2,$3,$4,$5,$6}}' | sed 's/ /\t/g' | sed 's/\t/STARTCOORD/' | sed 's/\t/ENDCOORD/' > {output.windows}
 
-        mkdir {params.temp}
-        cd {params.temp}
+		mkdir {params.temp}
+		cd {params.temp}
         
-        awk \'{{print >> $1; close($1)}}\' {params.abswindow}
+		awk \'{{print >> $1; close($1)}}\' {params.abswindow}
 
-        ls | while read file; do cat $file | awk -v max=0 '{{if($2>max){{want=$0; max=$2}}}}END{{print want}}' ; done | sed 's/STARTCOORD/\t/' | sed 's/ENDCOORD/\t/' >> {params.absBestMatch} 
+		ls | while read file; do cat $file | awk -v max=0 '{{if($2>max){{want=$0; max=$2}}}}END{{print want}}' ; done | sed 's/STARTCOORD/\t/' | sed 's/ENDCOORD/\t/' >> {params.absBestMatch} 
 
-        cd {dir_path}
+		cd {dir_path}
 
-        rm -r {params.temp}
+		rm -r {params.temp}
 
-        echo "DONE" > {params.absLog}
-        """
+		echo "DONE" > {params.absLog}
+		"""
 
 rule matchScaffold2Chr_snp:
-    input:
-        bestMatch = MATCHDIR_REF + "bestMatch.list",
-        snp_statistic = VCF_DIR + SPECIES + ".{snp_statistic}.sorted.bed"
-    output:
-        bestmatch = MATCHDIR + SPECIES + ".{snp_statistic}.bestMatch." + SYNTENY_SPECIES,
-        bestmatch_small = MATCHDIR + SPECIES + ".{snp_statistic}.bestMatch." + SYNTENY_SPECIES + ".small"
-    shell:
-        """
-        bedtools intersect -a {input.bestMatch} -b {input.snp_statistic} -wa -wb > {output.bestmatch}
+	input:
+		bestMatch = MATCHDIR_REF + "bestMatch.list",
+		snp_statistic = VCF_DIR + SPECIES + ".{snp_statistic}.sorted.bed"
+	output:
+		bestmatch = MATCHDIR + SPECIES + ".{snp_statistic}.bestMatch." + SYNTENY_SPECIES,
+		bestmatch_small = MATCHDIR + SPECIES + ".{snp_statistic}.bestMatch." + SYNTENY_SPECIES + ".small"
+	shell:
+		"""
+		bedtools intersect -a {input.bestMatch} -b {input.snp_statistic} -wa -wb > {output.bestmatch}
         
-        cat {output.bestmatch} | cut -f 8,9,10,14 > {output.bestmatch_small}
-        """
+		cat {output.bestmatch} | cut -f 8,9,10,14 > {output.bestmatch_small}
+		"""
 
 rule matchScaffold2Chr_cov:
-    input:
-        bestMatch = MATCHDIR_REF + "bestMatch.list",
-        cov = GENCOV_DIR + SPECIES + ".gencov.nodup.nm.{ED}.out"
-    output:
-        bestMatch = MATCHDIR + SPECIES + ".gencov.nodup.nm.{ED}." + SYNTENY_SPECIES + ".out",
-        bestMatch_norm = MATCHDIR + SPECIES + ".gencov.nodup.nm.{ED}." + SYNTENY_SPECIES + ".out.norm"
-    params:
-        hetero = expand("het:{heterogametic}", heterogametic = HETEROGAMETIC),
-        homo = expand("homo:{homogametic}", homogametic = HOMOGAMETIC)
-    threads: 1
-    shell:
-        """
-        bedtools intersect -a {input.bestMatch} -b {input.cov} -wa -wb > {output.bestMatch}
+	input:
+		bestMatch = MATCHDIR_REF + "bestMatch.list",
+		cov = GENCOV_DIR + SPECIES + ".gencov.nodup.nm.{ED}.out"
+	output:
+		bestMatch = MATCHDIR + SPECIES + ".gencov.nodup.nm.{ED}." + SYNTENY_SPECIES + ".out",
+		bestMatch_norm = MATCHDIR + SPECIES + ".gencov.nodup.nm.{ED}." + SYNTENY_SPECIES + ".out.norm"
+	params:
+		hetero = expand("het:{heterogametic}", heterogametic = HETEROGAMETIC),
+		homo = expand("homo:{homogametic}", homogametic = HOMOGAMETIC)
+	threads: 1
+	shell:
+		"""
+		bedtools intersect -a {input.bestMatch} -b {input.cov} -wa -wb > {output.bestMatch}
 
-        python3 code/matchScaffold2chr_cov.py {output.bestMatch} {params.hetero} {params.homo} > {output.bestMatch_norm}
-        """
+		python3 code/matchScaffold2chr_cov.py {output.bestMatch} {params.hetero} {params.homo} > {output.bestMatch_norm}
+		"""
 
 ##########################################################
 ##################### CONFIRM SEXING #####################
 ##########################################################
 
 rule confirm_sexing_synteny:
-    input:
-        gencov = MATCHDIR + SPECIES + ".gencov.nodup.nm.all." + SYNTENY_SPECIES + ".out",
-        het = MATCHDIR + SPECIES + ".heterozygosity.bestMatch." + SYNTENY_SPECIES
-    output:
-        gencov = protected(RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov_indv.pdf"),
-        het = protected(RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".heterozygosity_indv.pdf"),
-	gencov_het = protected(RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov_heterozygosity_indv.pdf")
-    params:
-        hetero = expand("{heterogametic}", heterogametic = HETEROGAMETIC),
-        homo = expand("{homogametic}", homogametic = HOMOGAMETIC)
-    threads: 1
-    shell:
-        """
-        Rscript code/histogram_gencov_indv.R {input.gencov} {output.gencov} {output.het} {output.gencov_het} with-synteny {params.hetero} {params.homo}
-        """
+	input:
+		gencov = MATCHDIR + SPECIES + ".gencov.nodup.nm.all." + SYNTENY_SPECIES + ".out",
+		het = MATCHDIR + SPECIES + ".heterozygosity.bestMatch." + SYNTENY_SPECIES
+	output:
+		gencov = protected(RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov_indv.pdf"),
+		het = protected(RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".heterozygosity_indv.pdf"),
+		gencov_het = protected(RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov_heterozygosity_indv.pdf")
+	params:
+		hetero = expand("{heterogametic}", heterogametic = HETEROGAMETIC),
+		homo = expand("{homogametic}", homogametic = HOMOGAMETIC)
+	threads: 1
+	shell:
+		"""
+		Rscript code/histogram_gencov_indv.R {input.gencov} {output.gencov} {output.het} {output.gencov_het} with-synteny {params.hetero} {params.homo}
+		"""
 
 ##########################################################
 ################ STATISTICAL CALCULATIONS ################
 ##########################################################
 
 rule calculate_heterozygosity_synteny:
-    input:
-        MATCHDIR + SPECIES + ".diffHeterozygosity.bestMatch." + SYNTENY_SPECIES + ".small"
-    output:
-        Mb = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".diffHeterozygosity.1Mbp.out",
-        kb = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".diffHeterozygosity.100kbp.out",
-        chr = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".diffHeterozygosity.chr.out"
-    threads: 1
-    params:
-        chromosomes = CHOMOSOMES
-    shell:
-        """
-        Rscript code/calculate_heterozygosityDiff_windows.R {input} {output.Mb} {output.kb} {output.chr} {params.chromosomes}
-        """
+	input:
+		MATCHDIR + SPECIES + ".diffHeterozygosity.bestMatch." + SYNTENY_SPECIES + ".small"
+	output:
+		Mb = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".diffHeterozygosity.1Mbp.out",
+		kb = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".diffHeterozygosity.100kbp.out",
+		chr = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".diffHeterozygosity.chr.out"
+	threads: 1
+	params:
+		chromosomes = CHOMOSOMES
+	shell:
+		"""
+		Rscript code/calculate_heterozygosityDiff_windows.R {input} {output.Mb} {output.kb} {output.chr} {params.chromosomes}
+		"""
 
 rule calculate_allFreq_synteny:
-    input:
-        MATCHDIR + SPECIES + ".allFreq.bestMatch." + SYNTENY_SPECIES + ".small"
-    output:
-        Mb = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".allFreq.1Mbp.out",
-        kb = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".allFreq.100kbp.out"
-    params:
-        chromosomes = CHOMOSOMES
-    shell:
-        """
-        Rscript code/calculate_snpCount_windows.R {input} {output.Mb} {output.kb} {params.chromosomes}
-        """
+	input:
+		MATCHDIR + SPECIES + ".allFreq.bestMatch." + SYNTENY_SPECIES + ".small"
+	output:
+		Mb = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".allFreq.1Mbp.out",
+		kb = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".allFreq.100kbp.out"
+	params:
+		chromosomes = CHOMOSOMES
+	shell:
+		"""
+		Rscript code/calculate_snpCount_windows.R {input} {output.Mb} {output.kb} {params.chromosomes}
+		"""
 
 rule calculate_ratio_synteny:
-    input:
-        MATCHDIR + SPECIES + ".gencov.nodup.nm.{ED}." + SYNTENY_SPECIES + ".out.norm"
-    output:
-        Mb = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov.nodup.nm.{ED}.1Mbp.out",
-        kb = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov.nodup.nm.{ED}.100kbp.out",
-        chr = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov.nodup.nm.{ED}.chr.out"
-    threads: 1
-    params:
-        chromosomes = CHOMOSOMES
-    shell:
-        """
-        Rscript code/calculate_gencov_windows.R {input} {output.Mb} {output.kb} {output.chr} {params.chromosomes}
-        """
+	input:
+		MATCHDIR + SPECIES + ".gencov.nodup.nm.{ED}." + SYNTENY_SPECIES + ".out.norm"
+	output:
+		Mb = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov.nodup.nm.{ED}.1Mbp.out",
+		kb = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov.nodup.nm.{ED}.100kbp.out",
+		chr = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov.nodup.nm.{ED}.chr.out"
+	threads: 1
+	params:
+		chromosomes = CHOMOSOMES
+	shell:
+		"""
+		Rscript code/calculate_gencov_windows.R {input} {output.Mb} {output.kb} {output.chr} {params.chromosomes}
+		"""
 
