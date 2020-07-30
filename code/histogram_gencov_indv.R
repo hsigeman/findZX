@@ -80,7 +80,7 @@ for (i in 1:nr_samples) {
   x = i + 2
   y = i + 2 + nr_samples
   plot(log(cov_het[,x]), log(cov_het[,y]), xlab = "log of gen.cov. [10^x]", pch = 20,
-       ylab = "log of mean heterozygosity", main = paste(sample_names[i], ", 5kbp windows", sep = ""))
+       ylab = "log of mean heterozygosity [10^x]", main = paste(sample_names[i], ", 5kbp windows", sep = ""))
 }
 
 dev.off()
