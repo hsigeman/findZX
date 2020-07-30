@@ -64,7 +64,7 @@ mean_win <- function(data_table, formula) {
   # calculates the mean in ratio for each chr
   #formula = ratio ~ chr, diff ~ chr, diff ~ chr + range, ratio ~ chr + range
   
-  data_table <- summaryBy(formula, data=data_table, keep.names=TRUE)
+  data_table <- summaryBy(formula, data=data_table, keep.names=TRUE, na.rm = TRUE)
   
   return(data_table)
 }
