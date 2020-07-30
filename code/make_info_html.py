@@ -10,11 +10,9 @@ species = sys.argv[1]
 refgenome = sys.argv[2]
 het_samples = sys.argv[3]
 homo_samples = sys.argv[4]
-
 path_statistics = sys.argv[5]
-
-
-nr_of_chr = '32'
+synteny_species = sys.argv[6]
+nr_of_chr = ''
 
 gencov_path = 'intermediate/bedtools/' + species + '_ref_' + refgenome + '/' + species + '.gencov.nodup.nm.0.0.out'
 gencov_path_synteny = 'intermediate/synteny_match/' + species + '_ref_' + refgenome + '/' + species + '.gencov.nodup.nm.0.0.' + synteny_species + '.out'
@@ -35,7 +33,7 @@ print('\t\t<hr>')
 print('\t\t<p style=\"font-family:\'Arial\'\">Genome coverage for each individual:</p>')
 print('\t\t<p style=\"font-family:\'Courier New\'\">' + gencov_path + '</p>')
 
-if synteny_species != 'no':
+if synteny_species != '.':
 	print('\t\t<p style=\"font-family:\'Arial\'\">Genome coverage for each individual, synteny chromosomes:</p>')
 	print('\t\t<p style=\"font-family:\'Courier New\'\">' + gencov_path_synteny + '</p>')
 
@@ -47,9 +45,8 @@ print('\t\t<h4 style=\"font-family:\'Arial\'\">Statistics calculated.</h4>')
 print('\t\t<p style=\"font-family:\'Arial\'\">The ratio in genome coverage between heterogametic and homogametic individuals.<br>The difference in proportion of heterozygosity between heterogametic and homogametic individuals.</p>')
 
 print('\t\t<table style=\"font-family:\'Courier New\'\">')
-
-line_count = 0
 with open(path_statistics, 'r') as stat_file:
+	line_count = 0
 	for line in stat_file:
 		line_count = line_count + 1
 		columns = line.strip('\n').split('\t')
@@ -65,10 +62,7 @@ with open(path_statistics, 'r') as stat_file:
 			print('\t\t\t\t<' + row_type + '>' + col + '</' + row_type + '>')
 			
 		print('\t\t\t</tr>')
-
 print('\t\t</table>')
-
-#print('\t\t<div id="list"><p><iframe src="' + path_statistics + '" frameborder="0" height="400" width="95%"></iframe></p></div>')
 
 print('\t\t<hr>')
 print('\t\t<p style=\"font-family:\'Arial\'\">Contact: hanna.sigeman@biol.lu.se, bella.sinclair@biol.lu.se.</p>')

@@ -257,8 +257,30 @@ rule filter_allele_frequency:
         """
 
 ##########################################################
-####################### PLOTTING #########################
+####################### RESULTS ##########################
 ##########################################################
+
+rule print_report:
+    input:
+        cov0 = RESULTDIR + SPECIES + "{synteny}gencov.nodup.nm.0.0.chr.out",
+        cov2 = RESULTDIR + SPECIES + "{synteny}gencov.nodup.nm.0.2.chr.out",
+        cov4 = RESULTDIR + SPECIES + "{synteny}gencov.nodup.nm.0.4.chr.out",
+        snp = RESULTDIR + SPECIES + "{synteny}diffHeterozygosity.chr.out"
+    output:
+	stats = RESULTDIR + SPECIES + "{synteny}.statistics.tsv",
+	html = RESULTDIR + SPECIES + "{synteny}report.html"
+    params:
+	species = SPECIES,
+	ref = REF_SPECIES,
+	heterogametic = HETEROGAMETIC,
+	homogametic = HOMOGAMETIC,
+	synt = {synteny}
+    shell:
+        """
+	join {input.cov0} {input.cov2} | join {input.cov4} | {input.snp} > {output.stats}
+
+	python3 code/make_info_html.py {params.species} {params.ref} {params.heterogametic} {params.homogametic} {output.stat} {params.synt} > {output.html}
+        """
 
 rule plotting:
     input: 
