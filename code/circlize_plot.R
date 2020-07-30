@@ -1,6 +1,8 @@
 library(circlize)
 library(doBy)
 library(data.table)
+library(ggplot2)
+library(cowplot)
 
 # Reads genome coverage files and snp file and makes a circlized plot
 # and a 2D scatterplot between gencov and difference in heterozygosity
@@ -86,32 +88,16 @@ cov.select.04$factor <- ordered(cov.select.04$factor, levels = chromosome)
 snp.select$factor <- ordered(snp.select$factor, levels = chromosome)
 
 
-# Color each chromosome with a unique color
-c <- colorRampPalette(colors = c('red','yellow','green','blue'))(length(unique(cov.select$factor)))
-palette(c)
-
 pdf(file=scatter_out, width = 9, height = 9)
 
-par(mfrow=c(3,1), mar=c(4,4,4,1), oma=c(0,10,0,0), xpd=TRUE)
+cov00_plot <- ggplot(cov.select, aes(x = cov00, y = hetDiff)) + geom_point(aes(color = factor))
+cov00_plot <- cov00_plot + theme(legend.position="none") + ylab("hej")
+cov02_plot <- ggplot(cov.select, aes(x = cov02, y = hetDiff)) + geom_point(aes(color = factor))
+cov02_plot <- cov02_plot + theme(legend.position="none")
+cov04_plot <- ggplot(cov.select, aes(x = cov04, y = hetDiff)) + geom_point(aes(color = factor)) 
+cov04_plot <- cov04_plot + theme(legend.position="none")
 
-plot(cov.select$cov00, cov.select$hetDiff, col = cov.select$factor, xlim = c(min.cov.00, max.cov.00),
-     xlab = "Normalized genome coverage, nm = 0", ylab = "Difference in proportion of heterozygosity",
-     pch = 20)
-abline(h = median.snp)
-abline(v = median.cov.00)
-plot(cov.select$cov02, cov.select$hetDiff, col = cov.select$factor, xlim = c(min.cov.00, max.cov.00),
-     xlab = "Normalized genome coverage, nm = 2", ylab = "Difference in proportion of heterozygosity",
-     pch = 20)
-abline(h = median.snp)
-abline(v = median.cov.02)
-par(xpd=NA)
-legend("left", legend=levels(unique(cov.select$factor)),fill=1:length(cov.select$factor),inset=c(-0.2,0.6))
-par(xpd=TRUE)
-plot(cov.select$cov04, cov.select$hetDiff, col = cov.select$factor, xlim = c(min.cov.00, max.cov.00),
-     xlab = "Normalized genome coverage, nm = 4", ylab = "Difference in proportion of heterozygosity",
-     pch = 20)
-abline(h = median.snp)
-abline(v = median.cov.04)
+plot_grid(cov00_plot, cov02_plot, cov04_plot, nrow = 3, labels = "AUTO")
 
 dev.off()
 
