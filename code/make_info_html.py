@@ -8,15 +8,33 @@ else:
 
 species = sys.argv[1]
 refgenome = sys.argv[2]
-het_samples = sys.argv[3]
-homo_samples = sys.argv[4]
-path_statistics = sys.argv[5]
-synteny_species = sys.argv[6]
+path_statistics = sys.argv[3]
+synteny_species = sys.argv[4]
+
+het_samples = []
+homo_samples = []
+
+for i in range(5, len(sys.argv)):
+        sample_args = sys.argv[i].split(':')
+
+        if sys.argv[i].startswith('het'):
+                het_samples.append(sample_args[1])
+
+        elif sys.argv[i].startswith('homo'):
+                homo_samples.append(sample_args[1])
+
 nr_of_chr = ''
 
-gencov_path = 'intermediate/bedtools/' + species + '_ref_' + refgenome + '/' + species + '.gencov.nodup.nm.0.0.out'
-gencov_path_synteny = 'intermediate/synteny_match/' + species + '_ref_' + refgenome + '/' + species + '.gencov.nodup.nm.0.0.' + synteny_species + '.out'
 
+gencov_path = 'intermediate/bedtools/' + species + '_ref_' + refgenome + '/' + species + '.gencov.nodup.nm.0.0.out'
+gencov_path_synteny = 'intermediate/synteny_match/' + species + '_ref_' + refgenome + '/' + species + '.gencov.nodup.nm.0.0' + synteny_species + 'out'
+
+def isfloat(value):
+  try:
+    float(value)
+    return True
+  except ValueError:
+    return False
 
 # print HTML file
 
@@ -27,8 +45,13 @@ print('\t\t<h2 style=\"font-family:\'Arial\'\">Pipeline for detection of sex-lin
 print('\t\t<p style=\"font-family:\'Arial\'\">by Hanna Sigeman and Bella Sinclair, July 2020.<br>Pipeline ran:   ' + str(date.today()) + '</p>')
 print('\t\t<hr>')
 print('\t\t<p style=\"font-family:\'Arial\'\">Species:   ' + species + '<br>Reference genome:   ' + refgenome + '</p>')
-print('\t\t<p style=\"font-family:\'Arial\'\">Heterogametic samples:   ' + het_samples + '<br>Homogametic samples:   ' + homo_samples + '</p>')
-print('\t\t<p style=\"font-family:\'Arial\'\">Synteny:   ' + synteny_species + '</p>')
+print('\t\t<p style=\"font-family:\'Arial\'\">Heterogametic samples:   ' + ', '.join(het_samples) + '<br>Homogametic samples:   ' + ', '.join(homo_samples) + '</p>')
+
+if synteny_species != '.':
+	print('\t\t<p style=\"font-family:\'Arial\'\">Synteny:   ' + synteny_species + '</p>')
+else:
+	print('\t\t<p style=\"font-family:\'Arial\'\">Synteny: None</p>')
+
 print('\t\t<hr>')
 print('\t\t<p style=\"font-family:\'Arial\'\">Genome coverage for each individual:</p>')
 print('\t\t<p style=\"font-family:\'Courier New\'\">' + gencov_path + '</p>')
@@ -37,7 +60,7 @@ if synteny_species != '.':
 	print('\t\t<p style=\"font-family:\'Arial\'\">Genome coverage for each individual, synteny chromosomes:</p>')
 	print('\t\t<p style=\"font-family:\'Courier New\'\">' + gencov_path_synteny + '</p>')
 
-print('\t\t<p style=\"font-family:\'Arial\'\">Samples are in the order:   ' + het_samples + homo_samples + '</p>')
+print('\t\t<p style=\"font-family:\'Arial\'\">Samples are in the order: ' + ', '.join(het_samples) + ', ' + ', '.join(homo_samples) + '</p>')
 print('\t\t<hr>')
 print('\t\t<p style=\"font-family:\'Arial\'\">Number of chromosomes/scaffolds:   ' + nr_of_chr + '</p>')
 print('\t\t<hr>')
@@ -59,7 +82,12 @@ with open(path_statistics, 'r') as stat_file:
 			row_type = 'th'
 
 		for col in columns:
-			print('\t\t\t\t<' + row_type + '>' + col + '</' + row_type + '>')
+			if isfloat(col):
+				stat = '%.5f' % float(col)
+			else:
+				stat = col
+
+			print('\t\t\t\t<' + row_type + '>' + stat + '</' + row_type + '>')
 			
 		print('\t\t\t</tr>')
 print('\t\t</table>')
