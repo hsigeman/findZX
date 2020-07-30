@@ -202,16 +202,20 @@ rule proportion_heterozygosity:
     input:
         VCF_DIR + SPECIES + ".biallelic.minQ20.minDP3.vcf"
     output:
-        diff_het = VCF_DIR + SPECIES + ".diffHeterozygosity.bed",
-        het = VCF_DIR + SPECIES + ".heterozygosity.bed"
+        diff_het = temp(VCF_DIR + SPECIES + ".diffHeterozygosity.bed"),
+        het = temp(VCF_DIR + SPECIES + ".heterozygosity.bed"),
+        diff_het_sorted = VCF_DIR + SPECIES + ".diffHeterozygosity.sorted.bed",
+        het_sorted = VCF_DIR + SPECIES + ".heterozygosity.sorted.bed"
     params:
         hetero = expand("het:{heterogametic}", heterogametic = HETEROGAMETIC),
         homo = expand("homo:{homogametic}", homogametic = HOMOGAMETIC)
     shell:
         """
         python3 code/calculate_diff_heterozygosity.py {input} {output.diff_het} {params.hetero} {params.homo}
+        sort {output.diff_het} -k 1,1 -k 2,2 > {output.diff_het_sorted}
 
         python3 code/heterozygosity_per_indv.py {input} {output.het} {params.hetero} {params.homo}
+        sort {output.het} -k 1,1 -k 2,2 > {output.het_sorted}
         """
 
 rule allele_frequency:
@@ -234,11 +238,13 @@ rule filter_allele_frequency:
         hetero = VCF_DIR + SPECIES + ".allFreq.heterogametic.out",
         homo = VCF_DIR + SPECIES + ".allFreq.homogametic.out"
     output:
-        VCF_DIR + SPECIES + ".allFreq.bed"
+        bed = temp(VCF_DIR + SPECIES + ".allFreq.bed"),
+        sorted = VCF_DIR + SPECIES + ".allFreq.sorted.bed"
     shell:
         """
-        python3 code/filter_allFreq.py {input.hetero} heterogametic > {output}
-        python3 code/filter_allFreq.py {input.homo} homogametic >> {output}
+        python3 code/filter_allFreq.py {input.hetero} heterogametic > {output.bed}
+        python3 code/filter_allFreq.py {input.homo} homogametic >> {output.bed}
+        sort {output.bed} -k 1,1 -k 2,2 > {output.sorted}
         """
 
 ##########################################################
