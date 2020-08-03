@@ -22,7 +22,7 @@ remove_outliers <- function(column) {
 normalize <- function(column) {
   
   column_median <- median(column)
-  column_normalized <- log(column/column_median)
+  column_normalized <- column/column_median
   column_normalized <- as.data.frame(column_normalized)
   
   return(column_normalized)
@@ -107,6 +107,8 @@ for (i in 1:nr_samples) {
   df <- cov_norm[[i]]
   hg <- ggplot(df, aes(x = column_normalized)) + geom_histogram(bins = 100)
   hg <- hg + labs(x="genome coverage, normalized on median", y="Frequency")
+  hg <- hg + scale_x_log10(breaks = trans_breaks("log10", function(x) 10^x), labels = trans_format("log10", math_format(10^.x)))
+  hg <- hg + annotation_logticks(sides="b")
   
 ################################ HETEROZYGOSITY ################################
   
