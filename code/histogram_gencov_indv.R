@@ -1,5 +1,7 @@
 library(doBy)
 library(data.table)
+library(ggplot2)
+library(cowplot)
 
 # Reads in a bed-file with coverage values for each sample
 # Removes outliers and makes a histogram for each individual
@@ -21,6 +23,7 @@ normalize <- function(column) {
   
   column_median <- median(column)
   column_normalized <- log(column/column_median)
+  column_normalized <- as.data.frame(column_normalized)
   
   return(column_normalized)
 }
@@ -39,11 +42,9 @@ args <- commandArgs(trailingOnly = TRUE)
 
 file_gencov = args[1]
 file_snp = args[2]
-outfile_gencov = args[3]
-outfile_snp = args[4]
-outfile_scatt = args[5]
-synteny = args[6]
-sample_names = args[7:length(args)]
+outfile = args[3]
+synteny = args[4]
+sample_names = args[5:length(args)]
 
 # read gencov
 cov = read.table(file_gencov,header=FALSE,fill=TRUE,stringsAsFactor=FALSE)
@@ -69,22 +70,7 @@ cov$range <- cov$start/5000
 cov_het <- merge(cov, het_mean, by = c("chr","range"))
 cov_het <- cov_het[-3:-4]
 
-#remove outliers and normalize before plotting
-
-pdf(outfile_scatt, width = 14)
-par(mfrow=c(2,((length(cov_het)-2)/4)), mar=c(5,4,4,2), oma=c(0,1,0,0))
-
 nr_samples <- length(sample_names)
-
-for (i in 1:nr_samples) {
-  x = i + 2
-  y = i + 2 + nr_samples
-  plot(log(cov_het[,x]), log(cov_het[,y]), xlab = "log of gen.cov. [10^x]", pch = 20,
-       ylab = "log of mean heterozygosity [10^x]", main = paste(sample_names[i], ", 5kbp windows", sep = ""))
-}
-
-dev.off()
-
 
 # remove columns: chr and range (start, stop)
 cov <- cov[-length(cov)][-1:-3]
@@ -97,28 +83,52 @@ cov_no_outliers <- apply(cov, 2, remove_outliers)
 # normalize on median of each sample and take the logarithm
 cov_norm <- lapply(cov_no_outliers, normalize)
 
+################################################################################
+################################### PLOTTING ###################################
+################################################################################
+
+plist <- list()
+
+for (i in 1:nr_samples) {
+
+###################### HETEROZYGOSITY VS GENOME COVERAGE #######################
+  
+  x = i + 2
+  y = i + 2 + nr_samples
+  
+  outliers <- boxplot(cov_het[,x], plot = FALSE)$out
+  no_outliers <- cov_het[!(cov_het[,x] %in% outliers),]
+  
+  p <- ggplot(data = no_outliers, aes(x = no_outliers[,x], y = no_outliers[,y])) + geom_bin2d(bins = 10)
+  p <- p + labs(x = "genome coverage", y = "heterozygosity")
+  
+############################### GENOME COVERAGE ################################
+  
+  df <- cov_norm[[i]]
+  hg <- ggplot(df, aes(x = column_normalized)) + geom_histogram(bins = 100)
+  hg <- hg + labs(x="genome coverage, normalized on median", y="Frequency")
+  
+################################ HETEROZYGOSITY ################################
+  
+  hh <- ggplot(het_mean, aes(x = het_mean[,1])) + geom_histogram(bins = 100)
+  hh <- hh + labs(x="heterozygosity", y="Frequency")
+  hh <- hh + scale_x_log10(breaks = trans_breaks("log10", function(x) 10^x), labels = trans_format("log10", math_format(10^.x)))
+  hh <- hh + annotation_logticks(sides="b")
+  
+  
+  pg <- plot_grid("", "", "", p,hg,hh,ncol = 3, rel_heights = c(1,20),
+                  labels = c(sample_names[i], "", "", "A", "B", "C"))
+  plist[[i]] <- pg
+  
+}
 
 
-# plot histogram for each sample
-pdf(outfile_gencov, width = 14)
-par(mfrow=c(2,(length(cov_norm)/2)), mar=c(5,4,4,2), oma=c(0,1,0,0))
+pdf(outfile, width = 20)
 
-args <- list(xlab="log of gen.cov. normalized on median [10^x]",
-             ylab="Frequency of 5kbp windows")
-titles <- colnames(cov)
-mapply(hist, cov_norm, breaks = 100, main=titles, MoreArgs=args)
-
-dev.off()
-
-
-
-pdf(outfile_snp, width = 14)
-par(mfrow=c(2,(length(het_mean)/2)), mar=c(5,4,4,2), oma=c(0,1,0,0))
-
-args <- list(xlab="log of mean heterozygosity [10^x]",
-             ylab="Frequency of 5kbp windows")
-titles <- colnames(het_mean)
-
-mapply(hist, log(het_mean), breaks = 100, main=titles, MoreArgs=args)
+for (i in 1:nr_samples) {
+  
+  print(plist[[i]])
+  
+}
 
 dev.off()
