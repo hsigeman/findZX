@@ -53,8 +53,6 @@ rule all:
 		expand(MATCHDIR + SPECIES + ".gencov.nodup.nm.{ED}." + SYNTENY_SPECIES + ".out.norm", ED = EDIT_DIST),
 		RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".allFreq.1Mbp.out",
 		RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".allFreq.100kbp.out",
-		RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov_indv.pdf",
-		RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".heterozygosity_indv.pdf",
 		RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov_heterozygosity_indv.pdf",
 		RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".circlize.pdf",
 		RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".scatter.pdf",
@@ -185,8 +183,6 @@ rule confirm_sexing_synteny:
 		gencov = MATCHDIR + SPECIES + ".gencov.nodup.nm.all." + SYNTENY_SPECIES + ".out",
 		het = MATCHDIR + SPECIES + ".heterozygosity.bestMatch." + SYNTENY_SPECIES
 	output:
-		gencov = protected(RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov_indv.pdf"),
-		het = protected(RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".heterozygosity_indv.pdf"),
 		gencov_het = protected(RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov_heterozygosity_indv.pdf")
 	params:
 		hetero = expand("{heterogametic}", heterogametic = HETEROGAMETIC),
@@ -194,7 +190,7 @@ rule confirm_sexing_synteny:
 	threads: 1
 	shell:
 		"""
-		Rscript code/histogram_gencov_indv.R {input.gencov} {output.gencov} {output.het} {output.gencov_het} with-synteny {params.hetero} {params.homo}
+		Rscript code/histogram_gencov_indv.R {input.gencov} {output.gencov_het} with-synteny {params.hetero} {params.homo}
 		"""
 
 ##########################################################
