@@ -89,6 +89,8 @@ if (dim(cov_00_table)[1] == 0) {
   cov.select.04$factor <- ordered(cov.select.04$factor, levels = chromosome)
   snp.select$factor <- ordered(snp.select$factor, levels = chromosome)
   
+  factor.nr <- as.numeric(length(unique(cov.select.04$factor)))
+  
 ################################################################################
 ################################ SCATTER PLOT ##################################
 ################################################################################
@@ -97,29 +99,27 @@ if (dim(cov_00_table)[1] == 0) {
   cov.select <- merge(cov.select, cov.select.04, by = c("factor", "x"))
   cov.select <- merge(cov.select, snp.select, by = c("factor", "x"))
   
-  colnames(cov.select) <- c("factor", "x", "cov00", "cov02", "cov04", "hetDiff")
+  colnames(cov.select) <- c("Chromosomes", "window", "cov00", "cov02", "cov04", "hetDiff")
   
-  
-  pdf(file=scatter_out, width = 9, height = 9)
 
-  cov00_plot <- ggplot(cov.select, aes(x = cov00, y = hetDiff)) + geom_point(aes(color = factor))
-  cov00_plot <- cov00_plot + theme(legend.position="none") + ylab("y")
+  cov00_plot <- ggplot(cov.select, aes(x = cov00, y = hetDiff)) + geom_point(aes(color = Chromosomes)) + scale_color_manual(values = rainbow(factor.nr))
+  legend <- get_legend(cov00_plot)
+  cov00_plot <- cov00_plot + theme(legend.position="none") + xlab("normalized genome coverage, nm 0") + ylab("difference in heterozygosity")
   
-  cov02_plot <- ggplot(cov.select, aes(x = cov02, y = hetDiff)) + geom_point(aes(color = factor))
-  cov02_plot <- cov02_plot + theme(legend.position="none")
+  cov02_plot <- ggplot(cov.select, aes(x = cov02, y = hetDiff)) + geom_point(aes(color = Chromosomes)) + scale_color_manual(values = rainbow(factor.nr))
+  cov02_plot <- cov02_plot + theme(legend.position="none") + xlab("normalized genome coverage, nm 2") + ylab("difference in heterozygosity")
   
-  cov04_plot <- ggplot(cov.select, aes(x = cov04, y = hetDiff)) + geom_point(aes(color = factor)) 
-  cov04_plot <- cov04_plot + theme(legend.position="none")
+  cov04_plot <- ggplot(cov.select, aes(x = cov04, y = hetDiff)) + geom_point(aes(color = Chromosomes)) + scale_color_manual(values = rainbow(factor.nr))
+  cov04_plot <- cov04_plot + theme(legend.position="none") + xlab("normalized genome coverage, nm 4") + ylab("difference in heterozygosity")
 
-  plot_grid(cov00_plot, cov02_plot, cov04_plot, nrow = 3, labels = "AUTO")
-
-  dev.off()
+  plot_grid(cov00_plot, "", cov02_plot, legend, cov04_plot, "", nrow = 3, 
+            labels = c("A", "", "B", "", "C"), rel_widths = c(3,1))
+  
+  ggsave(scatter_out, plot = last_plot(), device = pdf(), width = 9, height = 9)
 
 ################################################################################
 ################################ CIRCLIZE PLOT #################################
 ################################################################################
-
-  factor.nr <- as.numeric(length(unique(cov.select.04$factor)))
 
   circos.clear()
   pdf(file=circlize_out, width = 9, height = 9)
