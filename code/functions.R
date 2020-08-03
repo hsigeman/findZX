@@ -103,3 +103,10 @@ gen_data_4plotting <- function(data_table, columns) {
   
   return(list(df = data_table.select, max = max.data_table, min = min.data_table, median = median.data_table))
 }
+
+get_legend<-function(myggplot){
+  tmp <- ggplot_gtable(ggplot_build(myggplot))
+  leg <- which(sapply(tmp$grobs, function(x) x$name) == "guide-box")
+  legend <- tmp$grobs[[leg]]
+  return(legend)
+}
