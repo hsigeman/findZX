@@ -2,6 +2,7 @@ library(doBy)
 library(data.table)
 library(ggplot2)
 library(cowplot)
+require(scales)
 
 # Reads in a bed-file with coverage values for each sample
 # Removes outliers and makes a histogram for each individual
@@ -100,7 +101,7 @@ for (i in 1:nr_samples) {
   no_outliers <- cov_het[!(cov_het[,x] %in% outliers),]
   
   p <- ggplot(data = no_outliers, aes(x = no_outliers[,x], y = no_outliers[,y])) + geom_bin2d(bins = 10)
-  p <- p + labs(x = "genome coverage", y = "heterozygosity")
+  p <- p + labs(x = "genome coverage", y = "heterozygosity") + theme_bw()
   
 ############################### GENOME COVERAGE ################################
   
@@ -108,14 +109,14 @@ for (i in 1:nr_samples) {
   hg <- ggplot(df, aes(x = column_normalized)) + geom_histogram(bins = 100)
   hg <- hg + labs(x="genome coverage, normalized on median", y="Frequency")
   hg <- hg + scale_x_log10(breaks = trans_breaks("log10", function(x) 10^x), labels = trans_format("log10", math_format(10^.x)))
-  hg <- hg + annotation_logticks(sides="b")
+  hg <- hg + annotation_logticks(sides="b") + theme_bw()
   
 ################################ HETEROZYGOSITY ################################
   
   hh <- ggplot(het_mean, aes(x = het_mean[,1])) + geom_histogram(bins = 100)
   hh <- hh + labs(x="heterozygosity", y="Frequency")
   hh <- hh + scale_x_log10(breaks = trans_breaks("log10", function(x) 10^x), labels = trans_format("log10", math_format(10^.x)))
-  hh <- hh + annotation_logticks(sides="b")
+  hh <- hh + annotation_logticks(sides="b") + theme_bw()
   
   
   pg <- plot_grid("", "", "", p,hg,hh,ncol = 3, rel_heights = c(1,20),
@@ -134,3 +135,4 @@ for (i in 1:nr_samples) {
 }
 
 dev.off()
+
