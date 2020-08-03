@@ -1,6 +1,9 @@
 library(doBy)
 library(data.table)
-library(scatterplot3d)
+library(plot3D)
+library(ggplot2)
+require(scales)
+library(cowplot)
 
 # reads in chr.out files and plots cov vs het and colors chr dots dependen on
 # chr length
@@ -19,6 +22,9 @@ filesnp = args[4]
 scatter2D_out = args[5]
 scatter3D_out = args[6]
 
+################################################################################
+################################# READ FILES ###################################
+################################################################################
 
 cov_00_table <- read.table(file00, header=TRUE,fill=TRUE,stringsAsFactor=FALSE)
 cov_00 <- gen_data_4plotting(cov_00_table, c("chr", "length", "ratio"))
@@ -48,64 +54,81 @@ max.snp <- snp$max
 min.snp <- snp$min
 median.snp <- snp$median
 
-
+################################################################################
+################################# MERGE DATA ###################################
+################################################################################
 
 cov.select <- merge(cov.select.00, cov.select.02, by = c("factor", "x"))
 cov.select <- merge(cov.select, cov.select.04, by = c("factor", "x"))
 cov.select <- merge(cov.select, snp.select, by = c("factor"))
 
-cov.select <- cov.select[-6]
-colnames(cov.select) <- c("factor", "x", "cov00", "cov02", "cov04", "hetDiff")
+cov.select <- cov.select[,-6]
+colnames(cov.select) <- c("scaffold", "length", "cov00", "cov02", "cov04", "hetDiff")
 
-cov.select <- cov.select[order(cov.select$x),]
+cov.select <- cov.select[order(cov.select$length),]
 
+################################################################################
+############################### SCATTER PLOT 2D ################################
+################################################################################
 
-cr <- colorRamp(c('blue','green','red'), space = "rgb")
+c0 <- ggplot(cov.select, aes(x = cov00, y = hetDiff)) + 
+  labs(title = "nm = 0", x = "", 
+       y = "mean difference in heterozygosity") + theme_bw() + 
+  scale_x_log10(breaks = trans_breaks("log10", function(x) 10^x), 
+                labels = trans_format("log10", math_format(10^.x))) + 
+  annotation_logticks(sides="b") + theme_bw() + geom_point() + 
+  geom_point(aes(color = length)) + scale_color_gradient(low = "blue", high = "red") + 
+  theme(legend.position="none")
 
+c2 <- ggplot(cov.select, aes(x = cov02, y = hetDiff)) + 
+  labs(title = "nm = 2", x = "mean genome coverage", 
+       y = "") + theme_bw() + 
+  scale_x_log10(breaks = trans_breaks("log10", function(x) 10^x), 
+                labels = trans_format("log10", math_format(10^.x))) + 
+  annotation_logticks(sides="b") + theme_bw() + geom_point() + 
+  geom_point(aes(color = length)) + scale_color_gradient(low = "blue", high = "red") + 
+  theme(legend.position="none")
 
-pdf(file=scatter2D_out, width = 18, height = 9)
-par(mfrow=c(1,3), mar=c(4,4,4,1), oma=c(1,1,0,0), xpd=TRUE)
+c4 <- ggplot(cov.select, aes(x = cov04, y = hetDiff)) + 
+  labs(title = "nm = 4", x = "", 
+       y = "") + theme_bw() + 
+  scale_x_log10(breaks = trans_breaks("log10", function(x) 10^x), 
+                labels = trans_format("log10", math_format(10^.x))) + 
+  annotation_logticks(sides="b") + theme_bw() + geom_point() + 
+  geom_point(aes(color = length)) + scale_color_gradient(low = "blue", high = "red")
+legend <- get_legend(c4)
+c4 <- c4 + theme(legend.position="none")
 
-plot(log(cov.select$cov00), cov.select$hetDiff, col = rgb(cr(cov.select$x / max(cov.select$x))/255), pch = 20, 
-     main = "Statistics for each scaffold, nm = 0", xlab = "Mean genome coverage [log-scale 10^x]",
-     ylab = "Mean difference in heterozygosity")
-lgd_ = rep(NA, 11)
-lgd_[c(1,11)] = c(min(cov.select$x),max(cov.select$x))
-legend("bottomright", legend = lgd_, fill = colorRampPalette(colors = c('blue','green','red'))(11),
-       border = NA, y.intersp = 0.8, title = "Scaffold length")
+pg <- plot_grid(c0, c2, c4, legend, ncol = 4, rel_widths = c(3,3,3,1), 
+                labels = c("A", "B", "C", ""))
 
-plot(log(cov.select$cov02), cov.select$hetDiff, col = rgb(cr(cov.select$x / max(cov.select$x))/255), pch = 20, 
-     main = "Statistics for each scaffold, nm = 2", xlab = "Mean genome coverage [log-scale 10^x]",
-     ylab = "Mean difference in heterozygosity")
+ggsave(scatter2D_out, plot = pg, device = pdf(), width = 14, height = 9)
 
-plot(log(cov.select$cov04), cov.select$hetDiff, col = rgb(cr(cov.select$x / max(cov.select$x))/255), pch = 20, 
-     main = "Statistics for each scaffold, nm = 4", xlab = "Mean genome coverage [log-scale 10^x]",
-     ylab = "Mean difference in heterozygosity")
+################################################################################
+############################### SCATTER PLOT 3D ################################
+################################################################################
 
-dev.off()
+pdf(file=scatter3D_out, width = 14, height = 5)
 
+par(mfrow=c(1,3), mar=c(2,1,2,0), oma=c(0,0,0,0), xpd=TRUE)
 
+scatter3D(cov.select$length, log(cov.select$cov00), cov.select$hetDiff,
+          colvar = cov.select$length, pch = 19, xlab = "Scaffold length", 
+          ylab = "log of normalized genome coverage", main = "nm = 0",
+          zlab = "difference in heterozygosity", bty = "b2",
+          colkey = FALSE)
 
-pdf(file=scatter3D_out, width = 18, height = 9)
-par(mfrow=c(1,3), mar=c(4,4,4,1), oma=c(1,1,0,0), xpd=TRUE)
-# 3d plot het/cov/len
-scatterplot3d(log(cov.select$x), log(cov.select$cov00), cov.select$hetDiff,  color = rgb(cr(cov.select$x / max(cov.select$x))/255), 
-              pch = 20, main = "Statistics for each scaffold, nm = 0", angle = 150,
-              xlab = "Scaffold length [log-scale 10^x bp]", ylab = "Mean normalized genome coverage [log-scale 10^x]",
-              zlab = "Mean difference in heterozygosity")
+scatter3D(cov.select$length, log(cov.select$cov02), cov.select$hetDiff,
+          colvar = cov.select$length, pch = 19, xlab = "Scaffold length", 
+          ylab = "log of normalized genome coverage", main = "nm = 2",
+          zlab = "difference in heterozygosity", bty = "b2",
+          colkey = FALSE)
 
-legend("topright", legend = lgd_, fill = colorRampPalette(colors = c('blue','green','red'))(11),
-       border = NA, y.intersp = 0.8, title = "Scaffold length", bg = "white", cex = 1.5)
-
-scatterplot3d(log(cov.select$x), log(cov.select$cov02), cov.select$hetDiff, color = rgb(cr(cov.select$x / max(cov.select$x))/255), 
-              pch = 20, main = "Statistics for each scaffold, nm = 2", angle = 150,
-              xlab = "Scaffold length [log-scale 10^x bp]", ylab = "Mean normalized genome coverage [log-scale 10^x]", 
-              zlab = "Mean difference in heterozygosity")
-
-scatterplot3d(log(cov.select$x), log(cov.select$cov04), cov.select$hetDiff, color = rgb(cr(cov.select$x / max(cov.select$x))/255), 
-              pch = 20, main = "Statistics for each scaffold, nm = 4", angle = 150,
-              xlab = "Scaffold length [log-scale 10^x bp]", ylab = "Mean normalized genome coverage [log-scale 10^x]", 
-              zlab = "Mean difference in heterozygosity")
+scatter3D(cov.select$length, log(cov.select$cov04), cov.select$hetDiff,
+          colvar = cov.select$length, pch = 19, xlab = "Scaffold length", 
+          ylab = "log of normalized genome coverage", main = "nm = 4",
+          zlab = "difference in heterozygosity", bty = "b2",
+          colkey = FALSE)
 
 dev.off()
 
