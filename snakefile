@@ -197,7 +197,7 @@ rule vcftools_filter:
 		gz = protected(VCF_DIR + SPECIES + ".biallelic.minQ20.minDP3.vcf.gz")
 	shell:
 		"""
-		vcftools --vcf {input} --min-alleles 2 --max-alleles 2 --remove-filtered-geno-all --minQ 20 --minDP 3 --recode --stdout > {output.vcf}
+		vcftools --gzvcf {input} --min-alleles 2 --max-alleles 2 --remove-filtered-geno-all --minQ 20 --minDP 3 --recode --stdout > {output.vcf}
      
 		bgzip -c {output.vcf} > {output.gz}
 		tabix -p vcf {output.gz}
@@ -238,8 +238,8 @@ rule allele_frequency:
 		homo = expand("--indv {homogametic}", homogametic = HOMOGAMETIC)
 	shell:
 		"""
-		vcftools --vcf {input} {params.hetero} --freq --stdout > {output.hetero}
-		vcftools --vcf {input} {params.homo} --freq --stdout > {output.homo}
+		vcftools --gzvcf {input} {params.hetero} --freq --stdout > {output.hetero}
+		vcftools --gzvcf {input} {params.homo} --freq --stdout > {output.homo}
 		"""
 
 rule filter_allele_frequency:
