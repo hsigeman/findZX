@@ -1,10 +1,24 @@
 import sys
 from datetime import date
 
-if len(sys.argv) == 6:
-	synteny_species = 'no'
-else:
-	synteny_species = sys.argv[6]
+if len(sys.argv)==1 or sys.argv[1].startswith('-h'):
+	print("\nScript written for snakemake pipeline for detection of sex-linked genomic regions. WARNING: DO NOT USE OUTSIDE PIPELINE.\n")
+
+	print("Prints a HTML-report for the results from the snakemake run.\n")
+
+	print("Heterogametic individuals are prefixed with \'het:\' and homogametic individuals with \'homo:\'. Example:")
+	print("\thet:sample_1 het:sample_2 homo:sample_3 homo:sample_4\n")
+
+	print("Call:\tpython3 {python-script} {species} {reference species} {path to scaffold/chromosome statistics} {synteny species} {heterogametic-samples} {homogametic-samples}\n")
+	sys.exit()
+elif not len(sys.argv)>4:
+	print("\nERROR: wrong number of input arguments!\n")
+
+	print("Call:\tpython3 {python-script} {species} {reference species} {path to scaffold/chromosome statistics} {synteny species} {heterogametic-samples} {homogametic-samples}\n")
+
+	print("Heterogametic individuals are prefixed with \'het:\' and homogametic individuals with \'homo:\'. Example:")
+	print("\thet:sample_1 het:sample_2 homo:sample_3 homo:sample_4\n")
+	sys.exit()
 
 species = sys.argv[1]
 refgenome = sys.argv[2]
@@ -23,18 +37,20 @@ for i in range(5, len(sys.argv)):
         elif sys.argv[i].startswith('homo'):
                 homo_samples.append(sample_args[1])
 
-nr_of_chr = ''
-
+#nr_of_chr = ''
 
 gencov_path = 'intermediate/bedtools/' + species + '_ref_' + refgenome + '/' + species + '.gencov.nodup.nm.0.0.out'
 gencov_path_synteny = 'intermediate/synteny_match/' + species + '_ref_' + refgenome + '/' + species + '.gencov.nodup.nm.0.0' + synteny_species + 'out'
 
+
+# function
 def isfloat(value):
   try:
     float(value)
     return True
   except ValueError:
     return False
+
 
 # print HTML file
 
@@ -62,7 +78,7 @@ if synteny_species != '.':
 
 print('\t\t<p style=\"font-family:\'Arial\'\">Samples are in the order: ' + ', '.join(het_samples) + ', ' + ', '.join(homo_samples) + '</p>')
 print('\t\t<hr>')
-print('\t\t<p style=\"font-family:\'Arial\'\">Number of chromosomes/scaffolds:   ' + nr_of_chr + '</p>')
+#print('\t\t<p style=\"font-family:\'Arial\'\">Number of chromosomes/scaffolds:   ' + nr_of_chr + '</p>')
 print('\t\t<hr>')
 print('\t\t<h4 style=\"font-family:\'Arial\'\">Statistics calculated.</h4>')
 print('\t\t<p style=\"font-family:\'Arial\'\">The ratio in genome coverage between heterogametic and homogametic individuals.<br>The difference in proportion of heterozygosity between heterogametic and homogametic individuals.</p>')
@@ -95,6 +111,4 @@ print('\t\t</table>')
 print('\t\t<hr>')
 print('\t\t<p style=\"font-family:\'Arial\'\">Contact: hanna.sigeman@biol.lu.se, bella.sinclair@biol.lu.se.</p>')
 print('\t</body>\n</html>')
-
-
 
