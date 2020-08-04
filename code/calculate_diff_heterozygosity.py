@@ -1,7 +1,7 @@
 import sys
 
 if len(sys.argv)==1 or sys.argv[1].startswith('-h'):
-	print("\nScript written for snakemake pipeline for detection of sex-linked genomic regions. USE WITH CAUSION OUTSIDE PIPELINE.\n")
+	print("\nScript written for snakemake pipeline for detection of sex-linked genomic regions.WARNING: USE WITH CAUSION OUTSIDE PIPELINE.\n")
 
 	print("Calculates the proportion of heterozygot individuals for each sex and outputs the difference in heterozygosity")
 	print("(heterogametic sex - homogametic sex). The heterozygosity is calculated from a VCF-file and the output fields are:")
@@ -13,7 +13,7 @@ if len(sys.argv)==1 or sys.argv[1].startswith('-h'):
 	print("Call:\tpython3 {python-script} {VCF-file} {outfile} {heterogametic-samples} {homogametic-samples}\n")
 	sys.exit()
 elif not len(sys.argv)>3:
-	print("\nERROR: wrong number of input arguments\n")
+	print("\nERROR: wrong number of input arguments!\n")
 
 	print("Call:\tpython3 {python-script} {VCF-file} {outfile} {heterogametic-samples} {homogametic-samples}\n")
 
