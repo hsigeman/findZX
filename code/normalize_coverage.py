@@ -1,14 +1,24 @@
 import sys
 import pandas as pn
 
-if len(sys.argv)==1:
-	print("Pyton-script written to normalize and take mean of coverage for each sex.")
-	print("Normalizes each sample on the mean of that sample and then takes the mean over each sex.\n")
+if len(sys.argv)==1 or sys.argv[1].startswith('-h'):
+	print("\nScript written for snakemake pipeline for detection of sex-linked genomic regions. WARNING: USE WITH CAUSION OUTSIDE PIPELINE.\n")
+
+	print("Reads in a genome coverage-file. First each individual is normalized on the individual means and then the mean for each sex and row")
+  print("is calculated. Writes to stdout.\n")
+
+	print("Heterogametic individuals are prefixed with \'het:\' and homogametic individuals with \'homo:\'. Example:")
+	print("\thet:sample_1 het:sample_2 homo:sample_3 homo:sample_4\n")
+
+	print("Call:\tpython3 {python-script} {bed-file} {heterogametic-samples} {homogametic-samples}\n")
 	sys.exit()
 elif not len(sys.argv)>=2:
-	print("\nError:\tincorrect number of command-line arguments")
-	print("Syntax:\tmatchScaffold2chr_cov.py [genCov] {heterogametic samples. prefix 'het:'}")
-	print("{homogametic samples. prefix 'homo:'} \n")
+	print("\nERROR: wrong number of input arguments!\n")
+
+  print("Call:\tpython3 {python-script} {bed-file} {heterogametic-samples} {homogametic-samples}\n")
+
+  print("Heterogametic individuals are prefixed with \'het:\' and homogametic individuals with \'homo:\'. Example:")
+	print("\thet:sample_1 het:sample_2 homo:sample_3 homo:sample_4\n")
 	sys.exit()
 
 
@@ -35,7 +45,6 @@ gencov_ref = pn.read_csv(sys.argv[1], sep='\t', header=None)
 samples = list(range(3, 3 + nr_samples))
 heterogametic_sex = list(range(3, 3 + nr_heterogametic))
 homogametic_sex = list(range(3 + nr_heterogametic, 3 + nr_heterogametic + nr_homogametic))
-
 
 norm = gencov_ref.loc[:,samples].div(gencov_ref.loc[:,samples].mean())	
 mean_hetero = norm.loc[:,heterogametic_sex].mean(axis=1)
