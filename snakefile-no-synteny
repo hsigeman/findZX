@@ -36,24 +36,24 @@ EDIT_DIST = ["all", "0.0", "0.1", "0.2", "0.3", "0.4"]
 ##########################################################
 
 rule all:
-	input:
-		REF_FASTA + ".bwt",
-		REF_FASTA + ".fai" ,
-		expand(MAP_DIR + "{S}.sorted.status", S = ID),
-		expand(MAP_DIR + "{S}.sorted.nodup.nm.all.status", S = ID),
-		expand(MAP_DIR + "{S}.sorted.nodup.nm.{ED}.bam.bai", S = ID, ED = EDIT_DIST),
-		expand(MAP_DIR + "{S}.sorted.flagstat", S = ID),
-		expand(MAP_DIR + "{S}.sorted.nodup.nm.{ED}.flagstat", S = ID, ED = EDIT_DIST),
-		expand(GENCOV_DIR + SPECIES + ".gencov.nodup.nm.{ED}.out.norm", ED = EDIT_DIST),
-		RESULTDIR + SPECIES + ".allFreq.1Mbp.out",
-		RESULTDIR + SPECIES + ".allFreq.100kbp.out",
-		RESULTDIR + SPECIES + ".gencov_heterozygosity_indv.pdf",
-		RESULTDIR + SPECIES + ".circlize.pdf",
-		RESULTDIR + SPECIES + ".scatter.pdf",
-		RESULTDIR + SPECIES + ".chr_scatter2D.pdf",
-		RESULTDIR + SPECIES + ".chr_scatter3D.pdf",
-		RESULTDIR + SPECIES + ".report.html"
-#		REF_DIR + REF_NAME + "_nonRefAf_consensus.fasta"
+    input:
+        REF_FASTA + ".bwt",
+        REF_FASTA + ".fai" ,
+        expand(MAP_DIR + "{S}.sorted.status", S = ID),
+        expand(MAP_DIR + "{S}.sorted.nodup.nm.all.status", S = ID),
+        expand(MAP_DIR + "{S}.sorted.nodup.nm.{ED}.bam.bai", S = ID, ED = EDIT_DIST),
+        expand(MAP_DIR + "{S}.sorted.flagstat", S = ID),
+        expand(MAP_DIR + "{S}.sorted.nodup.nm.{ED}.flagstat", S = ID, ED = EDIT_DIST),
+        expand(GENCOV_DIR + SPECIES + ".gencov.nodup.nm.{ED}.out.norm", ED = EDIT_DIST),
+        RESULTDIR + SPECIES + ".allFreq.1Mbp.out",
+        RESULTDIR + SPECIES + ".allFreq.100kbp.out",
+        RESULTDIR + SPECIES + ".gencov_heterozygosity_indv.pdf",
+        RESULTDIR + SPECIES + ".circlize.pdf",
+        RESULTDIR + SPECIES + ".scatter.pdf",
+        RESULTDIR + SPECIES + ".chr_scatter2D.pdf",
+        RESULTDIR + SPECIES + ".chr_scatter3D.pdf",
+        RESULTDIR + SPECIES + ".report.html"
+#        REF_DIR + REF_NAME + "_nonRefAf_consensus.fasta"
 
 ##########################################################
 ################### INCLUDE SNAKEFILE ####################
@@ -66,78 +66,78 @@ include: "snakefile"
 ##########################################################
 
 rule normalize_cov:
-	input:
-		GENCOV_DIR + SPECIES + ".gencov.nodup.nm.{ED}.out"
-	output:
-		GENCOV_DIR + SPECIES + ".gencov.nodup.nm.{ED}.out.norm"
-	params:
-		hetero = expand("het:{heterogametic}", heterogametic = HETEROGAMETIC),
-		homo = expand("homo:{homogametic}", homogametic = HOMOGAMETIC)
-	shell:
-		"""
-		python3 code/normalize_coverage.py {input} {params.hetero} {params.homo} > {output}
-		"""
+    input:
+        GENCOV_DIR + SPECIES + ".gencov.nodup.nm.{ED}.out"
+    output:
+        GENCOV_DIR + SPECIES + ".gencov.nodup.nm.{ED}.out.norm"
+    params:
+        hetero = expand("het:{heterogametic}", heterogametic = HETEROGAMETIC),
+        homo = expand("homo:{homogametic}", homogametic = HOMOGAMETIC)
+    shell:
+        """
+        python3 code/normalize_coverage.py {input} {params.hetero} {params.homo} > {output}
+        """
 
 ##########################################################
 ##################### CONFIRM SEXING #####################
 ##########################################################
 
 rule confirm_sexing:
-	input:
-		gencov = GENCOV_DIR + SPECIES + ".gencov.nodup.nm.all.out",
-		het = VCF_DIR + SPECIES + ".heterozygosity.sorted.bed" 
-	output:
-		gencov_het = protected(RESULTDIR + SPECIES + ".gencov_heterozygosity_indv.pdf")
-	params:
-		hetero = expand("{heterogametic}", heterogametic = HETEROGAMETIC),
-		homo = expand("{homogametic}", homogametic = HOMOGAMETIC)
-	threads: 1
-	shell:
-		"""
-		Rscript code/histogram_gencov_indv.R {input.gencov} {output.gencov_het} no-synteny {params.hetero} {params.homo}
-		"""
+    input:
+        gencov = GENCOV_DIR + SPECIES + ".gencov.nodup.nm.all.out",
+        het = VCF_DIR + SPECIES + ".heterozygosity.sorted.bed" 
+    output:
+        gencov_het = protected(RESULTDIR + SPECIES + ".gencov_heterozygosity_indv.pdf")
+    params:
+        hetero = expand("{heterogametic}", heterogametic = HETEROGAMETIC),
+        homo = expand("{homogametic}", homogametic = HOMOGAMETIC)
+    threads: 1
+    shell:
+        """
+        Rscript code/histogram_gencov_indv.R {input.gencov} {output.gencov_het} no-synteny {params.hetero} {params.homo}
+        """
 
 ##########################################################
 ################ STATISTICAL CALCULATIONS ################
 ##########################################################
 
 rule calculate_heterozygosity:
-	input:
-		VCF_DIR + SPECIES + ".diffHeterozygosity.sorted.bed"
-	output:
-		Mb = RESULTDIR + SPECIES + ".diffHeterozygosity.1Mbp.out",
-		kb = RESULTDIR + SPECIES + ".diffHeterozygosity.100kbp.out",
-		chr = RESULTDIR + SPECIES + ".diffHeterozygosity.chr.out"
-	params:
-		chromosomes = CHOMOSOMES
-	shell:
-		"""
-		Rscript code/calculate_heterozygosityDiff_windows.R {input} {output.Mb} {output.kb} {output.chr} {params.chromosomes}
-		"""
+    input:
+        VCF_DIR + SPECIES + ".diffHeterozygosity.sorted.bed"
+    output:
+        Mb = RESULTDIR + SPECIES + ".diffHeterozygosity.1Mbp.out",
+        kb = RESULTDIR + SPECIES + ".diffHeterozygosity.100kbp.out",
+        chr = RESULTDIR + SPECIES + ".diffHeterozygosity.chr.out"
+    params:
+        chromosomes = CHOMOSOMES
+    shell:
+        """
+        Rscript code/calculate_heterozygosityDiff_windows.R {input} {output.Mb} {output.kb} {output.chr} {params.chromosomes}
+        """
 
 rule calculate_allFreq:
-	input:
-		VCF_DIR + SPECIES + ".allFreq.sorted.bed"
-	output:
-		Mb = RESULTDIR + SPECIES + ".allFreq.1Mbp.out",
-		kb = RESULTDIR + SPECIES + ".allFreq.100kbp.out"
-	params:
-		chromosomes = CHOMOSOMES
-	shell:
-		"""
-		Rscript code/calculate_snpCount_windows.R {input} {output.Mb} {output.kb} {params.chromosomes}
-		"""
+    input:
+        VCF_DIR + SPECIES + ".allFreq.sorted.bed"
+    output:
+        Mb = RESULTDIR + SPECIES + ".allFreq.1Mbp.out",
+        kb = RESULTDIR + SPECIES + ".allFreq.100kbp.out"
+    params:
+        chromosomes = CHOMOSOMES
+    shell:
+        """
+        Rscript code/calculate_snpCount_windows.R {input} {output.Mb} {output.kb} {params.chromosomes}
+        """
 
 rule calculate_ratio:
-	input:
-		GENCOV_DIR + SPECIES + ".gencov.nodup.nm.{ED}.out.norm"
-	output:
-		Mb = RESULTDIR + SPECIES + ".gencov.nodup.nm.{ED}.1Mbp.out",
-		kb = RESULTDIR + SPECIES + ".gencov.nodup.nm.{ED}.100kbp.out",
-		chr = RESULTDIR + SPECIES + ".gencov.nodup.nm.{ED}.chr.out"
-	params:
-		chromosomes = CHOMOSOMES
-	shell:
-		"""
-		Rscript code/calculate_gencov_windows.R {input} {output.Mb} {output.kb} {output.chr} {params.chromosomes}
-		"""
+    input:
+        GENCOV_DIR + SPECIES + ".gencov.nodup.nm.{ED}.out.norm"
+    output:
+        Mb = RESULTDIR + SPECIES + ".gencov.nodup.nm.{ED}.1Mbp.out",
+        kb = RESULTDIR + SPECIES + ".gencov.nodup.nm.{ED}.100kbp.out",
+        chr = RESULTDIR + SPECIES + ".gencov.nodup.nm.{ED}.chr.out"
+    params:
+        chromosomes = CHOMOSOMES
+    shell:
+        """
+        Rscript code/calculate_gencov_windows.R {input} {output.Mb} {output.kb} {output.chr} {params.chromosomes}
+        """
