@@ -171,7 +171,7 @@ rule matchScaffold2Chr_cov:
 		"""
 		bedtools intersect -a {input.bestMatch} -b {input.cov} -wa -wb > {output.bestMatch}
 
-		python3 code/matchScaffold2chr_cov.py {output.bestMatch} {params.hetero} {params.homo} > {output.bestMatch_norm}
+		python3 code/normalize_synteny_coverage.py {output.bestMatch} {params.hetero} {params.homo} > {output.bestMatch_norm}
 		"""
 
 ##########################################################
