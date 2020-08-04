@@ -1,16 +1,27 @@
 import sys
 
-if len(sys.argv)==1:
-	print("\nCalculates the difference in heterozygot individuals from a VCF-file")
-	print("between hetero and homogametic samples.\n")
-	print("Call: python3 {python-script} {VCF} {OUT} {heterogametic-samples} {homogametic-samples}\n")
+if len(sys.argv)==1 or sys.argv[1].startswith('-h'):
+	print("\nScript written for snakemake pipeline for detection of sex-linked genomic regions. USE WITH CAUSION OUTSIDE PIPELINE.\n")
+
+	print("Calculates the proportion of heterozygot individuals for each sex and outputs the difference in heterozygosity")
+	print("(heterogametic sex - homogametic sex). The heterozygosity is calculated from a VCF-file and the output fields are:")
+	print("\t\'chr\'\t\'start\'\t\'stop\'\t\'difference_in_heterozygosity\'\n")
+
+	print("Heterogametic individuals are prefixed with \'het:\' and homogametic individuals with \'homo:\'. Example:")
+	print("\thet:sample_1 het:sample_2 homo:sample_3 homo:sample_4\n")
+
+	print("Call:\tpython3 {python-script} {VCF-file} {outfile} {heterogametic-samples} {homogametic-samples}\n")
 	sys.exit()
 elif not len(sys.argv)>3:
-	print("\nERROR: wrong number of input arguments")
-	print("Call: python3 {python-script} {VCF} {OUT} {heterogametic-samples, prefix 'het:'}") 
-	print("{homogametic-samples, prefix 'homo:'}\n")
+	print("\nERROR: wrong number of input arguments\n")
+
+	print("Call:\tpython3 {python-script} {VCF-file} {outfile} {heterogametic-samples} {homogametic-samples}\n")
+
+	print("Heterogametic individuals are prefixed with \'het:\' and homogametic individuals with \'homo:\'. Example:")
+	print("\thet:sample_1 het:sample_2 homo:sample_3 homo:sample_4\n")
 	sys.exit()
 
+################################################################################
 
 heterogametic_samples = []
 homogametic_samples = []
@@ -24,6 +35,10 @@ for i in range(3, len(sys.argv)):
 	elif sys.argv[i].startswith('homo'):
 		homogametic_samples.append(sample_args[1])
 
+# Print to show which individuals are in the same group
+print("Input heterogametic individuals:\t" + '\t'.join(heterogametic_samples))
+print("Input homogametic individuals:\t" + '\t'.join(homogametic_samples))
+
 out_file = open(sys.argv[2], 'w')
 
 with open(sys.argv[1], 'r') as vcfFile:
@@ -35,11 +50,21 @@ with open(sys.argv[1], 'r') as vcfFile:
 			heterogameticSex_indexes = []
 			homogameticSex_indexes = []
 
+			heterogametic_samples_vcf = []
+			homogametic_samples_vcf = []
+
 			for i in range(9, len(info_fields)):
 				if info_fields[i] in heterogametic_samples:
 					heterogameticSex_indexes.append(i)
+					heterogametic_samples_vcf.append(info_fields[i])
+
 				if info_fields[i] in homogametic_samples:
 					homogameticSex_indexes.append(i)
+					homogametic_samples_vcf.append(info_fields[i])
+
+			# Print to show which individuals are used in which group
+			print("Heterogametic individuals found in VCF:\t" + '\t'.join(heterogametic_samples_vcf))
+			print("Homogametic individuals found in VCF:\t" + '\t'.join(homogametic_samples_vcf))
 
 		elif not line.startswith('#'):
 			info_fields = line.strip('\n').split('\t')
@@ -77,5 +102,4 @@ with open(sys.argv[1], 'r') as vcfFile:
 
 
 out_file.close()
-
 
