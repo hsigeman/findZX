@@ -1,18 +1,25 @@
 library(doBy)
 library(data.table)
 
-# Calculates the mean genome of a statistica in 1Mbp and 100kbp windows from 5kbp windows
-# Can calculate the mean of genome coverage or allele diversity (for 5kbp windows)
-
+# Calculates the mean of a statistica (genome coverage or allele divergence) 
+# in 1Mbp and 100kbp windows and for each chromosome/scaffold from 5kbp windows
+# Columns in infile: chromsome/scaffold start_window end_window gencov_heterogametic gencov_homogametic
+# Call: Rscript {r-script} {infile} {out 1Mbp} {out 100kbp} {out chromsome} {chr-list}
 
 set.seed(999)
+source("code/functions.R")
 
 args <- commandArgs(trailingOnly = TRUE)
 
 filename = args[1]
+out1Mb = args[2]
+out100kb = args[3]
+outChr = args[4]
 chr_file = args[5]
 
-source("code/functions.R")
+################################################################################
+################################# READ FILES ###################################
+################################################################################
 
 cov = read.table(filename,header=FALSE,fill=TRUE,stringsAsFactor=FALSE)
 cov <- plyr::rename(cov, c("V1"="chr", "V2"="start", "V3"="end", "V4"="heterogametic", 
@@ -28,6 +35,9 @@ if (file.exists(chr_file)) {
 cov <- calculate_ratio(cov)
 cov <- remove_outliers(cov)
 
+################################################################################
+################################# CHROMOSOME ###################################
+################################################################################
 
 mean_whole_chr <- mean_win(cov, ratio ~ chr)
 
@@ -36,8 +46,11 @@ colnames(len_chr) <- c("chr", "length")
 
 mean_whole_chr <- merge(mean_whole_chr, len_chr, by = "chr")
 
-write.table(mean_whole_chr, args[4], quote=FALSE, sep="\t", row.names = F, col.names = T, na = "NA")
+write.table(mean_whole_chr, outChr, quote=FALSE, sep="\t", row.names = F, col.names = T, na = "NA")
 
+################################################################################
+################################## WINDOWS #####################################
+################################################################################
 
 cov <- remove_chr_less_than_1mb(cov)
 
@@ -49,9 +62,9 @@ if (dim(cov)[1] > 0) {
   mean_100kb <- transform(cov, range=floor(end/100000))
   mean_100kb <- mean_win(mean_100kb, ratio ~ chr + range)
   
-  write.table(mean_1Mb_ranges, args[2], quote=FALSE, sep="\t", row.names = F, col.names = T, na = "NA")
+  write.table(mean_1Mb_ranges, out1Mb, quote=FALSE, sep="\t", row.names = F, col.names = T, na = "NA")
   
-  write.table(mean_100kb_ranges, args[3], quote=FALSE, sep="\t", row.names = F, col.names = T, na = "NA")
+  write.table(mean_100kb_ranges, out100kb, quote=FALSE, sep="\t", row.names = F, col.names = T, na = "NA")
   
 } else {
   
@@ -60,6 +73,4 @@ if (dim(cov)[1] > 0) {
   write.table("No chromosomes/scaffold larger than 1Mbp", args[3], quote=FALSE, row.names = F, col.names = F)
   
 }
-
-
 

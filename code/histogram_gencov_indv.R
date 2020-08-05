@@ -4,9 +4,13 @@ library(ggplot2)
 library(cowplot)
 require(scales)
 
-# Reads in a bed-file with coverage values for each sample
-# Removes outliers and makes a histogram for each individual
-# over the mean genome coverage in 5kbp windows.
+# Reads in a bed-file with coverage values and a file with heterozygosity for 
+# each site for each sample, values for each sample are in separate columns.
+# Removes outliers and makes two histograms and one scatterplot for each individual:
+# histograms for genome coverage and heterozygosity and a scatterplot of genome
+# coverage vs heterozygosity.
+# Heterozygosity is given for each variable site. 1 = heterozygot, 0 = homozygot,
+# na = missing data.
 
 ################################################################################
 ################################## FUNCTIONS ###################################
@@ -39,6 +43,8 @@ new_name <- function(n,sufix) {
 ################################################################################
 ################################################################################
 
+set.seed(999)
+
 args <- commandArgs(trailingOnly = TRUE)
 
 file_gencov = args[1]
@@ -47,7 +53,10 @@ outfile = args[3]
 synteny = args[4]
 sample_names = args[5:length(args)]
 
-# read gencov
+################################################################################
+################################# READ FILES ###################################
+################################################################################
+
 cov = read.table(file_gencov,header=FALSE,fill=TRUE,stringsAsFactor=FALSE)
 het <- read.table(file_snp,header=TRUE,fill=TRUE,stringsAsFactor=FALSE)
 
@@ -60,6 +69,9 @@ if (synteny == "with-synteny") {
 colnames(cov) <- c("chr","start","end",sample_names)
 colnames(het) <- c("chr","start","end",sample_names)
 
+################################################################################
+################################ CALCULATIONS ##################################
+################################################################################
 
 Thet <- transform(het, range=floor(end/5000))
 
@@ -100,23 +112,31 @@ for (i in 1:nr_samples) {
   outliers <- boxplot(cov_het[,x], plot = FALSE)$out
   no_outliers <- cov_het[!(cov_het[,x] %in% outliers),]
   
-  p <- ggplot(data = no_outliers, aes(x = no_outliers[,x], y = no_outliers[,y])) + geom_bin2d(bins = 10)
-  p <- p + labs(x = "genome coverage", y = "heterozygosity") + theme_bw()
+  p <- ggplot(data = no_outliers, aes(x = no_outliers[,x], y = no_outliers[,y])) + 
+       geom_bin2d(bins = 10) + 
+       labs(x = "genome coverage", y = "heterozygosity") + 
+       theme_bw()
   
 ############################### GENOME COVERAGE ################################
   
   df <- cov_norm[[i]]
-  hg <- ggplot(df, aes(x = column_normalized)) + geom_histogram(bins = 100)
-  hg <- hg + labs(x="genome coverage, normalized on median", y="Frequency")
-  hg <- hg + scale_x_log10(breaks = trans_breaks("log10", function(x) 10^x), labels = trans_format("log10", math_format(10^.x)))
-  hg <- hg + annotation_logticks(sides="b") + theme_bw()
+  hg <- ggplot(df, aes(x = column_normalized)) + 
+        geom_histogram(bins = 100) + 
+        labs(x="genome coverage, normalized on median", y="Frequency") + 
+        scale_x_log10(breaks = trans_breaks("log10", function(x) 10^x), 
+                      labels = trans_format("log10", math_format(10^.x))) + 
+        annotation_logticks(sides="b") + 
+        theme_bw()
   
 ################################ HETEROZYGOSITY ################################
   
-  hh <- ggplot(het_mean, aes(x = het_mean[,1])) + geom_histogram(bins = 100)
-  hh <- hh + labs(x="heterozygosity", y="Frequency")
-  hh <- hh + scale_x_log10(breaks = trans_breaks("log10", function(x) 10^x), labels = trans_format("log10", math_format(10^.x)))
-  hh <- hh + annotation_logticks(sides="b") + theme_bw()
+  hh <- ggplot(het_mean, aes(x = het_mean[,1])) + 
+        geom_histogram(bins = 100) + 
+        labs(x="heterozygosity", y="Frequency") + 
+        scale_x_log10(breaks = trans_breaks("log10", function(x) 10^x), 
+                      labels = trans_format("log10", math_format(10^.x))) + 
+        annotation_logticks(sides="b") + 
+        theme_bw()
   
   
   pg <- plot_grid("", "", "", p,hg,hh,ncol = 3, rel_heights = c(1,20),

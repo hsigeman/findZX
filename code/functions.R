@@ -1,7 +1,11 @@
+# Functions used in other R-scripts
+
+################################################################################
+################## FUNCTIONS FOR GENERATING WINDOW STATS-FILES #################
+################################################################################
 
 remove_chr_less_than_1mb <- function(data_table) {
-  # removes all chromosomes that are < 1Mbp, unknown, random, 
-  # LG or MT chromosomes.
+  # removes all chromosomes that are < 1Mbp.
   
   max_per_chr <- setDT(data_table)[, .SD[which.max(end)], by=chr]
   chr_over_1mb <- subset(max_per_chr$chr, max_per_chr$end>1000000)
@@ -11,7 +15,7 @@ remove_chr_less_than_1mb <- function(data_table) {
 }
 
 remove_chr_not_in_list <- function(data_table, chr_list) {
-  # only keeps chromosomes specified in a list
+  # Keeps only chromosomes specified in a list.
 
   data_table <- data_table[ data_table$chr %in% chr_list, ]
   
@@ -19,7 +23,7 @@ remove_chr_not_in_list <- function(data_table, chr_list) {
 }
 
 length_chr <- function(data_table) {
-  # returns the length of each chr/scaffold
+  # Returns the length of each chr/scaffold as a dataframe.
   
   max_per_chr <- setDT(data_table)[, .SD[which.max(end)], by=chr]
   
@@ -50,7 +54,7 @@ calculate_ratio <- function(data_table) {
 }
 
 calculate_diff <- function(data_table) {
-  # calculates the normalized difference between the number of sites in a window
+  # Calculates the normalized difference between the sexes normalized on median
   
   data_table$diff <- data_table$heterogametic - data_table$homogametic
   data_table$diff_scaled <- data_table$diff / median(data_table$diff, na.rm = TRUE)
@@ -61,8 +65,8 @@ calculate_diff <- function(data_table) {
 }
 
 mean_win <- function(data_table, formula) {
-  # calculates the mean in ratio for each chr
-  #formula = ratio ~ chr, diff ~ chr, diff ~ chr + range, ratio ~ chr + range
+  # Calculates the mean based on the given formula
+  # formula = ratio ~ chr, diff ~ chr, diff ~ chr + range, ratio ~ chr + range
   
   data_table <- summaryBy(formula, data=data_table, keep.names=TRUE, na.rm = TRUE)
   
@@ -70,7 +74,8 @@ mean_win <- function(data_table, formula) {
 }
 
 transform_wide <- function(data_table) {
-  # Transform to wide format and replace NA with 0
+  # Transform to wide format (instead of heterogametic and homogametic appearing
+  # as a value in each row they are transformed to columns) and replace NA with 0
   
   data_table <- reshape2::dcast(data_table, chr + range ~ sex, value.var="count")
   data_table[is.na(data_table)] <- 0
@@ -79,7 +84,7 @@ transform_wide <- function(data_table) {
 }
 
 count_snp_win <- function(snp_table, win_len) {
-  # Count sites for each sex and per chromosome and window
+  # Count the number of sites in a window for each sex
   
   snp_table <- transform(snp_table, range=floor(start/win_len))
   snp_table <- aggregate(count ~ chr + sex + range, data = snp_table, sum)
@@ -87,8 +92,13 @@ count_snp_win <- function(snp_table, win_len) {
   return(snp_table)
 }
 
+################################################################################
+########################## FUNCTIONS USED FOR PLOTTING #########################
+################################################################################
+
 gen_data_4plotting <- function(data_table, columns) {
-  
+  # Formates the data to prepare for plotting
+
   data_table$chr <- as.factor(data_table$chr)
   
   myvars <- columns
@@ -105,8 +115,12 @@ gen_data_4plotting <- function(data_table, columns) {
 }
 
 get_legend<-function(myggplot){
+  # Saves a ggplot2 legend from a plot
+
   tmp <- ggplot_gtable(ggplot_build(myggplot))
   leg <- which(sapply(tmp$grobs, function(x) x$name) == "guide-box")
   legend <- tmp$grobs[[leg]]
+
   return(legend)
 }
+
