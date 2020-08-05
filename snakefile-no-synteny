@@ -75,7 +75,7 @@ rule normalize_cov:
         homo = expand("homo:{homogametic}", homogametic = HOMOGAMETIC)
     shell:
         """
-        python3 code/normalize_coverage.py {input} {params.hetero} {params.homo} > {output}
+        python3 code/normalize_genCov.py {input} {params.hetero} {params.homo} > {output}
         """
 
 ##########################################################
@@ -94,7 +94,7 @@ rule confirm_sexing:
     threads: 1
     shell:
         """
-        Rscript code/histogram_gencov_indv.R {input.gencov} {output.gencov_het} no-synteny {params.hetero} {params.homo}
+        Rscript code/histogram_indv.R {input.gencov} {output.gencov_het} no-synteny {params.hetero} {params.homo}
         """
 
 ##########################################################
@@ -112,7 +112,7 @@ rule calculate_heterozygosity:
         chromosomes = CHOMOSOMES
     shell:
         """
-        Rscript code/calculate_heterozygosityDiff_windows.R {input} {output.Mb} {output.kb} {output.chr} {params.chromosomes}
+        Rscript code/calculate_hetDiff_windows.R {input} {output.Mb} {output.kb} {output.chr} {params.chromosomes}
         """
 
 rule calculate_allFreq:
@@ -141,3 +141,4 @@ rule calculate_ratio:
         """
         Rscript code/calculate_gencov_windows.R {input} {output.Mb} {output.kb} {output.chr} {params.chromosomes}
         """
+

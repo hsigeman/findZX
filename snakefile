@@ -220,7 +220,7 @@ rule proportion_heterozygosity:
         homo = expand("homo:{homogametic}", homogametic = HOMOGAMETIC)
     shell:
         """
-        python3 code/calculate_diff_heterozygosity.py <(less {input}) {output.diff_het} {params.hetero} {params.homo}
+        python3 code/calculate_hetDiff.py <(less {input}) {output.diff_het} {params.hetero} {params.homo}
         sort {output.diff_het} -k 1,1 -k 2,2 > {output.diff_het_sorted}
 
         python3 code/heterozygosity_per_indv.py <(less {input}) {output.het} {params.hetero} {params.homo}
@@ -296,7 +296,7 @@ rule plotting:
         chromosomes = CHOMOSOMES
     shell: 
         """
-        Rscript code/circlize_plot.R {input.cov0} {input.cov2} {input.cov4} {input.snp} {output.circlize} {output.scatter} {params.chromosomes}
+        Rscript code/plot_windows.R {input.cov0} {input.cov2} {input.cov4} {input.snp} {output.circlize} {output.scatter} {params.chromosomes}
         """
 
 rule plotting_chr:
@@ -311,7 +311,7 @@ rule plotting_chr:
     threads: 1
     shell:
         """
-        Rscript code/scatterplot3d_chr.R {input.cov0} {input.cov2} {input.cov4} {input.snp} {output.scatter2D} {output.scatter3D}
+        Rscript code/scatterplot_chr.R {input.cov0} {input.cov2} {input.cov4} {input.snp} {output.scatter2D} {output.scatter3D}
         """
 
 ##########################################################

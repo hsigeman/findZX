@@ -171,7 +171,7 @@ rule matchScaffold2Chr_cov:
         """
         bedtools intersect -a {input.bestMatch} -b {input.cov} -wa -wb > {output.bestMatch}
 
-        python3 code/normalize_synteny_coverage.py {output.bestMatch} {params.hetero} {params.homo} > {output.bestMatch_norm}
+        python3 code/normalize_synteny_genCov.py {output.bestMatch} {params.hetero} {params.homo} > {output.bestMatch_norm}
         """
 
 ##########################################################
@@ -190,7 +190,7 @@ rule confirm_sexing_synteny:
     threads: 1
     shell:
         """
-        Rscript code/histogram_gencov_indv.R {input.gencov} {output.gencov_het} with-synteny {params.hetero} {params.homo}
+        Rscript code/histogram_indv.R {input.gencov} {output.gencov_het} with-synteny {params.hetero} {params.homo}
         """
 
 ##########################################################
@@ -209,7 +209,7 @@ rule calculate_heterozygosity_synteny:
         chromosomes = CHOMOSOMES
     shell:
         """
-        Rscript code/calculate_heterozygosityDiff_windows.R {input} {output.Mb} {output.kb} {output.chr} {params.chromosomes}
+        Rscript code/calculate_hetDiff_windows.R {input} {output.Mb} {output.kb} {output.chr} {params.chromosomes}
         """
 
 rule calculate_allFreq_synteny:
@@ -237,5 +237,6 @@ rule calculate_ratio_synteny:
         chromosomes = CHOMOSOMES
     shell:
         """
-        Rscript code/calculate_gencov_windows.R {input} {output.Mb} {output.kb} {output.chr} {params.chromosomes}
+        Rscript code/calculate_genCov_windows.R {input} {output.Mb} {output.kb} {output.chr} {params.chromosomes}
         """
+
