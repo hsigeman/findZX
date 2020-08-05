@@ -5,7 +5,7 @@ if len(sys.argv)==1 or sys.argv[1].startswith('-h'):
 	print("\nScript written for snakemake pipeline for detection of sex-linked genomic regions. WARNING: USE WITH CAUSION OUTSIDE PIPELINE.\n")
 
 	print("Reads in a genome coverage-file. First each individual is normalized on the individual means and then the mean for each sex and row")
-  print("is calculated. Writes to stdout.\n")
+	print("is calculated. Writes to stdout.\n")
 
 	print("Heterogametic individuals are prefixed with \'het:\' and homogametic individuals with \'homo:\'. Example:")
 	print("\thet:sample_1 het:sample_2 homo:sample_3 homo:sample_4\n")
@@ -14,10 +14,10 @@ if len(sys.argv)==1 or sys.argv[1].startswith('-h'):
 	sys.exit()
 elif not len(sys.argv)>=2:
 	print("\nERROR: wrong number of input arguments!\n")
-
-  print("Call:\tpython3 {python-script} {bed-file} {heterogametic-samples} {homogametic-samples}\n")
-
-  print("Heterogametic individuals are prefixed with \'het:\' and homogametic individuals with \'homo:\'. Example:")
+	
+	print("Call:\tpython3 {python-script} {bed-file} {heterogametic-samples} {homogametic-samples}\n")
+	
+	print("Heterogametic individuals are prefixed with \'het:\' and homogametic individuals with \'homo:\'. Example:")
 	print("\thet:sample_1 het:sample_2 homo:sample_3 homo:sample_4\n")
 	sys.exit()
 
