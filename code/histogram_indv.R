@@ -58,12 +58,12 @@ sample_names = args[5:length(args)]
 ################################################################################
 
 cov <- read.table(file_gencov,header=FALSE,fill=TRUE,stringsAsFactor=FALSE)
-het <- read.table(file_snp,header=TRUE,fill=TRUE,stringsAsFactor=FALSE)
+het <- read.table(file_snp,header=FALSE,fill=TRUE,stringsAsFactor=FALSE)
 
 
 if (synteny == "with-synteny") {
   cov <- cov[-1:-10]
-  het <- het[-1:-7][-4:-6]
+  het <- het[-1:-10]
 }
 
 colnames(cov) <- c("chr","start","end",sample_names)
@@ -78,16 +78,15 @@ Thet <- transform(het, range=floor(end/5000))
 f <- as.formula(paste(paste(sample_names, collapse = "+"), "~", "chr + range"))
 het_mean <- summaryBy(f, data=Thet, keep.names=TRUE, na.rm = TRUE)
 
-Tcov <- transform(cov, range=floor(end/5000))
-cov_mean <- summaryBy(f, data=Tcov, keep.names=TRUE, na.rm = TRUE)
+Tcov <- transform(cov, range=floor(start/5000))
 
-cov_het <- merge(cov_mean, het_mean, by = c("chr","range"))
+cov_het <- merge(Tcov, het_mean, by = c("chr","range"))
 cov_het <- cov_het[-3:-4]
 
 nr_samples <- length(sample_names)
 
 # remove columns: chr and range (start, stop)
-cov <- cov[-length(cov)][-1:-3]
+cov <- cov[-1:-3]
 het_mean <- het_mean[-1:-2]
 
 # remove outliers for each sample, save resulting array in a list
@@ -131,12 +130,9 @@ for (i in 1:nr_samples) {
   
 ################################ HETEROZYGOSITY ################################
   
-  hh <- ggplot(het_mean, aes(x = het_mean[,1])) + 
+  hh <- ggplot(het_mean, aes(x = het_mean[,i])) + 
         geom_histogram(bins = 100) + 
         labs(x="heterozygosity", y="Frequency") + 
-        scale_x_log10(breaks = trans_breaks("log10", function(x) 10^x), 
-                      labels = trans_format("log10", math_format(10^.x))) + 
-        annotation_logticks(sides="b") + 
         theme_bw()
   
   
