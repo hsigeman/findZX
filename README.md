@@ -20,7 +20,7 @@ Create a conda environment with the environment.yml file.
 The cluster.json file have to be edited if the pipeline will be ran on a cluster. Specify the account name. If a large amount of samples are used (more than 10 individuals with a genome size of 1Gbp), or an organism with a very large genome, the times and number of cores specified might have to be changed. 
 
 ### File structure
-reference/genome/directory/reference.fasta
+´reference/genome/directory/reference.fasta´
 trimmed/reads/reads.fq.gz
 data/meta/
 
