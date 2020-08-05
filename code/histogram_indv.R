@@ -57,7 +57,7 @@ sample_names = args[5:length(args)]
 ################################# READ FILES ###################################
 ################################################################################
 
-cov = read.table(file_gencov,header=FALSE,fill=TRUE,stringsAsFactor=FALSE)
+cov <- read.table(file_gencov,header=FALSE,fill=TRUE,stringsAsFactor=FALSE)
 het <- read.table(file_snp,header=TRUE,fill=TRUE,stringsAsFactor=FALSE)
 
 
@@ -78,9 +78,10 @@ Thet <- transform(het, range=floor(end/5000))
 f <- as.formula(paste(paste(sample_names, collapse = "+"), "~", "chr + range"))
 het_mean <- summaryBy(f, data=Thet, keep.names=TRUE, na.rm = TRUE)
 
-cov$range <- cov$start/5000
+Tcov <- transform(cov, range=floor(end/5000))
+cov_mean <- summaryBy(f, data=Tcov, keep.names=TRUE, na.rm = TRUE)
 
-cov_het <- merge(cov, het_mean, by = c("chr","range"))
+cov_het <- merge(cov_mean, het_mean, by = c("chr","range"))
 cov_het <- cov_het[-3:-4]
 
 nr_samples <- length(sample_names)
