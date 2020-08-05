@@ -20,9 +20,9 @@ Create a conda environment with the environment.yml file.
 The cluster.json file have to be edited if the pipeline will be ran on a cluster. Specify the account name. If a large amount of samples are used (more than 10 individuals with a genome size of 1Gbp), or an organism with a very large genome, the times and number of cores specified might have to be changed. 
 
 ### File structure
-´reference/genome/directory/reference.fasta´
-trimmed/reads/reads.fq.gz
-data/meta/
+reference/genome/directory/reference.fasta  
+trimmed/reads/reads.fq.gz  
+data/meta/  
 
 Make sure that the suffix of the reads and the reference genome is '.fq.gz' and '.fasta', otherwise, the pipeline will not be able to find the files. 
 
@@ -62,42 +62,42 @@ The other files in the results directory are used to make the figures. The idea 
 ### File structure
 After the pipeline has ran, the following file structure will be created:
 
-intermediate
-	bedtools
-		{reference_genome}
-			genome_5kb_windows.out
-		{species}
-			{gencov.nodup-files}
-	bwa
-		{reference_genome}
-			7bam-files}
-			{bai-files}
-			{flagstat-files}
-	freebayes
-		{reference_genome}
-			{species}.100kbp.regions
-		{species}
-			{VCF-files}
-			{difference in heterozygosity}
-			{heterozygosity for each individual}
-			{allele frequency}
-	synteny_match
-		{reference_genome}
-			genome_windows.out
-			bestMatch.list
-			bestMatch.status
-		{species}
-			{gencov.nodup.synteny-files}
-			{difference in heterozygosity.synteny-files}
-			{allele frequency.synteny-files}
-	lastal_{synteny}
-		{reference_genome}
-			{align-files}
-results
-	{species}
-		{pdf-files}
-		{1Mbp/100kbp/chr.out-files for plotting}
-		{html-report}
+intermediate  
+	bedtools  
+		{reference_genome}  
+			genome_5kb_windows.out  
+		{species}  
+			{gencov.nodup-files}  
+	bwa  
+		{reference_genome}  
+			7bam-files}  
+			{bai-files}  
+			{flagstat-files}  
+	freebayes  
+		{reference_genome}  
+			{species}.100kbp.regions  
+		{species}  
+			{VCF-files}  
+			{difference in heterozygosity}  
+			{heterozygosity for each individual}  
+			{allele frequency}  
+	synteny_match  
+		{reference_genome}  
+			genome_windows.out  
+			bestMatch.list  
+			bestMatch.status  
+		{species}  
+			{gencov.nodup.synteny-files}  
+			{difference in heterozygosity.synteny-files}  
+			{allele frequency.synteny-files}  
+	lastal_{synteny}  
+		{reference_genome}  
+			{align-files}  
+results  
+	{species}  
+		{pdf-files}  
+		{1Mbp/100kbp/chr.out-files for plotting}  
+		{html-report}  
 
 # Indepth about the programs and parameters used
 
