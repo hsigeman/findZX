@@ -19,7 +19,7 @@ rule index_fasta_bwa:
         """
 
 rule index_fasta_samtools:
-     input: 
+    input: 
         REF_FASTA
     output: 
         REF_FASTA + ".fai"
@@ -55,33 +55,33 @@ rule sort_bam:
     input:
         MAP_DIR + "{S}.bam"
     output:
-        out = temp(MAP_DIR + "{S}.sorted.bam"),
-        log = MAP_DIR + "{S}.sorted.status"
+        temp(MAP_DIR + "{S}.sorted.bam")
+    log: MAP_DIR + "{S}.sorted.log"
     threads: 3
     params:
         tmpdir = MAP_DIR + "{S}_temp_sort/"
     shell:
         """
         mkdir {params.tmpdir}
-        samtools sort -@ {threads} {input} -T {params.tmpdir} > {output.out}
+        samtools sort -@ {threads} {input} -T {params.tmpdir} > {output}
         rm -r {params.tmpdir}
-        echo "DONE" > {output.log}
+        echo "DONE" > {log}
         """
 
 rule remove_duplicates: 
     input: 
         MAP_DIR + "{S}.sorted.bam"
     output: 
-        out = protected(MAP_DIR + "{S}.sorted.nodup.nm.all.bam"),
-        log = MAP_DIR + "{S}.sorted.nodup.nm.all.status"
+        protected(MAP_DIR + "{S}.sorted.nodup.nm.all.bam")
+    log: MAP_DIR + "{S}.sorted.nodup.nm.all.log"
     params:
         tmpdir = MAP_DIR + "{S}_temp_dupl/"
     shell: 
         """
         mkdir {params.tmpdir}
-        picard MarkDuplicates -Xmx10g MAX_FILE_HANDLES=500 REMOVE_DUPLICATES=true I={input} O={output.out} M={input}_duplicatedata.txt TMP_DIR={params.tmpdir}
+        picard MarkDuplicates -Xmx10g MAX_FILE_HANDLES=500 REMOVE_DUPLICATES=true I={input} O={output} M={input}_duplicatedata.txt TMP_DIR={params.tmpdir}
         rm -r {params.tmpdir}
-        echo "DONE" > {output.log}
+        echo "DONE" > {log}
         """
 
 rule index_bam: 
@@ -171,8 +171,9 @@ rule freebayes_parallel:
         samples = expand(MAP_DIR + "{S}.sorted.nodup.nm.all.bam", S = ID)
     output: 
         vcf = temp(VCF_DIR + SPECIES + ".vcf"),
-        gz = protected(VCF_DIR + SPECIES + ".vcf.gz"),
-        log = VCF_DIR + SPECIES + ".vcf.status"
+        gz = protected(VCF_DIR + SPECIES + ".vcf.gz")
+    log: VCF_DIR + SPECIES + ".vcf.log"
+    priority : 60
     threads: 18
     params:
         tmpdir=VCF_DIR + "temp/"
@@ -186,7 +187,7 @@ rule freebayes_parallel:
         bgzip -c {output.vcf} > {output.gz}
         tabix -p vcf {output.gz}
 
-        echo "DONE" > {output.log}
+        echo "DONE" > {log}
         """
 
 rule vcftools_filter:
@@ -215,6 +216,7 @@ rule proportion_heterozygosity:
         het = temp(VCF_DIR + SPECIES + ".heterozygosity.bed"),
         diff_het_sorted = VCF_DIR + SPECIES + ".diffHeterozygosity.sorted.bed",
         het_sorted = VCF_DIR + SPECIES + ".heterozygosity.sorted.bed"
+    log: VCF_DIR + SPECIES + ".proportion_heterozygosity.log"
     params:
         hetero = expand("het:{heterogametic}", heterogametic = HETEROGAMETIC),
         homo = expand("homo:{homogametic}", homogametic = HOMOGAMETIC)
@@ -222,10 +224,10 @@ rule proportion_heterozygosity:
     shell:
         """
         python3 code/calculate_hetDiff.py <(less {input}) {output.diff_het} {params.hetero} {params.homo}
-        sort {output.diff_het} -k 1,1 -k 2,2 > {output.diff_het_sorted}
+        sort {output.diff_het} -k 1,1 -k 2,2 > {output.diff_het_sorted} > {log}
 
         python3 code/heterozygosity_per_indv.py <(less {input}) {output.het} {params.hetero} {params.homo}
-        sort {output.het} -k 1,1 -k 2,2 > {output.het_sorted}
+        sort {output.het} -k 1,1 -k 2,2 > {output.het_sorted} > {log}
         """
 
 rule allele_frequency:
@@ -336,3 +338,4 @@ rule modify_genome:
         tabix -p vcf {output.gz}
         cat {input.ref} | bcftools consensus -I {output.gz} > {output.ref}
         """
+
