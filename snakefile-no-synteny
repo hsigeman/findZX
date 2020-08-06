@@ -61,6 +61,8 @@ rule all:
 
 include: "snakefile"
 
+localrules: plotting, plotting_chr, print_report
+
 ##########################################################
 ################## NO SYNTENY ANALYSIS ###################
 ##########################################################
@@ -70,6 +72,7 @@ rule normalize_cov:
         GENCOV_DIR + SPECIES + ".gencov.nodup.nm.{ED}.out"
     output:
         GENCOV_DIR + SPECIES + ".gencov.nodup.nm.{ED}.out.norm"
+    threads: 1
     params:
         hetero = expand("het:{heterogametic}", heterogametic = HETEROGAMETIC),
         homo = expand("homo:{homogametic}", homogametic = HOMOGAMETIC)
@@ -88,6 +91,7 @@ rule confirm_sexing:
         het = VCF_DIR + SPECIES + ".heterozygosity.sorted.bed" 
     output:
         gencov_het = protected(RESULTDIR + SPECIES + ".gencov_heterozygosity_indv.pdf")
+    threads: 1
     params:
         hetero = expand("{heterogametic}", heterogametic = HETEROGAMETIC),
         homo = expand("{homogametic}", homogametic = HOMOGAMETIC)
@@ -108,6 +112,7 @@ rule calculate_heterozygosity:
         Mb = RESULTDIR + SPECIES + ".diffHeterozygosity.1Mbp.out",
         kb = RESULTDIR + SPECIES + ".diffHeterozygosity.100kbp.out",
         chr = RESULTDIR + SPECIES + ".diffHeterozygosity.chr.out"
+    threads: 1
     params:
         chromosomes = CHOMOSOMES
     shell:
@@ -121,6 +126,7 @@ rule calculate_allFreq:
     output:
         Mb = RESULTDIR + SPECIES + ".allFreq.1Mbp.out",
         kb = RESULTDIR + SPECIES + ".allFreq.100kbp.out"
+    threads: 1
     params:
         chromosomes = CHOMOSOMES
     shell:
@@ -135,6 +141,7 @@ rule calculate_ratio:
         Mb = RESULTDIR + SPECIES + ".gencov.nodup.nm.{ED}.1Mbp.out",
         kb = RESULTDIR + SPECIES + ".gencov.nodup.nm.{ED}.100kbp.out",
         chr = RESULTDIR + SPECIES + ".gencov.nodup.nm.{ED}.chr.out"
+    threads: 1
     params:
         chromosomes = CHOMOSOMES
     shell:

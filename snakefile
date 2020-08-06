@@ -218,6 +218,7 @@ rule proportion_heterozygosity:
     params:
         hetero = expand("het:{heterogametic}", heterogametic = HETEROGAMETIC),
         homo = expand("homo:{homogametic}", homogametic = HOMOGAMETIC)
+    threads: 1
     shell:
         """
         python3 code/calculate_hetDiff.py <(less {input}) {output.diff_het} {params.hetero} {params.homo}
@@ -249,6 +250,7 @@ rule filter_allele_frequency:
     output:
         bed = temp(VCF_DIR + SPECIES + ".allFreq.bed"),
         sorted = VCF_DIR + SPECIES + ".allFreq.sorted.bed"
+    threads: 1
     shell:
         """
         python3 code/filter_allFreq.py {input.hetero} heterogametic > {output.bed}
@@ -275,6 +277,7 @@ rule print_report:
         heterogametic = expand("het:{het}", het = HETEROGAMETIC),
         homogametic = expand("homo:{hom}", hom =  HOMOGAMETIC),
         synt = "{synteny}"
+    threads: 1
     shell:
         """
         join -1 1 -2 1 {input.cov0} {input.cov2} | join -1 1 -2 1 - {input.cov4} | -1 1 -2 1 - {input.snp} | sed 's/ /\t/g' | cut -f 1,2,4,6,8,9 > {output.stats}

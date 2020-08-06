@@ -67,6 +67,8 @@ rule all:
 
 include: "snakefile"
 
+localrules: plotting, plotting_chr, print_report
+
 ##########################################################  
 #################### SYNTENY ANALYSIS ####################      
 ########################################################## 
@@ -149,6 +151,7 @@ rule matchScaffold2Chr_snp:
     output:
         bestmatch = MATCHDIR + SPECIES + ".{snp_statistic}.bestMatch." + SYNTENY_SPECIES,
         bestmatch_small = MATCHDIR + SPECIES + ".{snp_statistic}.bestMatch." + SYNTENY_SPECIES + ".small"
+    threads: 1
     shell:
         """
         bedtools intersect -a {input.bestMatch} -b {input.snp_statistic} -wa -wb > {output.bestmatch}
@@ -218,6 +221,7 @@ rule calculate_allFreq_synteny:
     output:
         Mb = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".allFreq.1Mbp.out",
         kb = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".allFreq.100kbp.out"
+    threads: 1
     params:
         chromosomes = CHOMOSOMES
     shell:
