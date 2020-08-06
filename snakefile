@@ -56,7 +56,7 @@ rule sort_bam:
         MAP_DIR + "{S}.bam"
     output:
         temp(MAP_DIR + "{S}.sorted.bam")
-    log: MAP_DIR + "{S}.sorted.log"
+    log: MAP_DIR + "{S}.sorted.status"
     threads: 3
     params:
         tmpdir = MAP_DIR + "{S}_temp_sort/"
@@ -73,7 +73,7 @@ rule remove_duplicates:
         MAP_DIR + "{S}.sorted.bam"
     output: 
         protected(MAP_DIR + "{S}.sorted.nodup.nm.all.bam")
-    log: MAP_DIR + "{S}.sorted.nodup.nm.all.log"
+    log: MAP_DIR + "{S}.sorted.nodup.nm.all.status"
     params:
         tmpdir = MAP_DIR + "{S}_temp_dupl/"
     shell: 
