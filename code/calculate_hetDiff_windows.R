@@ -4,9 +4,9 @@ library(data.table)
 # Takes as input a bed file containing the difference in heterozygosity between 
 # heterogametic and homogametic individuals for each variable site. 
 # Calculates the mean difference in heterozygosity in 1Mbp and 100kbp windows 
-# and for each chromsome/scaffold.
+# and for each chromosome/scaffold.
 # Columns in input file: chromosome/scaffold start_position end_position difference_in_heterozygosity
-# Call: Rscriipt {r-script} {infile} {out 1Mbp} {out 100kbp} {out chromsome/scaffold} {chr-list}
+# Call: Rscriipt {r-script} {infile} {out 1Mbp} {out 100kbp} {out chromosome/scaffold} {chr-list}
 
 set.seed(999)
 source("code/functions.R")
@@ -36,7 +36,7 @@ if (file.exists(chr_file)) {
 }
 
 ################################################################################
-################################# CROMOSOMES ###################################
+################################# CHROMOSOMES ##################################
 ################################################################################
 
 snp_mean_chr <- mean_win(snp, diff ~ chr)
