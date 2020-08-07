@@ -1,4 +1,5 @@
 import sys
+import gzip
 
 if len(sys.argv)==1 or sys.argv[1].startswith('-h'):
 	print("\nScript written for snakemake pipeline for detection of sex-linked genomic regions. WARNING: USE WITH CAUSION OUTSIDE PIPELINE.\n")
@@ -41,8 +42,9 @@ print("Input homogametic individuals:\t" + '\t'.join(homogametic_samples))
 
 out_file = open(sys.argv[2], 'w')
 
-with open(sys.argv[1], 'r') as vcfFile:
+with gzip.open(sys.argv[1], 'rt') as vcfFile:
 	for line in vcfFile:
+		print(line)
 		if line.startswith('#CHROM'):
 
 			info_fields = line.strip('\n').split('\t')
@@ -68,7 +70,7 @@ with open(sys.argv[1], 'r') as vcfFile:
 
 		elif not line.startswith('#'):
 			info_fields = line.strip('\n').split('\t')
-
+			print(line)
 			heterogameticSex_heterozygotCount = 0
 			homogameticSex_heterozygotCount   = 0
 

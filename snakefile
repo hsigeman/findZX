@@ -170,7 +170,7 @@ rule freebayes_parallel:
         regions = VCF_DIR_REF + REF_SPECIES + ".100kbp.regions",
         samples = expand(MAP_DIR + "{S}.sorted.nodup.nm.all.bam", S = ID)
     output: 
-        vcf = temp(VCF_DIR + SPECIES + ".vcf"),
+        vcf = VCF_DIR + SPECIES + ".vcf",
         gz = protected(VCF_DIR + SPECIES + ".vcf.gz")
     log: VCF_DIR + SPECIES + ".vcf.log"
     priority : 60
@@ -223,10 +223,10 @@ rule proportion_heterozygosity:
     threads: 1
     shell:
         """
-        python3 code/calculate_hetDiff.py <(less {input}) {output.diff_het} {params.hetero} {params.homo}
+        python3 code/calculate_hetDiff.py {input} {output.diff_het} {params.hetero} {params.homo}
         sort {output.diff_het} -k 1,1 -k 2,2 > {output.diff_het_sorted} > {log}
 
-        python3 code/heterozygosity_per_indv.py <(less {input}) {output.het} {params.hetero} {params.homo}
+        python3 code/heterozygosity_per_indv.py {input} {output.het} {params.hetero} {params.homo}
         sort {output.het} -k 1,1 -k 2,2 > {output.het_sorted} > {log}
         """
 
