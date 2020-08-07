@@ -2,7 +2,7 @@ import sys
 import gzip
 
 if len(sys.argv)==1 or sys.argv[1].startswith('-h'):
-	print("\nScript written for snakemake pipeline for detection of sex-linked genomic regions. WARNING: USE WITH CAUSION OUTSIDE PIPELINE.\n")
+	print("\nScript written for snakemake pipeline for detection of sex-linked genomic regions. WARNING: USE WITH CAUTION OUTSIDE PIPELINE.\n")
 
 	print("Prints the heterozygosity for each individual at each site of a VCF-file.")
 	print("Heterozygot=1, homozygot=0, missing data=NA")
@@ -54,7 +54,7 @@ with gzip.open(sys.argv[1], 'rt') as vcfFile:
 			homogametic_samples_vcf = ['NA']*len(homogametic_samples)
 
 			for i in range(9, len(info_fields)):
-				#the order of individuals in heterogametic_samples determins the order in the output
+				#the order of individuals in heterogametic_samples determines the order in the output
 				if info_fields[i] in heterogametic_samples:
 					#find which index current sample in the VCF is at in heterogametic_samples
 					het_index = heterogametic_samples.index(info_fields[i])
