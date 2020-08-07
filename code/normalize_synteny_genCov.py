@@ -2,7 +2,7 @@ import sys
 import pandas as pn
 
 if len(sys.argv)==1 or sys.argv[1].startswith('-h'):
-	print("\nScript written for snakemake pipeline for detection of sex-linked genomic regions. WARNING: USE WITH CAUSION OUTSIDE PIPELINE.\n")
+	print("\nScript written for snakemake pipeline for detection of sex-linked genomic regions. WARNING: USE WITH CAUTION OUTSIDE PIPELINE.\n")
 
 	print("Reads in a genome coverage-file which has been intersected with a chromosome file. First each individual is normalized on the")
 	print("individual means and then the mean for each sex and row is calculated. Writes to stdout.\n")
