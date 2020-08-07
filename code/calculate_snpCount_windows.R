@@ -3,7 +3,7 @@ library(data.table)
 
 # Takes a bed file with sites. Counts the number of sites in 1Mbp and 100kbp windows for each sex. 
 # Calculates the ratio and difference in counts between the sexes.
-# Columns in infile: chromsome/scaffold start_position end_position sex(heterogametic/homogametic)
+# Columns in infile: chromosome/scaffold start_position end_position sex(heterogametic/homogametic)
 # Call: Rscript {r-script} {infile} {out 1Mbp} {out 100kbp} {chr-list}
 
 
