@@ -7,13 +7,16 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="2610pt"
-   height="1250pt"
-   viewBox="0 0 2609.8965 1250"
-   version="1.1"
-   id="svg1667"
+   inkscape:export-ydpi="96"
+   inkscape:export-xdpi="96"
+   inkscape:export-filename="C:\Users\wcdot\Documents\JobbLund\snakemake-sex-chr\figures\no-synteny-dag.png"
+   inkscape:version="1.0 (4035a4fb49, 2020-05-01)"
    sodipodi:docname="no-synteny-dag.svg"
-   inkscape:version="1.0 (4035a4fb49, 2020-05-01)">
+   id="svg1667"
+   version="1.1"
+   viewBox="0 0 2459.9025 1020"
+   height="1020pt"
+   width="2460pt">
   <metadata
      id="metadata1673">
     <rdf:RDF>
@@ -29,791 +32,791 @@
   <defs
      id="defs1671" />
   <sodipodi:namedview
-     inkscape:snap-object-midpoints="true"
-     inkscape:guide-bbox="true"
-     showguides="true"
-     inkscape:document-rotation="0"
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1"
-     objecttolerance="10"
-     gridtolerance="10"
-     guidetolerance="10"
-     inkscape:pageopacity="0"
-     inkscape:pageshadow="2"
-     inkscape:window-width="1920"
-     inkscape:window-height="1017"
-     id="namedview1669"
-     showgrid="false"
-     inkscape:zoom="0.28209036"
-     inkscape:cx="1986.893"
-     inkscape:cy="816.98459"
-     inkscape:window-x="-8"
-     inkscape:window-y="-8"
+     inkscape:current-layer="graph0"
      inkscape:window-maximized="1"
-     inkscape:current-layer="svg1667">
+     inkscape:window-y="-8"
+     inkscape:window-x="-8"
+     inkscape:cy="867.11794"
+     inkscape:cx="1422.7552"
+     inkscape:zoom="0.28209036"
+     showgrid="false"
+     id="namedview1669"
+     inkscape:window-height="1017"
+     inkscape:window-width="1920"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0"
+     guidetolerance="10"
+     gridtolerance="10"
+     objecttolerance="10"
+     borderopacity="1"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     inkscape:document-rotation="0"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     inkscape:snap-object-midpoints="true">
     <inkscape:grid
-       id="grid489"
-       type="xygrid" />
+       type="xygrid"
+       id="grid489" />
   </sodipodi:namedview>
   <g
-     id="graph0"
+     transform="translate(-259.977,939.02756)"
      class="graph"
-     transform="translate(-340.81703,971.92757)">
+     id="graph0">
     <title
        id="title2">snakemake_dag</title>
     <!-- 0 -->
     <!-- 1 -->
     <g
-       id="node2"
+       transform="translate(1330.1349,-164.2814)"
        class="node"
-       transform="translate(1370.8884,-189.18007)">
+       id="node2">
       <title
          id="title13">1</title>
       <path
-         fill="none"
-         stroke="#566bd8"
-         stroke-width="2"
-         stroke-dasharray="5, 2"
+         id="path15"
          d="m 135.144,-756 c 0,0 -74.5002,0 -74.5002,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 74.5002,0 74.5002,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path15" />
+         stroke-dasharray="5, 2"
+         stroke-width="2"
+         stroke="#566bd8"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="97.893799"
-         y="-735.5"
-         font-family="sans"
+         id="text17"
          font-size="10px"
-         id="text17">index_fasta_bwa</text>
+         font-family="sans"
+         y="-735.5"
+         x="97.893799"
+         text-anchor="middle">index_fasta_bwa</text>
     </g>
     <!-- 1&#45;&gt;0 -->
     <!-- 44 -->
     <g
-       id="node45"
+       transform="translate(760.12666,-191.27351)"
        class="node"
-       transform="translate(812.74946,-204.78005)">
+       id="node45">
       <title
          id="title27">44</title>
       <path
-         fill="none"
-         stroke="#d85656"
-         stroke-width="2"
+         id="path29"
          d="m 154.144,-684 c 0,0 -112.5002,0 -112.5002,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 112.5002,0 112.5002,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path29" />
+         stroke-width="2"
+         stroke="#d85656"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="97.893799"
+         id="text31"
+         font-size="10px"
+         font-family="sans"
          y="-669"
-         font-family="sans"
-         font-size="10px"
-         id="text31">map</text>
-      <text
-         text-anchor="middle"
          x="97.893799"
-         y="-658"
-         font-family="sans"
+         text-anchor="middle">map</text>
+      <text
+         id="text33"
          font-size="10px"
-         id="text33">S: QL-1681-19_S46_L006</text>
+         font-family="sans"
+         y="-658"
+         x="97.893799"
+         text-anchor="middle">S: QL-1681-19_S46_L006</text>
     </g>
     <!-- 1&#45;&gt;44 -->
     <!-- 45 -->
     <g
-       id="node46"
+       transform="translate(761.13059,-191.27351)"
        class="node"
-       transform="translate(805.97025,-204.78005)">
+       id="node46">
       <title
          id="title43">45</title>
       <path
-         fill="none"
-         stroke="#d85656"
-         stroke-width="2"
+         id="path45"
          d="m 1293.14,-684 c 0,0 -112.5,0 -112.5,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 112.5,0 112.5,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path45" />
+         stroke-width="2"
+         stroke="#d85656"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="1236.89"
+         id="text47"
+         font-size="10px"
+         font-family="sans"
          y="-669"
-         font-family="sans"
-         font-size="10px"
-         id="text47">map</text>
-      <text
-         text-anchor="middle"
          x="1236.89"
-         y="-658"
-         font-family="sans"
+         text-anchor="middle">map</text>
+      <text
+         id="text49"
          font-size="10px"
-         id="text49">S: QL-1681-21_S47_L006</text>
+         font-family="sans"
+         y="-658"
+         x="1236.89"
+         text-anchor="middle">S: QL-1681-21_S47_L006</text>
     </g>
     <!-- 1&#45;&gt;45 -->
     <!-- 2 -->
     <g
-       id="node3"
+       transform="translate(257.1234,-125.27309)"
        class="node"
-       transform="translate(546.83943,-405.18007)">
+       id="node3">
       <title
          id="title59">2</title>
       <path
-         fill="none"
-         stroke="#567bd8"
-         stroke-width="2"
-         stroke-dasharray="5, 2"
+         id="path61"
          d="m 2285.89,-540 c 0,0 -100,0 -100,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 100,0 100,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path61" />
+         stroke-dasharray="5, 2"
+         stroke-width="2"
+         stroke="#567bd8"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="2235.8899"
-         y="-519.5"
-         font-family="sans"
+         id="text63"
          font-size="10px"
-         id="text63">index_fasta_samtools</text>
+         font-family="sans"
+         y="-519.5"
+         x="2235.8899"
+         text-anchor="middle">index_fasta_samtools</text>
     </g>
     <!-- 2&#45;&gt;0 -->
     <!-- 68 -->
     <g
-       id="node69"
+       transform="translate(658.1306,-14.273494)"
        class="node"
-       transform="translate(838.48034,46.060017)">
+       id="node69">
       <title
          id="title73">68</title>
       <path
-         fill="none"
-         stroke="#56d8d0"
-         stroke-width="2"
+         id="path75"
          d="m 1765.14,-396 c 0,0 -100.5,0 -100.5,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 100.5,0 100.5,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path75" />
+         stroke-width="2"
+         stroke="#56d8d0"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="1714.89"
-         y="-375.5"
-         font-family="sans"
+         id="text77"
          font-size="10px"
-         id="text77">gencov_prepare_fasta</text>
+         font-family="sans"
+         y="-375.5"
+         x="1714.89"
+         text-anchor="middle">gencov_prepare_fasta</text>
     </g>
     <!-- 2&#45;&gt;68 -->
     <!-- 72 -->
     <g
-       id="node73"
+       transform="translate(257.1306,-77.273497)"
        class="node"
-       transform="translate(550.21997,-253.45998)">
+       id="node73">
       <title
          id="title87">72</title>
       <path
-         fill="none"
-         stroke="#d87d56"
-         stroke-width="2"
+         id="path89"
          d="m 2269.89,-468 c 0,0 -68,0 -68,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 68,0 68,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path89" />
+         stroke-width="2"
+         stroke="#d87d56"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="2235.8899"
-         y="-447.5"
-         font-family="sans"
+         id="text91"
          font-size="10px"
-         id="text91">freebayes_prep</text>
+         font-family="sans"
+         y="-447.5"
+         x="2235.8899"
+         text-anchor="middle">freebayes_prep</text>
     </g>
     <!-- 2&#45;&gt;72 -->
     <!-- 3 -->
     <g
-       id="node4"
+       transform="translate(762.12666,-218.27351)"
        class="node"
-       transform="translate(812.99477,-220.38003)">
+       id="node4">
       <title
          id="title101">3</title>
       <path
-         fill="none"
-         stroke="#59d856"
-         stroke-width="2"
+         id="path103"
          d="m 114.894,-612 c 0,0 -38.0002,0 -38.0002,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 38.0002,0 38.0002,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path103" />
+         stroke-width="2"
+         stroke="#59d856"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="95.893799"
-         y="-591.5"
-         font-family="sans"
+         id="text105"
          font-size="10px"
-         id="text105">sort_bam</text>
+         font-family="sans"
+         y="-591.5"
+         x="95.893799"
+         text-anchor="middle">sort_bam</text>
     </g>
     <!-- 3&#45;&gt;0 -->
     <!-- 5 -->
     <g
-       id="node6"
+       transform="translate(241.12656,-245.2735)"
        class="node"
-       transform="translate(294.22012,-181.45998)">
+       id="node6">
       <title
          id="title115">5</title>
       <path
-         fill="none"
-         stroke="#56d8b9"
-         stroke-width="2"
+         id="path117"
          d="m 659.894,-540 c 0,0 -86,0 -86,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 86,0 86,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path117" />
+         stroke-width="2"
+         stroke="#56d8b9"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="616.89398"
-         y="-519.5"
-         font-family="sans"
+         id="text119"
          font-size="10px"
-         id="text119">remove_duplicates</text>
+         font-family="sans"
+         y="-519.5"
+         x="616.89398"
+         text-anchor="middle">remove_duplicates</text>
     </g>
     <!-- 3&#45;&gt;5 -->
     <!-- 19 -->
     <g
-       id="node20"
+       transform="translate(658.12666,-245.2735)"
        class="node"
-       transform="translate(715.58597,-235.98001)">
+       id="node20">
       <title
          id="title129">19</title>
       <path
-         fill="none"
-         stroke="#56b9d8"
-         stroke-width="2"
+         id="path131"
          d="m 109.894,-540 c 0,0 -30.0002,0 -30.0002,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 30.0002,0 30.0002,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path131" />
+         stroke-width="2"
+         stroke="#56b9d8"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="94.893799"
+         id="text133"
+         font-size="10px"
+         font-family="sans"
          y="-525"
-         font-family="sans"
-         font-size="10px"
-         id="text133">flagstat</text>
-      <text
-         text-anchor="middle"
          x="94.893799"
-         y="-514"
-         font-family="sans"
+         text-anchor="middle">flagstat</text>
+      <text
+         id="text135"
          font-size="10px"
-         id="text135">V: .</text>
+         font-family="sans"
+         y="-514"
+         x="94.893799"
+         text-anchor="middle">V: .</text>
     </g>
     <!-- 3&#45;&gt;19 -->
     <!-- 4 -->
     <g
-       id="node5"
+       transform="translate(-222.86941,-218.27351)"
        class="node"
-       transform="translate(-184.90475,-220.38003)">
+       id="node5">
       <title
          id="title145">4</title>
       <path
-         fill="none"
-         stroke="#59d856"
-         stroke-width="2"
+         id="path147"
          d="m 2239.89,-612 c 0,0 -38,0 -38,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 38,0 38,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path147" />
+         stroke-width="2"
+         stroke="#59d856"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="2220.8899"
-         y="-591.5"
-         font-family="sans"
+         id="text149"
          font-size="10px"
-         id="text149">sort_bam</text>
+         font-family="sans"
+         y="-591.5"
+         x="2220.8899"
+         text-anchor="middle">sort_bam</text>
     </g>
     <!-- 4&#45;&gt;0 -->
     <!-- 6 -->
     <g
-       id="node7"
+       transform="translate(90.13059,-245.2735)"
        class="node"
-       transform="translate(128.13259,-181.45998)">
+       id="node7">
       <title
          id="title159">6</title>
       <path
-         fill="none"
-         stroke="#56d8b9"
-         stroke-width="2"
+         id="path161"
          d="m 1950.89,-540 c 0,0 -86,0 -86,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 86,0 86,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path161" />
+         stroke-width="2"
+         stroke="#56d8b9"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="1907.89"
-         y="-519.5"
-         font-family="sans"
+         id="text163"
          font-size="10px"
-         id="text163">remove_duplicates</text>
+         font-family="sans"
+         y="-519.5"
+         x="1907.89"
+         text-anchor="middle">remove_duplicates</text>
     </g>
     <!-- 4&#45;&gt;6 -->
     <!-- 20 -->
     <g
-       id="node21"
+       transform="translate(-431.86941,-245.2735)"
        class="node"
-       transform="translate(-411.68439,-235.98001)">
+       id="node21">
       <title
          id="title173">20</title>
       <path
-         fill="none"
-         stroke="#56b9d8"
-         stroke-width="2"
+         id="path175"
          d="m 2549.89,-540 c 0,0 -30,0 -30,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 30,0 30,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path175" />
+         stroke-width="2"
+         stroke="#56b9d8"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="2534.8899"
+         id="text177"
+         font-size="10px"
+         font-family="sans"
          y="-525"
-         font-family="sans"
-         font-size="10px"
-         id="text177">flagstat</text>
-      <text
-         text-anchor="middle"
          x="2534.8899"
-         y="-514"
-         font-family="sans"
+         text-anchor="middle">flagstat</text>
+      <text
+         id="text179"
          font-size="10px"
-         id="text179">V: .</text>
+         font-family="sans"
+         y="-514"
+         x="2534.8899"
+         text-anchor="middle">V: .</text>
     </g>
     <!-- 4&#45;&gt;20 -->
     <!-- 5&#45;&gt;0 -->
     <!-- 7 -->
     <g
-       id="node8"
+       transform="translate(933.1306,-59.273495)"
        class="node"
-       transform="translate(1096.1404,-135.57991)">
+       id="node8">
       <title
          id="title196">7</title>
       <path
-         fill="none"
-         stroke="#d8bc56"
-         stroke-width="2"
+         id="path198"
          d="m 1313.14,-396 c 0,0 -46.5,0 -46.5,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 46.5,0 46.5,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path198" />
+         stroke-width="2"
+         stroke="#d8bc56"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="1289.89"
+         id="text200"
+         font-size="10px"
+         font-family="sans"
          y="-381"
-         font-family="sans"
-         font-size="10px"
-         id="text200">index_bam</text>
-      <text
-         text-anchor="middle"
          x="1289.89"
-         y="-370"
-         font-family="sans"
+         text-anchor="middle">index_bam</text>
+      <text
+         id="text202"
          font-size="10px"
-         id="text202">ED: all</text>
+         font-family="sans"
+         y="-370"
+         x="1289.89"
+         text-anchor="middle">ED: all</text>
     </g>
     <!-- 5&#45;&gt;7 -->
     <!-- 21 -->
     <g
-       id="node22"
+       transform="translate(524.12656,-272.2735)"
        class="node"
-       transform="translate(526.40021,-195.17996)">
+       id="node22">
       <title
          id="title212">21</title>
       <path
-         fill="none"
-         stroke="#56b9d8"
-         stroke-width="2"
+         id="path214"
          d="m 190.894,-468 c 0,0 -74,0 -74,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 74,0 74,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path214" />
+         stroke-width="2"
+         stroke="#56b9d8"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="153.894"
+         id="text216"
+         font-size="10px"
+         font-family="sans"
          y="-453"
-         font-family="sans"
-         font-size="10px"
-         id="text216">flagstat</text>
-      <text
-         text-anchor="middle"
          x="153.894"
-         y="-442"
-         font-family="sans"
+         text-anchor="middle">flagstat</text>
+      <text
+         id="text218"
          font-size="10px"
-         id="text218">V: .nodup.nm.all.</text>
+         font-family="sans"
+         y="-442"
+         x="153.894"
+         text-anchor="middle">V: .nodup.nm.all.</text>
     </g>
     <!-- 5&#45;&gt;21 -->
     <!-- 46 -->
     <g
-       id="node47"
+       transform="translate(-208.87345,-77.273497)"
        class="node"
-       transform="translate(-139.64879,-9.0598853)">
+       id="node47">
       <title
          id="title228">46</title>
       <path
-         fill="none"
-         stroke="#56d8a9"
-         stroke-width="2"
+         id="path230"
          d="m 650.894,-468 c 0,0 -68,0 -68,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 68,0 68,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path230" />
+         stroke-width="2"
+         stroke="#56d8a9"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="616.89398"
+         id="text232"
+         font-size="10px"
+         font-family="sans"
          y="-453"
-         font-family="sans"
-         font-size="10px"
-         id="text232">mismatch_bam</text>
-      <text
-         text-anchor="middle"
          x="616.89398"
-         y="-442"
-         font-family="sans"
+         text-anchor="middle">mismatch_bam</text>
+      <text
+         id="text234"
          font-size="10px"
-         id="text234">ED: 0</text>
+         font-family="sans"
+         y="-442"
+         x="616.89398"
+         text-anchor="middle">ED: 0</text>
     </g>
     <!-- 5&#45;&gt;46 -->
     <!-- 47 -->
     <g
-       id="node48"
+       transform="translate(-643.86944,-221.2735)"
        class="node"
-       transform="translate(-586.56023,-153.05989)">
+       id="node48">
       <title
          id="title244">47</title>
       <path
-         fill="none"
-         stroke="#56d8a9"
-         stroke-width="2"
+         id="path246"
          d="m 1475.89,-324 c 0,0 -68,0 -68,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 68,0 68,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path246" />
+         stroke-width="2"
+         stroke="#56d8a9"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="1441.89"
+         id="text248"
+         font-size="10px"
+         font-family="sans"
          y="-309"
-         font-family="sans"
-         font-size="10px"
-         id="text248">mismatch_bam</text>
-      <text
-         text-anchor="middle"
          x="1441.89"
-         y="-298"
-         font-family="sans"
+         text-anchor="middle">mismatch_bam</text>
+      <text
+         id="text250"
          font-size="10px"
-         id="text250">ED: 1</text>
+         font-family="sans"
+         y="-298"
+         x="1441.89"
+         text-anchor="middle">ED: 1</text>
     </g>
     <!-- 5&#45;&gt;47 -->
     <!-- 48 -->
     <g
-       id="node49"
+       transform="translate(705.12657,-77.273497)"
        class="node"
-       transform="translate(762.4155,-9.0598853)">
+       id="node49">
       <title
          id="title260">48</title>
       <path
-         fill="none"
-         stroke="#56d8a9"
-         stroke-width="2"
+         id="path262"
          d="m 501.894,-468 c 0,0 -68,0 -68,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 68,0 68,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path262" />
+         stroke-width="2"
+         stroke="#56d8a9"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="467.89401"
+         id="text264"
+         font-size="10px"
+         font-family="sans"
          y="-453"
-         font-family="sans"
-         font-size="10px"
-         id="text264">mismatch_bam</text>
-      <text
-         text-anchor="middle"
          x="467.89401"
-         y="-442"
-         font-family="sans"
+         text-anchor="middle">mismatch_bam</text>
+      <text
+         id="text266"
          font-size="10px"
-         id="text266">ED: 2</text>
+         font-family="sans"
+         y="-442"
+         x="467.89401"
+         text-anchor="middle">ED: 2</text>
     </g>
     <!-- 5&#45;&gt;48 -->
     <!-- 49 -->
     <g
-       id="node50"
+       transform="translate(1131.8558,-221.30584)"
        class="node"
-       transform="translate(1178.7605,-153.05989)">
+       id="node50">
       <title
          id="title276">49</title>
       <path
-         fill="none"
-         stroke="#56d8a9"
-         stroke-width="2"
+         id="path278"
          d="m 456.894,-324 c 0,0 -68,0 -68,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 68,0 68,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path278" />
+         stroke-width="2"
+         stroke="#56d8a9"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="422.89401"
+         id="text280"
+         font-size="10px"
+         font-family="sans"
          y="-309"
-         font-family="sans"
-         font-size="10px"
-         id="text280">mismatch_bam</text>
-      <text
-         text-anchor="middle"
          x="422.89401"
-         y="-298"
-         font-family="sans"
+         text-anchor="middle">mismatch_bam</text>
+      <text
+         id="text282"
          font-size="10px"
-         id="text282">ED: 3</text>
+         font-family="sans"
+         y="-298"
+         x="422.89401"
+         text-anchor="middle">ED: 3</text>
     </g>
     <!-- 5&#45;&gt;49 -->
     <!-- 50 -->
     <g
-       id="node51"
+       transform="translate(1204.1266,-77.273497)"
        class="node"
-       transform="translate(1248.5682,-9.0598853)">
+       id="node51">
       <title
          id="title292">50</title>
       <path
-         fill="none"
-         stroke="#56d8a9"
-         stroke-width="2"
+         id="path294"
          d="m 767.894,-468 c 0,0 -68,0 -68,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 68,0 68,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path294" />
+         stroke-width="2"
+         stroke="#56d8a9"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="733.89398"
+         id="text296"
+         font-size="10px"
+         font-family="sans"
          y="-453"
-         font-family="sans"
-         font-size="10px"
-         id="text296">mismatch_bam</text>
-      <text
-         text-anchor="middle"
          x="733.89398"
-         y="-442"
-         font-family="sans"
+         text-anchor="middle">mismatch_bam</text>
+      <text
+         id="text298"
          font-size="10px"
-         id="text298">ED: 4</text>
+         font-family="sans"
+         y="-442"
+         x="733.89398"
+         text-anchor="middle">ED: 4</text>
     </g>
     <!-- 5&#45;&gt;50 -->
     <!-- 56 -->
     <g
-       id="node57"
+       transform="translate(218.1306,93.72651)"
        class="node"
-       transform="translate(357.35015,-153.05989)">
+       id="node57">
       <title
          id="title308">56</title>
       <path
-         fill="none"
-         stroke="#80d856"
-         stroke-width="2"
+         id="path310"
          d="m 2087.14,-324 c 0,0 -74.5,0 -74.5,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 74.5,0 74.5,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path310" />
+         stroke-width="2"
+         stroke="#80d856"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="2049.8899"
+         id="text312"
+         font-size="10px"
+         font-family="sans"
          y="-309"
-         font-family="sans"
-         font-size="10px"
-         id="text312">gencov_bedtools</text>
-      <text
-         text-anchor="middle"
          x="2049.8899"
-         y="-298"
-         font-family="sans"
+         text-anchor="middle">gencov_bedtools</text>
+      <text
+         id="text314"
          font-size="10px"
-         id="text314">V: all</text>
+         font-family="sans"
+         y="-298"
+         x="2049.8899"
+         text-anchor="middle">V: all</text>
     </g>
     <!-- 5&#45;&gt;56 -->
     <!-- 71 -->
     <g
-       id="node72"
+       transform="translate(363.1306,-104.2735)"
        class="node"
-       transform="translate(658.7523,-171.29992)">
+       id="node72">
       <title
          id="title324">71</title>
       <path
-         fill="none"
-         stroke="#56d86b"
-         stroke-width="2"
+         id="path326"
          d="m 2171.14,-396 c 0,0 -82.5,0 -82.5,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 82.5,0 82.5,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path326" />
+         stroke-width="2"
+         stroke="#56d86b"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="2129.8899"
-         y="-375.5"
-         font-family="sans"
+         id="text328"
          font-size="10px"
-         id="text328">freebayes_parallel</text>
+         font-family="sans"
+         y="-375.5"
+         x="2129.8899"
+         text-anchor="middle">freebayes_parallel</text>
     </g>
     <!-- 5&#45;&gt;71 -->
     <!-- 6&#45;&gt;0 -->
     <!-- 13 -->
     <g
-       id="node14"
+       transform="translate(76.130599,-59.273495)"
        class="node"
-       transform="translate(240.64009,-135.57991)">
+       id="node14">
       <title
          id="title345">13</title>
       <path
-         fill="none"
-         stroke="#d8bc56"
-         stroke-width="2"
+         id="path347"
          d="m 2260.14,-396 c 0,0 -46.5,0 -46.5,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 46.5,0 46.5,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path347" />
+         stroke-width="2"
+         stroke="#d8bc56"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="2236.8899"
+         id="text349"
+         font-size="10px"
+         font-family="sans"
          y="-381"
-         font-family="sans"
-         font-size="10px"
-         id="text349">index_bam</text>
-      <text
-         text-anchor="middle"
          x="2236.8899"
-         y="-370"
-         font-family="sans"
+         text-anchor="middle">index_bam</text>
+      <text
+         id="text351"
          font-size="10px"
-         id="text351">ED: all</text>
+         font-family="sans"
+         y="-370"
+         x="2236.8899"
+         text-anchor="middle">ED: all</text>
     </g>
     <!-- 6&#45;&gt;13 -->
     <!-- 27 -->
     <g
-       id="node28"
+       transform="translate(1240.1266,-632.2735)"
        class="node"
-       transform="translate(1547.7605,-555.17996)">
+       id="node28">
       <title
          id="title361">27</title>
       <path
-         fill="none"
-         stroke="#56b9d8"
-         stroke-width="2"
+         id="path363"
          d="m 974.894,-108 c 0,0 -74,0 -74,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 74,0 74,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path363" />
+         stroke-width="2"
+         stroke="#56b9d8"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="937.89398"
+         id="text365"
+         font-size="10px"
+         font-family="sans"
          y="-93"
-         font-family="sans"
-         font-size="10px"
-         id="text365">flagstat</text>
-      <text
-         text-anchor="middle"
          x="937.89398"
-         y="-82"
-         font-family="sans"
+         text-anchor="middle">flagstat</text>
+      <text
+         id="text367"
          font-size="10px"
-         id="text367">V: .nodup.nm.all.</text>
+         font-family="sans"
+         y="-82"
+         x="937.89398"
+         text-anchor="middle">V: .nodup.nm.all.</text>
     </g>
     <!-- 6&#45;&gt;27 -->
     <!-- 51 -->
     <g
-       id="node52"
+       transform="translate(-628.86944,-77.273497)"
        class="node"
-       transform="translate(-565.88022,-9.0598853)">
+       id="node52">
       <title
          id="title377">51</title>
       <path
-         fill="none"
-         stroke="#56d8a9"
-         stroke-width="2"
+         id="path379"
          d="m 1190.89,-468 c 0,0 -68,0 -68,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 68,0 68,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path379" />
+         stroke-width="2"
+         stroke="#56d8a9"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="1156.89"
+         id="text381"
+         font-size="10px"
+         font-family="sans"
          y="-453"
-         font-family="sans"
-         font-size="10px"
-         id="text381">mismatch_bam</text>
-      <text
-         text-anchor="middle"
          x="1156.89"
-         y="-442"
-         font-family="sans"
+         text-anchor="middle">mismatch_bam</text>
+      <text
+         id="text383"
          font-size="10px"
-         id="text383">ED: 0</text>
+         font-family="sans"
+         y="-442"
+         x="1156.89"
+         text-anchor="middle">ED: 0</text>
     </g>
     <!-- 6&#45;&gt;51 -->
     <!-- 52 -->
     <g
-       id="node53"
+       transform="translate(-1651.8695,-221.2735)"
        class="node"
-       transform="translate(-1603.6406,-153.05989)">
+       id="node53">
       <title
          id="title393">52</title>
       <path
-         fill="none"
-         stroke="#56d8a9"
-         stroke-width="2"
+         id="path395"
          d="m 2603.89,-324 c 0,0 -68,0 -68,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 68,0 68,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path395" />
+         stroke-width="2"
+         stroke="#56d8a9"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="2569.8899"
+         id="text397"
+         font-size="10px"
+         font-family="sans"
          y="-309"
-         font-family="sans"
-         font-size="10px"
-         id="text397">mismatch_bam</text>
-      <text
-         text-anchor="middle"
          x="2569.8899"
-         y="-298"
-         font-family="sans"
+         text-anchor="middle">mismatch_bam</text>
+      <text
+         id="text399"
          font-size="10px"
-         id="text399">ED: 1</text>
+         font-family="sans"
+         y="-298"
+         x="2569.8899"
+         text-anchor="middle">ED: 1</text>
     </g>
     <!-- 6&#45;&gt;52 -->
     <!-- 53 -->
     <g
-       id="node54"
+       transform="translate(-369.86943,-77.273497)"
        class="node"
-       transform="translate(-320.54013,-9.0598853)">
+       id="node54">
       <title
          id="title409">53</title>
       <path
-         fill="none"
-         stroke="#56d8a9"
-         stroke-width="2"
+         id="path411"
          d="m 1696.89,-468 c 0,0 -68,0 -68,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 68,0 68,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path411" />
+         stroke-width="2"
+         stroke="#56d8a9"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="1662.89"
+         id="text413"
+         font-size="10px"
+         font-family="sans"
          y="-453"
-         font-family="sans"
-         font-size="10px"
-         id="text413">mismatch_bam</text>
-      <text
-         text-anchor="middle"
          x="1662.89"
-         y="-442"
-         font-family="sans"
+         text-anchor="middle">mismatch_bam</text>
+      <text
+         id="text415"
          font-size="10px"
-         id="text415">ED: 2</text>
+         font-family="sans"
+         y="-442"
+         x="1662.89"
+         text-anchor="middle">ED: 2</text>
     </g>
     <!-- 6&#45;&gt;53 -->
     <!-- 54 -->
     <g
-       id="node55"
+       transform="translate(876.12658,-221.2735)"
        class="node"
-       transform="translate(924.02036,-153.05989)">
+       id="node55">
       <title
          id="title425">54</title>
       <path
-         fill="none"
-         stroke="#56d8a9"
-         stroke-width="2"
+         id="path427"
          d="m 825.894,-324 c 0,0 -68,0 -68,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 68,0 68,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path427" />
+         stroke-width="2"
+         stroke="#56d8a9"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="791.89398"
+         id="text429"
+         font-size="10px"
+         font-family="sans"
          y="-309"
-         font-family="sans"
-         font-size="10px"
-         id="text429">mismatch_bam</text>
-      <text
-         text-anchor="middle"
          x="791.89398"
-         y="-298"
-         font-family="sans"
+         text-anchor="middle">mismatch_bam</text>
+      <text
+         id="text431"
          font-size="10px"
-         id="text431">ED: 3</text>
+         font-family="sans"
+         y="-298"
+         x="791.89398"
+         text-anchor="middle">ED: 3</text>
     </g>
     <!-- 6&#45;&gt;54 -->
     <!-- 55 -->
     <g
-       id="node56"
+       transform="translate(150.13059,-77.273497)"
        class="node"
-       transform="translate(185.42775,-9.0598853)">
+       id="node56">
       <title
          id="title441">55</title>
       <path
-         fill="none"
-         stroke="#56d8a9"
-         stroke-width="2"
+         id="path443"
          d="m 1941.89,-468 c 0,0 -68,0 -68,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 68,0 68,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path443" />
+         stroke-width="2"
+         stroke="#56d8a9"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="1907.89"
+         id="text445"
+         font-size="10px"
+         font-family="sans"
          y="-453"
-         font-family="sans"
-         font-size="10px"
-         id="text445">mismatch_bam</text>
-      <text
-         text-anchor="middle"
          x="1907.89"
-         y="-442"
-         font-family="sans"
+         text-anchor="middle">mismatch_bam</text>
+      <text
+         id="text447"
          font-size="10px"
-         id="text447">ED: 4</text>
+         font-family="sans"
+         y="-442"
+         x="1907.89"
+         text-anchor="middle">ED: 4</text>
     </g>
     <!-- 6&#45;&gt;55 -->
     <!-- 6&#45;&gt;56 -->
@@ -822,443 +825,443 @@
     <!-- 7&#45;&gt;56 -->
     <!-- 8 -->
     <g
-       id="node9"
+       transform="translate(-238.87345,-59.273495)"
        class="node"
-       transform="translate(-163.56007,48.660165)">
+       id="node9">
       <title
          id="title485">8</title>
       <path
-         fill="none"
-         stroke="#d8bc56"
-         stroke-width="2"
+         id="path487"
          d="m 640.144,-396 c 0,0 -46.5,0 -46.5,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 46.5,0 46.5,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path487" />
+         stroke-width="2"
+         stroke="#d8bc56"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="616.89398"
+         id="text489"
+         font-size="10px"
+         font-family="sans"
          y="-381"
-         font-family="sans"
-         font-size="10px"
-         id="text489">index_bam</text>
-      <text
-         text-anchor="middle"
          x="616.89398"
-         y="-370"
-         font-family="sans"
+         text-anchor="middle">index_bam</text>
+      <text
+         id="text491"
          font-size="10px"
-         id="text491">ED: 0.0</text>
+         font-family="sans"
+         y="-370"
+         x="616.89398"
+         text-anchor="middle">ED: 0.0</text>
     </g>
     <!-- 8&#45;&gt;0 -->
     <!-- 57 -->
     <g
-       id="node58"
+       transform="translate(-757.86945,93.72651)"
        class="node"
-       transform="translate(-691.91478,166.54023)">
+       id="node58">
       <title
          id="title501">57</title>
       <path
-         fill="none"
-         stroke="#80d856"
-         stroke-width="2"
+         id="path503"
          d="m 1263.14,-324 c 0,0 -74.5,0 -74.5,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 74.5,0 74.5,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path503" />
+         stroke-width="2"
+         stroke="#80d856"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="1225.89"
+         id="text505"
+         font-size="10px"
+         font-family="sans"
          y="-309"
-         font-family="sans"
-         font-size="10px"
-         id="text505">gencov_bedtools</text>
-      <text
-         text-anchor="middle"
          x="1225.89"
-         y="-298"
-         font-family="sans"
+         text-anchor="middle">gencov_bedtools</text>
+      <text
+         id="text507"
          font-size="10px"
-         id="text507">V: 0.0</text>
+         font-family="sans"
+         y="-298"
+         x="1225.89"
+         text-anchor="middle">V: 0.0</text>
     </g>
     <!-- 8&#45;&gt;57 -->
     <!-- 9 -->
     <g
-       id="node10"
+       transform="translate(-668.86944,-203.2735)"
        class="node"
-       transform="translate(-606.30023,-95.339835)">
+       id="node10">
       <title
          id="title517">9</title>
       <path
-         fill="none"
-         stroke="#d8bc56"
-         stroke-width="2"
+         id="path519"
          d="m 1460.14,-252 c 0,0 -46.5,0 -46.5,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 46.5,0 46.5,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path519" />
+         stroke-width="2"
+         stroke="#d8bc56"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="1436.89"
+         id="text521"
+         font-size="10px"
+         font-family="sans"
          y="-237"
-         font-family="sans"
-         font-size="10px"
-         id="text521">index_bam</text>
-      <text
-         text-anchor="middle"
          x="1436.89"
-         y="-226"
-         font-family="sans"
+         text-anchor="middle">index_bam</text>
+      <text
+         id="text523"
          font-size="10px"
-         id="text523">ED: 0.1</text>
+         font-family="sans"
+         y="-226"
+         x="1436.89"
+         text-anchor="middle">ED: 0.1</text>
     </g>
     <!-- 9&#45;&gt;0 -->
     <!-- 58 -->
     <g
-       id="node59"
+       transform="translate(-1589.8695,-50.27349)"
        class="node"
-       transform="translate(-1541.6006,22.540235)">
+       id="node59">
       <title
          id="title533">58</title>
       <path
-         fill="none"
-         stroke="#80d856"
-         stroke-width="2"
+         id="path535"
          d="m 2485.14,-180 c 0,0 -74.5,0 -74.5,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 74.5,0 74.5,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path535" />
+         stroke-width="2"
+         stroke="#80d856"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="2447.8899"
+         id="text537"
+         font-size="10px"
+         font-family="sans"
          y="-165"
-         font-family="sans"
-         font-size="10px"
-         id="text537">gencov_bedtools</text>
-      <text
-         text-anchor="middle"
          x="2447.8899"
-         y="-154"
-         font-family="sans"
+         text-anchor="middle">gencov_bedtools</text>
+      <text
+         id="text539"
          font-size="10px"
-         id="text539">V: 0.1</text>
+         font-family="sans"
+         y="-154"
+         x="2447.8899"
+         text-anchor="middle">V: 0.1</text>
     </g>
     <!-- 9&#45;&gt;58 -->
     <!-- 10 -->
     <g
-       id="node11"
+       transform="translate(725.12657,-59.273495)"
        class="node"
-       transform="translate(789.05425,48.660165)">
+       id="node11">
       <title
          id="title549">10</title>
       <path
-         fill="none"
-         stroke="#d8bc56"
-         stroke-width="2"
+         id="path551"
          d="m 441.144,-396 c 0,0 -46.5,0 -46.5,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 46.5,0 46.5,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path551" />
+         stroke-width="2"
+         stroke="#d8bc56"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="417.89401"
+         id="text553"
+         font-size="10px"
+         font-family="sans"
          y="-381"
-         font-family="sans"
-         font-size="10px"
-         id="text553">index_bam</text>
-      <text
-         text-anchor="middle"
          x="417.89401"
-         y="-370"
-         font-family="sans"
+         text-anchor="middle">index_bam</text>
+      <text
+         id="text555"
          font-size="10px"
-         id="text555">ED: 0.2</text>
+         font-family="sans"
+         y="-370"
+         x="417.89401"
+         text-anchor="middle">ED: 0.2</text>
     </g>
     <!-- 10&#45;&gt;0 -->
     <!-- 59 -->
     <g
-       id="node60"
+       transform="translate(-322.86943,93.72651)"
        class="node"
-       transform="translate(-276.36011,166.54023)">
+       id="node60">
       <title
          id="title565">59</title>
       <path
-         fill="none"
-         stroke="#80d856"
-         stroke-width="2"
+         id="path567"
          d="m 1593.14,-324 c 0,0 -74.5,0 -74.5,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 74.5,0 74.5,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path567" />
+         stroke-width="2"
+         stroke="#80d856"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="1555.89"
+         id="text569"
+         font-size="10px"
+         font-family="sans"
          y="-309"
-         font-family="sans"
-         font-size="10px"
-         id="text569">gencov_bedtools</text>
-      <text
-         text-anchor="middle"
          x="1555.89"
-         y="-298"
-         font-family="sans"
+         text-anchor="middle">gencov_bedtools</text>
+      <text
+         id="text571"
          font-size="10px"
-         id="text571">V: 0.2</text>
+         font-family="sans"
+         y="-298"
+         x="1555.89"
+         text-anchor="middle">V: 0.2</text>
     </g>
     <!-- 10&#45;&gt;59 -->
     <!-- 11 -->
     <g
-       id="node12"
+       transform="translate(1067.1266,-203.2735)"
        class="node"
-       transform="translate(1132.7004,-95.339835)">
+       id="node12">
       <title
          id="title581">11</title>
       <path
-         fill="none"
-         stroke="#d8bc56"
-         stroke-width="2"
+         id="path583"
          d="m 474.144,-252 c 0,0 -46.5,0 -46.5,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 46.5,0 46.5,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path583" />
+         stroke-width="2"
+         stroke="#d8bc56"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="450.89401"
+         id="text585"
+         font-size="10px"
+         font-family="sans"
          y="-237"
-         font-family="sans"
-         font-size="10px"
-         id="text585">index_bam</text>
-      <text
-         text-anchor="middle"
          x="450.89401"
-         y="-226"
-         font-family="sans"
+         text-anchor="middle">index_bam</text>
+      <text
+         id="text587"
          font-size="10px"
-         id="text587">ED: 0.3</text>
+         font-family="sans"
+         y="-226"
+         x="450.89401"
+         text-anchor="middle">ED: 0.3</text>
     </g>
     <!-- 11&#45;&gt;0 -->
     <!-- 60 -->
     <g
-       id="node61"
+       transform="translate(863.12658,-50.27349)"
        class="node"
-       transform="translate(911.02239,22.540235)">
+       id="node61">
       <title
          id="title597">60</title>
       <path
-         fill="none"
-         stroke="#80d856"
-         stroke-width="2"
+         id="path599"
          d="m 782.144,-180 c 0,0 -74.5,0 -74.5,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 74.5,0 74.5,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path599" />
+         stroke-width="2"
+         stroke="#80d856"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="744.89398"
+         id="text601"
+         font-size="10px"
+         font-family="sans"
          y="-165"
-         font-family="sans"
-         font-size="10px"
-         id="text601">gencov_bedtools</text>
-      <text
-         text-anchor="middle"
          x="744.89398"
-         y="-154"
-         font-family="sans"
+         text-anchor="middle">gencov_bedtools</text>
+      <text
+         id="text603"
          font-size="10px"
-         id="text603">V: 0.3</text>
+         font-family="sans"
+         y="-154"
+         x="744.89398"
+         text-anchor="middle">V: 0.3</text>
     </g>
     <!-- 11&#45;&gt;60 -->
     <!-- 12 -->
     <g
-       id="node13"
+       transform="translate(1163.1266,-59.273495)"
        class="node"
-       transform="translate(1217.6797,48.660165)">
+       id="node13">
       <title
          id="title613">12</title>
       <path
-         fill="none"
-         stroke="#d8bc56"
-         stroke-width="2"
+         id="path615"
          d="m 768.144,-396 c 0,0 -46.5,0 -46.5,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 46.5,0 46.5,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path615" />
+         stroke-width="2"
+         stroke="#d8bc56"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="744.89398"
+         id="text617"
+         font-size="10px"
+         font-family="sans"
          y="-381"
-         font-family="sans"
-         font-size="10px"
-         id="text617">index_bam</text>
-      <text
-         text-anchor="middle"
          x="744.89398"
-         y="-370"
-         font-family="sans"
+         text-anchor="middle">index_bam</text>
+      <text
+         id="text619"
          font-size="10px"
-         id="text619">ED: 0.4</text>
+         font-family="sans"
+         y="-370"
+         x="744.89398"
+         text-anchor="middle">ED: 0.4</text>
     </g>
     <!-- 12&#45;&gt;0 -->
     <!-- 61 -->
     <g
-       id="node62"
+       transform="translate(283.13059,93.72651)"
        class="node"
-       transform="translate(318.9078,166.54023)">
+       id="node62">
       <title
          id="title629">61</title>
       <path
-         fill="none"
-         stroke="#80d856"
-         stroke-width="2"
+         id="path631"
          d="m 1752.14,-324 c 0,0 -74.5,0 -74.5,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 74.5,0 74.5,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path631" />
+         stroke-width="2"
+         stroke="#80d856"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="1714.89"
+         id="text633"
+         font-size="10px"
+         font-family="sans"
          y="-309"
-         font-family="sans"
-         font-size="10px"
-         id="text633">gencov_bedtools</text>
-      <text
-         text-anchor="middle"
          x="1714.89"
-         y="-298"
-         font-family="sans"
+         text-anchor="middle">gencov_bedtools</text>
+      <text
+         id="text635"
          font-size="10px"
-         id="text635">V: 0.4</text>
+         font-family="sans"
+         y="-298"
+         x="1714.89"
+         text-anchor="middle">V: 0.4</text>
     </g>
     <!-- 12&#45;&gt;61 -->
     <!-- 13&#45;&gt;0 -->
     <!-- 13&#45;&gt;56 -->
     <!-- 14 -->
     <g
-       id="node15"
+       transform="translate(-565.86944,-59.273495)"
        class="node"
-       transform="translate(-514.32525,48.660165)">
+       id="node15">
       <title
          id="title659">14</title>
       <path
-         fill="none"
-         stroke="#d8bc56"
-         stroke-width="2"
+         id="path661"
          d="m 1147.14,-396 c 0,0 -46.5,0 -46.5,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 46.5,0 46.5,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path661" />
+         stroke-width="2"
+         stroke="#d8bc56"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="1123.89"
+         id="text663"
+         font-size="10px"
+         font-family="sans"
          y="-381"
-         font-family="sans"
-         font-size="10px"
-         id="text663">index_bam</text>
-      <text
-         text-anchor="middle"
          x="1123.89"
-         y="-370"
-         font-family="sans"
+         text-anchor="middle">index_bam</text>
+      <text
+         id="text665"
          font-size="10px"
-         id="text665">ED: 0.0</text>
+         font-family="sans"
+         y="-370"
+         x="1123.89"
+         text-anchor="middle">ED: 0.0</text>
     </g>
     <!-- 14&#45;&gt;0 -->
     <!-- 14&#45;&gt;57 -->
     <!-- 15 -->
     <g
-       id="node16"
+       transform="translate(-1635.8695,-203.2735)"
        class="node"
-       transform="translate(-1603.6406,-95.339835)">
+       id="node16">
       <title
          id="title682">15</title>
       <path
-         fill="none"
-         stroke="#d8bc56"
-         stroke-width="2"
+         id="path684"
          d="m 2607.14,-252 c 0,0 -46.5,0 -46.5,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 46.5,0 46.5,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path684" />
+         stroke-width="2"
+         stroke="#d8bc56"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="2583.8899"
+         id="text686"
+         font-size="10px"
+         font-family="sans"
          y="-237"
-         font-family="sans"
-         font-size="10px"
-         id="text686">index_bam</text>
-      <text
-         text-anchor="middle"
          x="2583.8899"
-         y="-226"
-         font-family="sans"
+         text-anchor="middle">index_bam</text>
+      <text
+         id="text688"
          font-size="10px"
-         id="text688">ED: 0.1</text>
+         font-family="sans"
+         y="-226"
+         x="2583.8899"
+         text-anchor="middle">ED: 0.1</text>
     </g>
     <!-- 15&#45;&gt;0 -->
     <!-- 15&#45;&gt;58 -->
     <!-- 16 -->
     <g
-       id="node17"
+       transform="translate(-198.86942,-59.273495)"
        class="node"
-       transform="translate(-165.44006,48.660165)">
+       id="node17">
       <title
          id="title705">16</title>
       <path
-         fill="none"
-         stroke="#d8bc56"
-         stroke-width="2"
+         id="path707"
          d="m 1545.14,-396 c 0,0 -46.5,0 -46.5,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 46.5,0 46.5,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path707" />
+         stroke-width="2"
+         stroke="#d8bc56"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="1521.89"
+         id="text709"
+         font-size="10px"
+         font-family="sans"
          y="-381"
-         font-family="sans"
-         font-size="10px"
-         id="text709">index_bam</text>
-      <text
-         text-anchor="middle"
          x="1521.89"
-         y="-370"
-         font-family="sans"
+         text-anchor="middle">index_bam</text>
+      <text
+         id="text711"
          font-size="10px"
-         id="text711">ED: 0.2</text>
+         font-family="sans"
+         y="-370"
+         x="1521.89"
+         text-anchor="middle">ED: 0.2</text>
     </g>
     <!-- 16&#45;&gt;0 -->
     <!-- 16&#45;&gt;59 -->
     <!-- 17 -->
     <g
-       id="node18"
+       transform="translate(929.12658,-203.2735)"
        class="node"
-       transform="translate(965.38037,-95.339835)">
+       id="node18">
       <title
          id="title728">17</title>
       <path
-         fill="none"
-         stroke="#d8bc56"
-         stroke-width="2"
+         id="path730"
          d="m 792.144,-252 c 0,0 -46.5,0 -46.5,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 46.5,0 46.5,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path730" />
+         stroke-width="2"
+         stroke="#d8bc56"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="768.89398"
+         id="text732"
+         font-size="10px"
+         font-family="sans"
          y="-237"
-         font-family="sans"
-         font-size="10px"
-         id="text732">index_bam</text>
-      <text
-         text-anchor="middle"
          x="768.89398"
-         y="-226"
-         font-family="sans"
+         text-anchor="middle">index_bam</text>
+      <text
+         id="text734"
          font-size="10px"
-         id="text734">ED: 0.3</text>
+         font-family="sans"
+         y="-226"
+         x="768.89398"
+         text-anchor="middle">ED: 0.3</text>
     </g>
     <!-- 17&#45;&gt;0 -->
     <!-- 17&#45;&gt;60 -->
     <!-- 18 -->
     <g
-       id="node19"
+       transform="translate(180.13059,-59.273495)"
        class="node"
-       transform="translate(201.40777,48.660165)">
+       id="node19">
       <title
          id="title751">18</title>
       <path
-         fill="none"
-         stroke="#d8bc56"
-         stroke-width="2"
+         id="path753"
          d="m 1931.14,-396 c 0,0 -46.5,0 -46.5,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 46.5,0 46.5,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path753" />
+         stroke-width="2"
+         stroke="#d8bc56"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="1907.89"
+         id="text755"
+         font-size="10px"
+         font-family="sans"
          y="-381"
-         font-family="sans"
-         font-size="10px"
-         id="text755">index_bam</text>
-      <text
-         text-anchor="middle"
          x="1907.89"
-         y="-370"
-         font-family="sans"
+         text-anchor="middle">index_bam</text>
+      <text
+         id="text757"
          font-size="10px"
-         id="text757">ED: 0.4</text>
+         font-family="sans"
+         y="-370"
+         x="1907.89"
+         text-anchor="middle">ED: 0.4</text>
     </g>
     <!-- 18&#45;&gt;0 -->
     <!-- 18&#45;&gt;61 -->
@@ -1267,664 +1270,664 @@
     <!-- 21&#45;&gt;0 -->
     <!-- 22 -->
     <g
-       id="node23"
+       transform="translate(-204.87345,-176.2735)"
        class="node"
-       transform="translate(-131.60005,-98.539865)">
+       id="node23">
       <title
          id="title795">22</title>
       <path
-         fill="none"
-         stroke="#56b9d8"
-         stroke-width="2"
+         id="path797"
          d="m 576.144,-324 c 0,0 -76.5,0 -76.5,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 76.5,0 76.5,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path797" />
+         stroke-width="2"
+         stroke="#56b9d8"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="537.89398"
+         id="text799"
+         font-size="10px"
+         font-family="sans"
          y="-309"
-         font-family="sans"
-         font-size="10px"
-         id="text799">flagstat</text>
-      <text
-         text-anchor="middle"
          x="537.89398"
-         y="-298"
-         font-family="sans"
+         text-anchor="middle">flagstat</text>
+      <text
+         id="text801"
          font-size="10px"
-         id="text801">V: .nodup.nm.0.0.</text>
+         font-family="sans"
+         y="-298"
+         x="537.89398"
+         text-anchor="middle">V: .nodup.nm.0.0.</text>
     </g>
     <!-- 22&#45;&gt;0 -->
     <!-- 23 -->
     <g
-       id="node24"
+       transform="translate(-330.86944,-320.2735)"
        class="node"
-       transform="translate(-265.80656,-242.53987)">
+       id="node24">
       <title
          id="title811">23</title>
       <path
-         fill="none"
-         stroke="#56b9d8"
-         stroke-width="2"
+         id="path813"
          d="m 1092.14,-180 c 0,0 -76.5,0 -76.5,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 76.5,0 76.5,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path813" />
+         stroke-width="2"
+         stroke="#56b9d8"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="1053.89"
+         id="text815"
+         font-size="10px"
+         font-family="sans"
          y="-165"
-         font-family="sans"
-         font-size="10px"
-         id="text815">flagstat</text>
-      <text
-         text-anchor="middle"
          x="1053.89"
-         y="-154"
-         font-family="sans"
+         text-anchor="middle">flagstat</text>
+      <text
+         id="text817"
          font-size="10px"
-         id="text817">V: .nodup.nm.0.1.</text>
+         font-family="sans"
+         y="-154"
+         x="1053.89"
+         text-anchor="middle">V: .nodup.nm.0.1.</text>
     </g>
     <!-- 23&#45;&gt;0 -->
     <!-- 24 -->
     <g
-       id="node25"
+       transform="translate(881.12657,-176.2735)"
        class="node"
-       transform="translate(930.8421,-98.539865)">
+       id="node25">
       <title
          id="title827">24</title>
       <path
-         fill="none"
-         stroke="#56b9d8"
-         stroke-width="2"
+         id="path829"
          d="m 270.144,-324 c 0,0 -76.5,0 -76.5,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 76.5,0 76.5,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path829" />
+         stroke-width="2"
+         stroke="#56b9d8"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="231.894"
+         id="text831"
+         font-size="10px"
+         font-family="sans"
          y="-309"
-         font-family="sans"
-         font-size="10px"
-         id="text831">flagstat</text>
-      <text
-         text-anchor="middle"
          x="231.894"
-         y="-298"
-         font-family="sans"
+         text-anchor="middle">flagstat</text>
+      <text
+         id="text833"
          font-size="10px"
-         id="text833">V: .nodup.nm.0.2.</text>
+         font-family="sans"
+         y="-298"
+         x="231.894"
+         text-anchor="middle">V: .nodup.nm.0.2.</text>
     </g>
     <!-- 24&#45;&gt;0 -->
     <!-- 25 -->
     <g
-       id="node26"
+       transform="translate(1052.1265,-392.2735)"
        class="node"
-       transform="translate(1101.1789,-314.53987)">
+       id="node26">
       <title
          id="title843">25</title>
       <path
-         fill="none"
-         stroke="#56b9d8"
-         stroke-width="2"
+         id="path845"
          d="m 474.144,-108 c 0,0 -76.5,0 -76.5,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 76.5,0 76.5,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path845" />
+         stroke-width="2"
+         stroke="#56b9d8"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="435.89401"
+         id="text847"
+         font-size="10px"
+         font-family="sans"
          y="-93"
-         font-family="sans"
-         font-size="10px"
-         id="text847">flagstat</text>
-      <text
-         text-anchor="middle"
          x="435.89401"
-         y="-82"
-         font-family="sans"
+         text-anchor="middle">flagstat</text>
+      <text
+         id="text849"
          font-size="10px"
-         id="text849">V: .nodup.nm.0.3.</text>
+         font-family="sans"
+         y="-82"
+         x="435.89401"
+         text-anchor="middle">V: .nodup.nm.0.3.</text>
     </g>
     <!-- 25&#45;&gt;0 -->
     <!-- 26 -->
     <g
-       id="node27"
+       transform="translate(1546.1266,-392.2735)"
        class="node"
-       transform="translate(1599.0873,-314.53987)">
+       id="node27">
       <title
          id="title859">26</title>
       <path
-         fill="none"
-         stroke="#56b9d8"
-         stroke-width="2"
+         id="path861"
          d="m 355.144,-108 c 0,0 -76.5,0 -76.5,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 76.5,0 76.5,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path861" />
+         stroke-width="2"
+         stroke="#56b9d8"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="316.89401"
+         id="text863"
+         font-size="10px"
+         font-family="sans"
          y="-93"
-         font-family="sans"
-         font-size="10px"
-         id="text863">flagstat</text>
-      <text
-         text-anchor="middle"
          x="316.89401"
-         y="-82"
-         font-family="sans"
+         text-anchor="middle">flagstat</text>
+      <text
+         id="text865"
          font-size="10px"
-         id="text865">V: .nodup.nm.0.4.</text>
+         font-family="sans"
+         y="-82"
+         x="316.89401"
+         text-anchor="middle">V: .nodup.nm.0.4.</text>
     </g>
     <!-- 26&#45;&gt;0 -->
     <!-- 27&#45;&gt;0 -->
     <!-- 28 -->
     <g
-       id="node29"
+       transform="translate(-465.86944,-248.2735)"
        class="node"
-       transform="translate(-409.84016,-170.53987)">
+       id="node29">
       <title
          id="title882">28</title>
       <path
-         fill="none"
-         stroke="#56b9d8"
-         stroke-width="2"
+         id="path884"
          d="m 1107.14,-252 c 0,0 -76.5,0 -76.5,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 76.5,0 76.5,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path884" />
+         stroke-width="2"
+         stroke="#56b9d8"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="1068.89"
+         id="text886"
+         font-size="10px"
+         font-family="sans"
          y="-237"
-         font-family="sans"
-         font-size="10px"
-         id="text886">flagstat</text>
-      <text
-         text-anchor="middle"
          x="1068.89"
-         y="-226"
-         font-family="sans"
+         text-anchor="middle">flagstat</text>
+      <text
+         id="text888"
          font-size="10px"
-         id="text888">V: .nodup.nm.0.0.</text>
+         font-family="sans"
+         y="-226"
+         x="1068.89"
+         text-anchor="middle">V: .nodup.nm.0.0.</text>
     </g>
     <!-- 28&#45;&gt;0 -->
     <!-- 29 -->
     <g
-       id="node30"
+       transform="translate(-1632.8695,-392.2735)"
        class="node"
-       transform="translate(-1595.0006,-314.53987)">
+       id="node30">
       <title
          id="title898">29</title>
       <path
-         fill="none"
-         stroke="#56b9d8"
-         stroke-width="2"
+         id="path900"
          d="m 2664.14,-108 c 0,0 -76.5,0 -76.5,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 76.5,0 76.5,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path900" />
+         stroke-width="2"
+         stroke="#56b9d8"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="2625.8899"
+         id="text902"
+         font-size="10px"
+         font-family="sans"
          y="-93"
-         font-family="sans"
-         font-size="10px"
-         id="text902">flagstat</text>
-      <text
-         text-anchor="middle"
          x="2625.8899"
-         y="-82"
-         font-family="sans"
+         text-anchor="middle">flagstat</text>
+      <text
+         id="text904"
          font-size="10px"
-         id="text904">V: .nodup.nm.0.1.</text>
+         font-family="sans"
+         y="-82"
+         x="2625.8899"
+         text-anchor="middle">V: .nodup.nm.0.1.</text>
     </g>
     <!-- 29&#45;&gt;0 -->
     <!-- 30 -->
     <g
-       id="node31"
+       transform="translate(-512.86942,-320.2735)"
        class="node"
-       transform="translate(-473.96019,-242.53987)">
+       id="node31">
       <title
          id="title914">30</title>
       <path
-         fill="none"
-         stroke="#56b9d8"
-         stroke-width="2"
+         id="path916"
          d="m 1919.14,-180 c 0,0 -76.5,0 -76.5,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 76.5,0 76.5,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path916" />
+         stroke-width="2"
+         stroke="#56b9d8"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="1880.89"
+         id="text918"
+         font-size="10px"
+         font-family="sans"
          y="-165"
-         font-family="sans"
-         font-size="10px"
-         id="text918">flagstat</text>
-      <text
-         text-anchor="middle"
          x="1880.89"
-         y="-154"
-         font-family="sans"
+         text-anchor="middle">flagstat</text>
+      <text
+         id="text920"
          font-size="10px"
-         id="text920">V: .nodup.nm.0.2.</text>
+         font-family="sans"
+         y="-154"
+         x="1880.89"
+         text-anchor="middle">V: .nodup.nm.0.2.</text>
     </g>
     <!-- 30&#45;&gt;0 -->
     <!-- 31 -->
     <g
-       id="node32"
+       transform="translate(870.12659,-248.2735)"
        class="node"
-       transform="translate(908.04036,-170.53987)">
+       id="node32">
       <title
          id="title930">31</title>
       <path
-         fill="none"
-         stroke="#56b9d8"
-         stroke-width="2"
+         id="path932"
          d="m 911.144,-252 c 0,0 -76.5,0 -76.5,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 76.5,0 76.5,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path932" />
+         stroke-width="2"
+         stroke="#56b9d8"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="872.89398"
+         id="text934"
+         font-size="10px"
+         font-family="sans"
          y="-237"
-         font-family="sans"
-         font-size="10px"
-         id="text934">flagstat</text>
-      <text
-         text-anchor="middle"
          x="872.89398"
-         y="-226"
-         font-family="sans"
+         text-anchor="middle">flagstat</text>
+      <text
+         id="text936"
          font-size="10px"
-         id="text936">V: .nodup.nm.0.3.</text>
+         font-family="sans"
+         y="-226"
+         x="872.89398"
+         text-anchor="middle">V: .nodup.nm.0.3.</text>
     </g>
     <!-- 31&#45;&gt;0 -->
     <!-- 32 -->
     <g
-       id="node33"
+       transform="translate(94.1306,-320.2735)"
        class="node"
-       transform="translate(119.80774,-242.53987)">
+       id="node33">
       <title
          id="title946">32</title>
       <path
-         fill="none"
-         stroke="#56b9d8"
-         stroke-width="2"
+         id="path948"
          d="m 2077.14,-180 c 0,0 -76.5,0 -76.5,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 76.5,0 76.5,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path948" />
+         stroke-width="2"
+         stroke="#56b9d8"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="2038.89"
+         id="text950"
+         font-size="10px"
+         font-family="sans"
          y="-165"
-         font-family="sans"
-         font-size="10px"
-         id="text950">flagstat</text>
-      <text
-         text-anchor="middle"
          x="2038.89"
-         y="-154"
-         font-family="sans"
+         text-anchor="middle">flagstat</text>
+      <text
+         id="text952"
          font-size="10px"
-         id="text952">V: .nodup.nm.0.4.</text>
+         font-family="sans"
+         y="-154"
+         x="2038.89"
+         text-anchor="middle">V: .nodup.nm.0.4.</text>
     </g>
     <!-- 32&#45;&gt;0 -->
     <!-- 33 -->
     <g
-       id="node34"
+       transform="translate(164.1306,-77.273488)"
        class="node"
-       transform="translate(305.4421,6.9402547)">
+       id="node34">
       <title
          id="title962">33</title>
       <path
-         fill="none"
-         stroke="#d8cb56"
-         stroke-width="2"
+         id="path964"
          d="m 2135.89,-108 c 0,0 -64,0 -64,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 64,0 64,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path964" />
+         stroke-width="2"
+         stroke="#d8cb56"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="2103.8899"
+         id="text966"
+         font-size="10px"
+         font-family="sans"
          y="-93"
-         font-family="sans"
-         font-size="10px"
-         id="text966">normalize_cov</text>
-      <text
-         text-anchor="middle"
          x="2103.8899"
-         y="-82"
-         font-family="sans"
+         text-anchor="middle">normalize_cov</text>
+      <text
+         id="text968"
          font-size="10px"
-         id="text968">ED: all</text>
+         font-family="sans"
+         y="-82"
+         x="2103.8899"
+         text-anchor="middle">ED: all</text>
     </g>
     <!-- 33&#45;&gt;0 -->
     <!-- 34 -->
     <g
-       id="node35"
+       transform="translate(-789.86945,66.72651)"
        class="node"
-       transform="translate(-724.86478,150.94025)">
+       id="node35">
       <title
          id="title978">34</title>
       <path
-         fill="none"
-         stroke="#d8cb56"
-         stroke-width="2"
+         id="path980"
          d="m 1289.89,-252 c 0,0 -64,0 -64,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 64,0 64,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path980" />
+         stroke-width="2"
+         stroke="#d8cb56"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="1257.89"
+         id="text982"
+         font-size="10px"
+         font-family="sans"
          y="-237"
-         font-family="sans"
-         font-size="10px"
-         id="text982">normalize_cov</text>
-      <text
-         text-anchor="middle"
          x="1257.89"
-         y="-226"
-         font-family="sans"
+         text-anchor="middle">normalize_cov</text>
+      <text
+         id="text984"
          font-size="10px"
-         id="text984">ED: 0.0</text>
+         font-family="sans"
+         y="-226"
+         x="1257.89"
+         text-anchor="middle">ED: 0.0</text>
     </g>
     <!-- 34&#45;&gt;0 -->
     <!-- 64 -->
     <g
-       id="node65"
+       transform="translate(-889.86945,39.726511)"
        class="node"
-       transform="translate(-826.62032,187.9803)">
+       id="node65">
       <title
          id="title994">64</title>
       <path
-         fill="none"
-         stroke="#56a9d8"
-         stroke-width="2"
+         id="path996"
          d="m 1390.14,-180 c 0,0 -64.5,0 -64.5,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 64.5,0 64.5,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path996" />
+         stroke-width="2"
+         stroke="#56a9d8"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="1357.89"
-         y="-159.5"
-         font-family="sans"
+         id="text998"
          font-size="10px"
-         id="text998">calculate_ratio</text>
+         font-family="sans"
+         y="-159.5"
+         x="1357.89"
+         text-anchor="middle">calculate_ratio</text>
     </g>
     <!-- 34&#45;&gt;64 -->
     <!-- 35 -->
     <g
-       id="node36"
+       transform="translate(-1545.8695,-77.273488)"
        class="node"
-       transform="translate(-1499.2806,6.9402547)">
+       id="node36">
       <title
          id="title1008">35</title>
       <path
-         fill="none"
-         stroke="#d8cb56"
-         stroke-width="2"
+         id="path1010"
          d="m 2435.89,-108 c 0,0 -64,0 -64,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 64,0 64,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path1010" />
+         stroke-width="2"
+         stroke="#d8cb56"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="2403.8899"
+         id="text1012"
+         font-size="10px"
+         font-family="sans"
          y="-93"
-         font-family="sans"
-         font-size="10px"
-         id="text1012">normalize_cov</text>
-      <text
-         text-anchor="middle"
          x="2403.8899"
-         y="-82"
-         font-family="sans"
+         text-anchor="middle">normalize_cov</text>
+      <text
+         id="text1014"
          font-size="10px"
-         id="text1014">ED: 0.1</text>
+         font-family="sans"
+         y="-82"
+         x="2403.8899"
+         text-anchor="middle">ED: 0.1</text>
     </g>
     <!-- 35&#45;&gt;0 -->
     <!-- 36 -->
     <g
-       id="node37"
+       transform="translate(-301.86943,66.72651)"
        class="node"
-       transform="translate(-254.35475,150.94025)">
+       id="node37">
       <title
          id="title1024">36</title>
       <path
-         fill="none"
-         stroke="#d8cb56"
-         stroke-width="2"
+         id="path1026"
          d="m 1566.89,-252 c 0,0 -64,0 -64,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 64,0 64,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path1026" />
+         stroke-width="2"
+         stroke="#d8cb56"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="1534.89"
+         id="text1028"
+         font-size="10px"
+         font-family="sans"
          y="-237"
-         font-family="sans"
-         font-size="10px"
-         id="text1028">normalize_cov</text>
-      <text
-         text-anchor="middle"
          x="1534.89"
-         y="-226"
-         font-family="sans"
+         text-anchor="middle">normalize_cov</text>
+      <text
+         id="text1030"
          font-size="10px"
-         id="text1030">ED: 0.2</text>
+         font-family="sans"
+         y="-226"
+         x="1534.89"
+         text-anchor="middle">ED: 0.2</text>
     </g>
     <!-- 36&#45;&gt;0 -->
     <!-- 65 -->
     <g
-       id="node66"
+       transform="translate(-231.86943,39.726511)"
        class="node"
-       transform="translate(-181.42007,187.9803)">
+       id="node66">
       <title
          id="title1040">65</title>
       <path
-         fill="none"
-         stroke="#56a9d8"
-         stroke-width="2"
+         id="path1042"
          d="m 1497.14,-180 c 0,0 -64.5,0 -64.5,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 64.5,0 64.5,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path1042" />
+         stroke-width="2"
+         stroke="#56a9d8"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="1464.89"
-         y="-159.5"
-         font-family="sans"
+         id="text1044"
          font-size="10px"
-         id="text1044">calculate_ratio</text>
+         font-family="sans"
+         y="-159.5"
+         x="1464.89"
+         text-anchor="middle">calculate_ratio</text>
     </g>
     <!-- 36&#45;&gt;65 -->
     <!-- 37 -->
     <g
-       id="node38"
+       transform="translate(860.12658,-77.273488)"
        class="node"
-       transform="translate(908.04036,6.9402547)">
+       id="node38">
       <title
          id="title1054">37</title>
       <path
-         fill="none"
-         stroke="#d8cb56"
-         stroke-width="2"
+         id="path1056"
          d="m 779.894,-108 c 0,0 -64,0 -64,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 64,0 64,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path1056" />
+         stroke-width="2"
+         stroke="#d8cb56"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="747.89398"
+         id="text1058"
+         font-size="10px"
+         font-family="sans"
          y="-93"
-         font-family="sans"
-         font-size="10px"
-         id="text1058">normalize_cov</text>
-      <text
-         text-anchor="middle"
          x="747.89398"
-         y="-82"
-         font-family="sans"
+         text-anchor="middle">normalize_cov</text>
+      <text
+         id="text1060"
          font-size="10px"
-         id="text1060">ED: 0.3</text>
+         font-family="sans"
+         y="-82"
+         x="747.89398"
+         text-anchor="middle">ED: 0.3</text>
     </g>
     <!-- 37&#45;&gt;0 -->
     <!-- 38 -->
     <g
-       id="node39"
+       transform="translate(283.13059,66.72651)"
        class="node"
-       transform="translate(320.86781,150.94025)">
+       id="node39">
       <title
          id="title1070">38</title>
       <path
-         fill="none"
-         stroke="#d8cb56"
-         stroke-width="2"
+         id="path1072"
          d="m 1746.89,-252 c 0,0 -64,0 -64,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 64,0 64,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path1072" />
+         stroke-width="2"
+         stroke="#d8cb56"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="1714.89"
+         id="text1074"
+         font-size="10px"
+         font-family="sans"
          y="-237"
-         font-family="sans"
-         font-size="10px"
-         id="text1074">normalize_cov</text>
-      <text
-         text-anchor="middle"
          x="1714.89"
-         y="-226"
-         font-family="sans"
+         text-anchor="middle">normalize_cov</text>
+      <text
+         id="text1076"
          font-size="10px"
-         id="text1076">ED: 0.4</text>
+         font-family="sans"
+         y="-226"
+         x="1714.89"
+         text-anchor="middle">ED: 0.4</text>
     </g>
     <!-- 38&#45;&gt;0 -->
     <!-- 66 -->
     <g
-       id="node67"
+       transform="translate(426.13059,39.726511)"
        class="node"
-       transform="translate(466.04018,187.9803)">
+       id="node67">
       <title
          id="title1086">66</title>
       <path
-         fill="none"
-         stroke="#56a9d8"
-         stroke-width="2"
+         id="path1088"
          d="m 1604.14,-180 c 0,0 -64.5,0 -64.5,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 64.5,0 64.5,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path1088" />
+         stroke-width="2"
+         stroke="#56a9d8"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="1571.89"
-         y="-159.5"
-         font-family="sans"
+         id="text1090"
          font-size="10px"
-         id="text1090">calculate_ratio</text>
+         font-family="sans"
+         y="-159.5"
+         x="1571.89"
+         text-anchor="middle">calculate_ratio</text>
     </g>
     <!-- 38&#45;&gt;66 -->
     <!-- 39 -->
     <g
-       id="node40"
+       transform="translate(361.13061,-32.273487)"
        class="node"
-       transform="translate(596.23725,-49.459765)">
+       id="node40">
       <title
          id="title1100">39</title>
       <path
-         fill="none"
-         stroke="#5692d8"
-         stroke-width="2"
+         id="path1102"
          d="m 2318.89,-108 c 0,0 -74,0 -74,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 74,0 74,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path1102" />
+         stroke-width="2"
+         stroke="#5692d8"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="2281.8899"
-         y="-87.5"
-         font-family="sans"
+         id="text1104"
          font-size="10px"
-         id="text1104">calculate_allFreq</text>
+         font-family="sans"
+         y="-87.5"
+         x="2281.8899"
+         text-anchor="middle">calculate_allFreq</text>
     </g>
     <!-- 39&#45;&gt;0 -->
     <!-- 40 -->
     <g
-       id="node41"
+       transform="translate(196.1306,-5.2734881)"
        class="node"
-       transform="translate(387.28016,133.46028)">
+       id="node41">
       <title
          id="title1114">40</title>
       <path
-         fill="none"
-         stroke="#d8a456"
-         stroke-width="2"
+         id="path1116"
          d="m 2225.14,-180 c 0,0 -66.5,0 -66.5,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 66.5,0 66.5,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path1116" />
+         stroke-width="2"
+         stroke="#d8a456"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="2191.8899"
-         y="-159.5"
-         font-family="sans"
+         id="text1118"
          font-size="10px"
-         id="text1118">confirm_sexing</text>
+         font-family="sans"
+         y="-159.5"
+         x="2191.8899"
+         text-anchor="middle">confirm_sexing</text>
     </g>
     <!-- 40&#45;&gt;0 -->
     <!-- 41 -->
     <g
-       id="node42"
+       transform="translate(143.13058,132.72652)"
        class="node"
-       transform="translate(6.5800023,319.48033)">
+       id="node42">
       <title
          id="title1128">41</title>
       <path
-         fill="none"
-         stroke="#8fd856"
-         stroke-width="2"
+         id="path1130"
          d="m 1484.89,-108 c 0,0 -40,0 -40,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 40,0 40,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path1130" />
+         stroke-width="2"
+         stroke="#8fd856"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="1464.89"
+         id="text1132"
+         font-size="10px"
+         font-family="sans"
          y="-93"
-         font-family="sans"
-         font-size="10px"
-         id="text1132">plotting</text>
-      <text
-         text-anchor="middle"
          x="1464.89"
-         y="-82"
-         font-family="sans"
+         text-anchor="middle">plotting</text>
+      <text
+         id="text1134"
          font-size="10px"
-         id="text1134">synteny: .</text>
+         font-family="sans"
+         y="-82"
+         x="1464.89"
+         text-anchor="middle">synteny: .</text>
     </g>
     <!-- 41&#45;&gt;0 -->
     <!-- 42 -->
     <g
-       id="node43"
+       transform="translate(446.13059,132.72652)"
        class="node"
-       transform="translate(110.92005,319.48033)">
+       id="node43">
       <title
          id="title1144">42</title>
       <path
-         fill="none"
-         stroke="#d86e56"
-         stroke-width="2"
+         id="path1146"
          d="m 1576.89,-108 c 0,0 -50,0 -50,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 50,0 50,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path1146" />
+         stroke-width="2"
+         stroke="#d86e56"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="1551.89"
+         id="text1148"
+         font-size="10px"
+         font-family="sans"
          y="-93"
-         font-family="sans"
-         font-size="10px"
-         id="text1148">plotting_chr</text>
-      <text
-         text-anchor="middle"
          x="1551.89"
-         y="-82"
-         font-family="sans"
+         text-anchor="middle">plotting_chr</text>
+      <text
+         id="text1150"
          font-size="10px"
-         id="text1150">synteny: .</text>
+         font-family="sans"
+         y="-82"
+         x="1551.89"
+         text-anchor="middle">synteny: .</text>
     </g>
     <!-- 42&#45;&gt;0 -->
     <!-- 43 -->
     <g
-       id="node44"
+       transform="translate(-144.86943,132.72652)"
        class="node"
-       transform="translate(-94.000037,319.48033)">
+       id="node44">
       <title
          id="title1160">43</title>
       <path
-         fill="none"
-         stroke="#b6d856"
-         stroke-width="2"
+         id="path1162"
          d="m 1402.89,-108 c 0,0 -50,0 -50,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 50,0 50,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path1162" />
+         stroke-width="2"
+         stroke="#b6d856"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="1377.89"
+         id="text1164"
+         font-size="10px"
+         font-family="sans"
          y="-93"
-         font-family="sans"
-         font-size="10px"
-         id="text1164">print_report</text>
-      <text
-         text-anchor="middle"
          x="1377.89"
-         y="-82"
-         font-family="sans"
+         text-anchor="middle">print_report</text>
+      <text
+         id="text1166"
          font-size="10px"
-         id="text1166">synteny: .</text>
+         font-family="sans"
+         y="-82"
+         x="1377.89"
+         text-anchor="middle">synteny: .</text>
     </g>
     <!-- 43&#45;&gt;0 -->
     <!-- 44&#45;&gt;3 -->
@@ -1968,68 +1971,68 @@
     <!-- 61&#45;&gt;38 -->
     <!-- 62 -->
     <g
-       id="node63"
+       transform="translate(325.13061,-50.27349)"
        class="node"
-       transform="translate(559.05816,-167.33984)">
+       id="node63">
       <title
          id="title1449">62</title>
       <path
-         fill="none"
-         stroke="#68d856"
-         stroke-width="2"
+         id="path1451"
          d="m 2368.14,-180 c 0,0 -100.5,0 -100.5,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 100.5,0 100.5,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path1451" />
+         stroke-width="2"
+         stroke="#68d856"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="2317.8899"
-         y="-159.5"
-         font-family="sans"
+         id="text1453"
          font-size="10px"
-         id="text1453">filter_allele_frequency</text>
+         font-family="sans"
+         y="-159.5"
+         x="2317.8899"
+         text-anchor="middle">filter_allele_frequency</text>
     </g>
     <!-- 62&#45;&gt;39 -->
     <!-- 63 -->
     <g
-       id="node64"
+       transform="translate(304.1306,21.72651)"
        class="node"
-       transform="translate(598.78023,150.94025)">
+       id="node64">
       <title
          id="title1463">63</title>
       <path
-         fill="none"
-         stroke="#56d87b"
-         stroke-width="2"
+         id="path1465"
          d="m 2249.14,-252 c 0,0 -120.5,0 -120.5,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 120.5,0 120.5,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path1465" />
+         stroke-width="2"
+         stroke="#56d87b"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="2188.8899"
-         y="-231.5"
-         font-family="sans"
+         id="text1467"
          font-size="10px"
-         id="text1467">proportion_heterozygosity</text>
+         font-family="sans"
+         y="-231.5"
+         x="2188.8899"
+         text-anchor="middle">proportion_heterozygosity</text>
     </g>
     <!-- 63&#45;&gt;40 -->
     <!-- 67 -->
     <g
-       id="node68"
+       transform="translate(789.1306,39.726511)"
        class="node"
-       transform="translate(1082.7004,187.9803)">
+       id="node68">
       <title
          id="title1477">67</title>
       <path
-         fill="none"
-         stroke="#a7d856"
-         stroke-width="2"
+         id="path1479"
          d="m 1761.14,-180 c 0,0 -114.5,0 -114.5,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 114.5,0 114.5,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path1479" />
+         stroke-width="2"
+         stroke="#a7d856"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="1703.89"
-         y="-159.5"
-         font-family="sans"
+         id="text1481"
          font-size="10px"
-         id="text1481">calculate_heterozygosity</text>
+         font-family="sans"
+         y="-159.5"
+         x="1703.89"
+         text-anchor="middle">calculate_heterozygosity</text>
     </g>
     <!-- 63&#45;&gt;67 -->
     <!-- 64&#45;&gt;41 -->
@@ -2052,898 +2055,898 @@
     <!-- 68&#45;&gt;61 -->
     <!-- 69 -->
     <g
-       id="node70"
+       transform="translate(276.13061,-23.273491)"
        class="node"
-       transform="translate(508.28686,-170.53987)">
+       id="node70">
       <title
          id="title1617">69</title>
       <path
-         fill="none"
-         stroke="#56d0d8"
-         stroke-width="2"
+         id="path1619"
          d="m 2403.89,-252 c 0,0 -74,0 -74,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 74,0 74,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path1619" />
+         stroke-width="2"
+         stroke="#56d0d8"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="2366.8899"
-         y="-231.5"
-         font-family="sans"
+         id="text1621"
          font-size="10px"
-         id="text1621">allele_frequency</text>
+         font-family="sans"
+         y="-231.5"
+         x="2366.8899"
+         text-anchor="middle">allele_frequency</text>
     </g>
     <!-- 69&#45;&gt;62 -->
     <!-- 70 -->
     <g
-       id="node71"
+       transform="translate(304.1306,-131.2735)"
        class="node"
-       transform="translate(597.87377,-153.05989)">
+       id="node71">
       <title
          id="title1631">70</title>
       <path
-         fill="none"
-         stroke="#ced856"
-         stroke-width="2"
+         id="path1633"
          d="m 2218.14,-324 c 0,0 -58.5,0 -58.5,0 -6,0 -12,6 -12,12 0,0 0,12 0,12 0,6 6,12 12,12 0,0 58.5,0 58.5,0 6,0 12,-6 12,-12 0,0 0,-12 0,-12 0,-6 -6,-12 -12,-12"
-         id="path1633" />
+         stroke-width="2"
+         stroke="#ced856"
+         fill="none" />
       <text
-         text-anchor="middle"
-         x="2188.8899"
-         y="-303.5"
-         font-family="sans"
+         id="text1635"
          font-size="10px"
-         id="text1635">vcftools_filter</text>
+         font-family="sans"
+         y="-303.5"
+         x="2188.8899"
+         text-anchor="middle">vcftools_filter</text>
     </g>
     <!-- 70&#45;&gt;63 -->
     <!-- 70&#45;&gt;69 -->
     <!-- 71&#45;&gt;70 -->
     <!-- 72&#45;&gt;71 -->
     <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 1419.5322,-922.19691 -440.68223,44.52543"
-       id="path1675"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0"
+       inkscape:connection-start="#node2"
        inkscape:connection-end="#node45"
-       inkscape:connection-start="#node2" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 910.08335,-852.78005 -0.63467,20.40002"
-       id="path1677"
-       inkscape:connector-type="polyline"
        inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1675"
+       d="m 1378.7787,-896.886 -452.50804,35.72432"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connection-end="#node4"
        inkscape:connection-start="#node45"
-       inkscape:connection-end="#node4" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 882.55668,-799.28865 -48.26017,27.65885"
-       id="path1679"
-       inkscape:connector-type="polyline"
        inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1677"
+       d="m 858.02056,-839.27351 v 9"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connection-end="#node20"
        inkscape:connection-start="#node4"
-       inkscape:connection-end="#node20" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 909.24981,-796.38003 1.50317,74.92005"
-       id="path1681"
-       inkscape:connector-type="polyline"
        inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1679"
+       d="m 830.05836,-798.78971 -50.78628,21.76556"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connection-start="#node4"
        inkscape:connection-end="#node6"
-       inkscape:connection-start="#node4" />
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1681"
+       d="m 858.02056,-794.27351 v 9.00001"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
     <path
-       style="fill:none;fill-rule:evenodd;stroke:#ff0000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 858.90004,-690.27638 -131.46295,33.19325"
+       inkscape:connection-end="#node22"
+       inkscape:connection-start="#node6"
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
        id="path1683"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0"
-       inkscape:connection-start="#node6"
-       inkscape:connection-end="#node22" />
+       d="m 806.82076,-752.97355 -80.86765,20.21691"
+       style="fill:none;fill-rule:evenodd;stroke:#ff0000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
     <path
-       style="fill:#5fbcd3;fill-rule:evenodd;stroke:#ff0000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 934.62277,-685.45998 272.17803,208.40009"
+       inkscape:connection-end="#node49"
+       inkscape:connection-start="#node6"
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
        id="path1685"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0"
-       inkscape:connection-start="#node6"
-       inkscape:connection-end="#node49" />
+       d="m 879.67681,-749.2735 267.74999,204"
+       style="fill:#5fbcd3;fill-rule:evenodd;stroke:#ff0000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
     <path
-       style="fill:none;fill-rule:evenodd;stroke:#ff0000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 958.74896,-686.60078 601.19524,212.77854"
+       inkscape:connection-end="#node50"
+       inkscape:connection-start="#node6"
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
        id="path1687"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0"
-       inkscape:connection-start="#node6"
-       inkscape:connection-end="#node50" />
+       d="m 904.28076,-749.84055 607.38394,209.19533"
+       style="fill:none;fill-rule:evenodd;stroke:#ff0000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
     <path
-       style="fill:none;fill-rule:evenodd;stroke:#ff0000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 964.13204,-691.36533 1937.432,-469.33235"
+       inkscape:connection-end="#node51"
+       inkscape:connection-start="#node6"
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
        id="path1691"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0"
-       inkscape:connection-start="#node6"
-       inkscape:connection-end="#node51" />
+       d="m 910.28993,-754.15808 982.10397,218.24533"
+       style="fill:none;fill-rule:evenodd;stroke:#ff0000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
     <path
-       style="fill:#ee0000;fill-opacity:1;fill-rule:evenodd;stroke:#ff0000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 879.15979,-685.45998 509.19954,-477.05989"
+       inkscape:connection-end="#node47"
+       inkscape:connection-start="#node6"
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
        id="path1693"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0"
-       inkscape:connection-start="#node6"
-       inkscape:connection-end="#node47" />
+       d="M 827.08306,-749.2735 444.13252,-545.03321"
+       style="fill:#ee0000;fill-opacity:1;fill-rule:evenodd;stroke:#ff0000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
     <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 1207.9999,-441.05989 -22.9542,18.52003"
-       id="path1695"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0"
+       inkscape:connection-start="#node49"
        inkscape:connection-end="#node25"
-       inkscape:connection-start="#node49" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 1227.0679,-441.05989 -16.878,93.72006"
-       id="path1697"
-       inkscape:connector-type="polyline"
        inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1695"
+       d="m 1151.0206,-509.2735 -12,9"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connection-start="#node49"
        inkscape:connection-end="#node11"
-       inkscape:connection-start="#node49" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 453.82037,-441.05989 -24.10158,18.52002"
-       id="path1701"
-       inkscape:connector-type="polyline"
        inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1697"
+       d="m 1167.5206,-509.2735 -18,54"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connection-start="#node47"
        inkscape:connection-end="#node23"
-       inkscape:connection-start="#node47" />
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1701"
+       d="m 380.52055,-509.2735 -15,9"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
     <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 1599.1485,-441.05989 -13.0481,93.72006"
+       inkscape:connection-end="#node12"
+       inkscape:connection-start="#node50"
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
        id="path1703"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0"
-       inkscape:connection-start="#node50"
-       inkscape:connection-end="#node12" />
+       d="m 1548.0185,-509.30584 -22.0428,54.03234"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
     <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 1580.3326,-441.05989 -21.9378,18.52002"
-       id="path1705"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0"
+       inkscape:connection-start="#node50"
        inkscape:connection-end="#node26"
-       inkscape:connection-start="#node50" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 473.92727,-441.05989 -17.2754,93.72006"
-       id="path1707"
-       inkscape:connector-type="polyline"
        inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1705"
+       d="m 1530.3,-509.30584 -13.3842,9.03234"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connection-start="#node47"
        inkscape:connection-end="#node9"
-       inkscape:connection-start="#node47" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 1979.7025,-441.05989 -14.3691,93.72006"
-       id="path1709"
-       inkscape:connector-type="polyline"
        inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1707"
+       d="m 402.52055,-509.2735 -18,54"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connection-start="#node51"
        inkscape:connection-end="#node13"
-       inkscape:connection-start="#node51" />
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1709"
+       d="m 1932.5206,-509.2735 -18,54"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
     <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 1960.5133,-441.05989 -22.5831,18.52002"
+       inkscape:connection-end="#node27"
+       inkscape:connection-start="#node51"
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
        id="path1711"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0"
-       inkscape:connection-start="#node51"
-       inkscape:connection-end="#node27" />
+       d="m 1910.5206,-509.2735 -15,9"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
     <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 1590.4503,-311.33983 58.6102,153.88007"
-       id="path1713"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0"
+       inkscape:connection-start="#node12"
        inkscape:connection-end="#node61"
-       inkscape:connection-start="#node12" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 1604.7106,-441.05989 48.1497,283.60012"
-       id="path1715"
-       inkscape:connector-type="polyline"
        inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1713"
+       d="m 1524.6206,-419.2735 75.6,189.00001"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connection-end="#node61"
        inkscape:connection-start="#node50"
-       inkscape:connection-end="#node61" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 1712.5353,-441.05989 -53.2398,283.60013"
-       id="path1717"
-       inkscape:connector-type="polyline"
        inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1715"
+       d="m 1557.5399,-509.30584 47.1833,279.03235"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connection-end="#node61"
        inkscape:connection-start="#node55"
-       inkscape:connection-end="#node61" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 1726.8463,-311.33983 -63.5018,153.88007"
-       id="path1719"
-       inkscape:connector-type="polyline"
        inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1717"
+       d="m 1664.8777,-509.2735 -53.1428,279.00001"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connection-end="#node61"
        inkscape:connection-start="#node18"
-       inkscape:connection-end="#node61" />
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1719"
+       d="m 1691.4206,-419.2735 -75.6,189.00001"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
     <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 1213.8287,-311.33983 58.8207,153.88006"
+       inkscape:connection-start="#node11"
+       inkscape:connection-end="#node60"
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
        id="path1725"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0"
-       inkscape:connection-end="#node60"
-       inkscape:connection-start="#node11" />
+       d="m 1149.6206,-419.2735 75.6,189.00001"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
     <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 460.97846,-311.33983 65.35223,153.88006"
-       id="path1727"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0"
+       inkscape:connection-end="#node58"
        inkscape:connection-start="#node9"
-       inkscape:connection-end="#node58" />
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1727"
+       d="m 384.62055,-419.2735 75.6,189.00001"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
     <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 1969.3255,-311.33983 57.7205,153.88006"
+       inkscape:connection-start="#node13"
+       inkscape:connection-end="#node62"
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
        id="path1729"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0"
-       inkscape:connection-end="#node62"
-       inkscape:connection-start="#node13" />
+       d="m 1914.6206,-419.2735 75.6,189.00001"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
     <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 1985.3534,-441.05989 45.5532,283.60012"
-       id="path1731"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0"
+       inkscape:connection-end="#node62"
        inkscape:connection-start="#node51"
-       inkscape:connection-end="#node62" />
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1731"
+       d="m 1941.1635,-509.2735 53.1428,279.00001"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
     <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 480.44027,-441.05989 50.33989,283.60012"
+       inkscape:connection-start="#node47"
+       inkscape:connection-end="#node58"
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
        id="path1733"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0"
-       inkscape:connection-end="#node58"
-       inkscape:connection-start="#node47" />
+       d="m 411.16341,-509.2735 53.14285,279.00001"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
     <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 1233.0816,-441.05989 43.6762,283.60012"
+       inkscape:connection-start="#node49"
+       inkscape:connection-end="#node60"
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
        id="path1735"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0"
-       inkscape:connection-end="#node60"
-       inkscape:connection-start="#node49" />
+       d="m 1176.1634,-509.2735 53.1429,279.00001"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
     <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 593.58447,-441.05989 13.40559,93.72005"
-       id="path1737"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0"
+       inkscape:connection-start="#node52"
        inkscape:connection-end="#node15"
-       inkscape:connection-start="#node52" />
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1737"
+       d="m 533.52056,-509.2735 18,54"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
     <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 613.47348,-441.05989 23.11266,18.52002"
+       inkscape:connection-end="#node29"
+       inkscape:connection-start="#node52"
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
        id="path1739"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0"
-       inkscape:connection-start="#node52"
-       inkscape:connection-end="#node29" />
+       d="m 555.52056,-509.2735 15,9"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
     <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 587.79757,-441.05989 -50.61014,283.60012"
-       id="path1741"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0"
-       inkscape:connection-start="#node52"
-       inkscape:connection-end="#node58" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 532.73542,-65.05975 531.55948,7.9803"
-       id="path1745"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0"
-       inkscape:connection-start="#node35"
-       inkscape:connection-end="#node65" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#ff0000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 966.05133,-696.38739 2350.7804,-518.11798"
-       id="path1747"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0"
-       inkscape:connection-start="#node6"
-       inkscape:connection-end="#node8" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 2393.0329,-495.57991 7.2048,18.52002"
-       id="path1749"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0"
-       inkscape:connection-end="#node57"
-       inkscape:connection-start="#node8" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 833.12813,-441.05989 -22.84305,18.52002"
-       id="path1751"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0"
-       inkscape:connection-start="#node48"
-       inkscape:connection-end="#node24" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 1281.0197,-65.05975 1.9658,73.04005"
-       id="path1753"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0"
-       inkscape:connection-start="#node37"
-       inkscape:connection-end="#node66" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 851.89684,-441.05989 -17.87414,93.72006"
-       id="path1757"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0"
-       inkscape:connection-end="#node10"
-       inkscape:connection-start="#node48" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 1349.1582,-311.33983 -62.3365,153.88006"
-       id="path1761"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0"
-       inkscape:connection-end="#node60"
-       inkscape:connection-start="#node17" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 1344.3064,-441.05989 10.187,93.72006"
-       id="path1763"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0"
-       inkscape:connection-start="#node54"
-       inkscape:connection-end="#node17" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 1338.8118,-441.05989 -55.7439,283.60012"
-       id="path1765"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0"
-       inkscape:connection-start="#node54"
-       inkscape:connection-end="#node60" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#00ff15;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 2504.7819,-313.93998 -427.6777,158.43697"
-       id="path1767"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0"
-       inkscape:connection-start="#node69"
-       inkscape:connection-end="#node62" />
-    <path
-       inkscape:connection-start="#node7"
-       inkscape:connection-end="#node56"
-       style="fill:none;fill-rule:evenodd;stroke:#2a00ff;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 2040.2424,-685.45998 48.8556,208.40009"
-       id="path1769"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 2095.5351,-441.05989 11.5453,93.72006"
-       id="path1771"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0"
-       inkscape:connection-start="#node56"
-       inkscape:connection-end="#node19" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 2102.1406,-311.33984 -61.1857,153.88007"
-       id="path1773"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0"
-       inkscape:connection-end="#node62"
-       inkscape:connection-start="#node19" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 2089.9656,-441.05989 2037.15,-157.45977"
-       id="path1775"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0"
-       inkscape:connection-start="#node56"
-       inkscape:connection-end="#node62" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#2a00ff;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 1988.2981,-686.64532 -604.1849,212.87108"
-       id="path1777"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0"
-       inkscape:connection-start="#node7"
-       inkscape:connection-end="#node54" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#2a00ff;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 1981.5723,-694.25061 636.84374,-466.81194"
-       id="path1779"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0"
-       inkscape:connection-start="#node7"
-       inkscape:connection-end="#node52" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#2a00ff;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 2063.3627,-685.45998 316.5374,208.40009"
-       id="path1781"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0"
-       inkscape:connection-start="#node7"
-       inkscape:connection-end="#node57" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 2035.9913,-796.38003 0.025,74.92005"
-       id="path1783"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0"
-       inkscape:connection-end="#node7"
-       inkscape:connection-start="#node5" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 2040.6661,-852.78005 -2.4867,20.40002"
-       id="path1785"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0"
-       inkscape:connection-start="#node46"
-       inkscape:connection-end="#node5" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 2775.8005,-909.18007 -215.4942,559.24009"
-       id="path1787"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0"
-       inkscape:connection-end="#node69"
-       inkscape:connection-start="#node3" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#00ff15;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 2491.1203,-326.00658 583.22522,-144.15407"
-       id="path1789"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0"
        inkscape:connection-end="#node58"
-       inkscape:connection-start="#node69" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#00ff15;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 2491.7073,-322.62255 1328.6696,-146.88489"
-       id="path1791"
-       inkscape:connector-type="polyline"
+       inkscape:connection-start="#node52"
        inkscape:connector-curvature="0"
-       inkscape:connection-start="#node69"
-       inkscape:connection-end="#node60" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 2532.6785,-349.93998 2427.932,-441.05989"
-       id="path1793"
        inkscape:connector-type="polyline"
+       id="path1741"
+       d="m 524.8777,-509.2735 -53.14286,279.00001"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connection-end="#node65"
+       inkscape:connection-start="#node35"
        inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1745"
+       d="m 468.02055,-149.27349 0,9"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connection-end="#node8"
+       inkscape:connection-start="#node6"
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1747"
+       d="M 909.55381,-753.31491 2187.8262,-444.28204"
+       style="fill:none;fill-rule:evenodd;stroke:#ff0000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connection-start="#node8"
+       inkscape:connection-end="#node57"
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1749"
+       d="m 2226.3206,-419.2735 37.8,189.00001"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connection-end="#node24"
+       inkscape:connection-start="#node48"
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1751"
+       d="m 770.52056,-509.2735 -15,9"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connection-end="#node66"
+       inkscape:connection-start="#node37"
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1753"
+       d="m 1233.0206,-149.27349 v 9"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connection-start="#node48"
+       inkscape:connection-end="#node10"
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1757"
+       d="m 792.52056,-509.2735 -18,54"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connection-start="#node17"
+       inkscape:connection-end="#node60"
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1761"
+       d="m 1316.4206,-419.27349 -75.6,189"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connection-end="#node17"
+       inkscape:connection-start="#node54"
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1763"
+       d="m 1298.5206,-509.2735 18,54"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connection-end="#node60"
+       inkscape:connection-start="#node54"
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1765"
+       d="m 1289.8777,-509.2735 -53.1428,279.00001"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connection-end="#node62"
        inkscape:connection-start="#node69"
-       inkscape:connection-end="#node57" />
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1767"
+       d="m 2338.6456,-374.27349 -300.7624,144.36593"
+       style="fill:none;fill-rule:evenodd;stroke:#00ff15;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1769"
+       d="m 2002.1456,-749.2735 51,204"
+       style="fill:none;fill-rule:evenodd;stroke:#2a00ff;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       inkscape:connection-end="#node56"
+       inkscape:connection-start="#node7" />
+    <path
+       inkscape:connection-end="#node19"
+       inkscape:connection-start="#node56"
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1771"
+       d="m 2063.5206,-509.2735 18,54"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connection-start="#node19"
+       inkscape:connection-end="#node62"
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1773"
+       d="m 2081.4206,-419.2735 -75.6,189.00001"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connection-end="#node62"
+       inkscape:connection-start="#node56"
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1775"
+       d="m 2054.8777,-509.2735 -53.1428,279.00001"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connection-end="#node54"
+       inkscape:connection-start="#node7"
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1777"
+       d="M 1951.4959,-749.9353 1336.217,-540.47867"
+       style="fill:none;fill-rule:evenodd;stroke:#2a00ff;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connection-end="#node52"
+       inkscape:connection-start="#node7"
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1779"
+       d="M 1944.011,-756.95561 574.02055,-533.2837"
+       style="fill:none;fill-rule:evenodd;stroke:#2a00ff;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connection-end="#node57"
+       inkscape:connection-start="#node7"
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1781"
+       d="m 2006.0476,-749.2735 252.4865,519.00001"
+       style="fill:none;fill-rule:evenodd;stroke:#2a00ff;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
     <path
        inkscape:connection-start="#node5"
-       inkscape:connection-end="#node21"
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 2060.9191,-798.25685 39.5266,25.55941"
-       id="path1795"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 2783.0081,-909.18007 2.8305,187.72009"
-       id="path1797"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0"
-       inkscape:connection-start="#node3"
-       inkscape:connection-end="#node73" />
-    <path
-       inkscape:connection-start="#node73"
-       inkscape:connection-end="#node72"
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 2786.4056,-685.45998 1.941,118.16006"
-       id="path1799"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#2a00ff;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 2077.876,-685.45998 367.6791,158.12851"
-       id="path1801"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0"
-       inkscape:connection-end="#node14"
-       inkscape:connection-start="#node7" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#2a00ff;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 2736.5505,-559.96995 2089.6977,-692.46564"
-       id="path1805"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0"
        inkscape:connection-end="#node7"
-       inkscape:connection-start="#node72" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 2454.3236,-495.57991 -23.8769,18.52002"
-       id="path1807"
-       inkscape:connector-type="polyline"
        inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1783"
+       d="m 1998.0206,-794.27351 0,9.00001"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connection-end="#node5"
+       inkscape:connection-start="#node46"
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1785"
+       d="m 1998.0206,-839.27351 v 9"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connection-start="#node3"
+       inkscape:connection-end="#node69"
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1787"
+       d="m 2485.2557,-629.27309 -103.0586,218.9996"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connection-start="#node69"
+       inkscape:connection-end="#node58"
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1789"
+       d="M 2310.8729,-384.90127 517.27055,-215.42703"
+       style="fill:none;fill-rule:evenodd;stroke:#00ff15;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connection-end="#node60"
+       inkscape:connection-start="#node69"
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1791"
+       d="M 2312.1578,-381.16357 1282.2664,-218.54914"
+       style="fill:none;fill-rule:evenodd;stroke:#00ff15;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
        inkscape:connection-end="#node57"
-       inkscape:connection-start="#node14" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 2788.2676,-531.29992 -1.1291,54.24003"
-       id="path1809"
-       inkscape:connector-type="polyline"
+       inkscape:connection-start="#node69"
        inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1793"
+       d="m 2363.3956,-374.27349 -84,144"
+       style="fill:none;fill-rule:evenodd;stroke:#00ff15;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1795"
+       d="m 2025.9827,-798.78974 50.7865,21.76562"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       inkscape:connection-end="#node21"
+       inkscape:connection-start="#node5" />
+    <path
+       inkscape:connection-end="#node73"
+       inkscape:connection-start="#node3"
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1797"
+       d="m 2493.0206,-629.27309 0,83.99959"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1799"
+       d="m 2493.0206,-509.2735 v 9"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       inkscape:connection-end="#node72"
+       inkscape:connection-start="#node73" />
+    <path
+       inkscape:connection-start="#node7"
+       inkscape:connection-end="#node14"
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1801"
+       d="m 2013.7706,-749.2735 280.6364,294"
+       style="fill:none;fill-rule:evenodd;stroke:#2a00ff;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connection-start="#node72"
+       inkscape:connection-end="#node7"
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1805"
+       d="m 2459.1522,-500.2735 -432.4737,-249"
+       style="fill:none;fill-rule:evenodd;stroke:#2a00ff;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connection-start="#node14"
+       inkscape:connection-end="#node57"
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1807"
+       d="m 2309.7206,-419.27349 -37.8,189"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connection-start="#node72"
        inkscape:connection-end="#node71"
-       inkscape:connection-start="#node72" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 2786.8072,-441.05989 0.8196,340.00014"
-       id="path1811"
-       inkscape:connector-type="polyline"
        inkscape:connector-curvature="0"
-       inkscape:connection-end="#node64"
-       inkscape:connection-start="#node71" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 2815.9537,-441.05989 30.0332,18.52002"
-       id="path1813"
        inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0"
+       id="path1809"
+       d="m 2493.0206,-464.2735 v 9"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
        inkscape:connection-start="#node71"
-       inkscape:connection-end="#node70" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 2722.9294,-66.13087 -100.0731,26.167805"
-       id="path1815"
-       inkscape:connector-type="polyline"
+       inkscape:connection-end="#node64"
        inkscape:connector-curvature="0"
-       inkscape:connection-end="#node41"
-       inkscape:connection-start="#node64" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 2787.492,-65.05975 2786.7687,7.9803"
-       id="path1817"
        inkscape:connector-type="polyline"
+       id="path1811"
+       d="m 2493.0206,-419.2735 v 189.00001"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connection-end="#node70"
+       inkscape:connection-start="#node71"
        inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1813"
+       d="m 2506.7706,-419.2735 120,144.00001"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
        inkscape:connection-start="#node64"
-       inkscape:connection-end="#node68" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 2414.4285,-441.05989 157.5533,394.52017"
-       id="path1819"
-       inkscape:connector-type="polyline"
+       inkscape:connection-end="#node41"
        inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1815"
+       d="m 2454.5206,-194.27349 -26.5756,11.38954"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connection-end="#node68"
+       inkscape:connection-start="#node64"
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1817"
+       d="m 2493.0206,-194.27349 v 54"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connection-end="#node41"
        inkscape:connection-start="#node57"
-       inkscape:connection-end="#node41" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 2875.6008,-386.53987 0.9234,39.20003"
-       id="path1823"
-       inkscape:connector-type="polyline"
        inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1819"
+       d="m 2309.4937,-195.22109 36.8919,13.83446"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connection-end="#node63"
        inkscape:connection-start="#node70"
-       inkscape:connection-end="#node63" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 2877.0599,-311.33984 0.9556,153.88008"
-       id="path1825"
-       inkscape:connector-type="polyline"
        inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1823"
+       d="m 2643.0206,-239.27349 v 9"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connection-end="#node40"
        inkscape:connection-start="#node63"
-       inkscape:connection-end="#node40" />
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1825"
+       d="m 2643.0206,-194.27349 0,54"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
     <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 968.19204,-441.05989 10.11472,93.72006"
+       inkscape:connection-end="#node16"
+       inkscape:connection-start="#node53"
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
        id="path1827"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0"
-       inkscape:connection-start="#node53"
-       inkscape:connection-end="#node16" />
+       d="m 923.5205,-509.2735 18,54"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
     <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 962.87243,-441.05989 -53.20606,283.60012"
+       inkscape:connection-start="#node53"
+       inkscape:connection-end="#node59"
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
        id="path1829"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0"
-       inkscape:connection-end="#node59"
-       inkscape:connection-start="#node53" />
+       d="m 914.87764,-509.2735 -53.14285,279.00001"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
     <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 987.59055,-441.05989 21.95765,18.52002"
-       id="path1831"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0"
+       inkscape:connection-end="#node30"
        inkscape:connection-start="#node53"
-       inkscape:connection-end="#node30" />
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1831"
+       d="m 945.5205,-509.2735 15,9"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
     <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 837.76584,-311.33983 61.34749,153.88007"
+       inkscape:connection-start="#node10"
+       inkscape:connection-end="#node59"
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
        id="path1835"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0"
-       inkscape:connection-end="#node59"
-       inkscape:connection-start="#node10" />
+       d="m 774.62056,-419.2735 75.59995,189.00001"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
     <path
-       style="fill:none;fill-rule:evenodd;stroke:#00ff15;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 2491.2074,-324.67553 955.5394,-145.21519"
+       inkscape:connection-start="#node69"
+       inkscape:connection-end="#node59"
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
        id="path1839"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0"
-       inkscape:connection-end="#node59"
-       inkscape:connection-start="#node69" />
+       d="M 2311.2036,-383.4289 907.2705,-216.62497"
+       style="fill:none;fill-rule:evenodd;stroke:#00ff15;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
     <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 858.19984,-441.05989 45.21949,283.60012"
-       id="path1841"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0"
+       inkscape:connection-end="#node59"
        inkscape:connection-start="#node48"
-       inkscape:connection-end="#node59" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 973.23824,-311.33983 -59.93768,153.88007"
-       id="path1843"
-       inkscape:connector-type="polyline"
        inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1841"
+       d="m 801.16341,-509.2735 53.14281,279.00001"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connection-start="#node16"
        inkscape:connection-end="#node59"
-       inkscape:connection-start="#node16" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#2a00ff;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 1983.015,-691.34987 -971.7416,222.00381"
-       id="path1845"
-       inkscape:connector-type="polyline"
        inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1843"
+       d="m 941.4205,-419.2735 -75.6,189.00001"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connection-start="#node7"
        inkscape:connection-end="#node53"
-       inkscape:connection-start="#node7" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 2114.9032,-441.05989 22.2091,18.52002"
-       id="path1847"
-       inkscape:connector-type="polyline"
        inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1845"
+       d="M 1945.7512,-754.15808 963.64716,-535.91276"
+       style="fill:none;fill-rule:evenodd;stroke:#2a00ff;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connection-end="#node33"
        inkscape:connection-start="#node56"
-       inkscape:connection-end="#node33" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 2036.1164,-65.05975 1.4552,73.04005"
-       id="path1849"
-       inkscape:connector-type="polyline"
        inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1847"
+       d="m 2085.5206,-509.2735 15,9"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connection-end="#node67"
        inkscape:connection-start="#node39"
-       inkscape:connection-end="#node67" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 1385.6085,-422.53987 -21.9373,-18.52002"
-       id="path1853"
-       inkscape:connector-type="polyline"
        inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1849"
+       d="m 1998.0206,-149.27349 0,9"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connection-end="#node54"
        inkscape:connection-start="#node31"
-       inkscape:connection-end="#node54" />
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1853"
+       d="m 1335.5206,-500.2735 -15,-9"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
     <path
-       inkscape:connection-start="#node65"
-       inkscape:connection-end="#node44"
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 573.89565,37.505881 1247.657,219.68335"
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
        id="path1855"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0" />
-    <path
+       d="M 511.05607,-111.49132 1196.0331,36.248839"
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 574.88864,35.421331 1439.5159,222.56409"
-       id="path1857"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0"
-       inkscape:connection-start="#node65"
-       inkscape:connection-end="#node42" />
+       inkscape:connection-end="#node44"
+       inkscape:connection-start="#node65" />
     <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 575.32022,33.902498 1625.8333,222.8303"
-       id="path1859"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0"
-       inkscape:connection-start="#node65"
-       inkscape:connection-end="#node43" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 1283.5071,43.9803 0.3457,167.50003"
-       id="path1861"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0"
-       inkscape:connection-start="#node66"
-       inkscape:connection-end="#node44" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 1300.0989,43.9803 1454.841,211.48033"
-       id="path1863"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0"
-       inkscape:connection-start="#node66"
-       inkscape:connection-end="#node42" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 1316.8853,43.906268 1632.2842,213.10451"
-       id="path1865"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0"
-       inkscape:connection-start="#node66"
-       inkscape:connection-end="#node43" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 1995.2931,37.487172 1320.1296,219.7"
-       id="path1867"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0"
-       inkscape:connection-start="#node67"
-       inkscape:connection-end="#node44" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 1997.6541,40.449411 1502.1336,218.46446"
-       id="path1869"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0"
-       inkscape:connection-start="#node67"
-       inkscape:connection-end="#node42" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 2004.824,43.940162 1693.1724,213.00895"
-       id="path1871"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0"
-       inkscape:connection-start="#node67"
-       inkscape:connection-end="#node43" />
-    <path
-       inkscape:connection-start="#node68"
-       inkscape:connection-end="#node43"
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 2719.3742,38.152164 1699.7835,222.78498"
-       id="path1873"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 2718.4379,36.526136 1503.47,224.52869"
-       id="path1877"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0"
        inkscape:connection-end="#node42"
+       inkscape:connection-start="#node65"
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1857"
+       d="M 512.08025,-114.39643 1576.0206,39.594941"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connection-end="#node43"
+       inkscape:connection-start="#node65"
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1859"
+       d="M 512.26647,-116.00187 1961.0206,40.236324"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connection-end="#node44"
+       inkscape:connection-start="#node66"
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1861"
+       d="m 1233.0206,-104.27349 0,129.00001"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connection-end="#node42"
+       inkscape:connection-start="#node66"
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1863"
+       d="m 1268.9142,-104.98029 308.894,135.913351"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connection-end="#node43"
+       inkscape:connection-start="#node66"
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1865"
+       d="M 1276.0561,-111.49132 1961.0332,36.248839"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connection-end="#node44"
+       inkscape:connection-start="#node67"
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1867"
+       d="M 1954.9851,-111.49132 1270.008,36.248839"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connection-end="#node42"
+       inkscape:connection-start="#node67"
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1869"
+       d="M 1961.409,-105.28399 1638.4784,31.340535"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connection-end="#node43"
+       inkscape:connection-start="#node67"
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1871"
+       d="M 1998.0206,-104.27349 V 24.72652"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1873"
+       d="M 2443.5206,-104.27349 2033.9554,32.248236"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       inkscape:connection-end="#node43"
        inkscape:connection-start="#node68" />
     <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 2717.921,35.279704 1320.89,224.46968"
-       id="path1879"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0"
        inkscape:connection-start="#node68"
-       inkscape:connection-end="#node44" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#00ff15;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 2493.6161,-319.12428 -789.4537,169.31702"
-       id="path1881"
-       inkscape:connector-type="polyline"
+       inkscape:connection-end="#node42"
        inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1877"
+       d="M 2427.0837,-108.48016 1640.0206,38.260418"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connection-end="#node44"
+       inkscape:connection-start="#node68"
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1879"
+       d="M 2424.8138,-111.84165 1270.0206,39.381282"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connection-start="#node69"
        inkscape:connection-end="#node61"
-       inkscape:connection-start="#node69" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#2900ff;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 2090.9542,-696.3399 345.7071,44.80958"
-       id="path1883"
-       inkscape:connector-type="polyline"
        inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1881"
+       d="m 2315.3991,-377.21549 -658.9366,155.04391"
+       style="fill:none;fill-rule:evenodd;stroke:#00ff15;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connection-end="#node28"
        inkscape:connection-start="#node7"
-       inkscape:connection-end="#node28" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#2a00ff;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 2012.4467,-685.45998 -272.9565,208.40009"
-       id="path1885"
-       inkscape:connector-type="polyline"
        inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1883"
+       d="m 2049.2204,-752.97355 80.8677,20.21691"
+       style="fill:none;fill-rule:evenodd;stroke:#2900ff;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connection-start="#node7"
        inkscape:connection-end="#node55"
-       inkscape:connection-start="#node7" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#ff0000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 907.00562,-685.45998 -47.56735,208.40009"
-       id="path1887"
-       inkscape:connector-type="polyline"
        inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1885"
+       d="m 1975.3331,-749.2735 -280.5,204"
+       style="fill:none;fill-rule:evenodd;stroke:#2a00ff;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connection-start="#node6"
        inkscape:connection-end="#node48"
-       inkscape:connection-start="#node6" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#ff0000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 965.66109,-694.54944 2358.208,-467.06956"
-       id="path1889"
-       inkscape:connector-type="polyline"
        inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1887"
+       d="m 853.89556,-749.2735 -51,204"
+       style="fill:none;fill-rule:evenodd;stroke:#ff0000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connection-start="#node6"
        inkscape:connection-end="#node57"
-       inkscape:connection-start="#node6" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#ff0000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 966.11412,-698.94404 2735.3923,-553.67217"
-       id="path1891"
-       inkscape:connector-type="polyline"
        inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1889"
+       d="M 899.93948,-749.2735 2224.2553,-228.00026"
+       style="fill:none;fill-rule:evenodd;stroke:#ff0000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connection-start="#node6"
        inkscape:connection-end="#node72"
-       inkscape:connection-start="#node6" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 602.39911,-311.33983 -61.25825,153.88006"
-       id="path1893"
-       inkscape:connector-type="polyline"
        inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1891"
+       d="M 911.76214,-756.4057 2439.9368,-490.02663"
+       style="fill:none;fill-rule:evenodd;stroke:#ff0000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connection-end="#node58"
        inkscape:connection-start="#node15"
-       inkscape:connection-end="#node58" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 1518.0324,-922.33356 456.6049,44.85201"
-       id="path1895"
-       inkscape:connector-type="polyline"
        inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1893"
+       d="m 551.42056,-419.27349 -75.60001,189"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connection-end="#node46"
        inkscape:connection-start="#node2"
-       inkscape:connection-end="#node46" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 1718.462,-441.05989 13.2647,93.72006"
-       id="path1897"
-       inkscape:connector-type="polyline"
        inkscape:connector-curvature="0"
-       inkscape:connection-end="#node18"
-       inkscape:connection-start="#node55" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 1737.381,-441.05989 22.0868,18.52002"
-       id="path1899"
        inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0"
+       id="path1895"
+       d="m 1477.2789,-896.88469 452.4917,35.72302"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
        inkscape:connection-start="#node55"
-       inkscape:connection-end="#node32" />
+       inkscape:connection-end="#node18"
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1897"
+       d="m 1673.5206,-509.2735 18,54"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
     <path
-       inkscape:connection-start="#node58"
-       inkscape:connection-end="#node35"
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 533.67203,-121.45977 -0.34362,20.40002"
+       inkscape:connection-end="#node32"
+       inkscape:connection-start="#node55"
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1899"
+       d="m 1695.5206,-509.2735 15,9"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
        id="path1903"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0" />
-    <path
+       d="m 468.02055,-194.27349 v 9"
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 905.75323,-121.45977 -0.60766,20.40002"
-       id="path1905"
-       inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0"
+       inkscape:connection-end="#node35"
+       inkscape:connection-start="#node58" />
+    <path
+       inkscape:connection-end="#node36"
        inkscape:connection-start="#node59"
-       inkscape:connection-end="#node36" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 1279.8507,-121.45977 0.3637,20.40002"
-       id="path1907"
-       inkscape:connector-type="polyline"
        inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1905"
+       d="m 858.0205,-194.27349 v 9"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connection-end="#node37"
        inkscape:connection-start="#node60"
-       inkscape:connection-end="#node37" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 1655.9221,-121.45977 0.01,20.40002"
-       id="path1909"
-       inkscape:connector-type="polyline"
        inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1907"
+       d="m 1233.0206,-194.27349 v 9"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connection-start="#node61"
        inkscape:connection-end="#node38"
-       inkscape:connection-start="#node61" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 2034.4233,-121.45977 0.709,20.40002"
-       id="path1911"
-       inkscape:connector-type="polyline"
        inkscape:connector-curvature="0"
-       inkscape:connection-end="#node39"
-       inkscape:connection-start="#node62" />
-    <path
-       inkscape:connection-start="#node57"
-       inkscape:connection-end="#node34"
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 2407.3403,-441.05989 1.8917,340.00014"
-       id="path1913"
        inkscape:connector-type="polyline"
-       inkscape:connector-curvature="0" />
+       id="path1909"
+       d="m 1608.0206,-194.27349 v 9"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connection-start="#node62"
+       inkscape:connection-end="#node39"
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1911"
+       d="m 1998.0206,-194.27349 0,9"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:connector-curvature="0"
+       inkscape:connector-type="polyline"
+       id="path1913"
+       d="m 2268.0206,-194.27349 v 9"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       inkscape:connection-end="#node34"
+       inkscape:connection-start="#node57" />
   </g>
 </svg>
