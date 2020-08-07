@@ -3,8 +3,8 @@ library(data.table)
 
 # Calculates the mean of a statistica (genome coverage or allele divergence) 
 # in 1Mbp and 100kbp windows and for each chromosome/scaffold from 5kbp windows
-# Columns in infile: chromsome/scaffold start_window end_window gencov_heterogametic gencov_homogametic
-# Call: Rscript {r-script} {infile} {out 1Mbp} {out 100kbp} {out chromsome} {chr-list}
+# Columns in infile: chromosome/scaffold start_window end_window gencov_heterogametic gencov_homogametic
+# Call: Rscript {r-script} {infile} {out 1Mbp} {out 100kbp} {out chromosome} {chr-list}
 
 set.seed(999)
 source("code/functions.R")
