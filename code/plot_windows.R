@@ -8,7 +8,7 @@ library(cowplot)
 # calculate_gencov_windows.R, calculate_heterozygosityDiff_windows.R
 # Produces a circlized plot over each chromosome/scaffold and plots genome coverage 
 # against difference in heterozygosity
-# USE WITH CAUSION OUTSIDE PIPELINE
+# USE WITH CAUTION OUTSIDE PIPELINE
 # Call: Rscript {r-script} {gencov nm=0} {gencov nm=2} {gencov nm=4} 
 # {difference in heterozygosity} {circlized out} {scatterplot out} {chr-list}
 
@@ -34,7 +34,7 @@ cov_00_table <- read.table(file00, header=TRUE,fill=TRUE,stringsAsFactor=FALSE)
 
 if (dim(cov_00_table)[1] == 0) {
   
-  print("Warning: No chromsome/scaffold over 1Mbp! Check output based on 
+  print("Warning: No chromosome/scaffold over 1Mbp! Check output based on 
         chromosome instead.")
   
   # Prints empty files so that snakemake does not stop
