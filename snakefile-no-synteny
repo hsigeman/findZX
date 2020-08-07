@@ -146,6 +146,6 @@ rule calculate_ratio:
         chromosomes = CHOMOSOMES
     shell:
         """
-        Rscript code/calculate_gencov_windows.R {input} {output.Mb} {output.kb} {output.chr} {params.chromosomes}
+        Rscript code/calculate_genCov_windows.R {input} {output.Mb} {output.kb} {output.chr} {params.chromosomes}
         """
 
