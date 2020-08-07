@@ -2,7 +2,7 @@ import sys
 import gzip
 
 if len(sys.argv)==1 or sys.argv[1].startswith('-h'):
-	print("\nScript written for snakemake pipeline for detection of sex-linked genomic regions. WARNING: USE WITH CAUSION OUTSIDE PIPELINE.\n")
+	print("\nScript written for snakemake pipeline for detection of sex-linked genomic regions. WARNING: USE WITH CAUTION OUTSIDE PIPELINE.\n")
 
 	print("Calculates the proportion of heterozygot individuals for each sex and outputs the difference in heterozygosity")
 	print("(heterogametic sex - homogametic sex). The heterozygosity is calculated from a VCF-file and the output fields are:")
