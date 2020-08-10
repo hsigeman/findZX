@@ -21,7 +21,7 @@ If a large amount of samples are used (more than 10 individuals with a genome si
 Make sure that the suffix of the reads and the reference genome is *'.fq.gz'* and *'.fasta'*, otherwise, the pipeline will not be able to find the files. 
  
  
-## How to run
+## How to Run
 The pipeline can be ran with and without a synteny species, choose the snakefile with the corresponding name (snakefile-synteny or snakefile-no-synteny).
  
     snakemake -s snakefile-{synteny/no-synteny} -j 15 -R all --configfile config.txt --cluster-config cluster.json --cluster " sbatch -A {cluster.account} -t {cluster.time} -n {cluster.n} "
