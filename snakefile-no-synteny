@@ -98,7 +98,7 @@ rule confirm_sexing:
     threads: 1
     shell:
         """
-        Rscript code/histogram_indv.R {input.gencov} {output.gencov_het} no-synteny {params.hetero} {params.homo}
+        Rscript code/histogram_indv.R {input.gencov} {input.het} {output.gencov_het} no-synteny {params.hetero} {params.homo}
         """
 
 ##########################################################
