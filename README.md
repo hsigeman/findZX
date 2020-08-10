@@ -8,7 +8,7 @@ The number of male and female samples does not have to be equal, the minimum req
  
  
 ## Requirements
-Before one can run the pipeline a reference genome is needed, trimmed reads for at least one male and one female individual. 
+Before one can run the pipeline a reference genome is needed, trimmed reads for at least one male and one female individual.  
 Optional is a last database for a synteny species which should be placed in a folder named data/meta/ relative to the directory from which the pipeline is ran. 
  
 The **config.txt** file gives an example of how the config-file should look. Add the path to the trimmed reads, reference genome. An option is to give the path to a file with a list of chromosomes which will be used to filter out only these chromosomes in the statistical calculations. The chromosomes should be comma separated on the same line.
@@ -26,7 +26,7 @@ The pipeline can be ran with and without a synteny species, choose the snakefile
  
     snakemake -s snakefile-{synteny/no-synteny} -j 15 -R all --configfile config.txt --cluster-config cluster.json --cluster " sbatch -A {cluster.account} -t {cluster.time} -n {cluster.n} "
  
-*-j* specifies the number of jobs that can be run simultaneously.
+*-j* specifies the number of jobs that can be run simultaneously.  
 *-R* specifies which rule to re-run, in this case it is rule all which specifies all desired output files.
  
 If the reference genome used is constructed from one of the individuals in the analysis, this can introduce noise from reference bias in the results, especially if the organism has a very variable genome. This can be solved by creating a consensus genome. This can be done by running the pipeline like this:
@@ -37,7 +37,7 @@ This will produce a consensus genome in the same directory as the reference geno
  
  
 ## Output
-The result is shown in figures in the *result/* folder. 
+The result is shown in figures in the *result/* folder.   
 ***species*.gencov_heterozygosity_indv.pdf** First a figure is produced which looks at the genome coverage and heterozygosity for each individual so that one can confirm that the sexing of samples were correct.
  
 ***species*.circliz.pdf** Shows difference in heterozygosity between male and female samples over chromosomes larger than 1Mbp and, if a chr.txt file were used, chromosomes in specified in the chr.txt file. Also shows the genome coverage over the same chromosomes. Three different genome coverage values are shown, 0, 2 or 4 number of mismatches allowed.
