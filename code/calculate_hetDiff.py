@@ -44,7 +44,7 @@ out_file = open(sys.argv[2], 'w')
 
 with gzip.open(sys.argv[1], 'rt') as vcfFile:
 	for line in vcfFile:
-		print(line)
+
 		if line.startswith('#CHROM'):
 
 			info_fields = line.strip('\n').split('\t')
