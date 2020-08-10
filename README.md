@@ -38,17 +38,17 @@ This will produce a consensus genome in the same directory as the reference geno
  
 ## Output
 The result is shown in figures in the *result/* folder.   
-***species*.gencov_heterozygosity_indv.pdf** First a figure is produced which looks at the genome coverage and heterozygosity for each individual so that one can confirm that the sexing of samples were correct.
+***[species]*.gencov_heterozygosity_indv.pdf** First a figure is produced which looks at the genome coverage and heterozygosity for each individual so that one can confirm that the sexing of samples were correct.
  
-***species*.circliz.pdf** Shows difference in heterozygosity between male and female samples over chromosomes larger than 1Mbp and, if a chr.txt file were used, chromosomes in specified in the chr.txt file. Also shows the genome coverage over the same chromosomes. Three different genome coverage values are shown, 0, 2 or 4 number of mismatches allowed.
+***[species]*.circliz.pdf** Shows difference in heterozygosity between male and female samples over chromosomes larger than 1Mbp and, if a chr.txt file were used, chromosomes in specified in the chr.txt file. Also shows the genome coverage over the same chromosomes. Three different genome coverage values are shown, 0, 2 or 4 number of mismatches allowed.
  
-***species*.scatter.pdf** A scatterplot of genome coverage vs difference in heterozygosity for 1Mbp windows colored after chromosomes. 
+***[species]*.scatter.pdf** A scatterplot of genome coverage vs difference in heterozygosity for 1Mbp windows colored after chromosomes. 
  
-***species*.chr_scatter2D.pdf** Scatterplots of genome coverage, difference in heterozygosity and chromosome length, where two of the variables are plotted against each other and the points are colored based on the third. Each point in these scatterplots represents a chromosome/scaffold, not a 1Mbp window as in the plots mentioned above. 
+***[species]*.chr_scatter2D.pdf** Scatterplots of genome coverage, difference in heterozygosity and chromosome length, where two of the variables are plotted against each other and the points are colored based on the third. Each point in these scatterplots represents a chromosome/scaffold, not a 1Mbp window as in the plots mentioned above. 
  
-***species*.chr_scatter3D.pdf** The same variables as above but in a 3D scatterplot and colored on chromosome/scaffold length.
+***[species]*.chr_scatter3D.pdf** The same variables as above but in a 3D scatterplot and colored on chromosome/scaffold length.
  
-***species*.report.html** A report which states date, which samples that were used and statistics for each chromosome/scaffold.
+***[species]*.report.html** A report which states date, which samples that were used and statistics for each chromosome/scaffold.
  
 The other files in the results directory are used to make the figures. The idea is that the figures will show if there are any sex-linked regions in ones data and if there is, one can analyse the data more thoroughly and make figures that suits that particular data-set better.
  
