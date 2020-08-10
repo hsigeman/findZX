@@ -2,7 +2,7 @@
  
 Modification of the pipeline used in Sigeman et. al (2020). 
  
-The purpose of this pipeline is to detect new and old sex-linked regions from wgs sequencing. The first version of this pipeline detected sex-linked regions for birds. Now the pipeline has been expanded to be usable on other organisms and with/without a synteny species.
+The purpose of this pipeline is to detect new and old sex-linked regions from wgs sequencing data. The first version of this pipeline detected sex-linked regions for birds. Now the pipeline has been expanded to be usable on other organisms and with/without a synteny species.
  
 The number of male and female samples does not have to be equal, the minimum requirement is one sample from each sex. 
  
