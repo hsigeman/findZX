@@ -1,4 +1,4 @@
-# snakemake pipeline for detection of sex-linked regions
+# Snakemake Pipeline for Detection of Sex-Linked Regions
  
 Modification of the pipeline used in Sigeman et. al (2020). 
  
