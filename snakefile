@@ -282,7 +282,7 @@ rule print_report:
     threads: 1
     shell:
         """
-        join -1 1 -2 1 {input.cov0} {input.cov2} | join -1 1 -2 1 - {input.cov4} | -1 1 -2 1 - {input.snp} | sed 's/ /\t/g' | cut -f 1,2,4,6,8,9 > {output.stats}
+        join -1 1 -2 1 {input.cov0} {input.cov2} | join -1 1 -2 1 - {input.cov4} | join -1 1 -2 1 - {input.snp} | sed 's/ /\t/g' | cut -f 1,2,4,6,8,9 > {output.stats}
 
         python3 code/make_info_html.py {params.species} {params.ref} {output.stats} {params.synt} {params.heterogametic} {params.homogametic} > {output.html}
         """
