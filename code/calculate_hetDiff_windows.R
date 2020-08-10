@@ -63,7 +63,7 @@ if (dim(snp)[1] > 0) {
   snp_100kbp_mean <- transform(snp, range=floor(end/100000))
   snp_100kbp_mean <- mean_win(snp_100kbp_mean, diff ~ chr + range)
   
-  write.table(snp_100kb_mean, out100kb, quote=FALSE, sep="\t", row.names = F, col.names = T, na = "NA")
+  write.table(snp_100kbp_mean, out100kb, quote=FALSE, sep="\t", row.names = F, col.names = T, na = "NA")
   
 } else {
   
