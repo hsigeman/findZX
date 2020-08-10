@@ -67,7 +67,7 @@ rule all:
 
 include: "snakefile"
 
-localrules: plotting, plotting_chr, print_report
+localrules: plotting, plotting_chr, print_report, confirm_sexing_synteny
 
 ##########################################################  
 #################### SYNTENY ANALYSIS ####################      
