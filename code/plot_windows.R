@@ -109,31 +109,32 @@ if (dim(cov_00_table)[1] == 0) {
   
 
   cov00_plot <- ggplot(cov.select, aes(x = cov00, y = hetDiff)) + 
-		geom_point(aes(color = Chromosomes)) + 
+		            geom_point(aes(color = Chromosomes)) + 
                 scale_color_manual(values = rainbow(factor.nr))
 
   legend <- get_legend(cov00_plot)
 
-  cov00_plot <- cov00_plot + theme(legend.position="none") + 
+  cov00_plot <- cov00_plot +
                 xlab("normalized genome coverage, nm 0") + 
                 ylab("difference in heterozygosity") + 
-                theme_bw()
+                theme_bw() +
+                theme(legend.position="none")
   
   cov02_plot <- ggplot(cov.select, aes(x = cov02, y = hetDiff)) + 
                 geom_point(aes(color = Chromosomes)) + 
                 scale_color_manual(values = rainbow(factor.nr)) + 
-                theme(legend.position="none") + 
                 xlab("normalized genome coverage, nm 2") + 
                 ylab("difference in heterozygosity") + 
-                theme_bw()
+                theme_bw() +
+                theme(legend.position="none")
   
   cov04_plot <- ggplot(cov.select, aes(x = cov04, y = hetDiff)) + 
                 geom_point(aes(color = Chromosomes)) + 
                 scale_color_manual(values = rainbow(factor.nr)) + 
-                theme(legend.position="none") + 
                 xlab("normalized genome coverage, nm 4") + 
                 ylab("difference in heterozygosity") + 
-                theme_bw()
+                theme_bw() +
+                theme(legend.position="none")
 
   plot_grid(cov00_plot, "", cov02_plot, legend, cov04_plot, "", nrow = 3, 
             labels = c("A", "", "B", "", "C"), rel_widths = c(3,1))
