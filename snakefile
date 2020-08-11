@@ -226,7 +226,7 @@ rule proportion_heterozygosity:
         python3 code/calculate_hetDiff.py {input} {output.diff_het} {params.hetero} {params.homo} > {log}
         sort {output.diff_het} -k 1,1 -k 2,2 > {output.diff_het_sorted}
 
-        python3 code/heterozygosity_per_indv.py {input} {output.het} {params.hetero} {params.homo} > {log}
+        python3 code/heterozygosity_per_indv.py {input} {output.het} {params.hetero} {params.homo} >> {log}
         sort {output.het} -k 1,1 -k 2,2 > {output.het_sorted}
         """
 
