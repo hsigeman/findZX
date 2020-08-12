@@ -85,8 +85,7 @@ if (dim(cov_00_table)[1] == 0) {
     
     max_per_chr <- setDT(cov.select.00)[, .SD[which.max(x)], by=factor]
     max_per_chr <- as.data.frame(max_per_chr[,1:2])
-    chromosome <- as.character(max_per_chr[order(-max_per_chr$x),][,1])
-    chromosome <- as.data.frame(matrix(chromosome, nrow = 1))
+    chromosome <- max_per_chr[order(-max_per_chr$x),][,1]
     
   }
   
