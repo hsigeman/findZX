@@ -80,6 +80,7 @@ if (dim(cov_00_table)[1] == 0) {
   if (file.exists(chr_file)) {
     
     chromosome <- read.csv(chr_file, header = FALSE, sep = ",")
+    chromosome <- as.factor(chromosome)
     
   } else {
     
