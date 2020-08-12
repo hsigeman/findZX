@@ -168,7 +168,8 @@ rule freebayes_parallel:
     input: 
         ref = REF_FASTA,
         regions = VCF_DIR_REF + REF_SPECIES + ".100kbp.regions",
-        samples = expand(MAP_DIR + "{S}.sorted.nodup.nm.all.bam", S = ID)
+        samples = expand(MAP_DIR + "{S}.sorted.nodup.nm.all.bam", S = ID),
+	bai = expand(MAP_DIR + "{S}.sorted.nodup.nm.all.bam.bai", S = ID)
     output: 
         vcf = VCF_DIR + SPECIES + ".vcf",
         gz = protected(VCF_DIR + SPECIES + ".vcf.gz")
