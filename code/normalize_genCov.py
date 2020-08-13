@@ -12,7 +12,7 @@ if len(sys.argv)==1 or sys.argv[1].startswith('-h'):
 
 	print("Call:\tpython3 {python-script} {bed-file} {heterogametic-samples} {homogametic-samples}\n")
 	sys.exit()
-elif not len(sys.argv)>=2:
+elif not len(sys.argv)>=3:
 	print("\nERROR: wrong number of input arguments!\n")
 	
 	print("Call:\tpython3 {python-script} {bed-file} {heterogametic-samples} {homogametic-samples}\n")
@@ -21,8 +21,7 @@ elif not len(sys.argv)>=2:
 	print("\thet:sample_1 het:sample_2 homo:sample_3 homo:sample_4\n")
 	sys.exit()
 
-
-nr_samples = int(len(sys.argv) - 1)
+nr_samples = int(len(sys.argv) - 2)
 
 heterogametic_samples = []
 homogametic_samples = []
@@ -38,7 +37,6 @@ for i in range(2, len(sys.argv)):
 
 nr_heterogametic = len(heterogametic_samples)
 nr_homogametic = len(homogametic_samples)
-
 
 gencov_ref = pn.read_csv(sys.argv[1], sep='\t', header=None)
 
