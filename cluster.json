@@ -46,4 +46,9 @@
         "time" : "04:00:00",
         "n" : 10
     },
+    "confirm_sexing_synteny" :
+    {
+        "time" : "04:00:00",
+        "n" : 10
+    },
 }
