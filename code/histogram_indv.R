@@ -75,9 +75,9 @@ colnames(het)[1:3] <- c("chr","start","end")
 
 Thet <- transform(het, range=floor(end/5000))
 
-names <- colnames(cov)[4:length(cov)]
+col_names <- colnames(cov)[4:length(cov)]
 
-f <- as.formula(paste(paste(names, collapse = "+"), "~", "chr + range"))
+f <- as.formula(paste(paste(col_names, collapse = "+"), "~", "chr + range"))
 het_mean <- summaryBy(f, data=Thet, keep.names=TRUE, na.rm = TRUE)
 
 colnames(cov) <- c("chr","start","end",sample_names,"range")
