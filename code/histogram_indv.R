@@ -73,15 +73,15 @@ colnames(het)[1:3] <- c("chr","start","end")
 ################################ CALCULATIONS ##################################
 ################################################################################
 
-Thet <- transform(het, range=floor(end/5000))
-
 col_names <- colnames(cov)[4:length(cov)]
+colnames(cov) <- c("chr","start","end",sample_names)
+
+Thet <- transform(het, range=floor(end/5000))
 
 f <- as.formula(paste(paste(col_names, collapse = "+"), "~", "chr + range"))
 het_mean <- summaryBy(f, data=Thet, keep.names=TRUE, na.rm = TRUE)
 
-colnames(cov) <- c("chr","start","end",sample_names,"range")
-colnames(het) <- c("chr","start","end",sample_names,"range")
+colnames(het_mean) <- c("chr","range",sample_names)
 
 Tcov <- transform(cov, range=floor(start/5000))
 
