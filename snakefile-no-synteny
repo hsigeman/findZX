@@ -52,7 +52,7 @@ rule all:
         RESULTDIR + SPECIES + ".scatter.pdf",
         RESULTDIR + SPECIES + ".chr_scatter2D.pdf",
         RESULTDIR + SPECIES + ".chr_scatter3D.pdf",
-        RESULTDIR + SPECIES + ".report.html"
+#        RESULTDIR + SPECIES + ".report.html"
 #        REF_DIR + REF_NAME + "_nonRefAf_consensus.fasta"
 
 ##########################################################
