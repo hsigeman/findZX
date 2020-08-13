@@ -66,8 +66,8 @@ if (synteny == "with-synteny") {
   het <- het[-1:-10]
 }
 
-colnames(cov) <- c("chr","start","end",sample_names)
-colnames(het) <- c("chr","start","end",sample_names)
+colnames(cov)[1:3] <- c("chr","start","end")
+colnames(het)[1:3] <- c("chr","start","end")
 
 ################################################################################
 ################################ CALCULATIONS ##################################
@@ -75,8 +75,13 @@ colnames(het) <- c("chr","start","end",sample_names)
 
 Thet <- transform(het, range=floor(end/5000))
 
-f <- as.formula(paste(paste(sample_names, collapse = "+"), "~", "chr + range"))
+names <- colnames(cov)[4:length(cov)]
+
+f <- as.formula(paste(paste(names, collapse = "+"), "~", "chr + range"))
 het_mean <- summaryBy(f, data=Thet, keep.names=TRUE, na.rm = TRUE)
+
+colnames(cov) <- c("chr","start","end",sample_names,"range")
+colnames(het) <- c("chr","start","end",sample_names,"range")
 
 Tcov <- transform(cov, range=floor(start/5000))
 
