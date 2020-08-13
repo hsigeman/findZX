@@ -67,7 +67,7 @@ rule all:
 
 include: "snakefile"
 
-localrules: plotting, plotting_chr, print_report, confirm_sexing_synteny
+localrules: plotting, plotting_chr, print_report
 
 ##########################################################  
 #################### SYNTENY ANALYSIS ####################      
@@ -193,7 +193,7 @@ rule confirm_sexing_synteny:
     threads: 1
     shell:
         """
-        Rscript code/histogram_indv.R {input.gencov} {output.gencov_het} with-synteny {params.hetero} {params.homo}
+        Rscript code/histogram_indv.R {input.gencov} {input.het} {output.gencov_het} with-synteny {params.hetero} {params.homo}
         """
 
 ##########################################################
