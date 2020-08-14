@@ -37,13 +37,6 @@ if (dim(cov_00_table)[1] == 0) {
   print("Warning: No chromosome/scaffold over 1Mbp! Check output based on 
         chromosome instead.")
   
-  # Prints empty files so that snakemake does not stop
-  pdf(file=scatter_out, width = 9, height = 9)
-  dev.off()
-  
-  pdf(file=circlize_out, width = 9, height = 9)
-  dev.off()
-  
 } else {
   
   cov_00 <- gen_data_4plotting(cov_00_table, c("chr", "range", "ratio"))
