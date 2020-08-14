@@ -39,8 +39,6 @@ rule all:
     input:
         REF_FASTA + ".bwt",
         REF_FASTA + ".fai" ,
-#        expand(MAP_DIR + "{S}.sorted.status", S = ID),
-#        expand(MAP_DIR + "{S}.sorted.nodup.nm.all.status", S = ID),
         expand(MAP_DIR + "{S}.sorted.nodup.nm.{ED}.bam.bai", S = ID, ED = EDIT_DIST),
         expand(MAP_DIR + "{S}.sorted.flagstat", S = ID),
         expand(MAP_DIR + "{S}.sorted.nodup.nm.{ED}.flagstat", S = ID, ED = EDIT_DIST),
@@ -60,8 +58,6 @@ rule all:
 ##########################################################
 
 include: "snakefile"
-
-localrules: plotting, plotting_chr, print_report
 
 ##########################################################
 ################## NO SYNTENY ANALYSIS ###################
