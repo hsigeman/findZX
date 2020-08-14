@@ -53,7 +53,10 @@ rule all:
         expand(MATCHDIR + SPECIES + ".gencov.nodup.nm.{ED}." + SYNTENY_SPECIES + ".out.norm", ED = EDIT_DIST),
         RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".allFreq.1Mbp.out",
         RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".allFreq.100kbp.out",
-        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov_heterozygosity_indv.pdf",
+        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov_heterozygosity_indv.all.pdf",
+        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov_heterozygosity_indv.0.0.pdf",
+        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov_heterozygosity_indv.0.2.pdf",
+        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov_heterozygosity_indv.0.4.pdf",
         RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".plotting.done",
         RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".plotting_chr.done",
 #        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".circlize.pdf",
@@ -182,10 +185,10 @@ rule matchScaffold2Chr_cov:
 
 rule confirm_sexing_synteny:
     input:
-        gencov = MATCHDIR + SPECIES + ".gencov.nodup.nm.all." + SYNTENY_SPECIES + ".out",
+        gencov = MATCHDIR + SPECIES + ".gencov.nodup.nm.{nm}." + SYNTENY_SPECIES + ".out",
         het = MATCHDIR + SPECIES + ".heterozygosity.bestMatch." + SYNTENY_SPECIES
     output:
-        gencov_het = protected(RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov_heterozygosity_indv.pdf")
+        gencov_het = protected(RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov_heterozygosity_indv.{nm}.pdf")
     params:
         hetero = expand("{heterogametic}", heterogametic = HETEROGAMETIC),
         homo = expand("{homogametic}", homogametic = HOMOGAMETIC)
