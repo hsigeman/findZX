@@ -295,14 +295,15 @@ rule plotting:
         cov4 = RESULTDIR + SPECIES + "{synteny}gencov.nodup.nm.0.4.1Mbp.out",
         snp = RESULTDIR + SPECIES + "{synteny}diffHeterozygosity.1Mbp.out"
     output: 
-        circlize = protected(RESULTDIR + SPECIES + "{synteny}circlize.pdf"),
-        scatter = protected(RESULTDIR + SPECIES + "{synteny}scatter.pdf")
+        touch(RESULTDIR + SPECIES + "{synteny}plotting.done")
     threads: 1
     params:
+        out_circlize = protected(RESULTDIR + SPECIES + "{synteny}circlize.pdf"),
+        out_scatter = protected(RESULTDIR + SPECIES + "{synteny}scatter.pdf")
         chromosomes = CHOMOSOMES
     shell: 
         """
-        Rscript code/plot_windows.R {input.cov0} {input.cov2} {input.cov4} {input.snp} {output.circlize} {output.scatter} {params.chromosomes}
+        Rscript code/plot_windows.R {input.cov0} {input.cov2} {input.cov4} {input.snp} {params.out_circlize} {params.out_scatter} {params.chromosomes}
         """
 
 rule plotting_chr:
@@ -312,12 +313,14 @@ rule plotting_chr:
         cov4 = RESULTDIR + SPECIES + "{synteny}gencov.nodup.nm.0.4.chr.out",
         snp = RESULTDIR + SPECIES + "{synteny}diffHeterozygosity.chr.out"
     output:
-        scatter2D = protected(RESULTDIR + SPECIES + "{synteny}chr_scatter2D.pdf"),
-        scatter3D = protected(RESULTDIR + SPECIES + "{synteny}chr_scatter3D.pdf")
+        touch(RESULTDIR + SPECIES + "{synteny}plotting_chr.done")
+    params:
+        out_scatter2D = protected(RESULTDIR + SPECIES + "{synteny}chr_scatter2D.pdf"),
+        out_scatter3D = protected(RESULTDIR + SPECIES + "{synteny}chr_scatter3D.pdf")
     threads: 1
     shell:
         """
-        Rscript code/scatterplot_chr.R {input.cov0} {input.cov2} {input.cov4} {input.snp} {output.scatter2D} {output.scatter3D}
+        Rscript code/scatterplot_chr.R {input.cov0} {input.cov2} {input.cov4} {input.snp} {params.out_scatter2D} {params.out_scatter3D}
         """
 
 ##########################################################

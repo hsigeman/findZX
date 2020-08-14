@@ -46,12 +46,15 @@ rule all:
         RESULTDIR + SPECIES + ".allFreq.1Mbp.out",
         RESULTDIR + SPECIES + ".allFreq.100kbp.out",
         RESULTDIR + SPECIES + ".gencov_heterozygosity_indv.pdf",
-        RESULTDIR + SPECIES + ".circlize.pdf",
-        RESULTDIR + SPECIES + ".scatter.pdf",
-        RESULTDIR + SPECIES + ".chr_scatter2D.pdf",
-        RESULTDIR + SPECIES + ".chr_scatter3D.pdf",
-#        RESULTDIR + SPECIES + ".report.html"
+        RESULTDIR + SPECIES + ".plotting.done",
+        RESULTDIR + SPECIES + ".plotting_chr.done",
+#        RESULTDIR + SPECIES + ".circlize.pdf",
+#        RESULTDIR + SPECIES + ".scatter.pdf",
+#        RESULTDIR + SPECIES + ".chr_scatter2D.pdf",
+#        RESULTDIR + SPECIES + ".chr_scatter3D.pdf",
 #        REF_DIR + REF_NAME + "_nonRefAf_consensus.fasta"
+
+report: RESULTDIR + SPECIES + ".report.rst"
 
 ##########################################################
 ################### INCLUDE SNAKEFILE ####################

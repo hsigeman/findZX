@@ -52,12 +52,15 @@ rule all:
         RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".allFreq.1Mbp.out",
         RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".allFreq.100kbp.out",
         RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov_heterozygosity_indv.pdf",
-        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".circlize.pdf",
-        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".scatter.pdf",
-        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".chr_scatter2D.pdf",
-        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".chr_scatter3D.pdf",
-#        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".report.html"
+        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".plotting.done",
+        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".plotting_chr.done",
+#        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".circlize.pdf",
+#        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".scatter.pdf",
+#        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".chr_scatter2D.pdf",
+#        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".chr_scatter3D.pdf",
 #        REF_DIR + REF_NAME + "_nonRefAf_consensus.fasta"
+
+report: RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".report.rst"
 
 ##########################################################
 ################### INCLUDE SNAKEFILE ####################
