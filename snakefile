@@ -299,7 +299,7 @@ rule plotting:
     threads: 1
     params:
         out_circlize = protected(RESULTDIR + SPECIES + "{synteny}circlize.pdf"),
-        out_scatter = protected(RESULTDIR + SPECIES + "{synteny}scatter.pdf")
+        out_scatter = protected(RESULTDIR + SPECIES + "{synteny}scatter.pdf"),
         chromosomes = CHOMOSOMES
     shell: 
         """
