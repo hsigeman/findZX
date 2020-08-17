@@ -72,6 +72,7 @@ colnames(cov.select) <- c("scaffold", "length", "cov00", "cov02", "cov04", "hetD
 ################################################################################
 
 cov.select <- cov.select[order(cov.select$length),]
+mid <- max(cov.select$length)/2
 
 l0 <- ggplot(cov.select, aes(x = cov00, y = hetDiff)) + 
   labs(title = "", x = "", y = "difference in heterozygosity") + 
@@ -80,8 +81,8 @@ l0 <- ggplot(cov.select, aes(x = cov00, y = hetDiff)) +
                 labels = trans_format("log10", math_format(10^.x))) + 
   annotation_logticks(sides="b") + 
   geom_point(aes(color = length)) + 
-  scale_color_gradient(low = "blue", high = "red") + 
-  theme(legend.position="none")
+  theme(legend.position="none") +
+  scale_color_gradient2(midpoint = mid, mid = "green",low="blue", high="red")
 
 l2 <- ggplot(cov.select, aes(x = cov02, y = hetDiff)) + 
   labs(title = "", x = "genome coverage", y = "") + 
@@ -90,8 +91,8 @@ l2 <- ggplot(cov.select, aes(x = cov02, y = hetDiff)) +
                 labels = trans_format("log10", math_format(10^.x))) + 
   annotation_logticks(sides="b") +
   geom_point(aes(color = length)) + 
-  scale_color_gradient(low = "blue", high = "red") + 
-  theme(legend.position="none")
+  theme(legend.position="none") +
+  scale_color_gradient2(midpoint = mid, mid = "green", low="blue", high="red")
 
 l4 <- ggplot(cov.select, aes(x = cov04, y = hetDiff)) + 
   labs(title = "", x = "", color = "length", y = "") + 
@@ -100,7 +101,7 @@ l4 <- ggplot(cov.select, aes(x = cov04, y = hetDiff)) +
                 labels = trans_format("log10", math_format(10^.x))) + 
   annotation_logticks(sides="b") +
   geom_point(aes(color = length)) + 
-  scale_color_gradient(low = "blue", high = "red")
+  scale_color_gradient2(midpoint = mid, mid = "green",low="blue", high="red")
 
 legend <- get_legend(l4)
 
@@ -114,43 +115,35 @@ l <- plot_grid(l0, l2, l4, legend, ncol = 4, rel_widths = c(3,3,3,1),
 ################################################################################
 
 cov.select <- cov.select[order(cov.select$cov00),]
+mid <- 1
 
 c0 <- ggplot(cov.select, aes(y = length, x = hetDiff)) + 
-  labs(title = "", y = "chromosome/scaffold length", x = "") + 
+  labs(title = "", y = "chromosome/scaffold length", x = "", color = "coverage") + 
   theme_bw() + 
-  scale_y_log10(breaks = trans_breaks("log10", function(x) 10^x), 
-                labels = trans_format("log10", math_format(10^.x))) + 
-  annotation_logticks(sides="l") +
   geom_point(aes(color = cov00)) + 
-  scale_color_gradient(low = "blue", high = "red") + 
-  theme(legend.position="none")
+  scale_color_gradient2(midpoint = mid, mid = "green",low="blue", high="red")
+  
+legend <- get_legend(c0)
+  
+c0 <- c0 + theme(legend.position="none")
 
 cov.select <- cov.select[order(cov.select$cov02),]
 
 c2 <- ggplot(cov.select, aes(y = length, x = hetDiff)) + 
   labs(title = "", y = "", x = "difference in heterozygosity") + 
   theme_bw() + 
-  scale_y_log10(breaks = trans_breaks("log10", function(x) 10^x), 
-                labels = trans_format("log10", math_format(10^.x))) + 
-  annotation_logticks(sides="l") +
   geom_point(aes(color = cov02)) + 
-  scale_color_gradient(low = "blue", high = "red") + 
-  theme(legend.position="none")
+  theme(legend.position="none") +
+  scale_color_gradient2(midpoint = mid, mid = "green",low="blue", high="red")
 
 cov.select <- cov.select[order(cov.select$cov04),]
 
 c4 <- ggplot(cov.select, aes(y = length, x = hetDiff)) + 
-  labs(title = "", x = "", color = "coverage", y = "") + 
+  labs(title = "", x = "", y = "") + 
   theme_bw() + 
-  scale_y_log10(breaks = trans_breaks("log10", function(x) 10^x), 
-                labels = trans_format("log10", math_format(10^.x))) + 
-  annotation_logticks(sides="l") +
   geom_point(aes(color = cov04)) + 
-  scale_color_gradient(low = "blue", high = "red")
-
-legend <- get_legend(c4)
-
-c4 <- c4 + theme(legend.position="none")
+  scale_color_gradient2(midpoint = mid, mid = "green",low="blue", high="red") + 
+  theme(legend.position="none")
 
 c <- plot_grid(c0, c2, c4, legend, ncol = 4, rel_widths = c(3,3,3,1))
 
@@ -159,41 +152,36 @@ c <- plot_grid(c0, c2, c4, legend, ncol = 4, rel_widths = c(3,3,3,1))
 ################################################################################
 
 cov.select <- cov.select[order(cov.select$hetDiff),]
+mid <- 0
 
 h0 <- ggplot(cov.select, aes(y = length, x = cov00)) + 
   labs(title = "", y = "chromosome/scaffold length", x = "") + 
   theme_bw() + 
-  scale_y_log10(breaks = trans_breaks("log10", function(x) 10^x), 
-                labels = trans_format("log10", math_format(10^.x))) + 
   scale_x_log10(breaks = trans_breaks("log10", function(x) 10^x), 
                 labels = trans_format("log10", math_format(10^.x))) +
-  annotation_logticks(sides="lb") +
+  annotation_logticks(sides="b") +
   geom_point(aes(color = hetDiff)) + 
-  scale_color_gradient(low = "blue", high = "red") + 
+  scale_color_gradient2(midpoint = mid, mid = "green",low="blue", high="red") + 
   theme(legend.position="none")
 
 h2 <- ggplot(cov.select, aes(y = length, x = cov02)) + 
   labs(title = "", y = "", x = "genome coverage") + 
   theme_bw() + 
-  scale_y_log10(breaks = trans_breaks("log10", function(x) 10^x), 
-                labels = trans_format("log10", math_format(10^.x))) + 
   scale_x_log10(breaks = trans_breaks("log10", function(x) 10^x), 
                 labels = trans_format("log10", math_format(10^.x))) +
-  annotation_logticks(sides="bl") +
+  annotation_logticks(sides="b") +
   geom_point(aes(color = hetDiff)) + 
-  scale_color_gradient(low = "blue", high = "red") + 
+  scale_color_gradient2(midpoint = mid, mid = "green",low="blue", high="red") + 
   theme(legend.position="none")
 
 h4 <- ggplot(cov.select, aes(y = length, x = cov04)) + 
   labs(title = "", x = "", color = "hetDiff", y = "") + 
   theme_bw() + 
-  scale_y_log10(breaks = trans_breaks("log10", function(x) 10^x), 
-                labels = trans_format("log10", math_format(10^.x))) + 
   scale_x_log10(breaks = trans_breaks("log10", function(x) 10^x), 
                 labels = trans_format("log10", math_format(10^.x))) +
-  annotation_logticks(sides="bl") +
+  annotation_logticks(sides="b") +
   geom_point(aes(color = hetDiff)) + 
-  scale_color_gradient(low = "blue", high = "red")
+  scale_color_gradient2(midpoint = mid, mid = "green",low="blue", high="red")
 
 legend <- get_legend(h4)
 
