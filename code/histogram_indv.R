@@ -118,28 +118,31 @@ for (i in 1:nr_samples) {
   no_outliers <- cov_het[!(cov_het[,x] %in% outliers),]
   
   p <- ggplot(data = no_outliers, aes(x = no_outliers[,x], y = no_outliers[,y])) + 
-       geom_bin2d(bins = 10) + 
-       labs(x = "genome coverage", y = "heterozygosity") + 
-       theme_bw() +
-       scale_fill_gradient(low="lightblue1",high="darkblue",trans="log10")
+    geom_bin2d(bins = 10) + 
+    labs(x = "genome coverage", y = "heterozygosity") + 
+    theme_bw() +
+    scale_fill_gradient(low="lightblue1",high="darkblue",trans="log10") +
+    scale_x_log10(breaks = trans_breaks("log10", function(x) 10^x), 
+                  labels = trans_format("log10", math_format(10^.x))) + 
+    annotation_logticks(sides="b")
   
 ############################### GENOME COVERAGE ################################
   
   df <- cov_norm[[i]]
   hg <- ggplot(df, aes(x = column_normalized)) + 
-        geom_histogram(bins = 100) + 
-        labs(x="genome coverage, normalized on median", y="Frequency") + 
-        scale_x_log10(breaks = trans_breaks("log10", function(x) 10^x), 
+     geom_histogram(bins = 100) + 
+     labs(x="genome coverage, normalized on median", y="Frequency") + 
+     scale_x_log10(breaks = trans_breaks("log10", function(x) 10^x), 
                       labels = trans_format("log10", math_format(10^.x))) + 
-        annotation_logticks(sides="b") + 
-        theme_bw()
+     annotation_logticks(sides="b") + 
+     theme_bw()
   
 ################################ HETEROZYGOSITY ################################
   
   hh <- ggplot(het_mean, aes(x = het_mean[,i])) + 
-        geom_histogram(bins = 100) + 
-        labs(x="heterozygosity", y="Frequency") + 
-        theme_bw()
+     geom_histogram(bins = 100) + 
+     labs(x="heterozygosity", y="Frequency") + 
+     theme_bw()
   
   
   pg <- plot_grid("", "", "", p,hg,hh,ncol = 3, rel_heights = c(1,20),
