@@ -45,13 +45,9 @@ rule all:
         expand(GENCOV_DIR + SPECIES + ".gencov.nodup.nm.{ED}.out.norm", ED = EDIT_DIST),
         RESULTDIR + SPECIES + ".allFreq.1Mbp.out",
         RESULTDIR + SPECIES + ".allFreq.100kbp.out",
-        RESULTDIR + SPECIES + ".gencov_heterozygosity_indv.pdf",
+        RESULTDIR + SPECIES + ".gencov_heterozygosity_indv.all.pdf",
         RESULTDIR + SPECIES + ".plotting.done",
         RESULTDIR + SPECIES + ".plotting_chr.done"
-#        RESULTDIR + SPECIES + ".circlize.pdf",
-#        RESULTDIR + SPECIES + ".scatter.pdf",
-#        RESULTDIR + SPECIES + ".chr_scatter2D.pdf",
-#        RESULTDIR + SPECIES + ".chr_scatter3D.pdf",
 #        REF_DIR + REF_NAME + "_nonRefAf_consensus.fasta"
 
 ##########################################################
@@ -84,10 +80,10 @@ rule normalize_cov:
 
 rule confirm_sexing:
     input:
-        gencov = GENCOV_DIR + SPECIES + ".gencov.nodup.nm.all.out",
+        gencov = GENCOV_DIR + SPECIES + ".gencov.nodup.nm.{nm}.out",
         het = VCF_DIR + SPECIES + ".heterozygosity.sorted.bed" 
     output:
-        gencov_het = protected(RESULTDIR + SPECIES + ".gencov_heterozygosity_indv.pdf")
+        gencov_het = protected(RESULTDIR + SPECIES + ".gencov_heterozygosity_indv.{nm}.pdf")
     threads: 1
     params:
         hetero = expand("{heterogametic}", heterogametic = HETEROGAMETIC),
