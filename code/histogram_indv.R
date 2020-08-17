@@ -120,7 +120,8 @@ for (i in 1:nr_samples) {
   p <- ggplot(data = no_outliers, aes(x = no_outliers[,x], y = no_outliers[,y])) + 
        geom_bin2d(bins = 10) + 
        labs(x = "genome coverage", y = "heterozygosity") + 
-       theme_bw()
+       theme_bw() +
+       scale_fill_gradient(low="lightblue1",high="darkblue",trans="log10")
   
 ############################### GENOME COVERAGE ################################
   
