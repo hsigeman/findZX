@@ -70,7 +70,7 @@ with gzip.open(sys.argv[1], 'rt') as vcfFile:
 
 		elif not line.startswith('#'):
 			info_fields = line.strip('\n').split('\t')
-			print(line)
+
 			heterogameticSex_heterozygotCount = 0
 			homogameticSex_heterozygotCount   = 0
 
