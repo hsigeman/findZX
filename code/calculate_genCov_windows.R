@@ -57,14 +57,14 @@ cov <- remove_chr_less_than_1mb(cov)
 
 if (dim(cov)[1] > 0) {
   
-  mean_1Mb <- transform(cov, range=floor(end/1000000))
+  mean_1Mb <- transform(cov, range=floor(start/1000000))
   mean_1Mb_ranges_start <- summaryBy(start ~ chr + range, FUN = min, data=mean_1Mb, keep.names=TRUE, na.rm = TRUE)
   mean_1Mb_ranges_end <- summaryBy(end ~ chr + range, FUN = max, data=mean_1Mb, keep.names=TRUE, na.rm = TRUE)
   mean_1Mb <- mean_win(mean_1Mb, heterogametic + homogametic + ratio + ratio_scaled + diff + diff_scaled ~ chr + range)
   mean_1Mb <- merge(mean_1Mb,mean_1Mb_ranges_start,by=c("chr","range"))
   mean_1Mb <- merge(mean_1Mb,mean_1Mb_ranges_end,by=c("chr","range"))
   
-  mean_100kb <- transform(cov, range=floor(end/100000))
+  mean_100kb <- transform(cov, range=floor(start/100000))
   mean_100kb_ranges_start <- summaryBy(start ~ chr + range, FUN = min, data=mean_100kb, keep.names=TRUE, na.rm = TRUE)
   mean_100kb_ranges_end <- summaryBy(end ~ chr + range, FUN = max, data=mean_100kb, keep.names=TRUE, na.rm = TRUE)
   mean_100kb <- mean_win(mean_100kb, heterogametic + homogametic + ratio + ratio_scaled + diff + diff_scaled ~ chr + range)
