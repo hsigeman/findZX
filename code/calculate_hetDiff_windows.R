@@ -55,13 +55,21 @@ snp <- remove_chr_less_than_1mb(snp)
 
 if (dim(snp)[1] > 0) {
   
-  snp_1Mb_mean <- transform(snp, range=floor(end/1000000))
+  snp_1Mb_mean <- transform(snp, range=floor(start/1000000))
+  snp_1Mb_ranges_start <- summaryBy(start ~ chr + range, FUN = min, data=snp_1Mb_mean, keep.names=TRUE, na.rm = TRUE)
+  snp_1Mb_ranges_end <- summaryBy(end ~ chr + range, FUN = max, data=snp_1Mb_mean, keep.names=TRUE, na.rm = TRUE)
   snp_1Mb_mean <- mean_win(snp_1Mb_mean, diff ~ chr + range)
+  snp_1Mb_mean <- merge(snp_1Mb_mean,snp_1Mb_ranges_start,by=c("chr","range"))
+  snp_1Mb_mean <- merge(snp_1Mb_mean,snp_1Mb_ranges_end,by=c("chr","range"))
   
   write.table(snp_1Mb_mean, out1Mb, quote=FALSE, sep="\t", row.names = F, col.names = T, na = "NA")
   
-  snp_100kbp_mean <- transform(snp, range=floor(end/100000))
+  snp_100kbp_mean <- transform(snp, range=floor(start/100000))
+  snp_100kbp_ranges_start <- summaryBy(start ~ chr + range, FUN = min, data=snp_100kbp_mean, keep.names=TRUE, na.rm = TRUE)
+  snp_100kbp_ranges_end <- summaryBy(end ~ chr + range, FUN = max, data=snp_100kbp_mean, keep.names=TRUE, na.rm = TRUE)
   snp_100kbp_mean <- mean_win(snp_100kbp_mean, diff ~ chr + range)
+  snp_100kbp_mean <- merge(snp_100kbp_mean,snp_100kbp_ranges_start,by=c("chr","range"))
+  snp_100kbp_mean <- merge(snp_100kbp_mean,snp_100kbp_ranges_end,by=c("chr","range"))
   
   write.table(snp_100kbp_mean, out100kb, quote=FALSE, sep="\t", row.names = F, col.names = T, na = "NA")
   

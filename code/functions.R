@@ -77,7 +77,7 @@ transform_wide <- function(data_table) {
   # Transform to wide format (instead of heterogametic and homogametic appearing
   # as a value in each row they are transformed to columns) and replace NA with 0
   
-  data_table <- reshape2::dcast(data_table, chr + range ~ sex, value.var="count")
+  data_table <- reshape2::dcast(data_table, chr + range + start + end ~ sex, value.var="count")
   data_table[is.na(data_table)] <- 0
   
   return(data_table)
@@ -87,7 +87,11 @@ count_snp_win <- function(snp_table, win_len) {
   # Count the number of sites in a window for each sex
   
   snp_table <- transform(snp_table, range=floor(start/win_len))
+  snp_table_start <- summaryBy(start ~ chr + range, FUN = min, data=snp_table, keep.names=TRUE, na.rm = TRUE)
+  snp_table_end <- summaryBy(end ~ chr + range, FUN = max, data=snp_table, keep.names=TRUE, na.rm = TRUE)
   snp_table <- aggregate(count ~ chr + sex + range, data = snp_table, sum)
+  snp_table <- merge(snp_table,snp_table_start,by=c("chr","range"))
+  snp_table <- merge(snp_table,snp_table_end,by=c("chr","range"))
   
   return(snp_table)
 }
