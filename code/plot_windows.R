@@ -129,10 +129,12 @@ if (dim(cov_00_table)[1] == 0) {
                 theme_bw() +
                 theme(legend.position="none")
 
-  plot_grid(cov00_plot, "", cov02_plot, legend, cov04_plot, "", nrow = 3, 
-            labels = c("A", "", "B", "", "C"), rel_widths = c(3,1))
+  pdf(file=scatter_out, width = 9, height = 9)
+  plot_grid(cov00_plot, cov02_plot, cov04_plot, nrow = 3, 
+            labels = c("A","B","C"))
   
-  ggsave(scatter_out, plot = last_plot(), device = pdf(), width = 9, height = 9)
+  plot_grid(legend)
+  dev.off()
 
 ################################################################################
 ################################ CIRCLIZE PLOT #################################

@@ -80,7 +80,7 @@ l0 <- ggplot(cov.select, aes(x = cov00, y = hetDiff, size=length)) +
   scale_x_log10(breaks = trans_breaks("log10", function(x) 10^x), 
                 labels = trans_format("log10", math_format(10^.x))) + 
   annotation_logticks(sides="b") + 
-  geom_point(aes(color = length, alpha = 0.5)) + 
+  geom_point(aes(color = length), alpha = 0.5) +
   theme(legend.position="none") +
   scale_color_gradient2(midpoint = mid, mid = "green",low="blue", high="red")
 
@@ -90,7 +90,7 @@ l2 <- ggplot(cov.select, aes(x = cov02, y = hetDiff, size=length)) +
   scale_x_log10(breaks = trans_breaks("log10", function(x) 10^x), 
                 labels = trans_format("log10", math_format(10^.x))) + 
   annotation_logticks(sides="b") +
-  geom_point(aes(color = length, alpha = 0.5)) + 
+  geom_point(aes(color = length), alpha = 0.5) + 
   theme(legend.position="none") +
   scale_color_gradient2(midpoint = mid, mid = "green", low="blue", high="red")
 
@@ -100,7 +100,7 @@ l4 <- ggplot(cov.select, aes(x = cov04, y = hetDiff, size=length)) +
   scale_x_log10(breaks = trans_breaks("log10", function(x) 10^x), 
                 labels = trans_format("log10", math_format(10^.x))) + 
   annotation_logticks(sides="b") +
-  geom_point(aes(color = length, alpha = 0.5)) + 
+  geom_point(aes(color = length), alpha = 0.5) + 
   scale_color_gradient2(midpoint = mid, mid = "green",low="blue", high="red")
 
 legend <- get_legend(l4)
