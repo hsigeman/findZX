@@ -31,6 +31,9 @@ chr_file = args[7]
 ################################################################################
 
 cov_00_table <- read.table(file00, header=TRUE,fill=TRUE,stringsAsFactor=FALSE)
+cov_02_table <- read.table(file02, header=TRUE,fill=TRUE,stringsAsFactor=FALSE)
+cov_04_table <- read.table(file04, header=TRUE,fill=TRUE,stringsAsFactor=FALSE)
+snp_table <- read.table(filesnp, header=TRUE,fill=TRUE,stringsAsFactor=FALSE)
 
 if (dim(cov_00_table)[1] == 0) {
   
@@ -39,27 +42,55 @@ if (dim(cov_00_table)[1] == 0) {
   
 } else {
   
+  nr_factors <- c(length(unique(cov_00_table$chr)),length(unique(cov_02_table$chr)),
+                  length(unique(cov_04_table$chr)),length(unique(snp_table$chr)))
+  
+  nr_factors_min <- which.min(nr_factors)
+  
+  if (nr_factors_min == 1) {
+    
+    cov_02_table <- cov_02_table[cov_02_table$chr %in% unique(cov_00_table$chr), ]
+    cov_04_table <- cov_04_table[cov_04_table$chr %in% unique(cov_00_table$chr), ]
+    snp_table <- snp_table[snp_table$chr %in% unique(cov_00_table$chr), ]
+    
+  } else if (nr_factors_min == 2) {
+    
+    cov_00_table <- cov_00_table[cov_00_table$chr %in% unique(cov_02_table$chr), ]
+    cov_04_table <- cov_04_table[cov_04_table$chr %in% unique(cov_02_table$chr), ]
+    snp_table <- snp_table[snp_table$chr %in% unique(cov_02_table$chr), ]
+    
+  } else if (nr_factors_min == 3) {
+    
+    cov_00_table <- cov_00_table[cov_00_table$chr %in% unique(cov_04_table$chr), ]
+    cov_02_table <- cov_02_table[cov_02_table$chr %in% unique(cov_04_table$chr), ]
+    snp_table <- snp_table[snp_table$chr %in% unique(cov_04_table$chr), ]
+    
+  } else if (nr_factors_min == 4) {
+    
+    cov_00_table <- cov_00_table[cov_00_table$chr %in% unique(snp_table$chr), ]
+    cov_02_table <- cov_02_table[cov_02_table$chr %in% unique(snp_table$chr), ]
+    cov_04_table <- cov_04_table[cov_04_table$chr %in% unique(snp_table$chr), ]
+    
+  }
+  
   cov_00 <- gen_data_4plotting(cov_00_table, c("chr", "range", "ratio"))
   cov.select.00 <- cov_00$df
   max.cov.00 <- cov_00$max
   min.cov.00 <- cov_00$min
   median.cov.00 <- cov_00$median
 
-  cov_02_table <- read.table(file02, header=TRUE,fill=TRUE,stringsAsFactor=FALSE)
   cov_02 <- gen_data_4plotting(cov_02_table, c("chr", "range", "ratio"))
   cov.select.02 <- cov_02$df
   max.cov.02 <- cov_02$max
   min.cov.02 <- cov_02$min
   median.cov.02 <- cov_02$median
 
-  cov_04_table <- read.table(file04, header=TRUE,fill=TRUE,stringsAsFactor=FALSE)
   cov_04 <- gen_data_4plotting(cov_04_table, c("chr", "range", "ratio"))
   cov.select.04 <- cov_04$df
   max.cov.04 <- cov_04$max
   min.cov.04 <- cov_04$min
   median.cov.04 <- cov_04$median
 
-  snp_table <- read.table(filesnp, header=TRUE,fill=TRUE,stringsAsFactor=FALSE)
   snp <- gen_data_4plotting(snp_table, c("chr", "range", "diff"))
   snp.select <- snp$df
   max.snp <- snp$max
