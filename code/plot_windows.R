@@ -103,7 +103,8 @@ if (dim(cov_00_table)[1] == 0) {
 
   cov00_plot <- ggplot(cov.select, aes(x = cov00, y = hetDiff)) + 
 		            geom_point(aes(color = Chromosomes)) + 
-                scale_color_manual(values = rainbow(factor.nr))
+                scale_color_manual(values = rainbow(factor.nr)) +
+                theme(legend.key.size = unit(2, "mm"))
 
   legend <- get_legend(cov00_plot)
 
@@ -129,11 +130,14 @@ if (dim(cov_00_table)[1] == 0) {
                 theme_bw() +
                 theme(legend.position="none")
 
-  pdf(file=scatter_out, width = 9, height = 9)
-  plot_grid(cov00_plot, cov02_plot, cov04_plot, nrow = 3, 
+  p <- plot_grid(cov00_plot, cov02_plot, cov04_plot, nrow = 3, 
             labels = c("A","B","C"))
   
-  plot_grid(legend)
+  l <- plot_grid(legend)
+  
+  pdf(file=scatter_out, width = 9, height = 9)
+  print(p)
+  print(l)
   dev.off()
 
 ################################################################################
