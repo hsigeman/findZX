@@ -290,16 +290,16 @@ rule print_report:
 
 rule plotting:
     input: 
-        cov0 = RESULTDIR + SPECIES + "{synteny}gencov.nodup.nm.0.0.1Mbp.out",
-        cov2 = RESULTDIR + SPECIES + "{synteny}gencov.nodup.nm.0.2.1Mbp.out",
-        cov4 = RESULTDIR + SPECIES + "{synteny}gencov.nodup.nm.0.4.1Mbp.out",
-        snp = RESULTDIR + SPECIES + "{synteny}diffHeterozygosity.1Mbp.out"
+        cov0 = RESULTDIR + SPECIES + "{synteny}gencov.nodup.nm.0.0.{bp}bp.out",
+        cov2 = RESULTDIR + SPECIES + "{synteny}gencov.nodup.nm.0.2.{bp}bp.out",
+        cov4 = RESULTDIR + SPECIES + "{synteny}gencov.nodup.nm.0.4.{bp}bp.out",
+        snp = RESULTDIR + SPECIES + "{synteny}diffHeterozygosity.{bp}bp.out"
     output: 
-        touch(RESULTDIR + SPECIES + "{synteny}plotting.done")
+        touch(RESULTDIR + SPECIES + "{synteny}plotting.{bp}bp.done")
     threads: 1
     params:
-        out_circlize = protected(RESULTDIR + SPECIES + "{synteny}circlize.pdf"),
-        out_scatter = protected(RESULTDIR + SPECIES + "{synteny}scatter.pdf"),
+        out_circlize = protected(RESULTDIR + SPECIES + "{synteny}circlize.{bp}bp.pdf"),
+        out_scatter = protected(RESULTDIR + SPECIES + "{synteny}scatter.{bp}bp.pdf"),
         chromosomes = CHOMOSOMES
     shell: 
         """

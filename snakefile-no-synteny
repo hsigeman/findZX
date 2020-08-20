@@ -46,7 +46,8 @@ rule all:
         RESULTDIR + SPECIES + ".allFreq.1Mbp.out",
         RESULTDIR + SPECIES + ".allFreq.100kbp.out",
         RESULTDIR + SPECIES + ".gencov_heterozygosity_indv.all.pdf",
-        RESULTDIR + SPECIES + ".plotting.done",
+        RESULTDIR + SPECIES + ".plotting.1Mbp.done",
+        RESULTDIR + SPECIES + ".plotting.100kbp.done",
         RESULTDIR + SPECIES + ".plotting_chr.done"
 #        REF_DIR + REF_NAME + "_nonRefAf_consensus.fasta"
 

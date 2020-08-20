@@ -52,7 +52,8 @@ rule all:
         RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".allFreq.1Mbp.out",
         RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".allFreq.100kbp.out",
         RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov_heterozygosity_indv.all.pdf",
-        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".plotting.done",
+        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".plotting.1Mbp.done",
+        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".plotting.100kbp.done",
         RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".plotting_chr.done",
 #        REF_DIR + REF_NAME + "_nonRefAf_consensus.fasta"
 
