@@ -45,33 +45,42 @@ if (dim(cov_00_table)[1] == 0) {
   nr_factors <- c(length(unique(cov_00_table$chr)),length(unique(cov_02_table$chr)),
                   length(unique(cov_04_table$chr)),length(unique(snp_table$chr)))
   
-  nr_factors_min <- which.min(nr_factors)
-  
-  if (nr_factors_min == 1) {
+  # Makes sure that all tables have the same chromosomes
+  while (min(nr_factors) != max(nr_factors)) {
     
-    cov_02_table <- cov_02_table[cov_02_table$chr %in% unique(cov_00_table$chr), ]
-    cov_04_table <- cov_04_table[cov_04_table$chr %in% unique(cov_00_table$chr), ]
-    snp_table <- snp_table[snp_table$chr %in% unique(cov_00_table$chr), ]
+    nr_factors_min <- which.min(nr_factors)
     
-  } else if (nr_factors_min == 2) {
+    if (nr_factors_min == 1) {
+      
+      cov_02_table <- cov_02_table[cov_02_table$chr %in% unique(cov_00_table$chr), ]
+      cov_04_table <- cov_04_table[cov_04_table$chr %in% unique(cov_00_table$chr), ]
+      snp_table <- snp_table[snp_table$chr %in% unique(cov_00_table$chr), ]
+      
+    } else if (nr_factors_min == 2) {
+      
+      cov_00_table <- cov_00_table[cov_00_table$chr %in% unique(cov_02_table$chr), ]
+      cov_04_table <- cov_04_table[cov_04_table$chr %in% unique(cov_02_table$chr), ]
+      snp_table <- snp_table[snp_table$chr %in% unique(cov_02_table$chr), ]
+      
+    } else if (nr_factors_min == 3) {
+      
+      cov_00_table <- cov_00_table[cov_00_table$chr %in% unique(cov_04_table$chr), ]
+      cov_02_table <- cov_02_table[cov_02_table$chr %in% unique(cov_04_table$chr), ]
+      snp_table <- snp_table[snp_table$chr %in% unique(cov_04_table$chr), ]
+      
+    } else if (nr_factors_min == 4) {
+      
+      cov_00_table <- cov_00_table[cov_00_table$chr %in% unique(snp_table$chr), ]
+      cov_02_table <- cov_02_table[cov_02_table$chr %in% unique(snp_table$chr), ]
+      cov_04_table <- cov_04_table[cov_04_table$chr %in% unique(snp_table$chr), ]
+      
+    }
     
-    cov_00_table <- cov_00_table[cov_00_table$chr %in% unique(cov_02_table$chr), ]
-    cov_04_table <- cov_04_table[cov_04_table$chr %in% unique(cov_02_table$chr), ]
-    snp_table <- snp_table[snp_table$chr %in% unique(cov_02_table$chr), ]
-    
-  } else if (nr_factors_min == 3) {
-    
-    cov_00_table <- cov_00_table[cov_00_table$chr %in% unique(cov_04_table$chr), ]
-    cov_02_table <- cov_02_table[cov_02_table$chr %in% unique(cov_04_table$chr), ]
-    snp_table <- snp_table[snp_table$chr %in% unique(cov_04_table$chr), ]
-    
-  } else if (nr_factors_min == 4) {
-    
-    cov_00_table <- cov_00_table[cov_00_table$chr %in% unique(snp_table$chr), ]
-    cov_02_table <- cov_02_table[cov_02_table$chr %in% unique(snp_table$chr), ]
-    cov_04_table <- cov_04_table[cov_04_table$chr %in% unique(snp_table$chr), ]
+    nr_factors <- c(length(unique(cov_00_table$chr)),length(unique(cov_02_table$chr)),
+                    length(unique(cov_04_table$chr)),length(unique(snp_table$chr)))
     
   }
+  
   
   cov_00 <- gen_data_4plotting(cov_00_table, c("chr", "range", "ratio"))
   cov.select.00 <- cov_00$df
