@@ -4,11 +4,11 @@
 ################## FUNCTIONS FOR GENERATING WINDOW STATS-FILES #################
 ################################################################################
 
-remove_chr_less_than_1mb <- function(data_table) {
+remove_chr_less_than_value <- function(data_table, limit) {
   # removes all chromosomes that are < 1Mbp.
   
   max_per_chr <- setDT(data_table)[, .SD[which.max(end)], by=chr]
-  chr_over_1mb <- subset(max_per_chr$chr, max_per_chr$end>1000000)
+  chr_over_1mb <- subset(max_per_chr$chr, max_per_chr$end>limit)
   data_table <- data_table[ data_table$chr %in% chr_over_1mb, ]
   
   return(data_table)
