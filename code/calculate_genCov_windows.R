@@ -53,16 +53,9 @@ write.table(mean_whole_chr, outChr, quote=FALSE, sep="\t", row.names = F, col.na
 ################################## WINDOWS #####################################
 ################################################################################
 
-cov <- remove_chr_less_than_1mb(cov)
+cov <- remove_chr_less_than_value(cov, 100000)
 
 if (dim(cov)[1] > 0) {
-  
-  mean_1Mb <- transform(cov, range=floor(start/1000000))
-  mean_1Mb_ranges_start <- summaryBy(start ~ chr + range, FUN = min, data=mean_1Mb, keep.names=TRUE, na.rm = TRUE)
-  mean_1Mb_ranges_end <- summaryBy(end ~ chr + range, FUN = max, data=mean_1Mb, keep.names=TRUE, na.rm = TRUE)
-  mean_1Mb <- mean_win(mean_1Mb, heterogametic + homogametic + ratio + ratio_scaled + diff + diff_scaled ~ chr + range)
-  mean_1Mb <- merge(mean_1Mb,mean_1Mb_ranges_start,by=c("chr","range"))
-  mean_1Mb <- merge(mean_1Mb,mean_1Mb_ranges_end,by=c("chr","range"))
   
   mean_100kb <- transform(cov, range=floor(start/100000))
   mean_100kb_ranges_start <- summaryBy(start ~ chr + range, FUN = min, data=mean_100kb, keep.names=TRUE, na.rm = TRUE)
@@ -71,15 +64,33 @@ if (dim(cov)[1] > 0) {
   mean_100kb <- merge(mean_100kb,mean_100kb_ranges_start,by=c("chr","range"))
   mean_100kb <- merge(mean_100kb,mean_100kb_ranges_end,by=c("chr","range"))
   
-  write.table(mean_1Mb, out1Mb, quote=FALSE, sep="\t", row.names = F, col.names = T, na = "NA")
-  
   write.table(mean_100kb, out100kb, quote=FALSE, sep="\t", row.names = F, col.names = T, na = "NA")
+  
+  
+  cov <- remove_chr_less_than_value(cov, 1000000)
+  
+  if (dim(cov)[1] > 0) {
+    
+    mean_1Mb <- transform(cov, range=floor(start/1000000))
+    mean_1Mb_ranges_start <- summaryBy(start ~ chr + range, FUN = min, data=mean_1Mb, keep.names=TRUE, na.rm = TRUE)
+    mean_1Mb_ranges_end <- summaryBy(end ~ chr + range, FUN = max, data=mean_1Mb, keep.names=TRUE, na.rm = TRUE)
+    mean_1Mb <- mean_win(mean_1Mb, heterogametic + homogametic + ratio + ratio_scaled + diff + diff_scaled ~ chr + range)
+    mean_1Mb <- merge(mean_1Mb,mean_1Mb_ranges_start,by=c("chr","range"))
+    mean_1Mb <- merge(mean_1Mb,mean_1Mb_ranges_end,by=c("chr","range"))
+    
+    write.table(mean_1Mb, out1Mb, quote=FALSE, sep="\t", row.names = F, col.names = T, na = "NA")
+    
+  } else {
+    
+    print("WARNING: No chromosomes/scaffold larger than 1Mbp")
+    write.table("No chromosomes/scaffold larger than 1Mbp", out1Mb, quote=FALSE, row.names = F, col.names = F)
+  }
   
 } else {
   
-  print("WARNING: No chromosomes/scaffold larger than 1Mbp")
-  write.table("No chromosomes/scaffold larger than 1Mbp", args[2], quote=FALSE, row.names = F, col.names = F)
-  write.table("No chromosomes/scaffold larger than 1Mbp", args[3], quote=FALSE, row.names = F, col.names = F)
+  print("WARNING: No chromosomes/scaffold larger than 100kbp")
+  write.table("No chromosomes/scaffold larger than 100kbp", out1Mb, quote=FALSE, row.names = F, col.names = F)
+  write.table("No chromosomes/scaffold larger than 100kbp", out100kb, quote=FALSE, row.names = F, col.names = F)
   
 }
 

@@ -35,7 +35,7 @@ if (file.exists(chr_file)) {
 ################################ CALCULATIONS ##################################
 ################################################################################
 
-snp <- remove_chr_less_than_1mb(snp)
+snp <- remove_chr_less_than_value(snp,1000000)
 
 
 if (dim(snp)[1] > 0) {
@@ -65,7 +65,7 @@ if (dim(snp)[1] > 0) {
 } else {
   
   print("WARNING: No chromosomes/scaffold larger than 1Mbp")
-  write.table("No chromosomes/scaffold larger than 1Mbp", args[2], quote=FALSE, row.names = F, col.names = F)
-  write.table("No chromosomes/scaffold larger than 1Mbp", args[3], quote=FALSE, row.names = F, col.names = F)
+  write.table("No chromosomes/scaffold larger than 1Mbp", out1Mb, quote=FALSE, row.names = F, col.names = F)
+  write.table("No chromosomes/scaffold larger than 1Mbp", out100kb, quote=FALSE, row.names = F, col.names = F)
   
 }

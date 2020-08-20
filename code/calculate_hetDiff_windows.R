@@ -51,18 +51,9 @@ write.table(snp_mean_chr, outChr, quote=FALSE, sep="\t", row.names = F, col.name
 ################################## WINDOWS #####################################
 ################################################################################
 
-snp <- remove_chr_less_than_1mb(snp)
+snp <- remove_chr_less_than_value(snp, 100000)
 
 if (dim(snp)[1] > 0) {
-  
-  snp_1Mb_mean <- transform(snp, range=floor(start/1000000))
-  snp_1Mb_ranges_start <- summaryBy(start ~ chr + range, FUN = min, data=snp_1Mb_mean, keep.names=TRUE, na.rm = TRUE)
-  snp_1Mb_ranges_end <- summaryBy(end ~ chr + range, FUN = max, data=snp_1Mb_mean, keep.names=TRUE, na.rm = TRUE)
-  snp_1Mb_mean <- mean_win(snp_1Mb_mean, diff ~ chr + range)
-  snp_1Mb_mean <- merge(snp_1Mb_mean,snp_1Mb_ranges_start,by=c("chr","range"))
-  snp_1Mb_mean <- merge(snp_1Mb_mean,snp_1Mb_ranges_end,by=c("chr","range"))
-  
-  write.table(snp_1Mb_mean, out1Mb, quote=FALSE, sep="\t", row.names = F, col.names = T, na = "NA")
   
   snp_100kbp_mean <- transform(snp, range=floor(start/100000))
   snp_100kbp_ranges_start <- summaryBy(start ~ chr + range, FUN = min, data=snp_100kbp_mean, keep.names=TRUE, na.rm = TRUE)
@@ -73,11 +64,31 @@ if (dim(snp)[1] > 0) {
   
   write.table(snp_100kbp_mean, out100kb, quote=FALSE, sep="\t", row.names = F, col.names = T, na = "NA")
   
+  
+  snp <- remove_chr_less_than_value(snp, 1000000)
+  
+  if (dim(snp)[1] > 0) {
+    
+    snp_1Mb_mean <- transform(snp, range=floor(start/1000000))
+    snp_1Mb_ranges_start <- summaryBy(start ~ chr + range, FUN = min, data=snp_1Mb_mean, keep.names=TRUE, na.rm = TRUE)
+    snp_1Mb_ranges_end <- summaryBy(end ~ chr + range, FUN = max, data=snp_1Mb_mean, keep.names=TRUE, na.rm = TRUE)
+    snp_1Mb_mean <- mean_win(snp_1Mb_mean, diff ~ chr + range)
+    snp_1Mb_mean <- merge(snp_1Mb_mean,snp_1Mb_ranges_start,by=c("chr","range"))
+    snp_1Mb_mean <- merge(snp_1Mb_mean,snp_1Mb_ranges_end,by=c("chr","range"))
+    
+    write.table(snp_1Mb_mean, out1Mb, quote=FALSE, sep="\t", row.names = F, col.names = T, na = "NA")
+    
+  } else {
+    print("WARNING: No chromosomes/scaffold larger than 1Mbp")
+    write.table("No chromosomes/scaffold larger than 1Mbp", out1Mb, quote=FALSE, row.names = F, col.names = F)
+  }
+  
+  
 } else {
   
-  print("WARNING: No chromosomes/scaffold larger than 1Mbp")
-  write.table("No chromosomes/scaffold larger than 1Mbp", args[2], quote=FALSE, row.names = F, col.names = F)
-  write.table("No chromosomes/scaffold larger than 1Mbp", args[3], quote=FALSE, row.names = F, col.names = F)
+  print("WARNING: No chromosomes/scaffold larger than 100kbp")
+  write.table("No chromosomes/scaffold larger than 100kbp", out1Mb, quote=FALSE, row.names = F, col.names = F)
+  write.table("No chromosomes/scaffold larger than 100kbp", out100kb, quote=FALSE, row.names = F, col.names = F)
 
 }
 
