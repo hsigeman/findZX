@@ -162,8 +162,8 @@ if (dim(cov_00_table)[1] == 0) {
                 scale_color_manual(values = point_colors) +
                 scale_shape_manual(values = point_shapes) +
                 theme(legend.key.size = unit(2, "mm")) +
-                xlab("normalized genome coverage, nm 0") + 
-                ylab("difference in heterozygosity") + 
+                labs(title = "nm=0", x = "ratio of normalized genome coverage",
+                     y = "difference in heterozygosity") + 
                 theme_bw()
 
   legend <- get_legend(cov00_plot)
@@ -175,8 +175,8 @@ if (dim(cov_00_table)[1] == 0) {
                 geom_point(aes(color = Chromosomes, shape = Chromosomes)) + 
                 scale_color_manual(values = point_colors) + 
                 scale_shape_manual(values = point_shapes) +
-                xlab("normalized genome coverage, nm 2") + 
-                ylab("difference in heterozygosity") + 
+                labs(title = "nm=2", x = "ratio of normalized genome coverage",
+                y = "difference in heterozygosity") + 
                 theme_bw() +
                 theme(legend.position="none")
   
@@ -184,8 +184,8 @@ if (dim(cov_00_table)[1] == 0) {
                 geom_point(aes(color = Chromosomes, shape = Chromosomes)) + 
                 scale_color_manual(values = point_colors) + 
                 scale_shape_manual(values = point_shapes) +
-                xlab("normalized genome coverage, nm 4") + 
-                ylab("difference in heterozygosity") + 
+                labs(title = "nm=4", x = "ratio of normalized genome coverage",
+                y = "difference in heterozygosity") + 
                 theme_bw() +
                 theme(legend.position="none")
 

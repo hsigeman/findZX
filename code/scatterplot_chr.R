@@ -72,7 +72,6 @@ colnames(cov.select) <- c("scaffold", "length", "cov00", "cov02", "cov04", "hetD
 ################################################################################
 
 cov.select <- cov.select[order(cov.select$length),]
-mid <- max(cov.select$length)/2
 
 l0 <- ggplot(cov.select, aes(x = cov00, y = hetDiff, size=length)) + 
   labs(title = "", x = "", y = "difference in heterozygosity") + 
@@ -80,9 +79,9 @@ l0 <- ggplot(cov.select, aes(x = cov00, y = hetDiff, size=length)) +
   scale_x_log10(breaks = trans_breaks("log10", function(x) 10^x), 
                 labels = trans_format("log10", math_format(10^.x))) + 
   annotation_logticks(sides="b") + 
-  geom_point(aes(color = length), alpha = 0.5) +
+  geom_point(aes(color = length)) +
   theme(legend.position="none") +
-  scale_color_gradient2(midpoint = mid, mid = "green",low="blue", high="red")
+  scale_color_gradient(low="lightgrey", high="red")
 
 l2 <- ggplot(cov.select, aes(x = cov02, y = hetDiff, size=length)) + 
   labs(title = "", x = "genome coverage", y = "") + 
@@ -90,9 +89,9 @@ l2 <- ggplot(cov.select, aes(x = cov02, y = hetDiff, size=length)) +
   scale_x_log10(breaks = trans_breaks("log10", function(x) 10^x), 
                 labels = trans_format("log10", math_format(10^.x))) + 
   annotation_logticks(sides="b") +
-  geom_point(aes(color = length), alpha = 0.5) + 
+  geom_point(aes(color = length)) + 
   theme(legend.position="none") +
-  scale_color_gradient2(midpoint = mid, mid = "green", low="blue", high="red")
+  scale_color_gradient(low="lightgrey", high="red")
 
 l4 <- ggplot(cov.select, aes(x = cov04, y = hetDiff, size=length)) + 
   labs(title = "", x = "", color = "length", y = "") + 
@@ -100,8 +99,8 @@ l4 <- ggplot(cov.select, aes(x = cov04, y = hetDiff, size=length)) +
   scale_x_log10(breaks = trans_breaks("log10", function(x) 10^x), 
                 labels = trans_format("log10", math_format(10^.x))) + 
   annotation_logticks(sides="b") +
-  geom_point(aes(color = length), alpha = 0.5) + 
-  scale_color_gradient2(midpoint = mid, mid = "green",low="blue", high="red")
+  geom_point(aes(color = length)) + 
+  scale_color_gradient(low="lightgrey", high="red")
 
 legend <- get_legend(l4)
 
@@ -115,13 +114,13 @@ l <- plot_grid(l0, l2, l4, legend, ncol = 4, rel_widths = c(3,3,3,1),
 ################################################################################
 
 cov.select <- cov.select[order(cov.select$cov00),]
-mid <- 1
+library(viridis)
 
 c0 <- ggplot(cov.select, aes(y = length, x = hetDiff)) + 
   labs(title = "", y = "chromosome/scaffold length", x = "", color = "coverage") + 
   theme_bw() + 
   geom_point(aes(color = cov00)) + 
-  scale_color_gradient2(midpoint = mid, mid = "green",low="blue", high="red")
+  scale_color_viridis()
   
 legend <- get_legend(c0)
   
