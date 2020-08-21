@@ -140,31 +140,50 @@ if (dim(cov_00_table)[1] == 0) {
   
   colnames(cov.select) <- c("Chromosomes", "window", "cov00", "cov02", "cov04", "hetDiff")
   
-
+  
+  library(RColorBrewer)
+  point_colors <- c(rep(brewer.pal(n = 8, name = "Dark2")[1], 8), 
+                    rep(brewer.pal(n = 8, name = "Dark2")[2], 8), 
+                    rep(brewer.pal(n = 8, name = "Dark2")[3], 8), 
+                    rep(brewer.pal(n = 8, name = "Dark2")[4], 8), 
+                    rep(brewer.pal(n = 8, name = "Dark2")[5], 8), 
+                    rep(brewer.pal(n = 8, name = "Dark2")[6], 8), 
+                    rep(brewer.pal(n = 8, name = "Dark2")[7], 8), 
+                    rep(brewer.pal(n = 8, name = "Dark2")[8], 8))
+  point_reps <- ceiling(factor.nr/length(point_colors))
+  point_colors <- rep(point_colors, point_reps)[1:factor.nr]
+  
+  point_shapes <- c(0,1,2,3,4,5,6,7)
+  point_reps <- ceiling(factor.nr/length(point_shapes))
+  point_shapes <- rep(point_shapes, point_reps)[1:factor.nr]
+  
   cov00_plot <- ggplot(cov.select, aes(x = cov00, y = hetDiff)) + 
-		            geom_point(aes(color = Chromosomes)) + 
-                scale_color_manual(values = rainbow(factor.nr)) +
-                theme(legend.key.size = unit(2, "mm"))
+		            geom_point(aes(color = Chromosomes, shape = Chromosomes)) + 
+                scale_color_manual(values = point_colors) +
+                scale_shape_manual(values = point_shapes) +
+                theme(legend.key.size = unit(2, "mm")) +
+                xlab("normalized genome coverage, nm 0") + 
+                ylab("difference in heterozygosity") + 
+                theme_bw()
 
   legend <- get_legend(cov00_plot)
 
   cov00_plot <- cov00_plot +
-                xlab("normalized genome coverage, nm 0") + 
-                ylab("difference in heterozygosity") + 
-                theme_bw() +
                 theme(legend.position="none")
   
   cov02_plot <- ggplot(cov.select, aes(x = cov02, y = hetDiff)) + 
-                geom_point(aes(color = Chromosomes)) + 
-                scale_color_manual(values = rainbow(factor.nr)) + 
+                geom_point(aes(color = Chromosomes, shape = Chromosomes)) + 
+                scale_color_manual(values = point_colors) + 
+                scale_shape_manual(values = point_shapes) +
                 xlab("normalized genome coverage, nm 2") + 
                 ylab("difference in heterozygosity") + 
                 theme_bw() +
                 theme(legend.position="none")
   
   cov04_plot <- ggplot(cov.select, aes(x = cov04, y = hetDiff)) + 
-                geom_point(aes(color = Chromosomes)) + 
-                scale_color_manual(values = rainbow(factor.nr)) + 
+                geom_point(aes(color = Chromosomes, shape = Chromosomes)) + 
+                scale_color_manual(values = point_colors) + 
+                scale_shape_manual(values = point_shapes) +
                 xlab("normalized genome coverage, nm 4") + 
                 ylab("difference in heterozygosity") + 
                 theme_bw() +
