@@ -210,21 +210,21 @@ scatter3D(cov.select$length, log(cov.select$cov00), cov.select$hetDiff,
           colvar = cov.select$length, pch = 19, xlab = "Scaffold length", 
           ylab = "log of genome coverage ratio", main = "nm = 0",
           zlab = "difference in heterozygosity", bty = "b2",
-          colkey = FALSE, col = viridis(length(cov.select$length)),
+          colkey = FALSE, col = viridis(length(cov.select$length), direction = -1),
           phi = 20, theta = 60)
 
 scatter3D(cov.select$length, log(cov.select$cov02), cov.select$hetDiff,
           colvar = cov.select$length, pch = 19, xlab = "Scaffold length", 
           ylab = "log of genome coverage ratio", main = "nm = 2",
           zlab = "difference in heterozygosity", bty = "b2",
-          colkey = FALSE, col = viridis(length(cov.select$length)),
+          colkey = FALSE, col = viridis(length(cov.select$length), direction = -1),
           phi = 20, theta = 60)
 
 scatter3D(cov.select$length, log(cov.select$cov04), cov.select$hetDiff,
           colvar = cov.select$length, pch = 19, xlab = "Scaffold length", 
           ylab = "log of genome coverage ratio", main = "nm = 4",
           zlab = "difference in heterozygosity", bty = "b2",
-          colkey = FALSE, col = viridis(length(cov.select$length)),
+          colkey = FALSE, col = viridis(length(cov.select$length), direction = -1),
           phi = 20, theta = 60)
 
 dev.off()
