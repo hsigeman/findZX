@@ -44,16 +44,16 @@
     "matchScaffold2Chr_snp" :
     {
         "time" : "04:00:00",
-        "n" : 10
+        "n" : 5
     },
     "confirm_sexing_synteny" :
     {
         "time" : "04:00:00",
-        "n" : 10
+        "n" : 1
     },
     "confirm_sexing" :
     {
         "time" : "04:00:00",
-        "n" : 10
+        "n" : 1
     },
 }
