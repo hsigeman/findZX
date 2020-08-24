@@ -4,6 +4,7 @@ library(plot3D)
 library(ggplot2)
 require(scales)
 library(cowplot)
+library(viridis)
 
 # Reads in files ending with '.chr.out' produced by calculate_gencov_windows.R 
 # and calculate_heterozygosityDiff_windows.R
@@ -84,7 +85,7 @@ l0 <- ggplot(cov.select, aes(x = cov00, y = hetDiff, size=length)) +
   scale_color_gradient(low="lightgrey", high="red")
 
 l2 <- ggplot(cov.select, aes(x = cov02, y = hetDiff, size=length)) + 
-  labs(title = "", x = "genome coverage", y = "") + 
+  labs(title = "", x = "genome coverage ratio", y = "") + 
   theme_bw() + 
   scale_x_log10(breaks = trans_breaks("log10", function(x) 10^x), 
                 labels = trans_format("log10", math_format(10^.x))) + 
@@ -94,13 +95,14 @@ l2 <- ggplot(cov.select, aes(x = cov02, y = hetDiff, size=length)) +
   scale_color_gradient(low="lightgrey", high="red")
 
 l4 <- ggplot(cov.select, aes(x = cov04, y = hetDiff, size=length)) + 
-  labs(title = "", x = "", color = "length", y = "") + 
+  labs(title = "", x = "", color = "scaffold length", y = "", size =) + 
   theme_bw() + 
   scale_x_log10(breaks = trans_breaks("log10", function(x) 10^x), 
                 labels = trans_format("log10", math_format(10^.x))) + 
   annotation_logticks(sides="b") +
   geom_point(aes(color = length)) + 
-  scale_color_gradient(low="lightgrey", high="red")
+  scale_color_gradient(low="lightgrey", high="red") +
+  guides(color=guide_legend(), size = guide_legend())
 
 legend <- get_legend(l4)
 
@@ -114,13 +116,14 @@ l <- plot_grid(l0, l2, l4, legend, ncol = 4, rel_widths = c(3,3,3,1),
 ################################################################################
 
 cov.select <- cov.select[order(cov.select$cov00),]
-library(viridis)
+
+my_breaks = c(round(min.cov.00), 1, 10, 100, round(max.cov.00))
 
 c0 <- ggplot(cov.select, aes(y = length, x = hetDiff)) + 
-  labs(title = "", y = "chromosome/scaffold length", x = "", color = "coverage") + 
+  labs(title = "", y = "scaffold length", x = "", color = "coverage ratio") + 
   theme_bw() + 
   geom_point(aes(color = cov00)) + 
-  scale_color_viridis()
+  scale_color_viridis(trans = "log", breaks = my_breaks, labels = my_breaks)
   
 legend <- get_legend(c0)
   
@@ -131,9 +134,9 @@ cov.select <- cov.select[order(cov.select$cov02),]
 c2 <- ggplot(cov.select, aes(y = length, x = hetDiff)) + 
   labs(title = "", y = "", x = "difference in heterozygosity") + 
   theme_bw() + 
-  geom_point(aes(color = cov02)) + 
-  theme(legend.position="none") +
-  scale_color_gradient2(midpoint = mid, mid = "green",low="blue", high="red")
+  geom_point(aes(color = cov02)) +
+  scale_color_viridis(trans = "log", breaks = my_breaks, labels = my_breaks) +
+  theme(legend.position="none")
 
 cov.select <- cov.select[order(cov.select$cov04),]
 
@@ -141,10 +144,11 @@ c4 <- ggplot(cov.select, aes(y = length, x = hetDiff)) +
   labs(title = "", x = "", y = "") + 
   theme_bw() + 
   geom_point(aes(color = cov04)) + 
-  scale_color_gradient2(midpoint = mid, mid = "green",low="blue", high="red") + 
+  scale_color_viridis(trans = "log", breaks = my_breaks, labels = my_breaks) + 
   theme(legend.position="none")
 
-c <- plot_grid(c0, c2, c4, legend, ncol = 4, rel_widths = c(3,3,3,1))
+c <- plot_grid(c0, c2, c4, legend, ncol = 4, rel_widths = c(3,3,3,1),
+               labels = c("nm = 0", "nm = 2", "nm = 4", ""))
 
 ################################################################################
 ############################ SCATTER PLOT HETDIFF ##############################
@@ -154,33 +158,33 @@ cov.select <- cov.select[order(cov.select$hetDiff),]
 mid <- 0
 
 h0 <- ggplot(cov.select, aes(y = length, x = cov00)) + 
-  labs(title = "", y = "chromosome/scaffold length", x = "") + 
+  labs(title = "", y = "scaffold length", x = "") + 
   theme_bw() + 
   scale_x_log10(breaks = trans_breaks("log10", function(x) 10^x), 
                 labels = trans_format("log10", math_format(10^.x))) +
   annotation_logticks(sides="b") +
   geom_point(aes(color = hetDiff)) + 
-  scale_color_gradient2(midpoint = mid, mid = "green",low="blue", high="red") + 
+  scale_color_gradient2(midpoint = mid, mid = "lightgrey",low="blue", high="red") + 
   theme(legend.position="none")
 
 h2 <- ggplot(cov.select, aes(y = length, x = cov02)) + 
-  labs(title = "", y = "", x = "genome coverage") + 
+  labs(title = "", y = "", x = "genome coverage ratio") + 
   theme_bw() + 
   scale_x_log10(breaks = trans_breaks("log10", function(x) 10^x), 
                 labels = trans_format("log10", math_format(10^.x))) +
   annotation_logticks(sides="b") +
   geom_point(aes(color = hetDiff)) + 
-  scale_color_gradient2(midpoint = mid, mid = "green",low="blue", high="red") + 
+  scale_color_gradient2(midpoint = mid, mid = "lightgrey",low="blue", high="red") + 
   theme(legend.position="none")
 
 h4 <- ggplot(cov.select, aes(y = length, x = cov04)) + 
-  labs(title = "", x = "", color = "hetDiff", y = "") + 
+  labs(title = "", x = "", color = "heterozygosity", y = "") + 
   theme_bw() + 
   scale_x_log10(breaks = trans_breaks("log10", function(x) 10^x), 
                 labels = trans_format("log10", math_format(10^.x))) +
   annotation_logticks(sides="b") +
   geom_point(aes(color = hetDiff)) + 
-  scale_color_gradient2(midpoint = mid, mid = "green",low="blue", high="red")
+  scale_color_gradient2(midpoint = mid, mid = "lightgrey",low="blue", high="red")
 
 legend <- get_legend(h4)
 
@@ -192,7 +196,7 @@ h <- plot_grid(h0, h2, h4, legend, ncol = 4, rel_widths = c(3,3,3,1))
 
 pg <- plot_grid(l,c,h, ncol = 1)
 
-ggsave(scatter2D_out, plot = pg, device = pdf(), width = 14, height = 10)
+ggsave(scatter2D_out, plot = pg, device = pdf(), width = 14, height = 14)
 
 ################################################################################
 ############################### SCATTER PLOT 3D ################################
@@ -204,21 +208,24 @@ par(mfrow=c(1,3), mar=c(2,1,2,0), oma=c(0,0,0,0), xpd=TRUE)
 
 scatter3D(cov.select$length, log(cov.select$cov00), cov.select$hetDiff,
           colvar = cov.select$length, pch = 19, xlab = "Scaffold length", 
-          ylab = "log of normalized genome coverage", main = "nm = 0",
+          ylab = "log of genome coverage ratio", main = "nm = 0",
           zlab = "difference in heterozygosity", bty = "b2",
-          colkey = FALSE)
+          colkey = FALSE, col = viridis(length(cov.select$length)),
+          phi = 20, theta = 60)
 
 scatter3D(cov.select$length, log(cov.select$cov02), cov.select$hetDiff,
           colvar = cov.select$length, pch = 19, xlab = "Scaffold length", 
-          ylab = "log of normalized genome coverage", main = "nm = 2",
+          ylab = "log of genome coverage ratio", main = "nm = 2",
           zlab = "difference in heterozygosity", bty = "b2",
-          colkey = FALSE)
+          colkey = FALSE, col = viridis(length(cov.select$length)),
+          phi = 20, theta = 60)
 
 scatter3D(cov.select$length, log(cov.select$cov04), cov.select$hetDiff,
           colvar = cov.select$length, pch = 19, xlab = "Scaffold length", 
-          ylab = "log of normalized genome coverage", main = "nm = 4",
+          ylab = "log of genome coverage ratio", main = "nm = 4",
           zlab = "difference in heterozygosity", bty = "b2",
-          colkey = FALSE)
+          colkey = FALSE, col = viridis(length(cov.select$length)),
+          phi = 20, theta = 60)
 
 dev.off()
 
