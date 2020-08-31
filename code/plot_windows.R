@@ -38,7 +38,7 @@ snp_table <- read.table(filesnp, header=TRUE,fill=TRUE,stringsAsFactor=FALSE)
 
 if (dim(cov_00_table)[1] == 0) {
   
-  print("Warning: No chromosome/scaffold over 1Mbp! Check output based on 
+  print("Warning: No chromosome/scaffold over 1Mbp or 100kbp! Check output based on 
         chromosome instead.")
   
 } else {
@@ -136,26 +136,25 @@ if (dim(cov_00_table)[1] == 0) {
 ################################################################################
 
   cov.select <- merge(cov.select.00, cov.select.02, by = c("factor", "x"))
-  cov.select <- merge(cov.select, cov.select.04, by = c("factor", "x"))
-  cov.select <- merge(cov.select, snp.select, by = c("factor", "x"))
+  colnames(cov.select) <- c("factor", "x", "cov00", "cov02")
   
+  cov.select <- merge(cov.select, cov.select.04, by = c("factor", "x"))
+  colnames(cov.select) <- c("factor", "x", "cov00", "cov02", "cov04")
+  
+  cov.select <- merge(cov.select, snp.select, by = c("factor", "x"))
   colnames(cov.select) <- c("Chromosomes", "window", "cov00", "cov02", "cov04", "hetDiff")
   
   
-  point_colors <- c(rep(brewer.pal(n = 8, name = "Dark2")[1], 8), 
-                    rep(brewer.pal(n = 8, name = "Dark2")[2], 8), 
-                    rep(brewer.pal(n = 8, name = "Dark2")[3], 8), 
-                    rep(brewer.pal(n = 8, name = "Dark2")[4], 8), 
-                    rep(brewer.pal(n = 8, name = "Dark2")[5], 8), 
-                    rep(brewer.pal(n = 8, name = "Dark2")[6], 8), 
-                    rep(brewer.pal(n = 8, name = "Dark2")[7], 8), 
-                    rep(brewer.pal(n = 8, name = "Dark2")[8], 8))
+  # Get colors and shapes for all chromosomes
+  point_colors <- c(brewer.pal(n = 8, name = "Dark2"))
   point_reps <- ceiling(factor.nr/length(point_colors))
   point_colors <- rep(point_colors, point_reps)[1:factor.nr]
   
-  point_shapes <- c(0,1,2,3,4,5,6,7)
+  point_shapes <- c(rep(0,8),rep(1,8),rep(2,8),rep(3,8),
+                    rep(4,8),rep(5,8),rep(6,8),rep(7,8))
   point_reps <- ceiling(factor.nr/length(point_shapes))
   point_shapes <- rep(point_shapes, point_reps)[1:factor.nr]
+  
   
   cov00_plot <- ggplot(cov.select, aes(x = cov00, y = hetDiff)) + 
 		            geom_point(aes(color = Chromosomes, shape = Chromosomes)) + 
@@ -194,8 +193,88 @@ if (dim(cov_00_table)[1] == 0) {
   
   l <- plot_grid(legend)
   
+################################################################################
+################################ SCATTER PLOT ##################################
+################################################################################
+  
+  # Get mean and standard deviation for all chromosomes
+  cov00_chr_sd = summaryBy(data=cov.select, cov00 ~ Chromosomes, FUN = sd)
+  cov00_chr_mean = summaryBy(data=cov.select, cov00 ~ Chromosomes, FUN = mean)
+  
+  cov02_chr_sd = summaryBy(data=cov.select, cov02 ~ Chromosomes, FUN = sd)
+  cov02_chr_mean = summaryBy(data=cov.select, cov02 ~ Chromosomes, FUN = mean)
+  
+  cov04_chr_sd = summaryBy(data=cov.select, cov04 ~ Chromosomes, FUN = sd)
+  cov04_chr_mean = summaryBy(data=cov.select, cov04 ~ Chromosomes, FUN = mean)
+  
+  hetDiff_chr_sd = summaryBy(data=cov.select, hetDiff ~ Chromosomes, FUN = sd)
+  hetDiff_chr_mean = summaryBy(data=cov.select, hetDiff ~ Chromosomes, FUN = mean)
+  
+  # Combine all statistics
+  chr.stats = merge(cov00_chr_mean, cov00_chr_sd)
+  chr.stats = merge(chr.stats, cov02_chr_mean)
+  chr.stats = merge(chr.stats, cov02_chr_sd)
+  chr.stats = merge(chr.stats, cov04_chr_mean)
+  chr.stats = merge(chr.stats, cov04_chr_sd)
+  chr.stats = merge(chr.stats, hetDiff_chr_mean)
+  chr.stats = merge(chr.stats, hetDiff_chr_sd)
+  
+  
+  cov00_plot <- ggplot(chr.stats, aes(x = cov00.mean, 
+                                      xmin = cov00.mean - cov00.sd,
+                                      xmax = cov00.mean + cov00.sd,
+                                      y = hetDiff.mean, 
+                                      ymin = hetDiff.mean - hetDiff.sd,
+                                      ymax = hetDiff.mean + hetDiff.sd,)) +
+    geom_point(aes(color = Chromosomes, shape = Chromosomes)) + 
+    scale_color_manual(values = point_colors) + 
+    scale_shape_manual(values = point_shapes) +
+    geom_errorbar(aes(color = Chromosomes)) + 
+    geom_errorbarh(aes(color = Chromosomes)) +
+    labs(title = "nm=0", x = "ratio of normalized genome coverage",
+         y = "difference in heterozygosity") + 
+    theme_bw() +
+    theme(legend.position="none")
+  
+  cov02_plot <- ggplot(chr.stats, aes(x = cov02.mean, 
+                                      xmin = cov02.mean - cov02.sd,
+                                      xmax = cov02.mean + cov02.sd,
+                                      y = hetDiff.mean, 
+                                      ymin = hetDiff.mean - hetDiff.sd,
+                                      ymax = hetDiff.mean + hetDiff.sd,)) +
+    geom_point(aes(color = Chromosomes, shape = Chromosomes)) + 
+    scale_color_manual(values = point_colors) + 
+    scale_shape_manual(values = point_shapes) +
+    geom_errorbar(aes(color = Chromosomes)) + 
+    geom_errorbarh(aes(color = Chromosomes)) +
+    labs(title = "nm=2", x = "ratio of normalized genome coverage",
+         y = "difference in heterozygosity") + 
+    theme_bw() +
+    theme(legend.position="none")
+  
+  cov04_plot <- ggplot(chr.stats, aes(x = cov04.mean, 
+                                      xmin = cov04.mean - cov04.sd,
+                                      xmax = cov04.mean + cov04.sd,
+                                      y = hetDiff.mean, 
+                                      ymin = hetDiff.mean - hetDiff.sd,
+                                      ymax = hetDiff.mean + hetDiff.sd,)) +
+    geom_point(aes(color = Chromosomes, shape = Chromosomes)) + 
+    scale_color_manual(values = point_colors) + 
+    scale_shape_manual(values = point_shapes) +
+    geom_errorbar(aes(color = Chromosomes)) + 
+    geom_errorbarh(aes(color = Chromosomes)) +
+    labs(title = "nm=4", x = "ratio of normalized genome coverage",
+         y = "difference in heterozygosity") + 
+    theme_bw() +
+    theme(legend.position="none")
+  
+  c <- plot_grid(cov00_plot, cov02_plot, cov04_plot, nrow = 3, 
+                 labels = c("A","B","C"))
+  
+  
   pdf(file=scatter_out, width = 9, height = 9)
   print(p)
+  print(c)
   print(l)
   dev.off()
 

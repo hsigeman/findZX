@@ -61,12 +61,14 @@ median.snp <- snp$median
 ################################# MERGE DATA ###################################
 ################################################################################
 
-cov.select <- merge(cov.select.00, cov.select.02, by = c("factor", "x"))
-cov.select <- merge(cov.select, cov.select.04, by = c("factor", "x"))
-cov.select <- merge(cov.select, snp.select, by = c("factor"))
+cov.select <- merge(cov.select.00, cov.select.02, by = c("factor"))[c(1,3,5)]
+colnames(cov.select) <- c("factor", "cov00", "cov02")
 
-cov.select <- cov.select[,-6]
-colnames(cov.select) <- c("scaffold", "length", "cov00", "cov02", "cov04", "hetDiff")
+cov.select <- merge(cov.select, cov.select.04, by = c("factor"))[c(1,2,3,5)]
+colnames(cov.select) <- c("factor", "cov00", "cov02", "cov04")
+
+cov.select <- merge(cov.select, snp.select, by = c("factor"))
+colnames(cov.select) <- c("Chromosome", "cov00", "cov02", "cov04", "length", "hetDiff")
 
 ################################################################################
 ############################# SCATTER PLOT LENGTH ##############################
@@ -95,14 +97,13 @@ l2 <- ggplot(cov.select, aes(x = cov02, y = hetDiff, size=length)) +
   scale_color_gradient(low="lightgrey", high="red")
 
 l4 <- ggplot(cov.select, aes(x = cov04, y = hetDiff, size=length)) + 
-  labs(title = "", x = "", color = "scaffold length", y = "", size =) + 
+  labs(title = "", x = "", color = "scaffold length", y = "") + 
   theme_bw() + 
   scale_x_log10(breaks = trans_breaks("log10", function(x) 10^x), 
                 labels = trans_format("log10", math_format(10^.x))) + 
   annotation_logticks(sides="b") +
   geom_point(aes(color = length)) + 
-  scale_color_gradient(low="lightgrey", high="red") +
-  guides(color=guide_legend(), size = guide_legend())
+  scale_color_gradient(low="lightgrey", high="red")
 
 legend <- get_legend(l4)
 
@@ -117,13 +118,11 @@ l <- plot_grid(l0, l2, l4, legend, ncol = 4, rel_widths = c(3,3,3,1),
 
 cov.select <- cov.select[order(cov.select$cov00),]
 
-my_breaks = c(round(min.cov.00), 1, 10, 100, round(max.cov.00))
-
 c0 <- ggplot(cov.select, aes(y = length, x = hetDiff)) + 
   labs(title = "", y = "scaffold length", x = "", color = "coverage ratio") + 
   theme_bw() + 
   geom_point(aes(color = cov00)) + 
-  scale_color_viridis(trans = "log", breaks = my_breaks, labels = my_breaks)
+  scale_color_viridis(trans = "log")
   
 legend <- get_legend(c0)
   
@@ -135,7 +134,7 @@ c2 <- ggplot(cov.select, aes(y = length, x = hetDiff)) +
   labs(title = "", y = "", x = "difference in heterozygosity") + 
   theme_bw() + 
   geom_point(aes(color = cov02)) +
-  scale_color_viridis(trans = "log", breaks = my_breaks, labels = my_breaks) +
+  scale_color_viridis(trans = "log") +
   theme(legend.position="none")
 
 cov.select <- cov.select[order(cov.select$cov04),]
@@ -144,7 +143,7 @@ c4 <- ggplot(cov.select, aes(y = length, x = hetDiff)) +
   labs(title = "", x = "", y = "") + 
   theme_bw() + 
   geom_point(aes(color = cov04)) + 
-  scale_color_viridis(trans = "log", breaks = my_breaks, labels = my_breaks) + 
+  scale_color_viridis(trans = "log") + 
   theme(legend.position="none")
 
 c <- plot_grid(c0, c2, c4, legend, ncol = 4, rel_widths = c(3,3,3,1),
@@ -190,7 +189,8 @@ legend <- get_legend(h4)
 
 h4 <- h4 + theme(legend.position="none")
 
-h <- plot_grid(h0, h2, h4, legend, ncol = 4, rel_widths = c(3,3,3,1))
+h <- plot_grid(h0, h2, h4, legend, ncol = 4, rel_widths = c(3,3,3,1),
+               labels = c("nm = 0", "nm = 2", "nm = 4", ""))
 
 
 
