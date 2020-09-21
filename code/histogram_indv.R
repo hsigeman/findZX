@@ -98,7 +98,7 @@ het_mean <- het_mean[-1:-2]
 # samples should be able to have different lengths
 cov_no_outliers <- apply(cov, 2, remove_outliers)
 
-# normalize on median of each sample and take the logarithm
+# normalize on median of each sample
 cov_norm <- lapply(cov_no_outliers, normalize)
 
 ################################################################################
