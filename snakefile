@@ -328,19 +328,35 @@ rule plotting_chr:
 ################### MODIFY REF GENOME ####################
 ##########################################################
 
+#rule modify_genome:
+#    input:
+#        vcf = VCF_DIR + SPECIES + ".vcf.gz",
+#        ref = REF_FASTA
+#    output:
+#        noN_vcf = temp(VCF_DIR + SPECIES + ".noN.vcf.gz"),
+#        vcf = temp(VCF_DIR + SPECIES + ".non-ref-af_05_biallelic_qual.vcf"),
+#        gz = VCF_DIR + SPECIES + ".non-ref-af_05_biallelic_qual.vcf.gz",
+#        ref = REF_DIR + REF_NAME + "_nonRefAf_consensus.fasta"
+#    shell:
+#        """
+#        zcat {input.vcf} | awk '$4 !~ /N/' | gzip -c > {output.noN_vcf}
+#        vcftools --gzvcf {output.noN_vcf} --non-ref-af 0.5 --min-alleles 2 --max-alleles 2 --remove-filtered-all --recode --stdout > {output.vcf}
+#        bgzip -c {output.vcf} > {output.gz}
+#        tabix -p vcf {output.gz}
+#        cat {input.ref} | bcftools consensus {output.gz} > {output.ref}
+#        """
+
 rule modify_genome:
     input:
         vcf = VCF_DIR + SPECIES + ".vcf.gz",
         ref = REF_FASTA
     output:
-        noN_vcf = temp(VCF_DIR + SPECIES + ".noN.vcf.gz"),
         vcf = temp(VCF_DIR + SPECIES + ".non-ref-af_05_biallelic_qual.vcf"),
         gz = VCF_DIR + SPECIES + ".non-ref-af_05_biallelic_qual.vcf.gz",
         ref = REF_DIR + REF_NAME + "_nonRefAf_consensus.fasta"
     shell:
         """
-        zcat {input.vcf} | awk '$4 !~ /N/' | gzip -c > {output.noN_vcf}
-        vcftools --gzvcf {output.noN_vcf} --non-ref-af 0.5 --min-alleles 2 --max-alleles 2 --remove-filtered-all --recode --stdout > {output.vcf}
+        vcftools --gzvcf {input.vcf} --non-ref-af 0.5 --min-alleles 2 --max-alleles 2 --remove-filtered-all --recode --stdout > {output.vcf}
         bgzip -c {output.vcf} > {output.gz}
         tabix -p vcf {output.gz}
         cat {input.ref} | bcftools consensus {output.gz} > {output.ref}
