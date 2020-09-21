@@ -39,6 +39,16 @@ new_name <- function(n,sufix) {
   return(n) 
 }
 
+length_chr <- function(data_table) {
+  # Returns the length of each chr/scaffold as a dataframe.
+  
+  max_per_chr <- setDT(data_table)[, .SD[which.max(end)], by=chr]
+  
+  max_per_chr <- as.data.frame(max_per_chr[,1:2])
+  
+  return(max_per_chr)
+}
+
 ################################################################################
 ################################################################################
 ################################################################################
@@ -77,6 +87,8 @@ col_names <- colnames(cov)[4:length(cov)]
 colnames(cov) <- c("chr","start","end",sample_names)
 
 Thet <- transform(het, range=floor(end/5000))
+len_chr <- length_chr(Thet)
+colnames(len_chr) <- c("chr","length")
 
 f <- as.formula(paste(paste(col_names, collapse = "+"), "~", "chr + range"))
 het_mean <- summaryBy(f, data=Thet, keep.names=TRUE, na.rm = TRUE)
@@ -87,19 +99,22 @@ Tcov <- transform(cov, range=floor(start/5000))
 
 cov_het <- merge(Tcov, het_mean, by = c("chr","range"))
 cov_het <- cov_het[-3:-4]
+cov_het <- merge(cov_het, len_chr, by = "chr")
 
 nr_samples <- length(sample_names)
 
 # remove columns: chr and range (start, stop)
 cov <- cov[-1:-3]
-het_mean <- het_mean[-1:-2]
+het_mean <- het_mean[,-1:-2]
+het_mean <- as.data.frame(het_mean)
 
 # remove outliers for each sample, save resulting array in a list
 # samples should be able to have different lengths
 cov_no_outliers <- apply(cov, 2, remove_outliers)
 
 # normalize on median of each sample
-cov_norm <- lapply(cov_no_outliers, normalize)
+#cov_norm <- lapply(cov_no_outliers, normalize)
+cov_norm <- cov_no_outliers
 
 ################################################################################
 ################################### PLOTTING ###################################
@@ -118,20 +133,32 @@ for (i in 1:nr_samples) {
   no_outliers <- cov_het[!(cov_het[,x] %in% outliers),]
   
   p <- ggplot(data = no_outliers, aes(x = no_outliers[,x], y = no_outliers[,y])) + 
-    geom_bin2d(bins = 10) + 
+    geom_bin2d() + 
     labs(x = "genome coverage", y = "heterozygosity") + 
     theme_bw() +
-    scale_fill_gradient(low="lightblue1",high="darkblue",trans="log10") +
+    scale_fill_gradient(low="white",high="darkblue",trans="log10") +
     scale_x_log10(breaks = trans_breaks("log10", function(x) 10^x), 
                   labels = trans_format("log10", math_format(10^.x))) + 
     annotation_logticks(sides="b")
   
+  gl <- ggplot(data = no_outliers, aes(x = no_outliers[,x], y = length)) + 
+    geom_bin2d() + 
+    labs(x = "genome coverage", y = "scaffold length") + 
+    theme_bw() +
+    scale_fill_gradient(low="white",high="darkblue",trans="log10")
+  
+  hl <- ggplot(data = no_outliers, aes(x = no_outliers[,y], y = length)) + 
+    geom_bin2d() + 
+    labs(x = "heterozygosity", y = "scaffold length") + 
+    theme_bw() +
+    scale_fill_gradient(low="white",high="darkblue",trans="log10")
+  
 ############################### GENOME COVERAGE ################################
   
-  df <- cov_norm[[i]]
-  hg <- ggplot(df, aes(x = column_normalized)) + 
-     geom_histogram(bins = 100) + 
-     labs(x="genome coverage, normalized on median", y="Frequency") + 
+  df <- as.data.frame(cov_norm[[i]])
+  hg <- ggplot(df, aes(x = cov_norm[[i]])) + 
+     geom_histogram() + 
+     labs(x="genome coverage", y="Frequency") + 
      scale_x_log10(breaks = trans_breaks("log10", function(x) 10^x), 
                       labels = trans_format("log10", math_format(10^.x))) + 
      annotation_logticks(sides="b") + 
@@ -140,19 +167,19 @@ for (i in 1:nr_samples) {
 ################################ HETEROZYGOSITY ################################
   
   hh <- ggplot(het_mean, aes(x = het_mean[,i])) + 
-     geom_histogram(bins = 100) + 
+     geom_histogram() + 
      labs(x="heterozygosity", y="Frequency") + 
      theme_bw()
   
   
-  pg <- plot_grid("", "", "", p,hg,hh,ncol = 3, rel_heights = c(1,20),
-                  labels = c(sample_names[i], "", "", "A", "B", "C"))
+  pg <- plot_grid("","","","","",p,gl,hl,hg,hh,ncol = 5, rel_heights = c(1,20),
+                  labels = c(sample_names[i],"","","","","A","B","C","D","E"))
   plist[[i]] <- pg
   
 }
 
 
-pdf(outfile, width = 20)
+pdf(outfile, width = 30)
 
 for (i in 1:nr_samples) {
   
