@@ -43,6 +43,15 @@ if (dim(cov_00_table)[1] == 0) {
   
 } else {
   
+  if (file.exists(chr_file)) {
+    
+    chromosome <- read.csv(chr_file, header = FALSE, sep = ",")
+    chromosome <- as.factor(chromosome)
+    
+    cov_00_table <- cov_00_table[cov_00_table$chr %in% chromosome, ]
+    
+  }
+  
   nr_factors <- c(length(unique(cov_00_table$chr)),length(unique(cov_02_table$chr)),
                   length(unique(cov_04_table$chr)),length(unique(snp_table$chr)))
   
@@ -111,13 +120,9 @@ if (dim(cov_00_table)[1] == 0) {
 ############################# ORDER CHROMOSOMES ################################
 ################################################################################
 
-  if (file.exists(chr_file)) {
+  if (!file.exists(chr_file)) {
     
-    chromosome <- read.csv(chr_file, header = FALSE, sep = ",")
-    chromosome <- as.factor(chromosome)
-    
-  } else {
-    
+    # Order after scaffold length if no chromosome file is given
     max_per_chr <- setDT(cov.select.00)[, .SD[which.max(x)], by=factor]
     max_per_chr <- as.data.frame(max_per_chr[,1:2])
     chromosome <- max_per_chr[order(-max_per_chr$x),][,1]
