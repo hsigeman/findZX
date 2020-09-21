@@ -33,12 +33,6 @@ normalize <- function(column) {
   return(column_normalized)
 }
 
-new_name <- function(n,sufix) { 
-  
-  n <- paste(n,"", sep = sufix) 
-  return(n) 
-}
-
 length_chr <- function(data_table) {
   # Returns the length of each chr/scaffold as a dataframe.
   
@@ -132,9 +126,9 @@ for (i in 1:nr_samples) {
   outliers <- boxplot(cov_het[,x], plot = FALSE)$out
   no_outliers <- cov_het[!(cov_het[,x] %in% outliers),]
   
-  p <- ggplot(data = no_outliers, aes(x = no_outliers[,x], y = no_outliers[,y])) + 
-    geom_bin2d() + 
-    labs(x = "genome coverage", y = "heterozygosity") + 
+  gh <- ggplot(data = no_outliers, aes(x = no_outliers[,x], y = no_outliers[,y])) + 
+    geom_bin2d(na.rm = TRUE) + 
+    labs(x = "genome coverage", y = "heterozygosity", title = sample_names[i]) + 
     theme_bw() +
     scale_fill_gradient(low="white",high="darkblue",trans="log10") +
     scale_x_log10(breaks = trans_breaks("log10", function(x) 10^x), 
@@ -142,38 +136,57 @@ for (i in 1:nr_samples) {
     annotation_logticks(sides="b")
   
   gl <- ggplot(data = no_outliers, aes(x = no_outliers[,x], y = length)) + 
-    geom_bin2d() + 
-    labs(x = "genome coverage", y = "scaffold length") + 
+    geom_bin2d(na.rm = TRUE) + 
+    labs(x = "genome coverage", y = "scaffold length", title = sample_names[i]) + 
     theme_bw() +
     scale_fill_gradient(low="white",high="darkblue",trans="log10")
   
   hl <- ggplot(data = no_outliers, aes(x = no_outliers[,y], y = length)) + 
-    geom_bin2d() + 
-    labs(x = "heterozygosity", y = "scaffold length") + 
+    geom_bin2d(na.rm = TRUE) + 
+    labs(x = "heterozygosity", y = "scaffold length", title = sample_names[i]) + 
     theme_bw() +
     scale_fill_gradient(low="white",high="darkblue",trans="log10")
   
 ############################### GENOME COVERAGE ################################
   
   df <- as.data.frame(cov_norm[[i]])
-  hg <- ggplot(df, aes(x = cov_norm[[i]])) + 
-     geom_histogram() + 
-     labs(x="genome coverage", y="Frequency") + 
+  colnames(df) <- "coverage"
+  g <- ggplot(df, aes(x = coverage)) + 
+     geom_histogram(bins = 50) + 
+     labs(x="genome coverage", y="Frequency", title = sample_names[i]) + 
      scale_x_log10(breaks = trans_breaks("log10", function(x) 10^x), 
                       labels = trans_format("log10", math_format(10^.x))) + 
      annotation_logticks(sides="b") + 
      theme_bw()
   
+  # Find the x value for the bin with the highest count
+  hist_stats_hg <- ggplot_build(g)$data[[1]]
+  max_bin <- which(hist_stats_hg$density == max(hist_stats_hg$density))
+  
+  # Calcualte half of the x value for the highest bin
+  max_x <- hist_stats_hg$x[max_bin]
+  halfMax_x <- log10(10^max_x / 2)
+  halfMax_bin <- which(hist_stats_hg$xmin < halfMax_x & hist_stats_hg$xmax > halfMax_x)
+  
+  g <- g + 
+    geom_histogram(data=subset(df, df > 10^hist_stats_hg$xmin[max_bin] & 
+                                 df < 10^hist_stats_hg$xmax[max_bin]), 
+                   fill = "red", bins = 50) +
+    geom_histogram(data=subset(df, df > 10^hist_stats_hg$xmin[halfMax_bin] & 
+                                 df < 10^hist_stats_hg$xmax[halfMax_bin]), 
+                   fill = "blue", bins = 50)
+  
 ################################ HETEROZYGOSITY ################################
   
-  hh <- ggplot(het_mean, aes(x = het_mean[,i])) + 
-     geom_histogram() + 
-     labs(x="heterozygosity", y="Frequency") + 
+  h <- ggplot(het_mean, aes(x = het_mean[,i])) + 
+     geom_histogram(bins = 50, na.rm = TRUE) + 
+     labs(x="heterozygosity", y="Frequency", title = sample_names[i]) + 
      theme_bw()
   
   
-  pg <- plot_grid("","","","","",p,gl,hl,hg,hh,ncol = 5, rel_heights = c(1,20),
-                  labels = c(sample_names[i],"","","","","A","B","C","D","E"))
+  pg <- plot_grid(gh,gl,hl,g,h,ncol = 5, rel_heights = c(1,20),
+                  labels = "AUTO")
+  
   plist[[i]] <- pg
   
 }
