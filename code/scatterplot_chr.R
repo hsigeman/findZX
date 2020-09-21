@@ -24,33 +24,47 @@ file04 = args[3]
 filesnp = args[4]
 scatter2D_out = args[5]
 scatter3D_out = args[6]
+chr_file = args[7]
 
 ################################################################################
 ################################# READ FILES ###################################
 ################################################################################
 
 cov_00_table <- read.table(file00, header=TRUE,fill=TRUE,stringsAsFactor=FALSE)
+cov_02_table <- read.table(file02, header=TRUE,fill=TRUE,stringsAsFactor=FALSE)
+cov_04_table <- read.table(file04, header=TRUE,fill=TRUE,stringsAsFactor=FALSE)
+snp_table <- read.table(filesnp, header=TRUE,fill=TRUE,stringsAsFactor=FALSE)
+
+if (file.exists(chr_file)) {
+  
+  chromosome <- read.csv(chr_file, header = FALSE, sep = ",")
+  chromosome <- as.factor(chromosome)
+  
+  cov_00_table <- cov_00_table[cov_00_table$chr %in% chromosome, ]
+  cov_02_table <- cov_02_table[cov_02_table$chr %in% chromosome, ]
+  cov_04_table <- cov_04_table[cov_04_table$chr %in% chromosome, ]
+  snp_table <- snp_table[snp_table$chr %in% chromosome, ]
+  
+}
+
 cov_00 <- gen_data_4plotting(cov_00_table, c("chr", "length", "ratio"))
 cov.select.00 <- cov_00$df
 max.cov.00 <- cov_00$max
 min.cov.00 <- cov_00$min
 median.cov.00 <- cov_00$median
 
-cov_02_table <- read.table(file02, header=TRUE,fill=TRUE,stringsAsFactor=FALSE)
 cov_02 <- gen_data_4plotting(cov_02_table, c("chr", "length", "ratio"))
 cov.select.02 <- cov_02$df
 max.cov.02 <- cov_02$max
 min.cov.02 <- cov_02$min
 median.cov.02 <- cov_02$median
 
-cov_04_table <- read.table(file04, header=TRUE,fill=TRUE,stringsAsFactor=FALSE)
 cov_04 <- gen_data_4plotting(cov_04_table, c("chr", "length", "ratio"))
 cov.select.04 <- cov_04$df
 max.cov.04 <- cov_04$max
 min.cov.04 <- cov_04$min
 median.cov.04 <- cov_04$median
 
-snp_table <- read.table(filesnp, header=TRUE,fill=TRUE,stringsAsFactor=FALSE)
 snp <- gen_data_4plotting(snp_table, c("chr", "length", "diff"))
 snp.select <- snp$df
 max.snp <- snp$max
