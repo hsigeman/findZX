@@ -4,7 +4,7 @@ import pandas as pn
 if len(sys.argv)==1 or sys.argv[1].startswith('-h'):
 	print("\nScript written for snakemake pipeline for detection of sex-linked genomic regions. WARNING: USE WITH CAUTION OUTSIDE PIPELINE.\n")
 
-	print("Reads in a genome coverage-file. First each individual is normalized on the individual medians and then the median for each sex and row")
+	print("Reads in a genome coverage-file. First each individual is normalized on the individual medians and then the mean for each site and sex")
 	print("is calculated. Writes to stdout.\n")
 
 	print("Heterogametic individuals are prefixed with \'het:\' and homogametic individuals with \'homo:\'. Example:")
@@ -45,8 +45,8 @@ heterogametic_sex = list(range(3, 3 + nr_heterogametic))
 homogametic_sex = list(range(3 + nr_heterogametic, 3 + nr_heterogametic + nr_homogametic))
 
 norm = gencov_ref.loc[:,samples].div(gencov_ref.loc[:,samples].median())	
-mean_hetero = norm.loc[:,heterogametic_sex].median(axis=1)
-mean_homo = norm.loc[:,homogametic_sex].median(axis=1)
+mean_hetero = norm.loc[:,heterogametic_sex].mean(axis=1)
+mean_homo = norm.loc[:,homogametic_sex].mean(axis=1)
 
 mean_sexes = pn.concat([mean_hetero, mean_homo], axis=1)
 gencov_mean = pn.merge(gencov_ref.loc[:,[0,1,2]],mean_sexes, left_index=True, right_index=True)

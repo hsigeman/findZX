@@ -5,7 +5,7 @@ if len(sys.argv)==1 or sys.argv[1].startswith('-h'):
 	print("\nScript written for snakemake pipeline for detection of sex-linked genomic regions. WARNING: USE WITH CAUTION OUTSIDE PIPELINE.\n")
 
 	print("Reads in a genome coverage-file which has been intersected with a chromosome file. First each individual is normalized on the")
-	print("individual means and then the mean for each sex and row is calculated. Writes to stdout.\n")
+	print("individual meadins and then the mean for each site and sex is calculated. Writes to stdout.\n")
 
 	print("Heterogametic individuals are prefixed with \'het:\' and homogametic individuals with \'homo:\'. Example:")
 	print("\thet:sample_1 het:sample_2 homo:sample_3 homo:sample_4\n")
@@ -47,7 +47,7 @@ samples = list(range(13, 13 + nr_samples))
 heterogametic_sex = list(range(13, 13 + nr_heterogametic))
 homogametic_sex = list(range(13 + nr_heterogametic, 13 + nr_heterogametic + nr_homogametic))
 
-norm = gencov_ref.loc[:,samples].div(gencov_ref.loc[:,samples].mean())	
+norm = gencov_ref.loc[:,samples].div(gencov_ref.loc[:,samples].median())	
 mean_hetero = norm.loc[:,heterogametic_sex].mean(axis=1)
 mean_homo = norm.loc[:,homogametic_sex].mean(axis=1)
 
