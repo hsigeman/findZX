@@ -47,19 +47,19 @@ if (file.exists(chr_file)) {
   
 }
 
-cov_00 <- gen_data_4plotting(cov_00_table, c("chr", "length", "ratio"))
+cov_00 <- gen_data_4plotting(cov_00_table, c("chr", "length", "ratio_scaled"))
 cov.select.00 <- cov_00$df
 max.cov.00 <- cov_00$max
 min.cov.00 <- cov_00$min
 median.cov.00 <- cov_00$median
 
-cov_02 <- gen_data_4plotting(cov_02_table, c("chr", "length", "ratio"))
+cov_02 <- gen_data_4plotting(cov_02_table, c("chr", "length", "ratio_scaled"))
 cov.select.02 <- cov_02$df
 max.cov.02 <- cov_02$max
 min.cov.02 <- cov_02$min
 median.cov.02 <- cov_02$median
 
-cov_04 <- gen_data_4plotting(cov_04_table, c("chr", "length", "ratio"))
+cov_04 <- gen_data_4plotting(cov_04_table, c("chr", "length", "ratio_scaled"))
 cov.select.04 <- cov_04$df
 max.cov.04 <- cov_04$max
 min.cov.04 <- cov_04$min
