@@ -265,29 +265,6 @@ rule filter_allele_frequency:
 ####################### RESULTS ##########################
 ##########################################################
 
-rule print_report:
-    input:
-        cov0 = RESULTDIR + SPECIES + "{synteny}gencov.nodup.nm.0.0.chr.out",
-        cov2 = RESULTDIR + SPECIES + "{synteny}gencov.nodup.nm.0.2.chr.out",
-        cov4 = RESULTDIR + SPECIES + "{synteny}gencov.nodup.nm.0.4.chr.out",
-        snp = RESULTDIR + SPECIES + "{synteny}diffHeterozygosity.chr.out"
-    output:
-        stats = RESULTDIR + SPECIES + "{synteny}statistics.tsv",
-        html = RESULTDIR + SPECIES + "{synteny}report.html"
-    params:
-        species = SPECIES,
-        ref = REF_SPECIES,
-        heterogametic = expand("het:{het}", het = HETEROGAMETIC),
-        homogametic = expand("homo:{hom}", hom =  HOMOGAMETIC),
-        synt = "{synteny}"
-    threads: 1
-    shell:
-        """
-        join -1 1 -2 1 {input.cov0} {input.cov2} | join -1 1 -2 1 - {input.cov4} | join -1 1 -2 1 - {input.snp} | sed 's/ /\t/g' | cut -f 1,2,4,6,8,9 > {output.stats}
-
-        python3 code/make_info_html.py {params.species} {params.ref} {output.stats} {params.synt} {params.heterogametic} {params.homogametic} > {output.html}
-        """
-
 rule plotting:
     input: 
         cov0 = RESULTDIR + SPECIES + "{synteny}gencov.nodup.nm.0.0.{bp}bp.out",
