@@ -98,7 +98,8 @@ rule index_bam:
 rule mismatch_bam: 
     input: 
         bam = MAP_DIR + "{S}.sorted.nodup.nm.all.bam", 
-        ref = REF_FASTA
+        ref = REF_FASTA,
+        bai = MAP_DIR + "{S}.sorted.nodup.nm.all.bam.bai"
     output: 
         MAP_DIR + "{S}.sorted.nodup.nm.0.{ED, [0-9]+}.bam"
     threads: 2
