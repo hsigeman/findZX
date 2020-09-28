@@ -92,19 +92,19 @@ if (dim(cov_00_table)[1] == 0) {
   }
   
   
-  cov_00 <- gen_data_4plotting(cov_00_table, c("chr", "range", "ratio"))
+  cov_00 <- gen_data_4plotting(cov_00_table, c("chr", "range", "diff"))
   cov.select.00 <- cov_00$df
   max.cov.00 <- cov_00$max
   min.cov.00 <- cov_00$min
   median.cov.00 <- cov_00$median
 
-  cov_02 <- gen_data_4plotting(cov_02_table, c("chr", "range", "ratio"))
+  cov_02 <- gen_data_4plotting(cov_02_table, c("chr", "range", "diff"))
   cov.select.02 <- cov_02$df
   max.cov.02 <- cov_02$max
   min.cov.02 <- cov_02$min
   median.cov.02 <- cov_02$median
 
-  cov_04 <- gen_data_4plotting(cov_04_table, c("chr", "range", "ratio"))
+  cov_04 <- gen_data_4plotting(cov_04_table, c("chr", "range", "diff"))
   cov.select.04 <- cov_04$df
   max.cov.04 <- cov_04$max
   min.cov.04 <- cov_04$min
@@ -166,7 +166,7 @@ if (dim(cov_00_table)[1] == 0) {
                 scale_color_manual(values = point_colors) +
                 scale_shape_manual(values = point_shapes) +
                 theme(legend.key.size = unit(2, "mm")) +
-                labs(title = "nm=0", x = "ratio of normalized genome coverage",
+                labs(title = "nm=0", x = "difference in normalized genome coverage",
                      y = "difference in heterozygosity") + 
                 theme_bw()
 
@@ -179,7 +179,7 @@ if (dim(cov_00_table)[1] == 0) {
                 geom_point(aes(color = Chromosomes, shape = Chromosomes)) + 
                 scale_color_manual(values = point_colors) + 
                 scale_shape_manual(values = point_shapes) +
-                labs(title = "nm=2", x = "ratio of normalized genome coverage",
+                labs(title = "nm=2", x = "difference in normalized genome coverage",
                 y = "difference in heterozygosity") + 
                 theme_bw() +
                 theme(legend.position="none")
@@ -188,7 +188,7 @@ if (dim(cov_00_table)[1] == 0) {
                 geom_point(aes(color = Chromosomes, shape = Chromosomes)) + 
                 scale_color_manual(values = point_colors) + 
                 scale_shape_manual(values = point_shapes) +
-                labs(title = "nm=4", x = "ratio of normalized genome coverage",
+                labs(title = "nm=4", x = "difference in normalized genome coverage",
                 y = "difference in heterozygosity") + 
                 theme_bw() +
                 theme(legend.position="none")
@@ -236,7 +236,7 @@ if (dim(cov_00_table)[1] == 0) {
     scale_shape_manual(values = point_shapes) +
     geom_errorbar(aes(color = Chromosomes)) + 
     geom_errorbarh(aes(color = Chromosomes)) +
-    labs(title = "nm=0", x = "ratio of normalized genome coverage",
+    labs(title = "nm=0", x = "difference in normalized genome coverage",
          y = "difference in heterozygosity") + 
     theme_bw() +
     theme(legend.position="none")
@@ -252,7 +252,7 @@ if (dim(cov_00_table)[1] == 0) {
     scale_shape_manual(values = point_shapes) +
     geom_errorbar(aes(color = Chromosomes)) + 
     geom_errorbarh(aes(color = Chromosomes)) +
-    labs(title = "nm=2", x = "ratio of normalized genome coverage",
+    labs(title = "nm=2", x = "difference in normalized genome coverage",
          y = "difference in heterozygosity") + 
     theme_bw() +
     theme(legend.position="none")
@@ -268,7 +268,7 @@ if (dim(cov_00_table)[1] == 0) {
     scale_shape_manual(values = point_shapes) +
     geom_errorbar(aes(color = Chromosomes)) + 
     geom_errorbarh(aes(color = Chromosomes)) +
-    labs(title = "nm=4", x = "ratio of normalized genome coverage",
+    labs(title = "nm=4", x = "difference in normalized genome coverage",
          y = "difference in heterozygosity") + 
     theme_bw() +
     theme(legend.position="none")
