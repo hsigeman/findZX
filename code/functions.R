@@ -42,11 +42,11 @@ remove_outliers <- function(data_table) {
 
 calculate_ratio <- function(data_table) {
   # Calculates the coverage or snp ratio between female and male normalized by the
-  # median ratio. Infinite values are removed.
+  # mean ratio. Infinite values are removed.
   
   data_table$ratio <- data_table$heterogametic/data_table$homogametic
   data_table <- subset(data_table, data_table$ratio != "Inf")
-  data_table$ratio_scaled <- data_table$ratio / median(data_table$ratio, na.rm = TRUE)
+  data_table$ratio_scaled <- data_table$ratio / mean(data_table$ratio, na.rm = TRUE)
   
   data_table[is.na(data_table)] <- 0
   
@@ -54,10 +54,10 @@ calculate_ratio <- function(data_table) {
 }
 
 calculate_diff <- function(data_table) {
-  # Calculates the normalized difference between the sexes normalized on median
+  # Calculates the normalized difference between the sexes normalized on mean
   
   data_table$diff <- data_table$heterogametic - data_table$homogametic
-  data_table$diff_scaled <- data_table$diff / median(data_table$diff, na.rm = TRUE)
+  data_table$diff_scaled <- data_table$diff / mean(data_table$diff, na.rm = TRUE)
   
   data_table[is.na(data_table)] <- 0
   
