@@ -111,15 +111,15 @@ rule matchScaffold2Chr:
         syns = COMP_GEN_SYNS + REF_SPECIES + "_align_converted",
         gencov = GENCOV_DIR_REF + "genome_5kb_windows.out"
     output:
-        windows = MATCHDIR_REF  + "genome_windows.out",
-        bestMatch = MATCHDIR_REF + "bestMatch.list",
-        log = MATCHDIR_REF + "bestMatch.status"
+        windows = MATCHDIR_REF + REF_SPECIES + "genome_windows.out",
+        bestMatch = MATCHDIR_REF + REF_SPECIES + "bestMatch.list",
+        log = MATCHDIR_REF + REF_SPECIES + "bestMatch.status"
     params:
         temp = MATCHDIR_REF + "temp/",
-        abswindow = dir_path + "/" + MATCHDIR_REF  + "genome_windows.out",
-        absBestMatch = dir_path + "/" + MATCHDIR_REF + "bestMatch.list",
-        windowsfile= "genome_windows.out",
-        absLog = dir_path + "/" + MATCHDIR_REF + "bestMatch.status"
+        abswindow = dir_path + "/" + MATCHDIR_REF  + REF_SPECIES + "genome_windows.out",
+        absBestMatch = dir_path + "/" + MATCHDIR_REF  + REF_SPECIES + "bestMatch.list",
+        windowsfile =  "genome_windows.out",
+        absLog = dir_path + "/" + MATCHDIR_REF +  REF_SPECIES + "bestMatch.status"
     shell:
         """
         cat {input.syns} | awk '{{print $10,$12,$13,$14,$16,$17,$1}}' | sed 's/ /\t/g' | bedtools intersect -a stdin -b {input.gencov} -wa -wb | awk '{{if($10-$9==\"5000\") print $8,$9,$10,$7,$1,$2,$3,$4,$5,$6}}' | sed 's/ /\t/g' | sed 's/\t/STARTCOORD/' | sed 's/\t/ENDCOORD/' > {output.windows}
@@ -140,7 +140,7 @@ rule matchScaffold2Chr:
 
 rule matchScaffold2Chr_snp:
     input:
-        bestMatch = MATCHDIR_REF + "bestMatch.list",
+        bestMatch = MATCHDIR_REF + REF_SPECIES + "bestMatch.list",
         snp_statistic = VCF_DIR + SPECIES + ".{snp_statistic}.sorted.bed"
     output:
         bestmatch = MATCHDIR + SPECIES + ".{snp_statistic}.bestMatch." + SYNTENY_SPECIES,
@@ -155,7 +155,7 @@ rule matchScaffold2Chr_snp:
 
 rule matchScaffold2Chr_cov:
     input:
-        bestMatch = MATCHDIR_REF + "bestMatch.list",
+        bestMatch = MATCHDIR_REF + REF_SPECIES + "bestMatch.list",
         cov = GENCOV_DIR + SPECIES + ".gencov.nodup.nm.{ED}.out"
     output:
         bestMatch = MATCHDIR + SPECIES + ".gencov.nodup.nm.{ED}." + SYNTENY_SPECIES + ".out",
