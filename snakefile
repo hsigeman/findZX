@@ -268,9 +268,7 @@ rule filter_allele_frequency:
 
 rule plotting:
     input: 
-        cov0 = RESULTDIR + SPECIES + "{synteny}gencov.nodup.nm.0.0.{bp}bp.out",
-        cov2 = RESULTDIR + SPECIES + "{synteny}gencov.nodup.nm.0.2.{bp}bp.out",
-        cov4 = RESULTDIR + SPECIES + "{synteny}gencov.nodup.nm.0.4.{bp}bp.out",
+        cov = expand(RESULTDIR + SPECIES + "{{synteny}}gencov.nodup.nm.{ED}.{{bp}}bp.out", ED = EDIT_DIST),
         snp = RESULTDIR + SPECIES + "{synteny}diffHeterozygosity.{bp}bp.out"
     output: 
         touch(RESULTDIR + SPECIES + "{synteny}plotting.{bp}bp.done")
@@ -281,14 +279,12 @@ rule plotting:
         chromosomes = CHOMOSOMES
     shell: 
         """
-        Rscript code/plot_windows.R {input.cov0} {input.cov2} {input.cov4} {input.snp} {params.out_circlize} {params.out_scatter} {params.chromosomes}
+        Rscript code/plot_windows.R {input.cov} {input.snp} {params.out_circlize} {params.out_scatter} {params.chromosomes}
         """
 
 rule plotting_chr:
     input:
-        cov0 = RESULTDIR + SPECIES + "{synteny}gencov.nodup.nm.0.0.chr.out",
-        cov2 = RESULTDIR + SPECIES + "{synteny}gencov.nodup.nm.0.2.chr.out",
-        cov4 = RESULTDIR + SPECIES + "{synteny}gencov.nodup.nm.0.4.chr.out",
+        cov = expand(RESULTDIR + SPECIES + "{{synteny}}gencov.nodup.nm.{ED}.chr.out", ED = EDIT_DIST),
         snp = RESULTDIR + SPECIES + "{synteny}diffHeterozygosity.chr.out"
     output:
         touch(RESULTDIR + SPECIES + "{synteny}plotting_chr.done")
@@ -299,7 +295,7 @@ rule plotting_chr:
     threads: 1
     shell:
         """
-        Rscript code/scatterplot_chr.R {input.cov0} {input.cov2} {input.cov4} {input.snp} {params.out_scatter2D} {params.out_scatter3D} {params.chromosomes}
+        Rscript code/scatterplot_chr.R {input.cov} {input.snp} {params.out_scatter2D} {params.out_scatter3D} {params.chromosomes}
         """
 
 ##########################################################

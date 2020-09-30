@@ -29,7 +29,7 @@ VCF_DIR = "intermediate/freebayes/" + PREFIX + "/"
 VCF_DIR_REF = "intermediate/freebayes/" + REF_NAME + "/"
 RESULTDIR = "results/" + PREFIX + "/"
 
-EDIT_DIST = ["all", "0.0", "0.1", "0.2", "0.3", "0.4"]
+EDIT_DIST = config["edit_distance"]
 
 ##########################################################
 ######################## RULES ###########################

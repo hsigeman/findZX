@@ -35,7 +35,7 @@ SYNTENY_SPECIES = config["synteny_species"]
 COMP_GEN_SYNS = "intermediate/lastal_" + SYNTENY_SPECIES + "/" + REF_NAME + "/"
 SYNS_DB = config["synteny_dir"]
 
-EDIT_DIST = ["all", "0.0", "0.1", "0.2", "0.3", "0.4"]
+EDIT_DIST = config["edit_distance"]
 
 ##########################################################
 ######################## RULES ###########################

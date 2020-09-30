@@ -13,3 +13,7 @@ ref_name: RN
 synteny_dir: data/meta/mySYNdb
 synteny_species: SYN
 chr_file: data/chr.txt
+edit_distance:
+    0.0 : 0.0
+    0.2 : 0.2
+    all : all
