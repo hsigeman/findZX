@@ -111,9 +111,9 @@ rule matchScaffold2Chr:
         syns = COMP_GEN_SYNS + REF_SPECIES + "_align_converted",
         gencov = GENCOV_DIR_REF + "genome_5kb_windows.out"
     output:
-        windows = MATCHDIR_REF + REF_SPECIES + "genome_windows.out",
-        bestMatch = MATCHDIR_REF + REF_SPECIES + "bestMatch.list",
-        log = MATCHDIR_REF + REF_SPECIES + "bestMatch.status"
+        windows = COMP_GEN_SYNS + "genome_windows.out",
+        bestMatch = COMP_GEN_SYNS + "bestMatch.list",
+        log = COMP_GEN_SYNS + "bestMatch.status"
     params:
         temp = MATCHDIR_REF + "temp/",
         abswindow = dir_path + "/" + MATCHDIR_REF  + REF_SPECIES + "genome_windows.out",
@@ -140,7 +140,7 @@ rule matchScaffold2Chr:
 
 rule matchScaffold2Chr_snp:
     input:
-        bestMatch = MATCHDIR_REF + REF_SPECIES + "bestMatch.list",
+        bestMatch = COMP_GEN_SYNS + "bestMatch.list",
         snp_statistic = VCF_DIR + SPECIES + ".{snp_statistic}.sorted.bed"
     output:
         bestmatch = MATCHDIR + SPECIES + ".{snp_statistic}.bestMatch." + SYNTENY_SPECIES,
@@ -155,7 +155,7 @@ rule matchScaffold2Chr_snp:
 
 rule matchScaffold2Chr_cov:
     input:
-        bestMatch = MATCHDIR_REF + REF_SPECIES + "bestMatch.list",
+        bestMatch = COMP_GEN_SYNS + "bestMatch.list",
         cov = GENCOV_DIR + SPECIES + ".gencov.nodup.nm.{ED}.out"
     output:
         bestMatch = MATCHDIR + SPECIES + ".gencov.nodup.nm.{ED}." + SYNTENY_SPECIES + ".out",
