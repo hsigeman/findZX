@@ -28,7 +28,6 @@ GENCOV_DIR_REF = "intermediate/bedtools/" + REF_NAME + "/"
 VCF_DIR = "intermediate/freebayes/" + PREFIX + "/"
 VCF_DIR_REF = "intermediate/freebayes/" + REF_NAME + "/"
 MATCHDIR = "intermediate/synteny_match/" + PREFIX + "/"
-MATCHDIR_REF = "intermediate/synteny_match/" + REF_NAME + "/"
 RESULTDIR = "results/" + PREFIX + "/"
 
 SYNTENY_SPECIES = config["synteny_species"]
@@ -115,12 +114,12 @@ rule matchScaffold2Chr:
         bestMatch = COMP_GEN_SYNS + "bestMatch.list",
         log = COMP_GEN_SYNS + "bestMatch.status"
     params:
-        temp = MATCHDIR_REF + "temp/",
+        temp = COMP_GEN_SYNS + "temp/",
         abswindow = dir_path + "/" + COMP_GEN_SYNS  + "genome_windows.out",
         absBestMatch = dir_path + "/" + COMP_GEN_SYNS + "bestMatch.unfilter.list",
         okWindows = dir_path + "/" + COMP_GEN_SYNS + "okWindows.list",
         absBestMatchFilter = dir_path + "/" + COMP_GEN_SYNS + "bestMatch.list",
-        windowsfile= "genome_windows.out",
+        windowsfile = "genome_windows.out",
         absLog = dir_path + "/" + COMP_GEN_SYNS + "bestMatch.status"
     shell:
         """
