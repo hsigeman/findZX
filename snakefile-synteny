@@ -111,15 +111,17 @@ rule matchScaffold2Chr:
         syns = COMP_GEN_SYNS + REF_SPECIES + "_align_converted",
         gencov = GENCOV_DIR_REF + "genome_5kb_windows.out"
     output:
-        windows = COMP_GEN_SYNS + "genome_windows.out",
-        bestMatch = COMP_GEN_SYNS + "bestMatch.list",
-        log = COMP_GEN_SYNS + "bestMatch.status"
+        windows = MATCHDIR_REF  + "genome_windows.out",
+        bestMatch = MATCHDIR_REF + "bestMatch.list",
+        log = MATCHDIR_REF + "bestMatch.status"
     params:
         temp = MATCHDIR_REF + "temp/",
-        abswindow = dir_path + "/" + COMP_GEN_SYNS + "genome_windows.out",
-        absBestMatch = dir_path + "/" + MATCHDIR_REF  + REF_SPECIES + "bestMatch.list",
-        windowsfile =  "genome_windows.out",
-        absLog = dir_path + "/" + MATCHDIR_REF +  REF_SPECIES + "bestMatch.status"
+        abswindow = dir_path + "/" + MATCHDIR_REF  + "genome_windows.out",
+        absBestMatch = dir_path + "/" + MATCHDIR_REF + "bestMatch.unfilter.list",
+        okWindows = dir_path + "/" + MATCHDIR_REF + "okWindows.list",
+        absBestMatchFilter = dir_path + "/" + MATCHDIR_REF + "bestMatch.list",
+        windowsfile= "genome_windows.out",
+        absLog = dir_path + "/" + MATCHDIR_REF + "bestMatch.status"
     shell:
         """
         cat {input.syns} | awk '{{print $10,$12,$13,$14,$16,$17,$1}}' | sed 's/ /\t/g' | bedtools intersect -a stdin -b {input.gencov} -wa -wb | awk '{{if($10-$9==\"5000\") print $8,$9,$10,$7,$1,$2,$3,$4,$5,$6}}' | sed 's/ /\t/g' | sed 's/\t/STARTCOORD/' | sed 's/\t/ENDCOORD/' > {output.windows}
@@ -130,6 +132,10 @@ rule matchScaffold2Chr:
         awk \'{{print >> $1; close($1)}}\' {params.abswindow}
 
         ls | while read file; do cat $file | awk -v max=0 '{{if($2>max){{want=$0; max=$2}}}}END{{print want}}' ; done | sed 's/STARTCOORD/\t/' | sed 's/ENDCOORD/\t/' >> {params.absBestMatch} 
+
+        cat {params.absBestMatch} | cut -f 8-10 | sort | uniq -c | awk '$1<=2 {{print}}' | awk '{{print $2,$3,$4}}' | sed 's/ /\t/g' | sort | uniq | bedtools sort > {params.okWindows} 
+
+	bedtools intersect -a <(<{params.absBestMatch} awk '{{print $8,$9,$10,$0}}' | sed 's/ /\t/g' | sort -k1,1 | bedtools sort) -b {params.okWindows} -f 1 -r -wa | cut -f 4- > {params.absBestMatchFilter}
 
         cd {dir_path}
 
