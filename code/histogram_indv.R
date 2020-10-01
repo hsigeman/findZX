@@ -16,14 +16,6 @@ require(scales)
 ################################## FUNCTIONS ###################################
 ################################################################################
 
-remove_outliers <- function(column) {
-  
-  outliers <- boxplot(column, plot = FALSE)$out
-  column <- column[!(column %in% outliers)]
-  
-  return(column)
-}
-
 normalize <- function(column) {
   
   column_median <- median(column)
@@ -85,30 +77,23 @@ len_chr <- length_chr(Thet)
 colnames(len_chr) <- c("chr","length")
 
 f <- as.formula(paste(paste(col_names, collapse = "+"), "~", "chr + range"))
-het_mean <- summaryBy(f, data=Thet, keep.names=TRUE, na.rm = TRUE)
+Thet <- summaryBy(f, data=Thet, keep.names=TRUE, na.rm = TRUE)
 
-colnames(het_mean) <- c("chr","range",sample_names)
+colnames(Thet) <- c("chr","range",sample_names)
 
 Tcov <- transform(cov, range=floor(start/5000))
 
-cov_het <- merge(Tcov, het_mean, by = c("chr","range"))
-cov_het <- cov_het[-3:-4]
+cov_het <- merge(Tcov, Thet, by = c("chr","range"))
 cov_het <- merge(cov_het, len_chr, by = "chr")
 
 nr_samples <- length(sample_names)
 
-# remove columns: chr and range (start, stop)
-cov <- cov[-1:-3]
-het_mean <- het_mean[,-1:-2]
-het_mean <- as.data.frame(het_mean)
-
-# remove outliers for each sample, save resulting array in a list
-# samples should be able to have different lengths
-cov_no_outliers <- apply(cov, 2, remove_outliers)
-
-# normalize on median of each sample
-#cov_norm <- lapply(cov_no_outliers, normalize)
-cov_norm <- cov_no_outliers
+for (i in 1:nr_samples) {
+  
+  outliers <- boxplot(cov_het[,(i+4)], plot = FALSE)$stats[5]
+  cov_het[,(i+4)][cov_het[,(i+4)] > outliers] = NA
+  
+}
 
 ################################################################################
 ################################### PLOTTING ###################################
@@ -120,28 +105,22 @@ for (i in 1:nr_samples) {
 
 ###################### HETEROZYGOSITY VS GENOME COVERAGE #######################
   
-  x = i + 2
-  y = i + 2 + nr_samples
+  x = i + 4
+  y = i + 4 + nr_samples
   
-  outliers <- boxplot(cov_het[,x], plot = FALSE)$out
-  no_outliers <- cov_het[!(cov_het[,x] %in% outliers),]
-  
-  gh <- ggplot(data = no_outliers, aes(x = no_outliers[,x], y = no_outliers[,y])) + 
+  gh <- ggplot(data = cov_het, aes(x = cov_het[,x], y = cov_het[,y])) + 
     geom_bin2d(na.rm = TRUE) + 
     labs(x = "genome coverage", y = "heterozygosity", title = sample_names[i]) + 
     theme_bw() +
-    scale_fill_gradient(low="white",high="darkblue",trans="log10") +
-    scale_x_log10(breaks = trans_breaks("log10", function(x) 10^x), 
-                  labels = trans_format("log10", math_format(10^.x))) + 
-    annotation_logticks(sides="b")
+    scale_fill_gradient(low="white",high="darkblue",trans="log10")
   
-  gl <- ggplot(data = no_outliers, aes(x = no_outliers[,x], y = length)) + 
+  gl <- ggplot(data = cov_het, aes(x = cov_het[,x], y = length)) + 
     geom_bin2d(na.rm = TRUE) + 
     labs(x = "genome coverage", y = "scaffold length", title = sample_names[i]) + 
     theme_bw() +
     scale_fill_gradient(low="white",high="darkblue",trans="log10")
   
-  hl <- ggplot(data = no_outliers, aes(x = no_outliers[,y], y = length)) + 
+  hl <- ggplot(data = cov_het, aes(x = cov_het[,y], y = length)) + 
     geom_bin2d(na.rm = TRUE) + 
     labs(x = "heterozygosity", y = "scaffold length", title = sample_names[i]) + 
     theme_bw() +
@@ -149,14 +128,9 @@ for (i in 1:nr_samples) {
   
 ############################### GENOME COVERAGE ################################
   
-  df <- as.data.frame(cov_norm[[i]])
-  colnames(df) <- "coverage"
-  g <- ggplot(df, aes(x = coverage)) + 
+  g <- ggplot(cov_het, aes(x = cov_het[,x])) + 
      geom_histogram(bins = 50) + 
      labs(x="genome coverage", y="Frequency", title = sample_names[i]) + 
-     scale_x_log10(breaks = trans_breaks("log10", function(x) 10^x), 
-                      labels = trans_format("log10", math_format(10^.x))) + 
-     annotation_logticks(sides="b") + 
      theme_bw()
   
   # Find the x value for the bin with the highest count
@@ -165,29 +139,43 @@ for (i in 1:nr_samples) {
   
   # Calcualte half of the x value for the highest bin
   max_x <- hist_stats_hg$x[max_bin]
-  halfMax_x <- log10(10^max_x / 2)
-  halfMax_bin <- which(hist_stats_hg$xmin < halfMax_x & hist_stats_hg$xmax > halfMax_x)
+  halfMax_x <- max_x / 2
   
-  g <- g + 
-    geom_histogram(data=subset(df, df > 10^hist_stats_hg$xmin[max_bin] & 
-                                 df < 10^hist_stats_hg$xmax[max_bin]), 
-                   fill = "red", bins = 50) +
-    geom_histogram(data=subset(df, df > 10^hist_stats_hg$xmin[halfMax_bin] & 
-                                 df < 10^hist_stats_hg$xmax[halfMax_bin]), 
-                   fill = "blue", bins = 50)
+  g <- g + geom_vline(xintercept=halfMax_x, color = "blue") + 
+    geom_vline(xintercept=max_x, color = "red")
   
 ################################ HETEROZYGOSITY ################################
   
-  h <- ggplot(het_mean, aes(x = het_mean[,i])) + 
+  h <- ggplot(cov_het, aes(x = cov_het[,y])) + 
      geom_histogram(bins = 50, na.rm = TRUE) + 
      labs(x="heterozygosity", y="Frequency", title = sample_names[i]) + 
      theme_bw()
   
+################################# CHROMOSOMES ##################################
   
-  pg <- plot_grid(gh,gl,hl,g,h,ncol = 5, rel_heights = c(1,20),
-                  labels = "AUTO")
+  if (dim(len_chr)[1] >= 50) {
+    nr_chr <- 50
+  } else {
+    nr_chr <- dim(len_chr)[1]
+  }
   
-  plist[[i]] <- pg
+  top_chr <- as.factor(len_chr[with(len_chr, order(-length)),][1:nr_chr,1])
+  
+  cov_het_subset <- cov_het[cov_het$chr %in% top_chr,]
+  cov_het_subset$chr <- factor(cov_het_subset$chr, levels = top_chr)
+  
+  c <- ggplot(cov_het_subset, aes(x=range, y=cov_het_subset[,x])) + geom_line() + 
+    facet_grid(. ~ chr, scales = "free_x", space = "free_x") +
+    labs(y = "genome coverage", x = "position [5kbp window]", title = sample_names[i]) +
+    theme(axis.text.x = element_blank())
+  
+##################################### ALL ######################################
+  
+  pg <- plot_grid(gh, gl, hl, g, h, ncol = 5)
+  
+  p <- plot_grid(pg, c, ncol = 1)
+
+  plist[[i]] <- p
   
 }
 
