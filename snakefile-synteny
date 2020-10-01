@@ -116,7 +116,7 @@ rule matchScaffold2Chr:
         log = COMP_GEN_SYNS + "bestMatch.status"
     params:
         temp = MATCHDIR_REF + "temp/",
-        abswindow = dir_path + "/" + MATCHDIR_REF  + REF_SPECIES + "genome_windows.out",
+        abswindow = dir_path + "/" + COMP_GEN_SYNS + "genome_windows.out",
         absBestMatch = dir_path + "/" + MATCHDIR_REF  + REF_SPECIES + "bestMatch.list",
         windowsfile =  "genome_windows.out",
         absLog = dir_path + "/" + MATCHDIR_REF +  REF_SPECIES + "bestMatch.status"
