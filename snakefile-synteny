@@ -111,17 +111,17 @@ rule matchScaffold2Chr:
         syns = COMP_GEN_SYNS + REF_SPECIES + "_align_converted",
         gencov = GENCOV_DIR_REF + "genome_5kb_windows.out"
     output:
-        windows = MATCHDIR_REF  + "genome_windows.out",
-        bestMatch = MATCHDIR_REF + "bestMatch.list",
-        log = MATCHDIR_REF + "bestMatch.status"
+        windows = COMP_GEN_SYNS  + "genome_windows.out",
+        bestMatch = COMP_GEN_SYNS + "bestMatch.list",
+        log = COMP_GEN_SYNS + "bestMatch.status"
     params:
         temp = MATCHDIR_REF + "temp/",
-        abswindow = dir_path + "/" + MATCHDIR_REF  + "genome_windows.out",
-        absBestMatch = dir_path + "/" + MATCHDIR_REF + "bestMatch.unfilter.list",
-        okWindows = dir_path + "/" + MATCHDIR_REF + "okWindows.list",
-        absBestMatchFilter = dir_path + "/" + MATCHDIR_REF + "bestMatch.list",
+        abswindow = dir_path + "/" + COMP_GEN_SYNS  + "genome_windows.out",
+        absBestMatch = dir_path + "/" + COMP_GEN_SYNS + "bestMatch.unfilter.list",
+        okWindows = dir_path + "/" + COMP_GEN_SYNS + "okWindows.list",
+        absBestMatchFilter = dir_path + "/" + COMP_GEN_SYNS + "bestMatch.list",
         windowsfile= "genome_windows.out",
-        absLog = dir_path + "/" + MATCHDIR_REF + "bestMatch.status"
+        absLog = dir_path + "/" + COMP_GEN_SYNS + "bestMatch.status"
     shell:
         """
         cat {input.syns} | awk '{{print $10,$12,$13,$14,$16,$17,$1}}' | sed 's/ /\t/g' | bedtools intersect -a stdin -b {input.gencov} -wa -wb | awk '{{if($10-$9==\"5000\") print $8,$9,$10,$7,$1,$2,$3,$4,$5,$6}}' | sed 's/ /\t/g' | sed 's/\t/STARTCOORD/' | sed 's/\t/ENDCOORD/' > {output.windows}
