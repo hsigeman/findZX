@@ -16,15 +16,6 @@ require(scales)
 ################################## FUNCTIONS ###################################
 ################################################################################
 
-normalize <- function(column) {
-  
-  column_median <- median(column)
-  column_normalized <- column/column_median
-  column_normalized <- as.data.frame(column_normalized)
-  
-  return(column_normalized)
-}
-
 length_chr <- function(data_table) {
   # Returns the length of each chr/scaffold as a dataframe.
   
