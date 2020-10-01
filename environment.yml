@@ -147,6 +147,7 @@ dependencies:
   - r-ggplot2=3.3.2=r40h6115d3f_0
   - r-globaloptions=0.1.2=r40_0
   - r-glue=1.4.1=r40hcdcec82_0
+  - r-gridextra=2.3=r40h6115d3f_1003
   - r-gtable=0.3.0=r40h6115d3f_3
   - r-isoband=0.2.2=r40h0357c0b_0
   - r-labeling=0.3=r40h6115d3f_1003
@@ -193,6 +194,7 @@ dependencies:
   - r-tidyselect=1.1.0=r40h6115d3f_0
   - r-utf8=1.1.4=r40hcdcec82_1003
   - r-vctrs=0.3.2=r40hcdcec82_0
+  - r-viridis=0.5.1=r40h6115d3f_1004
   - r-viridislite=0.3.0=r40h6115d3f_1003
   - r-withr=2.2.0=r40h6115d3f_1
   - r-zeallot=0.1.0=r40h6115d3f_1002
