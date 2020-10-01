@@ -1,5 +1,6 @@
 import sys
 import pandas as pn
+import numpy as np
 
 if len(sys.argv)==1 or sys.argv[1].startswith('-h'):
 	print("\nScript written for snakemake pipeline for detection of sex-linked genomic regions. WARNING: USE WITH CAUTION OUTSIDE PIPELINE.\n")
@@ -38,18 +39,34 @@ for i in range(2, len(sys.argv)):
 nr_heterogametic = len(heterogametic_samples)
 nr_homogametic = len(homogametic_samples)
 
-gencov_ref = pn.read_csv(sys.argv[1], sep='\t', header=None)
+gencov = pn.read_csv(sys.argv[1], sep='\t', header=None)
 
 samples = list(range(3, 3 + nr_samples))
 heterogametic_sex = list(range(3, 3 + nr_heterogametic))
 homogametic_sex = list(range(3 + nr_heterogametic, 3 + nr_heterogametic + nr_homogametic))
 
-norm = gencov_ref.loc[:,samples].div(gencov_ref.loc[:,samples].mean())	
-mean_hetero = norm.loc[:,heterogametic_sex].mean(axis=1)
-mean_homo = norm.loc[:,homogametic_sex].mean(axis=1)
+# Remove outliers before normalizing
+gencov_mean = gencov.loc[:,samples].mean()
+gencov_std = gencov.loc[:,samples].std()
 
-mean_sexes = pn.concat([mean_hetero, mean_homo], axis=1)
-gencov_mean = pn.merge(gencov_ref.loc[:,[0,1,2]],mean_sexes, left_index=True, right_index=True)
+outlier_lower_limit = gencov_mean - gencov_std*3
+outlier_upper_limit = gencov_mean + gencov_std*3
 
-sys.stdout.write(gencov_mean.to_csv(header=None, index=None, sep='\t'))
+gencov_upper_mask = gencov.loc[:,samples] > outlier_upper_limit
+gencov_lower_mask = gencov.loc[:,samples] < outlier_lower_limit
+gencov_mask = gencov_upper_mask | gencov_lower_mask
+
+gencov_masked = gencov.loc[:,samples].mask(gencov_mask)
+
+# Normalize and take mean over each sex
+gencov_norm = gencov.loc[:,samples].div(gencov_masked.mean())	
+
+heterogametic_mean = gencov_norm.loc[:,heterogametic_sex].mean(axis=1)
+homogametic_mean = gencov_norm.loc[:,homogametic_sex].mean(axis=1)
+
+mean_sexes = pn.concat([heterogametic_mean, homogametic_mean], axis=1)
+
+gencov_mean_sexes = pn.merge(gencov.loc[:,[0,1,2]],mean_sexes, left_index=True, right_index=True)
+
+sys.stdout.write(gencov_mean_sexes.to_csv(header=None, index=None, sep='\t'))
 
