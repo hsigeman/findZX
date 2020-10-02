@@ -72,7 +72,7 @@ rule normalize_cov:
         homo = expand("homo:{homogametic}", homogametic = HOMOGAMETIC)
     shell:
         """
-        python3 code/normalize_genCov.py {input} {params.hetero} {params.homo} > {output}
+        python3 code/normalize_genCov.py {input} no-synteny {params.hetero} {params.homo} > {output}
         """
 
 ##########################################################
