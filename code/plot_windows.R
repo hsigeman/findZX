@@ -294,7 +294,7 @@ if (dim(cov_1_table)[1] == 0) {
   circos.initialize(factors = cov.select.3$factor, x = cov.select.3$x)
 
 
-  circos.trackPlotRegion(factors = snp.select$factor, ylim = c(min.snp,max.snp), 
+  circos.trackPlotRegion(factors = snp.select$factor, ylim = c(-1,1), 
                          x = snp.select$x, y = snp.select$y, panel.fun = function(x, y) {
   
     grey = c("#FFFFFF", "#CCCCCC", "#999999")
@@ -302,40 +302,40 @@ if (dim(cov_1_table)[1] == 0) {
     xlim = get.cell.meta.data("xlim")
     ylim = get.cell.meta.data("ylim")
     circos.text(mean(xlim), mean(ylim) + uy(9, "mm"), cex = 1.1, sector.index) 
-    circos.lines(x, y, col = "blue", area = TRUE, baseline = median.snp)
+    circos.lines(x, y, col = "blue", area = TRUE, baseline = 0)
     circos.yaxis(side = "left", sector.index = levels(cov.select.1$factor)[1])
   })
 
-  circos.trackPlotRegion(factors = cov.select.1$factor, ylim = c(min.cov.1,max.cov.1), 
+  circos.trackPlotRegion(factors = cov.select.1$factor, ylim = c(-1,1), 
                          x = cov.select.1$x, y = cov.select.1$y, panel.fun = function(x, y) {
   
     grey = c("#FFFFFF", "#CCCCCC", "#999999")
     sector.index = get.cell.meta.data("sector.index")
     xlim = get.cell.meta.data("xlim")
     ylim = get.cell.meta.data("ylim")
-    circos.lines(x, y, col = "red", area = TRUE, baseline = median.cov.1)
+    circos.lines(x, y, col = "red", area = TRUE, baseline = 0)
     circos.yaxis(side = "left", sector.index = levels(cov.select.1$factor)[1])
   })
 
-  circos.trackPlotRegion(factors = cov.select.2$factor, ylim = c(min.cov.2,max.cov.2), 
+  circos.trackPlotRegion(factors = cov.select.2$factor, ylim = c(-1,1), 
                          x = cov.select.2$x, y = cov.select.2$y, panel.fun = function(x, y) {
   
     grey = c("#FFFFFF", "#CCCCCC", "#999999")
     sector.index = get.cell.meta.data("sector.index")
     xlim = get.cell.meta.data("xlim")
     ylim = get.cell.meta.data("ylim")
-    circos.lines(x, y, col = "red", area = TRUE, baseline = median.cov.2)
+    circos.lines(x, y, col = "red", area = TRUE, baseline = 0)
     circos.yaxis(side = "left", sector.index = levels(cov.select.1$factor)[1])
   })
 
-  circos.trackPlotRegion(factors = cov.select.3$factor, ylim = c(min.cov.3,max.cov.3), 
+  circos.trackPlotRegion(factors = cov.select.3$factor, ylim = c(-1,1), 
                          x = cov.select.3$x, y = cov.select.3$y, panel.fun = function(x, y) {
   
     grey = c("#FFFFFF", "#CCCCCC", "#999999")
     sector.index = get.cell.meta.data("sector.index")
     xlim = get.cell.meta.data("xlim")
     ylim = get.cell.meta.data("ylim")
-    circos.lines(x, y, col = "red", area = TRUE, baseline = median.cov.3)
+    circos.lines(x, y, col = "red", area = TRUE, baseline = 0)
     circos.yaxis(side = "left", sector.index = levels(cov.select.1$factor)[1])
     circos.axis("bottom", direction = "inside", labels.facing = "reverse.clockwise")
   })
