@@ -17,7 +17,7 @@ FQ_DIR = config["fastq"]
 REF_SPECIES = config["ref_species"]
 REF_DIR = config["ref_dir"]
 REF_NAME = config["ref_name"]
-CHOMOSOMES = config["chr_file"]
+CHROMOSOMES = config["chr_file"]
 PREFIX = SPECIES + "_ref_" + REF_SPECIES
 
 REF_PATH = REF_DIR + REF_NAME
@@ -189,7 +189,7 @@ rule confirm_sexing_synteny:
     params:
         hetero = expand("{heterogametic}", heterogametic = HETEROGAMETIC),
         homo = expand("{homogametic}", homogametic = HOMOGAMETIC),
-        chromosomes = CHOMOSOMES
+        chromosomes = CHROMOSOMES
     threads: 1
     shell:
         """
@@ -209,7 +209,7 @@ rule calculate_heterozygosity_synteny:
         chr = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".diffHeterozygosity.chr.out"
     threads: 1
     params:
-        chromosomes = CHOMOSOMES
+        chromosomes = CHROMOSOMES
     shell:
         """
         Rscript code/calculate_hetDiff_windows.R {input} {output.Mb} {output.kb} {output.chr} {params.chromosomes}
@@ -223,7 +223,7 @@ rule calculate_allFreq_synteny:
         kb = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".allFreq.100kbp.out"
     threads: 1
     params:
-        chromosomes = CHOMOSOMES
+        chromosomes = CHROMOSOMES
     shell:
         """
         Rscript code/calculate_snpCount_windows.R {input} {output.Mb} {output.kb} {params.chromosomes}
@@ -238,7 +238,7 @@ rule calculate_ratio_synteny:
         chr = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov.nodup.nm.{ED}.chr.out"
     threads: 1
     params:
-        chromosomes = CHOMOSOMES
+        chromosomes = CHROMOSOMES
     shell:
         """
         Rscript code/calculate_genCov_windows.R {input} {output.Mb} {output.kb} {output.chr} {params.chromosomes}
