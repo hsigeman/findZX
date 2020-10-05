@@ -38,7 +38,8 @@ file_gencov = args[1]
 file_snp = args[2]
 outfile = args[3]
 synteny = args[4]
-sample_names = args[5:length(args)]
+chr_file = args[5]
+sample_names = args[6:length(args)]
 
 ################################################################################
 ################################# READ FILES ###################################
@@ -49,8 +50,8 @@ het <- read.table(file_snp,header=FALSE,fill=TRUE,stringsAsFactor=FALSE)
 
 
 if (synteny == "with-synteny") {
-  cov <- cov[-1:-10]
-  het <- het[-1:-10]
+  cov <- cov[-c(1:7,11:13)]
+  het <- het[-c(1:7,11:13)]
 }
 
 colnames(cov)[1:3] <- c("chr","start","end")
@@ -61,28 +62,39 @@ colnames(het)[1:3] <- c("chr","start","end")
 ################################################################################
 
 col_names <- colnames(cov)[4:length(cov)]
-colnames(cov) <- c("chr","start","end",sample_names)
 
 Thet <- transform(het, range=floor(end/5000))
-len_chr <- length_chr(Thet)
+
+len_chr <- length_chr(cov)
 colnames(len_chr) <- c("chr","length")
 
 f <- as.formula(paste(paste(col_names, collapse = "+"), "~", "chr + range"))
 Thet <- summaryBy(f, data=Thet, keep.names=TRUE, na.rm = TRUE)
-
 colnames(Thet) <- c("chr","range",sample_names)
 
 Tcov <- transform(cov, range=floor(start/5000))
+Tcov <- summaryBy(f, data=Tcov, keep.names=TRUE, na.rm = TRUE)
+colnames(Tcov) <- c("chr","range",sample_names)
 
 cov_het <- merge(Tcov, Thet, by = c("chr","range"))
 cov_het <- merge(cov_het, len_chr, by = "chr")
 
 nr_samples <- length(sample_names)
+cov_het <- as.data.frame(cov_het)
 
 for (i in 1:nr_samples) {
   
-  outliers <- boxplot(cov_het[,(i+4)], plot = FALSE)$stats[5]
-  cov_het[,(i+4)][cov_het[,(i+4)] > outliers] = NA
+  outliers <- boxplot(cov_het[,(i+2)], plot = FALSE)$stats[5]
+  cov_het[,(i+2)][cov_het[,(i+2)] > outliers] = NA
+  
+}
+
+if (file.exists(chr_file)) {
+  
+  chromosome <- read.csv(chr_file, header = FALSE, sep = ",")
+  chromosome <- as.factor(chromosome)
+  
+  cov_het <- cov_het[cov_het$chr %in% chromosome, ]
   
 }
 
@@ -96,8 +108,8 @@ for (i in 1:nr_samples) {
 
 ###################### HETEROZYGOSITY VS GENOME COVERAGE #######################
   
-  x = i + 4
-  y = i + 4 + nr_samples
+  x = i + 2
+  y = i + 2 + nr_samples
   
   gh <- ggplot(data = cov_het, aes(x = cov_het[,x], y = cov_het[,y])) + 
     geom_bin2d(na.rm = TRUE) + 
@@ -120,7 +132,7 @@ for (i in 1:nr_samples) {
 ############################### GENOME COVERAGE ################################
   
   g <- ggplot(cov_het, aes(x = cov_het[,x])) + 
-     geom_histogram(bins = 50) + 
+     geom_histogram(bins = 50, na.rm = TRUE) + 
      labs(x="genome coverage", y="Frequency", title = sample_names[i]) + 
      theme_bw()
   
@@ -155,7 +167,8 @@ for (i in 1:nr_samples) {
   cov_het_subset <- cov_het[cov_het$chr %in% top_chr,]
   cov_het_subset$chr <- factor(cov_het_subset$chr, levels = top_chr)
   
-  c <- ggplot(cov_het_subset, aes(x=range, y=cov_het_subset[,x])) + geom_line() + 
+  c <- ggplot(cov_het_subset, aes(x=range, y=cov_het_subset[,x])) + 
+    geom_smooth(na.rm = TRUE) + 
     facet_grid(. ~ chr, scales = "free_x", space = "free_x") +
     labs(y = "genome coverage", x = "position [5kbp window]", title = sample_names[i]) +
     theme(axis.text.x = element_blank())

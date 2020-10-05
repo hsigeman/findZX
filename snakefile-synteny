@@ -188,11 +188,12 @@ rule confirm_sexing_synteny:
         gencov_het = protected(RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov_heterozygosity_indv.{nm}.pdf")
     params:
         hetero = expand("{heterogametic}", heterogametic = HETEROGAMETIC),
-        homo = expand("{homogametic}", homogametic = HOMOGAMETIC)
+        homo = expand("{homogametic}", homogametic = HOMOGAMETIC),
+        chromosomes = CHOMOSOMES
     threads: 1
     shell:
         """
-        Rscript code/histogram_indv.R {input.gencov} {input.het} {output.gencov_het} with-synteny {params.hetero} {params.homo}
+        Rscript code/histogram_indv.R {input.gencov} {input.het} {output.gencov_het} with-synteny {params.chromosomes} {params.hetero} {params.homo}
         """
 
 ##########################################################

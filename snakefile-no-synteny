@@ -88,11 +88,12 @@ rule confirm_sexing:
     threads: 1
     params:
         hetero = expand("{heterogametic}", heterogametic = HETEROGAMETIC),
-        homo = expand("{homogametic}", homogametic = HOMOGAMETIC)
+        homo = expand("{homogametic}", homogametic = HOMOGAMETIC),
+        chromosomes = CHOMOSOMES
     threads: 1
     shell:
         """
-        Rscript code/histogram_indv.R {input.gencov} {input.het} {output.gencov_het} no-synteny {params.hetero} {params.homo}
+        Rscript code/histogram_indv.R {input.gencov} {input.het} {output.gencov_het} no-synteny {params.chromosomes} {params.hetero} {params.homo}
         """
 
 ##########################################################
