@@ -276,7 +276,7 @@ rule plotting:
     params:
         out_circlize = protected(RESULTDIR + SPECIES + "{synteny}circlize.{bp}bp.pdf"),
         out_scatter = protected(RESULTDIR + SPECIES + "{synteny}scatter.{bp}bp.pdf"),
-        chromosomes = CHOMOSOMES
+        chromosomes = CHROMOSOMES
     shell: 
         """
         Rscript code/plot_windows.R {input.cov} {input.snp} {params.out_circlize} {params.out_scatter} {params.chromosomes}
@@ -291,7 +291,7 @@ rule plotting_chr:
     params:
         out_scatter2D = protected(RESULTDIR + SPECIES + "{synteny}chr_scatter2D.pdf"),
         out_scatter3D = protected(RESULTDIR + SPECIES + "{synteny}chr_scatter3D.pdf"),
-        chromosomes = CHOMOSOMES
+        chromosomes = CHROMOSOMES
     threads: 1
     shell:
         """
