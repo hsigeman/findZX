@@ -141,12 +141,13 @@ if ( dim( cov_1_table )[1] == 0) {
 ############################# ORDER CHROMOSOMES ################################
 ################################################################################
 
+  max_per_chr <- setDT( cov.select.1 )[, .SD[ which.max(x) ], 
+                                       by=factor]
+  max_per_chr <- as.data.frame( max_per_chr[,1:2] )
+  
   if ( !file.exists(chr_file) ) {
     
     # Order after scaffold length if no chromosome file is given
-    max_per_chr <- setDT( cov.select.1 )[, .SD[ which.max(x) ], 
-                                         by=factor]
-    max_per_chr <- as.data.frame( max_per_chr[,1:2] )
     chromosome <- max_per_chr[ order( -max_per_chr$x ), ][,1]
     
   }
