@@ -13,14 +13,14 @@ library(viridis)
 # the third is shown through coloring of the points. 
 # Makes a 3D scatterplot of all three variables and colors after length.
 
-source("code/functions.R")
 set.seed(999)
+source("code/functions.R")
 
 args <- commandArgs(trailingOnly = TRUE)
 
-file00 = args[1]
-file02 = args[2]
-file04 = args[3]
+file1 = args[1]
+file2 = args[2]
+file3 = args[3]
 filesnp = args[4]
 scatter2D_out = args[5]
 scatter3D_out = args[6]
@@ -30,9 +30,9 @@ chr_file = args[7]
 ################################# READ FILES ###################################
 ################################################################################
 
-cov_00_table <- read.table(file00, header=TRUE,fill=TRUE,stringsAsFactor=FALSE)
-cov_02_table <- read.table(file02, header=TRUE,fill=TRUE,stringsAsFactor=FALSE)
-cov_04_table <- read.table(file04, header=TRUE,fill=TRUE,stringsAsFactor=FALSE)
+cov_00_table <- read.table(file1, header=TRUE,fill=TRUE,stringsAsFactor=FALSE)
+cov_02_table <- read.table(file2, header=TRUE,fill=TRUE,stringsAsFactor=FALSE)
+cov_04_table <- read.table(file3, header=TRUE,fill=TRUE,stringsAsFactor=FALSE)
 snp_table <- read.table(filesnp, header=TRUE,fill=TRUE,stringsAsFactor=FALSE)
 
 if (file.exists(chr_file)) {
@@ -159,38 +159,71 @@ c <- plot_grid(c0, c2, c4, legend, ncol = 4, rel_widths = c(3,3,3,1),
 ################################################################################
 
 cov.select <- cov.select[order(cov.select$hetDiff),]
+hetDiff_low <- cov.select[cov.select$hetDiff < 0,]
+
 mid <- 0
 
-h0 <- ggplot(cov.select, aes(y = length, x = cov00)) + 
+hl0 <- ggplot(hetDiff_low, aes(y = length, x = cov00)) + 
   labs(title = "", y = "scaffold length", x = "") + 
   theme_bw() + 
   geom_point(aes(color = hetDiff)) + 
   scale_color_gradient2(midpoint = mid, mid = "lightgrey",low="blue", high="red") + 
   theme(legend.position="none")
 
-h2 <- ggplot(cov.select, aes(y = length, x = cov02)) + 
+hl2 <- ggplot(hetDiff_low, aes(y = length, x = cov02)) + 
   labs(title = "", y = "", x = "difference in normalized genome coverage") + 
   theme_bw() + 
   geom_point(aes(color = hetDiff)) + 
   scale_color_gradient2(midpoint = mid, mid = "lightgrey",low="blue", high="red") + 
   theme(legend.position="none")
 
-h4 <- ggplot(cov.select, aes(y = length, x = cov04)) + 
+hl4 <- ggplot(hetDiff_low, aes(y = length, x = cov04)) + 
   labs(title = "", x = "", color = "heterozygosity", y = "") + 
   theme_bw() + 
   geom_point(aes(color = hetDiff)) + 
   scale_color_gradient2(midpoint = mid, mid = "lightgrey",low="blue", high="red")
 
-legend <- get_legend(h4)
+legend <- get_legend(hl4)
 
-h4 <- h4 + theme(legend.position="none")
+hl4 <- hl4 + theme(legend.position="none")
 
-h <- plot_grid(h0, h2, h4, legend, ncol = 4, rel_widths = c(3,3,3,1),
+hl <- plot_grid(hl0, hl2, hl4, legend, ncol = 4, rel_widths = c(3,3,3,1),
                labels = c("nm = 0", "nm = 2", "nm = 4", ""))
 
+################################################################################
 
+hetDiff_high <- cov.select[cov.select$hetDiff >= 0,]
 
-pg <- plot_grid(l,c,h, ncol = 1)
+hh0 <- ggplot(hetDiff_high, aes(y = length, x = cov00)) + 
+  labs(title = "", y = "scaffold length", x = "") + 
+  theme_bw() + 
+  geom_point(aes(color = hetDiff)) + 
+  scale_color_gradient2(midpoint = mid, mid = "lightgrey",low="blue", high="red") + 
+  theme(legend.position="none")
+
+hh2 <- ggplot(hetDiff_high, aes(y = length, x = cov02)) + 
+  labs(title = "", y = "", x = "difference in normalized genome coverage") + 
+  theme_bw() + 
+  geom_point(aes(color = hetDiff)) + 
+  scale_color_gradient2(midpoint = mid, mid = "lightgrey",low="blue", high="red") + 
+  theme(legend.position="none")
+
+hh4 <- ggplot(hetDiff_high, aes(y = length, x = cov04)) + 
+  labs(title = "", x = "", color = "heterozygosity", y = "") + 
+  theme_bw() + 
+  geom_point(aes(color = hetDiff)) + 
+  scale_color_gradient2(midpoint = mid, mid = "lightgrey",low="blue", high="red")
+
+legend <- get_legend(hh4)
+
+hh4 <- hh4 + theme(legend.position="none")
+
+hh <- plot_grid(hh0, hh2, hh4, legend, ncol = 4, rel_widths = c(3,3,3,1),
+                labels = c("nm = 0", "nm = 2", "nm = 4", ""))
+
+################################################################################
+
+pg <- plot_grid(l,c,hl,hh, ncol = 1)
 
 ggsave(scatter2D_out, plot = pg, device = pdf(), width = 14, height = 14)
 
