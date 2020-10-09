@@ -40,6 +40,8 @@ for i in range(3, len(sys.argv)):
 print("Input heterogametic individuals:\t" + '\t'.join(heterogametic_samples))
 print("Input homogametic individuals:\t" + '\t'.join(homogametic_samples))
 
+number_samples = len(heterogametic_samples) + len(homogametic_samples)
+
 out_file = open(sys.argv[2], 'w')
 
 with gzip.open(sys.argv[1], 'rt') as vcfFile:
@@ -93,8 +95,9 @@ with gzip.open(sys.argv[1], 'rt') as vcfFile:
 				if not info_fields[i].startswith('./.'):
 					homogameticSex_count = 1 + homogameticSex_count
 
+			count_samples = heterogameticSex_count + homogameticSex_count
 
-			if heterogameticSex_count > 0 and homogameticSex_count > 0:
+			if heterogameticSex_count > 0 and homogameticSex_count > 0 and count_samples/number_samples > 0.5:
 				heterogameticSex_heterozygotRatio = heterogameticSex_heterozygotCount/heterogameticSex_count
 				homogameticSex_heterozygotRatio = homogameticSex_heterozygotCount/homogameticSex_count
 
