@@ -63,7 +63,6 @@ if ( dim( cov_1_table )[1] == 0) {
     chromosome <- read.csv(chr_file, 
                            header = FALSE, 
                            sep = ",")
-    chromosome <- as.factor(chromosome)
     
     cov_1_table <- cov_1_table[ cov_1_table$chr %in% chromosome, ]
     
@@ -141,13 +140,11 @@ if ( dim( cov_1_table )[1] == 0) {
 ############################# ORDER CHROMOSOMES ################################
 ################################################################################
 
-  max_per_chr <- setDT( cov.select.1 )[, .SD[ which.max(x) ], 
-                                       by=factor]
-  max_per_chr <- as.data.frame( max_per_chr[,1:2] )
-  
+  # Order after scaffold length if no chromosome file is given
   if ( !file.exists(chr_file) ) {
-    
-    # Order after scaffold length if no chromosome file is given
+    max_per_chr <- setDT( cov.select.1 )[, .SD[ which.max(x) ], 
+                                         by=factor]
+    max_per_chr <- as.data.frame( max_per_chr[,1:2] )
     chromosome <- max_per_chr[ order( -max_per_chr$x ), ][,1]
     
   }
@@ -373,94 +370,137 @@ if ( dim( cov_1_table )[1] == 0) {
 ################################################################################
   
   # Remove chr/scaffolds that only have one window
+  
+  # Count the number of windows for each chr/scaff and join to one table
   factor_counts <- merge(count(cov.select.1, "factor"), 
                          count(cov.select.2, "factor"), 
                          by = 'factor', suffixes = c("1","2"))
-
   factor_counts <- merge(factor_counts, 
                          count(cov.select.3, "factor"), 
                          by = 'factor')
-  
   factor_counts <- merge(factor_counts, 
                          count(snp.select, "factor"), 
                          by = 'factor', suffixes = c("3","4"))
   
-  factor_counts[factor_counts==1] = NA
-  factor_counts <- factor_counts[complete.cases(factor_counts),]
-  factor_counts <- merge(factor_counts, max_per_chr, by = "factor")
+  factor_mask <- cbind((factor_counts[,2:5] <= 1)[,1], 
+                       (factor_counts[,2:5] <= 1))
   
-  factor_counts <- factor_counts[ order( -factor_counts$x ), ]
+  if ( length( factor_counts[factor_mask] ) > 0 ) {
+    
+    factor_counts[factor_mask] = NA
+    factor_counts <- factor_counts[complete.cases(factor_counts),]
+    
+    factor_counts <- droplevels(factor_counts)
+    
+    chromosome <- levels(factor_counts$factor)
+    
+    cov.select.1 <- cov.select.1[ cov.select.1$factor %in% chromosome, ]
+    cov.select.2 <- cov.select.2[ cov.select.2$factor %in% chromosome, ]
+    cov.select.3 <- cov.select.3[ cov.select.3$factor %in% chromosome, ]
+    snp.select <- snp.select[ snp.select$factor %in% chromosome, ]
+    
+    cov.select.1$factor <- ordered(cov.select.1$factor, 
+                                   levels = chromosome)
+    cov.select.2$factor <- ordered(cov.select.2$factor, 
+                                   levels = chromosome)
+    cov.select.3$factor <- ordered(cov.select.3$factor, 
+                                   levels = chromosome)
+    snp.select$factor <- ordered(snp.select$factor, 
+                                 levels = chromosome)
+    
+    nr_factors <- c( length( unique( cov.select.1$factor ) ),
+                     length( unique( cov.select.2$factor ) ),
+                     length( unique( cov.select.3$factor ) ),
+                     length( unique( snp.select$factor )) )
+  }
   
-  chromosome <- factor(as.matrix(factor_counts[1]))
-  
-  cov.select.1 <- cov.select.1[ cov.select.1$factor %in% chromosome, ]
-  cov.select.2 <- cov.select.2[ cov.select.2$factor %in% chromosome, ]
-  cov.select.3 <- cov.select.3[ cov.select.3$factor %in% chromosome, ]
-  snp.select <- snp.select[ snp.select$factor %in% chromosome, ]
-  
-  cov.select.1$factor <- ordered(cov.select.1$factor, levels = chromosome)
-  cov.select.2$factor <- ordered(cov.select.2$factor, levels = chromosome)
-  cov.select.3$factor <- ordered(cov.select.3$factor, levels = chromosome)
-  snp.select$factor <- ordered(snp.select$factor, levels = chromosome)
-  
-  nr_factors <- c( length( unique( cov.select.1$factor ) ),
-                   length( unique( cov.select.2$factor ) ),
-                   length( unique( cov.select.3$factor ) ),
-                   length( unique( snp.select$factor )) )
-  
-  # make circlize plot
+################################################################################
   
   circos.clear()
   pdf(file=circlize_out, width = 9, height = 9)
-  par(mfrow=c(1,1), mar = c(1, 1, 1, 1), lwd = 0.1, cex = 0.7) 
-  circos.par(cell.padding = c(0, 0, 0, 0), "track.height" = 0.15, gap.after = c(rep(1, nr_factors[1]-1), 10))
-  circos.initialize(factors = cov.select.3$factor, x = cov.select.3$x)
+  par(mfrow=c(1,1), 
+      mar = c(1, 1, 1, 1), 
+      lwd = 0.1, cex = 0.7) 
+  circos.par(cell.padding = c(0, 0, 0, 0), 
+             "track.height" = 0.15, 
+             gap.after = c(rep(1, nr_factors[1]-1), 10))
+  circos.initialize(factors = cov.select.3$factor, 
+                    x = cov.select.3$x)
 
-
-  circos.trackPlotRegion(factors = snp.select$factor, ylim = c(-1,1), 
-                         x = snp.select$x, y = snp.select$y, panel.fun = function(x, y) {
   
+  circos.trackPlotRegion(factors = snp.select$factor, 
+                         ylim = c(-1,1), 
+                         x = snp.select$x, 
+                         y = snp.select$y, 
+                         panel.fun = function(x, y) {
     grey = c("#FFFFFF", "#CCCCCC", "#999999")
     sector.index = get.cell.meta.data("sector.index")
     xlim = get.cell.meta.data("xlim")
     ylim = get.cell.meta.data("ylim")
-    circos.text(mean(xlim), mean(ylim) + uy(9, "mm"), cex = 1.1, sector.index) 
-    circos.lines(x, y, col = "blue", area = TRUE, baseline = 0)
-    circos.yaxis(side = "left", sector.index = levels(cov.select.1$factor)[1])
+    circos.text(mean(xlim), 
+                mean(ylim) + uy(9, "mm"), 
+                cex = 1.1, sector.index) 
+    circos.lines(x, y, 
+                 col = "blue", 
+                 area = TRUE, 
+                 baseline = 0)
+    circos.yaxis(side = "left", 
+                 sector.index = levels(cov.select.1$factor)[1])
   })
 
-  circos.trackPlotRegion(factors = cov.select.1$factor, ylim = c(-1,1), 
-                         x = cov.select.1$x, y = cov.select.1$y, panel.fun = function(x, y) {
-  
+  circos.trackPlotRegion(factors = cov.select.1$factor, 
+                         ylim = c(-1,1), 
+                         x = cov.select.1$x, 
+                         y = cov.select.1$y, 
+                         panel.fun = function(x, y) {
     grey = c("#FFFFFF", "#CCCCCC", "#999999")
     sector.index = get.cell.meta.data("sector.index")
     xlim = get.cell.meta.data("xlim")
     ylim = get.cell.meta.data("ylim")
-    circos.lines(x, y, col = "red", area = TRUE, baseline = 0)
-    circos.yaxis(side = "left", sector.index = levels(cov.select.1$factor)[1])
+    circos.lines(x, y, 
+                 col = "red", 
+                 area = TRUE, 
+                 baseline = 0)
+    circos.yaxis(side = "left", 
+                 sector.index = levels(cov.select.1$factor)[1])
   })
 
-  circos.trackPlotRegion(factors = cov.select.2$factor, ylim = c(-1,1), 
-                         x = cov.select.2$x, y = cov.select.2$y, panel.fun = function(x, y) {
+  circos.trackPlotRegion(factors = cov.select.2$factor, 
+                         ylim = c(-1,1), 
+                         x = cov.select.2$x, 
+                         y = cov.select.2$y, 
+                         panel.fun = function(x, y) {
   
     grey = c("#FFFFFF", "#CCCCCC", "#999999")
     sector.index = get.cell.meta.data("sector.index")
     xlim = get.cell.meta.data("xlim")
     ylim = get.cell.meta.data("ylim")
-    circos.lines(x, y, col = "red", area = TRUE, baseline = 0)
-    circos.yaxis(side = "left", sector.index = levels(cov.select.1$factor)[1])
+    circos.lines(x, y, 
+                 col = "red", 
+                 area = TRUE, 
+                 baseline = 0)
+    circos.yaxis(side = "left", 
+                 sector.index = levels(cov.select.1$factor)[1])
   })
 
-  circos.trackPlotRegion(factors = cov.select.3$factor, ylim = c(-1,1), 
-                         x = cov.select.3$x, y = cov.select.3$y, panel.fun = function(x, y) {
+  circos.trackPlotRegion(factors = cov.select.3$factor, 
+                         ylim = c(-1,1), 
+                         x = cov.select.3$x, 
+                         y = cov.select.3$y, 
+                         panel.fun = function(x, y) {
   
     grey = c("#FFFFFF", "#CCCCCC", "#999999")
     sector.index = get.cell.meta.data("sector.index")
     xlim = get.cell.meta.data("xlim")
     ylim = get.cell.meta.data("ylim")
-    circos.lines(x, y, col = "red", area = TRUE, baseline = 0)
-    circos.yaxis(side = "left", sector.index = levels(cov.select.1$factor)[1])
-    circos.axis("bottom", direction = "inside", labels.facing = "reverse.clockwise")
+    circos.lines(x, y, 
+                 col = "red", 
+                 area = TRUE, baseline = 0)
+    circos.yaxis(side = "left", 
+                 sector.index = levels(cov.select.1$factor)[1])
+    circos.axis("bottom", 
+                direction = "inside", 
+                labels.facing = "reverse.clockwise")
   })
 
   dev.off()
