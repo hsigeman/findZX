@@ -91,21 +91,21 @@ colnames(cov.select) <- c("Chromosome", "cov00", "cov02", "cov04", "length", "he
 cov.select <- cov.select[order(cov.select$length),]
 
 l0 <- ggplot(cov.select, aes(x = cov00, y = hetDiff, size=length)) + 
-  labs(title = "", x = "", y = "difference in heterozygosity") + 
+  labs(title = file1, x = "", y = "difference in heterozygosity") + 
   theme_bw() + 
   geom_point(aes(color = length)) +
   theme(legend.position="none") +
   scale_color_gradient(low="lightgrey", high="red")
 
 l2 <- ggplot(cov.select, aes(x = cov02, y = hetDiff, size=length)) + 
-  labs(title = "", x = "difference in normalized genome coverage", y = "") + 
+  labs(title = file2, x = "difference in normalized genome coverage", y = "") + 
   theme_bw() + 
   geom_point(aes(color = length)) + 
   theme(legend.position="none") +
   scale_color_gradient(low="lightgrey", high="red")
 
 l4 <- ggplot(cov.select, aes(x = cov04, y = hetDiff, size=length)) + 
-  labs(title = "", x = "", color = "scaffold length", y = "") + 
+  labs(title = file3, x = "", color = "scaffold length", y = "") + 
   theme_bw() + 
   geom_point(aes(color = length)) + 
   scale_color_gradient(low="lightgrey", high="red")
@@ -114,8 +114,7 @@ legend <- get_legend(l4)
 
 l4 <- l4 + theme(legend.position="none")
 
-l <- plot_grid(l0, l2, l4, legend, ncol = 4, rel_widths = c(3,3,3,1), 
-                labels = c("nm = 0", "nm = 2", "nm = 4", ""))
+l <- plot_grid(l0, l2, l4, legend, ncol = 4, rel_widths = c(3,3,3,1))
 
 ################################################################################
 ############################ SCATTER PLOT COVERAGE #############################
@@ -151,8 +150,7 @@ c4 <- ggplot(cov.select, aes(y = length, x = hetDiff)) +
   scale_color_viridis() + 
   theme(legend.position="none")
 
-c <- plot_grid(c0, c2, c4, legend, ncol = 4, rel_widths = c(3,3,3,1),
-               labels = c("nm = 0", "nm = 2", "nm = 4", ""))
+c <- plot_grid(c0, c2, c4, legend, ncol = 4, rel_widths = c(3,3,3,1))
 
 ################################################################################
 ############################ SCATTER PLOT HETDIFF ##############################
@@ -187,8 +185,7 @@ legend <- get_legend(hl4)
 
 hl4 <- hl4 + theme(legend.position="none")
 
-hl <- plot_grid(hl0, hl2, hl4, legend, ncol = 4, rel_widths = c(3,3,3,1),
-               labels = c("nm = 0", "nm = 2", "nm = 4", ""))
+hl <- plot_grid(hl0, hl2, hl4, legend, ncol = 4, rel_widths = c(3,3,3,1))
 
 ################################################################################
 
@@ -218,12 +215,11 @@ legend <- get_legend(hh4)
 
 hh4 <- hh4 + theme(legend.position="none")
 
-hh <- plot_grid(hh0, hh2, hh4, legend, ncol = 4, rel_widths = c(3,3,3,1),
-                labels = c("nm = 0", "nm = 2", "nm = 4", ""))
+hh <- plot_grid(hh0, hh2, hh4, legend, ncol = 4, rel_widths = c(3,3,3,1))
 
 ################################################################################
 
-pg <- plot_grid(l,c,hl,hh, ncol = 1)
+pg <- plot_grid(l,c,hl,hh, ncol = 1, labels = 'AUTO')
 
 ggsave(scatter2D_out, plot = pg, device = pdf(), width = 14, height = 14)
 
@@ -231,7 +227,7 @@ ggsave(scatter2D_out, plot = pg, device = pdf(), width = 14, height = 14)
 ############################### SCATTER PLOT 3D ################################
 ################################################################################
 
-pdf(file=scatter3D_out, width = 14, height = 5)
+pdf(file=scatter3D_out, width = 14, height = 8)
 
 par(mfrow=c(1,3), mar=c(2,1,2,0), oma=c(0,0,0,0), xpd=TRUE)
 
