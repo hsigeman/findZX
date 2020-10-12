@@ -45,7 +45,7 @@ rule all:
         expand(GENCOV_DIR + SPECIES + ".gencov.nodup.nm.{ED}.out.norm", ED = EDIT_DIST),
         RESULTDIR + SPECIES + ".allFreq.1Mbp.out",
         RESULTDIR + SPECIES + ".allFreq.100kbp.out",
-        RESULTDIR + SPECIES + ".gencov_heterozygosity_indv.all.pdf",
+        expand(RESULTDIR + SPECIES + ".gencov_heterozygosity_indv.{ED}.pdf", ED = EDIT_DIST),
         RESULTDIR + SPECIES + ".plotting.1Mbp.done",
         RESULTDIR + SPECIES + ".plotting.100kbp.done",
         RESULTDIR + SPECIES + ".plotting_chr.done"

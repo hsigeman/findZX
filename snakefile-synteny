@@ -50,7 +50,7 @@ rule all:
         expand(MATCHDIR + SPECIES + ".gencov.nodup.nm.{ED}." + SYNTENY_SPECIES + ".out.norm", ED = EDIT_DIST),
         RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".allFreq.1Mbp.out",
         RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".allFreq.100kbp.out",
-        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov_heterozygosity_indv.all.pdf",
+        expand(RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov_heterozygosity_indv.{ED}.pdf", ED = EDIT_DIST),
         RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".plotting.1Mbp.done",
         RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".plotting.100kbp.done",
         RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".plotting_chr.done",
