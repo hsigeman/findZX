@@ -268,14 +268,14 @@ rule filter_allele_frequency:
 
 rule plotting:
     input: 
-        cov = expand(RESULTDIR + SPECIES + "{{synteny}}gencov.nodup.nm.{ED}.{{bp}}bp.out", ED = EDIT_DIST),
+        cov = expand(RESULTDIR + SPECIES + "{{synteny}}{{gencov}}.nodup.nm.{ED}.{{bp}}bp.out", ED = EDIT_DIST),
         snp = RESULTDIR + SPECIES + "{synteny}diffHeterozygosity.{bp}bp.out"
     output: 
-        touch(RESULTDIR + SPECIES + "{synteny}plotting.{bp}bp.done")
+        touch(RESULTDIR + SPECIES + "{synteny}{gencov}.plotting.{bp}bp.done")
     threads: 1
     params:
-        out_circlize = protected(RESULTDIR + SPECIES + "{synteny}circlize.{bp}bp.pdf"),
-        out_scatter = protected(RESULTDIR + SPECIES + "{synteny}scatter.{bp}bp.pdf"),
+        out_circlize = protected(RESULTDIR + SPECIES + "{synteny}{gencov}.circlize.{bp}bp.pdf"),
+        out_scatter = protected(RESULTDIR + SPECIES + "{synteny}{gencov}.scatter.{bp}bp.pdf"),
         chromosomes = CHROMOSOMES
     shell: 
         """

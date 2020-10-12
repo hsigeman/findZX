@@ -46,8 +46,9 @@ rule all:
         RESULTDIR + SPECIES + ".allFreq.1Mbp.out",
         RESULTDIR + SPECIES + ".allFreq.100kbp.out",
         expand(RESULTDIR + SPECIES + ".gencov_heterozygosity_indv.{ED}.pdf", ED = EDIT_DIST),
-        RESULTDIR + SPECIES + ".plotting.1Mbp.done",
-        RESULTDIR + SPECIES + ".plotting.100kbp.done",
+        RESULTDIR + SPECIES + ".gencov.plotting.1Mbp.done",
+        RESULTDIR + SPECIES + ".gencov.plotting.100kbp.done",
+        RESULTDIR + SPECIES + ".N1.plotting.1Mbp.done",
         RESULTDIR + SPECIES + ".plotting_chr.done"
 
 ##########################################################
@@ -80,12 +81,12 @@ rule normalize_cov:
 
 rule confirm_sexing:
     input:
-        gencov = GENCOV_DIR + SPECIES + ".gencov.nodup.nm.{nm}.out",
+        gencov = GENCOV_DIR + SPECIES + ".gencov.nodup.nm.{ED}.out",
         het = VCF_DIR + SPECIES + ".heterozygosity.sorted.bed",
-        stats = expand(MAP_DIR + "{S}.sorted.nodup.nm.{{nm}}.stats", S = ID)
+        stats = expand(MAP_DIR + "{S}.sorted.nodup.nm.{{ED}}.stats", S = ID)
     output:
-        gencov_het = RESULTDIR + SPECIES + ".gencov_heterozygosity_indv.{nm}.pdf",
-        n1_cov = GENCOV_DIR + SPECIES + ".N1.nodup.nm.{nm}.out"
+        gencov_het = RESULTDIR + SPECIES + ".gencov_heterozygosity_indv.{ED}.pdf",
+        n1_cov = GENCOV_DIR + SPECIES + ".N1.nodup.nm.{ED}.out"
     threads: 1
     params:
         hetero = expand("{heterogametic}", heterogametic = HETEROGAMETIC),
@@ -100,6 +101,26 @@ rule confirm_sexing:
 # grep 'average length' 
 
         Rscript code/histogram_indv.R {input.gencov} {input.het} {output.gencov_het} {output.n1_cov} no-synteny {params.chromosomes} {params.hetero} {params.homo}
+        """
+
+rule n1:
+    input:
+        n1_cov = MATCHDIR + SPECIES + ".N1.nodup.nm.{ED}.out"
+    output:
+        n1_mean = MATCHDIR + SPECIES + ".N1.nodup.nm.{ED}.out.mean",
+        n1_1Mbp = RESULTDIR + SPECIES + ".N1.nodup.nm.{ED}.1Mbp.out",
+        n1_100kbp = RESULTDIR + SPECIES + ".N1.nodup.nm.{ED}.100kbp.out",
+        n1_chr = RESULTDIR + SPECIES + + ".N1.nodup.nm.{ED}.chr.out"
+    threads: 1
+    params:
+        hetero = expand("{heterogametic}", heterogametic = HETEROGAMETIC),
+        homo = expand("{homogametic}", homogametic = HOMOGAMETIC),
+        chromosomes = CHROMOSOMES
+    shell:
+        """
+        python3 code/n1_genCov.py {input.n1_cov} no-synteny {params.hetero} {params.homo} > {output.n1_mean}
+
+        Rscript code/calculate_N1_windows.R {output.n1_mean} {output.n1_1Mbp} {output.n1_100kbp} {output.n1_chr} {params.chromosomes}
         """
 
 ##########################################################
