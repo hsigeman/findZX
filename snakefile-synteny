@@ -182,9 +182,11 @@ rule matchScaffold2Chr_cov:
 rule confirm_sexing_synteny:
     input:
         gencov = MATCHDIR + SPECIES + ".gencov.nodup.nm.{nm}." + SYNTENY_SPECIES + ".out",
-        het = MATCHDIR + SPECIES + ".heterozygosity.bestMatch." + SYNTENY_SPECIES
+        het = MATCHDIR + SPECIES + ".heterozygosity.bestMatch." + SYNTENY_SPECIES,
+        stats = expand(MAP_DIR + "{S}.sorted.nodup.nm.{{nm}}.stats", S = ID)
     output:
-        gencov_het = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov_heterozygosity_indv.{nm}.pdf"
+        gencov_het = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov_heterozygosity_indv.{nm}.pdf",
+        n1_cov = MATCHDIR + SPECIES + ".N1.nodup.nm.{nm}." + SYNTENY_SPECIES + ".out"
     params:
         hetero = expand("{heterogametic}", heterogametic = HETEROGAMETIC),
         homo = expand("{homogametic}", homogametic = HOMOGAMETIC),
@@ -192,7 +194,7 @@ rule confirm_sexing_synteny:
     threads: 1
     shell:
         """
-        Rscript code/histogram_indv.R {input.gencov} {input.het} {output.gencov_het} with-synteny {params.chromosomes} {params.hetero} {params.homo}
+        Rscript code/histogram_indv.R {input.gencov} {input.het} {output.gencov_het} {output.n1_cov} with-synteny {params.chromosomes} {params.hetero} {params.homo}
         """
 
 ##########################################################

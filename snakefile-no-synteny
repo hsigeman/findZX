@@ -84,7 +84,8 @@ rule confirm_sexing:
         het = VCF_DIR + SPECIES + ".heterozygosity.sorted.bed",
         stats = expand(MAP_DIR + "{S}.sorted.nodup.nm.{{nm}}.stats", S = ID)
     output:
-        gencov_het = RESULTDIR + SPECIES + ".gencov_heterozygosity_indv.{nm}.pdf"
+        gencov_het = RESULTDIR + SPECIES + ".gencov_heterozygosity_indv.{nm}.pdf",
+        n1_cov = GENCOV_DIR + SPECIES + ".N1.nodup.nm.{nm}.out"
     threads: 1
     params:
         hetero = expand("{heterogametic}", heterogametic = HETEROGAMETIC),
@@ -98,7 +99,7 @@ rule confirm_sexing:
 # Read that file into R        
 # grep 'average length' 
 
-        Rscript code/histogram_indv.R {input.gencov} {input.het} {output.gencov_het} no-synteny {params.chromosomes} {params.hetero} {params.homo}
+        Rscript code/histogram_indv.R {input.gencov} {input.het} {output.gencov_het} {output.n1_cov} no-synteny {params.chromosomes} {params.hetero} {params.homo}
         """
 
 ##########################################################

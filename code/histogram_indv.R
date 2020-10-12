@@ -6,29 +6,15 @@ require(scales)
 
 # Reads in a bed-file with coverage values and a file with heterozygosity for 
 # each site for each sample, values for each sample are in separate columns.
-# Removes outliers and makes two histograms and one scatterplot for each individual:
-# histograms for genome coverage and heterozygosity and a scatterplot of genome
-# coverage vs heterozygosity.
+# Removes outliers and makes two histograms and three heatmaps for each individual:
+# histograms for genome coverage and heterozygosity and heatmaps of genome
+# coverage vs heterozygosity, genome coverage vs length, heterozygosity vs length.
+#
 # Heterozygosity is given for each variable site. 1 = heterozygot, 0 = homozygot,
 # na = missing data.
 
-################################################################################
-################################## FUNCTIONS ###################################
-################################################################################
-
-length_chr <- function(data_table) {
-  # Returns the length of each chr/scaffold as a dataframe.
-  
-  max_per_chr <- setDT(data_table)[, .SD[which.max(end)], by=chr]
-  
-  max_per_chr <- as.data.frame(max_per_chr[,1:2])
-  
-  return(max_per_chr)
-}
-
-################################################################################
-################################################################################
-################################################################################
+# Outputs a coverage file where the windows with a coverage in the range of N1
+# is set to 1 and the other windows set to 0
 
 set.seed(999)
 
@@ -36,10 +22,11 @@ args <- commandArgs(trailingOnly = TRUE)
 
 file_gencov = args[1]
 file_snp = args[2]
-outfile = args[3]
-synteny = args[4]
-chr_file = args[5]
-sample_names = args[6:length(args)]
+outPdf = args[3]
+outCov = args[4]
+synteny = args[5]
+chr_file = args[6]
+sample_names = args[7:length(args)]
 
 ################################################################################
 ################################# READ FILES ###################################
@@ -61,25 +48,38 @@ colnames(het)[1:3] <- c("chr","start","end")
 ################################ CALCULATIONS ##################################
 ################################################################################
 
+nr_samples <- length(sample_names)
 col_names <- colnames(cov)[4:length(cov)]
+f <- as.formula( paste( paste( col_names, 
+                               collapse = "+"), 
+                        "~", "chr + range"))
 
-Thet <- transform(het, range=floor(end/5000))
-
-len_chr <- length_chr(cov)
+max_per_chr <- setDT(cov)[, .SD[which.max(end)], by=chr]
+len_chr <- as.data.frame( max_per_chr[,1:2])
 colnames(len_chr) <- c("chr","length")
 
-f <- as.formula(paste(paste(col_names, collapse = "+"), "~", "chr + range"))
-Thet <- summaryBy(f, data=Thet, keep.names=TRUE, na.rm = TRUE)
-colnames(Thet) <- c("chr","range",sample_names)
-
-Tcov <- transform(cov, range=floor(start/5000))
-Tcov <- summaryBy(f, data=Tcov, keep.names=TRUE, na.rm = TRUE)
+Tcov <- transform(cov, 
+                  range=floor(start/5000))
+Tcov <- summaryBy(f, 
+                  data=Tcov, 
+                  keep.names=TRUE, 
+                  na.rm = TRUE)
 colnames(Tcov) <- c("chr","range",sample_names)
 
-cov_het <- merge(Tcov, Thet, by = c("chr","range"))
-cov_het <- merge(cov_het, len_chr, by = "chr")
+Thet <- transform(het, 
+                  range=floor(end/5000))
+Thet <- summaryBy(f, 
+                  data=Thet, 
+                  keep.names=TRUE, 
+                  na.rm = TRUE)
+colnames(Thet) <- c("chr","range",sample_names)
 
-nr_samples <- length(sample_names)
+cov_het <- merge(Tcov, 
+                 Thet, 
+                 by = c("chr","range"))
+cov_het <- merge(cov_het, 
+                 len_chr, 
+                 by = "chr")
 cov_het <- as.data.frame(cov_het)
 
 for (i in 1:nr_samples) {
@@ -104,36 +104,60 @@ if (file.exists(chr_file)) {
 
 plist <- list()
 
+simple_cov <- cov_het[,1:(2+nr_samples)]
+
 for (i in 1:nr_samples) {
 
-###################### HETEROZYGOSITY VS GENOME COVERAGE #######################
+############## HEATMAP HETEROZYGOSITY VS GENOME COVERAGE VS LENGTH #############
   
   x = i + 2
   y = i + 2 + nr_samples
   
-  gh <- ggplot(data = cov_het, aes(x = cov_het[,x], y = cov_het[,y])) + 
+  gh <- ggplot(data = cov_het, 
+               aes(x = cov_het[,x], 
+                   y = cov_het[,y])) + 
     geom_bin2d(na.rm = TRUE) + 
-    labs(x = "genome coverage", y = "heterozygosity", title = sample_names[i]) + 
+    labs(x = "genome coverage", 
+         y = "heterozygosity", 
+         title = sample_names[i]) + 
     theme_bw() +
-    scale_fill_gradient(low="white",high="darkblue",trans="log10")
+    scale_fill_gradient(low="white",
+                        high="darkblue",
+                        trans="log10")
   
-  gl <- ggplot(data = cov_het, aes(x = cov_het[,x], y = length)) + 
+  gl <- ggplot(data = cov_het, 
+               aes(x = cov_het[,x], 
+                   y = length)) + 
     geom_bin2d(na.rm = TRUE) + 
-    labs(x = "genome coverage", y = "scaffold length", title = sample_names[i]) + 
+    labs(x = "genome coverage", 
+         y = "scaffold length", 
+         title = sample_names[i]) + 
     theme_bw() +
-    scale_fill_gradient(low="white",high="darkblue",trans="log10")
+    scale_fill_gradient(low="white",
+                        high="darkblue",
+                        trans="log10")
   
-  hl <- ggplot(data = cov_het, aes(x = cov_het[,y], y = length)) + 
+  hl <- ggplot(data = cov_het, 
+               aes(x = cov_het[,y], 
+                   y = length)) + 
     geom_bin2d(na.rm = TRUE) + 
-    labs(x = "heterozygosity", y = "scaffold length", title = sample_names[i]) + 
+    labs(x = "heterozygosity", 
+         y = "scaffold length", 
+         title = sample_names[i]) + 
     theme_bw() +
-    scale_fill_gradient(low="white",high="darkblue",trans="log10")
+    scale_fill_gradient(low="white",
+                        high="darkblue",
+                        trans="log10")
   
-############################### GENOME COVERAGE ################################
+############## HISTOGRAM GENOME COVERAGE WITH LINES FOR N1 AND N2 ##############
   
-  g <- ggplot(cov_het, aes(x = cov_het[,x])) + 
-     geom_histogram(bins = 50, na.rm = TRUE) + 
-     labs(x="genome coverage", y="Frequency", title = sample_names[i]) + 
+  g <- ggplot(cov_het, 
+              aes(x = cov_het[,x])) + 
+     geom_histogram(bins = 50, 
+                    na.rm = TRUE) + 
+     labs(x="genome coverage", 
+          y="Frequency", 
+          title = sample_names[i]) + 
      theme_bw()
   
   # Find the x value for the bin with the highest count
@@ -144,18 +168,33 @@ for (i in 1:nr_samples) {
   max_x <- hist_stats_hg$x[max_bin]
   halfMax_x <- max_x / 2
   
-  g <- g + geom_vline(xintercept=halfMax_x, color = "blue") + 
-    geom_vline(xintercept=max_x, color = "red")
+  g <- g + geom_vline(xintercept = halfMax_x, 
+                      color = "blue") + 
+    geom_vline(xintercept = max_x, 
+               color = "red")
   
-################################ HETEROZYGOSITY ################################
+  # All windows with a coverage in the N1 range are set to 1, all other 0
+  window_range <- 0.25
   
-  h <- ggplot(cov_het, aes(x = cov_het[,y])) + 
-     geom_histogram(bins = 50, na.rm = TRUE) + 
-     labs(x="heterozygosity", y="Frequency", title = sample_names[i]) + 
+  simple_cov[,x][simple_cov[,x] < halfMax_x*(1-window_range)] <- 0
+  simple_cov[,x][simple_cov[,x] > halfMax_x*(1+window_range)] <- 0
+  simple_cov[,x][simple_cov[,x] > 0] <- 1
+  
+########################### HISTOGRAM HETEROZYGOSITY ###########################
+  
+  h <- ggplot(cov_het, 
+              aes(x = cov_het[,y])) + 
+     geom_histogram(bins = 50, 
+                    na.rm = TRUE) + 
+     labs(x="heterozygosity", 
+          y="Frequency", 
+          title = sample_names[i]) + 
      theme_bw()
   
 ################################# CHROMOSOMES ##################################
   
+  # Pick out the 50 largest chromosomes/scaffolds or all if there are not more 
+  # than 50 chromosomes
   if (dim(len_chr)[1] >= 50) {
     nr_chr <- 50
   } else {
@@ -167,10 +206,16 @@ for (i in 1:nr_samples) {
   cov_het_subset <- cov_het[cov_het$chr %in% top_chr,]
   cov_het_subset$chr <- factor(cov_het_subset$chr, levels = top_chr)
   
-  c <- ggplot(cov_het_subset, aes(x=range, y=cov_het_subset[,x])) + 
+  c <- ggplot(cov_het_subset, 
+              aes(x=range, 
+                  y=cov_het_subset[,x])) + 
     geom_smooth(na.rm = TRUE) + 
-    facet_grid(. ~ chr, scales = "free_x", space = "free_x") +
-    labs(y = "genome coverage", x = "position [5kbp window]", title = sample_names[i]) +
+    facet_grid(. ~ chr, 
+               scales = "free_x", 
+               space = "free_x") +
+    labs(y = "genome coverage", 
+         x = "position [5kbp window]", 
+         title = sample_names[i]) +
     theme(axis.text.x = element_blank())
   
 ##################################### ALL ######################################
@@ -184,13 +229,18 @@ for (i in 1:nr_samples) {
 }
 
 
-pdf(outfile, width = 30)
+pdf(outPdf, width = 30)
 
 for (i in 1:nr_samples) {
   
   print(plist[[i]])
   
 }
-
 dev.off()
 
+# Write coverage table where windows around N1 is 1 and all other windows are 0
+write.table(simple_cov, outCov, 
+            quote=FALSE, 
+            sep="\t", 
+            row.names = F, col.names = F, 
+            na = "NA")
