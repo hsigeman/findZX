@@ -81,11 +81,15 @@ cov_het <- merge(cov_het,
                  len_chr, 
                  by = "chr")
 cov_het <- as.data.frame(cov_het)
+cov <- as.data.frame(cov)
 
 for (i in 1:nr_samples) {
   
   outliers <- boxplot(cov_het[,(i+2)], plot = FALSE)$stats[5]
   cov_het[,(i+2)][cov_het[,(i+2)] > outliers] = NA
+  
+  outliers <- boxplot(cov[,(i+3)], plot = FALSE)$stats[5]
+  cov[,(i+3)][cov[,(i+3)] > outliers] = NA
   
 }
 
@@ -104,7 +108,7 @@ if (file.exists(chr_file)) {
 
 plist <- list()
 
-simple_cov <- cov_het[,1:(2+nr_samples)]
+simple_cov <- cov
 
 for (i in 1:nr_samples) {
 
@@ -176,9 +180,9 @@ for (i in 1:nr_samples) {
   # All windows with a coverage in the N1 range are set to 1, all other 0
   window_range <- 0.25
   
-  simple_cov[,x][simple_cov[,x] < halfMax_x*(1-window_range)] <- 0
-  simple_cov[,x][simple_cov[,x] > halfMax_x*(1+window_range)] <- 0
-  simple_cov[,x][simple_cov[,x] > 0] <- 1
+  simple_cov[,(x+1)][simple_cov[,(x+1)] < halfMax_x*(1-window_range)] <- 0
+  simple_cov[,(x+1)][simple_cov[,(x+1)] > halfMax_x*(1+window_range)] <- 0
+  simple_cov[,(x+1)][simple_cov[,(x+1)] > 0] <- 1
   
 ########################### HISTOGRAM HETEROZYGOSITY ###########################
   
