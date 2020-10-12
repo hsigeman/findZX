@@ -110,14 +110,14 @@ rule mismatch_bam:
         samtools view -@ {threads} {input.bam} | grep -E {params} | samtools view -bS -T {input.ref} - > {output}
         """
 
-rule flagstat:
+rule samtools_stats:
     input:
         MAP_DIR + "{S}.sorted{V}bam"
     output:
-        MAP_DIR + "{S}.sorted{V}flagstat"
+        MAP_DIR + "{S}.sorted{V}stats"
     shell:
         """
-        samtools flagstat {input} > {output}  
+        samtools stats {input} > {output}  
         """
 
 ##########################################################  
