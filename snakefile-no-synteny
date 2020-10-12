@@ -105,12 +105,12 @@ rule confirm_sexing:
 
 rule n1:
     input:
-        n1_cov = MATCHDIR + SPECIES + ".N1.nodup.nm.{ED}.out"
+        n1_cov = GENCOV_DIR + SPECIES + ".N1.nodup.nm.{ED}.out"
     output:
-        n1_mean = MATCHDIR + SPECIES + ".N1.nodup.nm.{ED}.out.mean",
+        n1_mean = GENCOV_DIR + SPECIES + ".N1.nodup.nm.{ED}.out.mean",
         n1_1Mbp = RESULTDIR + SPECIES + ".N1.nodup.nm.{ED}.1Mbp.out",
         n1_100kbp = RESULTDIR + SPECIES + ".N1.nodup.nm.{ED}.100kbp.out",
-        n1_chr = RESULTDIR + SPECIES + + ".N1.nodup.nm.{ED}.chr.out"
+        n1_chr = RESULTDIR + SPECIES + ".N1.nodup.nm.{ED}.chr.out"
     threads: 1
     params:
         hetero = expand("{heterogametic}", heterogametic = HETEROGAMETIC),

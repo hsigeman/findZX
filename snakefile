@@ -277,6 +277,8 @@ rule plotting:
         out_circlize = protected(RESULTDIR + SPECIES + "{synteny}{gencov}.circlize.{bp}bp.pdf"),
         out_scatter = protected(RESULTDIR + SPECIES + "{synteny}{gencov}.scatter.{bp}bp.pdf"),
         chromosomes = CHROMOSOMES
+    wildcard_constraints:
+        gencov = "gencov|N1"
     shell: 
         """
         Rscript code/plot_windows.R {input.cov} {input.snp} {params.out_circlize} {params.out_scatter} {params.chromosomes}
