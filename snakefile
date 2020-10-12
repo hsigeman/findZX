@@ -72,7 +72,7 @@ rule remove_duplicates:
     input: 
         MAP_DIR + "{S}.sorted.bam"
     output: 
-        protected(MAP_DIR + "{S}.sorted.nodup.nm.all.bam")
+        MAP_DIR + "{S}.sorted.nodup.nm.all.bam"
     log: MAP_DIR + "{S}.sorted.nodup.nm.all.status"
     params:
         tmpdir = MAP_DIR + "{S}_temp_dupl/"
@@ -173,7 +173,7 @@ rule freebayes_parallel:
 	bai = expand(MAP_DIR + "{S}.sorted.nodup.nm.all.bam.bai", S = ID)
     output: 
         vcf = temp(VCF_DIR + SPECIES + ".vcf"),
-        gz = protected(VCF_DIR + SPECIES + ".vcf.gz")
+        gz = VCF_DIR + SPECIES + ".vcf.gz"
     log: VCF_DIR + SPECIES + ".vcf.log"
     priority : 60
     threads: 18
@@ -197,7 +197,7 @@ rule vcftools_filter:
         VCF_DIR + SPECIES + ".vcf.gz"
     output:
         vcf = temp(VCF_DIR + SPECIES + ".biallelic.minQ20.minDP3.vcf"),
-        gz = protected(VCF_DIR + SPECIES + ".biallelic.minQ20.minDP3.vcf.gz")
+        gz = VCF_DIR + SPECIES + ".biallelic.minQ20.minDP3.vcf.gz"
     shell:
         """
         vcftools --gzvcf {input} --min-alleles 2 --max-alleles 2 --remove-filtered-geno-all --minQ 20 --minDP 3 --recode --stdout > {output.vcf}

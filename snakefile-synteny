@@ -53,8 +53,7 @@ rule all:
         expand(RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov_heterozygosity_indv.{ED}.pdf", ED = EDIT_DIST),
         RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".plotting.1Mbp.done",
         RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".plotting.100kbp.done",
-        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".plotting_chr.done",
-#        REF_DIR + REF_NAME + "_nonRefAf_consensus.fasta"
+        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".plotting_chr.done"
 
 ##########################################################
 ################### INCLUDE SNAKEFILE ####################
@@ -185,7 +184,7 @@ rule confirm_sexing_synteny:
         gencov = MATCHDIR + SPECIES + ".gencov.nodup.nm.{nm}." + SYNTENY_SPECIES + ".out",
         het = MATCHDIR + SPECIES + ".heterozygosity.bestMatch." + SYNTENY_SPECIES
     output:
-        gencov_het = protected(RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov_heterozygosity_indv.{nm}.pdf")
+        gencov_het = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov_heterozygosity_indv.{nm}.pdf"
     params:
         hetero = expand("{heterogametic}", heterogametic = HETEROGAMETIC),
         homo = expand("{homogametic}", homogametic = HOMOGAMETIC),

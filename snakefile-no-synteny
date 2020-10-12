@@ -49,7 +49,6 @@ rule all:
         RESULTDIR + SPECIES + ".plotting.1Mbp.done",
         RESULTDIR + SPECIES + ".plotting.100kbp.done",
         RESULTDIR + SPECIES + ".plotting_chr.done"
-#        REF_DIR + REF_NAME + "_nonRefAf_consensus.fasta"
 
 ##########################################################
 ################### INCLUDE SNAKEFILE ####################
@@ -82,9 +81,10 @@ rule normalize_cov:
 rule confirm_sexing:
     input:
         gencov = GENCOV_DIR + SPECIES + ".gencov.nodup.nm.{nm}.out",
-        het = VCF_DIR + SPECIES + ".heterozygosity.sorted.bed" 
+        het = VCF_DIR + SPECIES + ".heterozygosity.sorted.bed",
+        stats = expand(MAP_DIR + "{S}.sorted.nodup.nm.{{nm}}.stats", S = ID)
     output:
-        gencov_het = protected(RESULTDIR + SPECIES + ".gencov_heterozygosity_indv.{nm}.pdf")
+        gencov_het = RESULTDIR + SPECIES + ".gencov_heterozygosity_indv.{nm}.pdf"
     threads: 1
     params:
         hetero = expand("{heterogametic}", heterogametic = HETEROGAMETIC),
@@ -93,6 +93,11 @@ rule confirm_sexing:
     threads: 1
     shell:
         """
+# Make a bash loop and get read lengths for each sample
+# print to file with file name
+# Read that file into R        
+# grep 'average length' 
+
         Rscript code/histogram_indv.R {input.gencov} {input.het} {output.gencov_het} no-synteny {params.chromosomes} {params.hetero} {params.homo}
         """
 
