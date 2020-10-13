@@ -35,7 +35,7 @@ COMP_GEN_SYNS = "intermediate/lastal_" + SYNTENY_SPECIES + "/" + REF_NAME + "/"
 SYNS_DB = config["synteny_dir"]
 
 EDIT_DIST = config["edit_distance"]
-MIN_SIZE_SCAFFOLD = config["min_size_scaffold"]
+#MIN_SIZE_SCAFFOLD = config["min_size_scaffold"]
 
 ##########################################################
 ######################## RULES ###########################
