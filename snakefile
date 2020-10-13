@@ -112,9 +112,9 @@ rule mismatch_bam:
 
 rule samtools_stats:
     input:
-        MAP_DIR + "{S}.sorted{V}bam"
+        MAP_DIR + "{S}.sorted.nodup{V}bam"
     output:
-        MAP_DIR + "{S}.sorted{V}stats"
+        MAP_DIR + "{S}.sorted.nodup{V}stats"
     shell:
         """
         samtools stats {input} > {output}  
