@@ -128,11 +128,15 @@ rule gencov_prepare_fasta:
     input: 
         REF_FASTA + ".fai"
     output: 
-        GENCOV_DIR_REF + "genome_5kb_windows.out"
+        filter_fai = GENCOV_DIR_REF + REF_SPECIES + ".filter." + MIN_SIZE_SCAFFOLD + ".fasta.fai",
+        windows = GENCOV_DIR_REF + "genome_5kb_windows.out"
+    params: 
+        MIN_SIZE_SCAFFOLD
     threads: 1
     shell: 
         """
-        bedtools makewindows -g {input} -w 5000 -s 5000 > {output}
+	cat {input} | awk '$2>= {params} {{print $0}}' > {output.filter_fai}
+        bedtools makewindows -g {output.filter_fai} -w 5000 -s 5000 > {output.windows}
         """
 
 rule gencov_bedtools:
@@ -147,7 +151,7 @@ rule gencov_bedtools:
     threads: 2
     shell: 
         """
-        bedtools multicov -bams {input.bam_hetero} {input.bam_homo} -bed {input.bed} > {output}
+        bedtools multicov -bams {input.bam_hetero} {input.bam_homo} -bed {input.bed} -p -q 20 > {output}
         """
 
 ##########################################################  
@@ -158,12 +162,17 @@ rule freebayes_prep:
     input: 
         REF_FASTA + ".fai"
     output: 
-        VCF_DIR_REF + REF_SPECIES + ".100kbp.regions"
+        filter_fai = VCF_DIR_REF + REF_SPECIES + ".filter." + MIN_SIZE_SCAFFOLD + ".fasta.fai",
+        regions = VCF_DIR_REF + REF_SPECIES + ".100kbp.regions"
+    params: 
+        MIN_SIZE_SCAFFOLD
     threads: 4
     shell: 
         """
-        fasta_generate_regions.py {input} 100000 > {output}
+	cat {input} | awk '$2>= {params} {{print $0}}' > {output.filter_fai}
+        fasta_generate_regions.py {output.filter_fai} 100000 > {output.regions}
         """
+
 
 rule freebayes_parallel:
     input: 
@@ -337,4 +346,5 @@ rule modify_genome:
         tabix -p vcf {output.gz}
         cat {input.ref} | bcftools consensus {output.gz} > {output.ref}
         """
+
 
