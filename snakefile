@@ -136,7 +136,7 @@ rule gencov_prepare_fasta:
     shell: 
         """
 	cat {input} | awk '$2>= {params} {{print $0}}' > {output.filter_fai}
-        bedtools makewindows -g {output.filter_fai} -w 5000 -s 5000 > {output.windows}
+        bedtools makewindows -g {output.filter_fai} -w 5000 -s 5000 | awk '$3-$2==5000 {{print}}' > {output.windows}
         """
 
 rule gencov_bedtools:
