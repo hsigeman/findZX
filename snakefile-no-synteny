@@ -30,6 +30,7 @@ VCF_DIR_REF = "intermediate/freebayes/" + REF_NAME + "/"
 RESULTDIR = "results/" + PREFIX + "/"
 
 EDIT_DIST = config["edit_distance"]
+MIN_SIZE_SCAFFOLD = config["min_size_scaffold"]
 
 ##########################################################
 ######################## RULES ###########################
