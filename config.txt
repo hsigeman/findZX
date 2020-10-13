@@ -17,4 +17,4 @@ edit_distance:
     0.0 : 0.0
     0.2 : 0.2
     all : all
-min_size_scaffold: 10000
+#min_size_scaffold: 10000
