@@ -177,15 +177,20 @@ rule confirm_sexing_synteny:
         het = MATCHDIR + SPECIES + ".heterozygosity.bestMatch." + SYNTENY_SPECIES,
         stats = expand(MAP_DIR + "{S}.sorted.nodup.nm.{{ED}}.stats", S = ID)
     output:
+        read_length = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".read_length.sorted.nodup.nm.{ED}.csv",
         gencov_het = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov_heterozygosity_indv.{ED}.pdf",
         n1_cov = MATCHDIR + SPECIES + ".N1.nodup.nm.{ED}." + SYNTENY_SPECIES + ".out"
+    threads: 1
     params:
+        map_dir = MAP_DIR + "*.sorted.nodup.nm.{ED}.stats",
         hetero = expand("{heterogametic}", heterogametic = HETEROGAMETIC),
         homo = expand("{homogametic}", homogametic = HOMOGAMETIC),
         chromosomes = CHROMOSOMES
     threads: 1
     shell:
         """
+        python code/read_length.py <(for FILE in $(ls {params.map_dir}); do echo "${FILE##*/}"; grep "average length" $FILE; done) > {output.read_length}
+        
         Rscript code/histogram_indv.R {input.gencov} {input.het} {output.gencov_het} {output.n1_cov} with-synteny {params.chromosomes} {params.hetero} {params.homo}
         """
 
