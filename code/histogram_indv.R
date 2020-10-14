@@ -22,19 +22,22 @@ args <- commandArgs(trailingOnly = TRUE)
 
 file_gencov = args[1]
 file_snp = args[2]
-outPdf = args[3]
-outCov = args[4]
-synteny = args[5]
-chr_file = args[6]
-sample_names = args[7:length(args)]
+read_len = args[3]
+
+outPdf = args[4]
+outCov = args[5]
+synteny = args[6]
+chr_file = args[7]
+
+sample_names = args[8:length(args)]
 
 ################################################################################
 ################################# READ FILES ###################################
 ################################################################################
 
-cov <- read.table(file_gencov,header=FALSE,fill=TRUE,stringsAsFactor=FALSE)
-het <- read.table(file_snp,header=FALSE,fill=TRUE,stringsAsFactor=FALSE)
-
+cov <- read.table(file_gencov, header=FALSE, fill=TRUE, stringsAsFactor=FALSE)
+het <- read.table(file_snp, header=FALSE, fill=TRUE, stringsAsFactor=FALSE)
+read_len <- read.csv(file_read_len, header = FALSE)
 
 if (synteny == "with-synteny") {
   cov <- cov[-c(1:7,11:13)]
@@ -44,11 +47,18 @@ if (synteny == "with-synteny") {
 colnames(cov)[1:3] <- c("chr","start","end")
 colnames(het)[1:3] <- c("chr","start","end")
 
+nr_samples <- length(sample_names)
+
+for (i in 1:nr_samples) {
+  sample_read_len <- read_len[read_len == sample_names[i],][1,2]
+  
+  cov[,(i+3)] <- cov[,(i+3)]*sample_read_len/5000
+}
+
 ################################################################################
 ################################ CALCULATIONS ##################################
 ################################################################################
 
-nr_samples <- length(sample_names)
 col_names <- colnames(cov)[4:length(cov)]
 f <- as.formula( paste( paste( col_names, 
                                collapse = "+"), 
@@ -59,7 +69,7 @@ len_chr <- as.data.frame( max_per_chr[,1:2])
 colnames(len_chr) <- c("chr","length")
 
 Tcov <- transform(cov, 
-                  range=floor(start/5000))
+                  range=floor(start/10000))
 Tcov <- summaryBy(f, 
                   data=Tcov, 
                   keep.names=TRUE, 
@@ -67,7 +77,7 @@ Tcov <- summaryBy(f,
 colnames(Tcov) <- c("chr","range",sample_names)
 
 Thet <- transform(het, 
-                  range=floor(end/5000))
+                  range=floor(end/10000))
 Thet <- summaryBy(f, 
                   data=Thet, 
                   keep.names=TRUE, 
