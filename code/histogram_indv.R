@@ -22,7 +22,7 @@ args <- commandArgs(trailingOnly = TRUE)
 
 file_gencov = args[1]
 file_snp = args[2]
-read_len = args[3]
+file_read_len = args[3]
 
 outPdf = args[4]
 outCov = args[5]
