@@ -49,12 +49,12 @@ rule all:
 #        expand(MAP_DIR + "{S}.sorted.stats", S = ID),
         expand(MAP_DIR + "{S}.sorted.nodup.nm.{ED}.stats", S = ID, ED = EDIT_DIST),
         expand(MATCHDIR + SPECIES + ".gencov.nodup.nm.{ED}." + SYNTENY_SPECIES + ".out.norm", ED = EDIT_DIST),
-        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".allFreq.1Mbp.out",
-        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".allFreq.100kbp.out",
-        expand(RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov_heterozygosity_indv.{ED}.pdf", ED = EDIT_DIST),
+#        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".allFreq.1Mbp.out",
+#        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".allFreq.100kbp.out",
+#        expand(RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov_heterozygosity_indv.{ED}.pdf", ED = EDIT_DIST),
         RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov.plotting.1Mbp.done",
         RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov.plotting.100kbp.done",
-        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".N1.plotting.1Mbp.done",
+#        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".N1.plotting.1Mbp.done",
         RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".plotting_chr.done"
 
 ##########################################################
@@ -175,11 +175,11 @@ rule confirm_sexing_synteny:
     input:
         gencov = MATCHDIR + SPECIES + ".gencov.nodup.nm.{ED}." + SYNTENY_SPECIES + ".out",
         het = MATCHDIR + SPECIES + ".heterozygosity.bestMatch." + SYNTENY_SPECIES,
-        stats = expand(MAP_DIR + "{S}.sorted.nodup.nm.{{ED}}.stats", S = ID)
+#        stats = expand(MAP_DIR + "{S}.sorted.nodup.nm.{{ED}}.stats", S = ID)
     output:
         read_length = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".read_length.sorted.nodup.nm.{ED}.csv",
         gencov_het = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov_heterozygosity_indv.{ED}.pdf",
-        n1_cov = MATCHDIR + SPECIES + ".N1.nodup.nm.{ED}." + SYNTENY_SPECIES + ".out"
+#        n1_cov = MATCHDIR + SPECIES + ".N1.nodup.nm.{ED}." + SYNTENY_SPECIES + ".out"
     threads: 1
     params:
         map_dir = MAP_DIR + "*.sorted.nodup.nm.{ED}.stats",
@@ -189,7 +189,7 @@ rule confirm_sexing_synteny:
     threads: 1
     shell:
         """
-        python code/read_length.py <(for FILE in $(ls {params.map_dir}); do echo "${FILE##*/}"; grep "average length" $FILE; done) > {output.read_length}
+#        python code/read_length.py <(for FILE in $(ls {params.map_dir}); do echo "${FILE##*/}"; grep "average length" $FILE; done) > {output.read_length}
         
         Rscript code/histogram_indv.R {input.gencov} {input.het} {output.gencov_het} {output.n1_cov} with-synteny {params.chromosomes} {params.hetero} {params.homo}
         """
