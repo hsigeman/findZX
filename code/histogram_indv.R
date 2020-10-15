@@ -69,7 +69,7 @@ len_chr <- as.data.frame( max_per_chr[,1:2])
 colnames(len_chr) <- c("chr","length")
 
 Tcov <- transform(cov, 
-                  range=floor(start/10000))
+                  range=floor(start/5000))
 Tcov <- summaryBy(f, 
                   data=Tcov, 
                   keep.names=TRUE, 
@@ -77,7 +77,7 @@ Tcov <- summaryBy(f,
 colnames(Tcov) <- c("chr","range",sample_names)
 
 Thet <- transform(het, 
-                  range=floor(end/10000))
+                  range=floor(end/5000))
 Thet <- summaryBy(f, 
                   data=Thet, 
                   keep.names=TRUE, 
