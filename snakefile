@@ -225,8 +225,8 @@ rule proportion_heterozygosity:
     output:
         diff_het = temp(VCF_DIR + SPECIES + ".diffHeterozygosity.bed"),
         het = temp(VCF_DIR + SPECIES + ".heterozygosity.bed"),
-        diff_het_sorted = VCF_DIR + SPECIES + ".diffHeterozygosity.sorted.bed",
-        het_sorted = VCF_DIR + SPECIES + ".heterozygosity.sorted.bed"
+        diff_het_sorted = temp(VCF_DIR + SPECIES + ".diffHeterozygosity.sorted.bed"),
+        het_sorted = temp(VCF_DIR + SPECIES + ".heterozygosity.sorted.bed")
     log: VCF_DIR + SPECIES + ".proportion_heterozygosity.log"
     params:
         hetero = expand("het:{heterogametic}", heterogametic = HETEROGAMETIC),
@@ -244,46 +244,52 @@ rule proportion_heterozygosity:
 rule proportion_heterozygosity_window:
     input:
         diff_het_sorted = VCF_DIR + SPECIES + ".diffHeterozygosity.sorted.bed",
+        het_sorted = VCF_DIR + SPECIES + ".heterozygosity.sorted.bed",
         windows = GENCOV_DIR_REF + "genome_5kb_windows.out"
     output:
-        diff_het_sorted_window = VCF_DIR + SPECIES + ".diffHeterozygosity.sorted.5kb.windows.bed",
-        diff_het_sorted_window_mean = VCF_DIR + SPECIES + ".diffHeterozygosity.sorted.5kb.windows.mean.bed"
+        diff_het_sorted_window = temp(VCF_DIR + SPECIES + ".diffHeterozygosity.sorted.5kb.windows.bed"),
+        diff_het_sorted_window_mean = VCF_DIR + SPECIES + ".diffHeterozygosity.sorted.5kb.windows.mean.bed",
+        het_sorted_window = temp(VCF_DIR + SPECIES + ".heterozygosity.sorted.5kb.windows.bed"),
+        het_sorted_window_mean = VCF_DIR + SPECIES + ".heterozygosity.sorted.5kb.windows.mean.bed"
     threads: 1
     shell:
         """
         bedtools intersect -a {input.windows} -b {input.diff_het_sorted} -wa -wb | cut -f 1-3,7 > {output.diff_het_sorted_window}
         cat {output.diff_het_sorted_window} | sed 's/\t/STARTCOORD/' | sed 's/\t/ENDCOORD/' | awk '{{count[$1]++; sum[$1]+=$2}} END {{for(i in count) {{m = sum[i]/count[i]; print i, m}}}}' |  sed 's/STARTCOORD/\t/' | sed 's/ENDCOORD/\t/' > {output.diff_het_sorted_window_mean}
+
+        bedtools intersect -a {input.windows} -b {input.het_sorted} -wa -wb | cut -f 1-3,7,8 > {output.het_sorted_window}
+        cat {output.het_sorted_window} | sed 's/\t/STARTCOORD/' | sed 's/\t/ENDCOORD/' | awk '{{count[$1]++; sum[$1]+=$2}} END {{for(i in count) {{m = sum[i]/count[i]; print i, m}}}}' |  sed 's/STARTCOORD/\t/' | sed 's/ENDCOORD/\t/' > {output.het_sorted_window_mean}
         """
 
-rule allele_frequency:
-    input:
-        VCF_DIR + SPECIES + ".biallelic.minQ20.minDP3.vcf.gz"
-    output:
-        hetero = VCF_DIR + SPECIES + ".allFreq.heterogametic.out",
-        homo = VCF_DIR + SPECIES + ".allFreq.homogametic.out"
-    params:
-        hetero = expand("--indv {heterogametic}", heterogametic = HETEROGAMETIC),
-        homo = expand("--indv {homogametic}", homogametic = HOMOGAMETIC)
-    shell:
-        """
-        vcftools --gzvcf {input} {params.hetero} --freq --stdout > {output.hetero}
-        vcftools --gzvcf {input} {params.homo} --freq --stdout > {output.homo}
-        """
+#rule allele_frequency:
+#    input:
+#        VCF_DIR + SPECIES + ".biallelic.minQ20.minDP3.vcf.gz"
+#    output:
+#        hetero = VCF_DIR + SPECIES + ".allFreq.heterogametic.out",
+#        homo = VCF_DIR + SPECIES + ".allFreq.homogametic.out"
+#    params:
+#        hetero = expand("--indv {heterogametic}", heterogametic = HETEROGAMETIC),
+#        homo = expand("--indv {homogametic}", homogametic = HOMOGAMETIC)
+#    shell:
+#        """
+#        vcftools --gzvcf {input} {params.hetero} --freq --stdout > {output.hetero}
+#        vcftools --gzvcf {input} {params.homo} --freq --stdout > {output.homo}
+#        """
 
-rule filter_allele_frequency:
-    input:
-        hetero = VCF_DIR + SPECIES + ".allFreq.heterogametic.out",
-        homo = VCF_DIR + SPECIES + ".allFreq.homogametic.out"
-    output:
-        bed = temp(VCF_DIR + SPECIES + ".allFreq.bed"),
-        sorted = VCF_DIR + SPECIES + ".allFreq.sorted.bed"
-    threads: 1
-    shell:
-        """
-        python3 code/filter_allFreq.py {input.hetero} heterogametic > {output.bed}
-        python3 code/filter_allFreq.py {input.homo} homogametic >> {output.bed}
-        sort {output.bed} -k 1,1 -k 2,2 > {output.sorted}
-        """
+#rule filter_allele_frequency:
+#    input:
+#        hetero = VCF_DIR + SPECIES + ".allFreq.heterogametic.out",
+#        homo = VCF_DIR + SPECIES + ".allFreq.homogametic.out"
+#    output:
+#        bed = temp(VCF_DIR + SPECIES + ".allFreq.bed"),
+#        sorted = VCF_DIR + SPECIES + ".allFreq.sorted.bed"
+#    threads: 1
+#    shell:
+#        """
+#        python3 code/filter_allFreq.py {input.hetero} heterogametic > {output.bed}
+#        python3 code/filter_allFreq.py {input.homo} homogametic >> {output.bed}
+#        sort {output.bed} -k 1,1 -k 2,2 > {output.sorted}
+#        """
 
 ##########################################################
 ####################### RESULTS ##########################
