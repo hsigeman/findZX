@@ -39,7 +39,7 @@ nr_homogametic = len(homogametic_samples)
 
 gencov = pn.read_csv(sys.argv[1], sep='\t', header=None)
 
-sample_index_start = 2
+sample_index_start = 3
 chr_columns = [0,1,2]
 
 
