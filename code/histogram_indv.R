@@ -230,11 +230,13 @@ for (i in 1:nr_samples) {
     labs(y = "genome coverage", 
          x = "position [5kbp window]", 
          title = sample_names[i]) +
-    theme(axis.text.x = element_blank())
+    theme(axis.text.x = element_blank()) +
+    theme_bw()
   
 ##################################### ALL ######################################
   
-  pg <- plot_grid(gh, gl, hl, g, h, ncol = 5)
+  pg <- plot_grid(gh, gl, hl, g, h, 
+                  ncol = 5)
   
   p <- plot_grid(pg, c, ncol = 1)
 
@@ -243,13 +245,14 @@ for (i in 1:nr_samples) {
 }
 
 
-pdf(outPdf, width = 30)
+pdf(outPdf, width = 20)
 
 for (i in 1:nr_samples) {
   
   print(plist[[i]])
   
 }
+
 dev.off()
 
 # Write coverage table where windows around N1 is 1 and all other windows are 0
