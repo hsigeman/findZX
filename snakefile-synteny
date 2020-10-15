@@ -189,7 +189,7 @@ rule confirm_sexing_synteny:
     threads: 1
     shell:
         """
-        python code/read_length.py <(for FILE in $(ls {{params.map_dir}}); do echo \"${{FILE##*/}}\"; grep \"average length\" $FILE; done) > {output.read_length}
+        python code/read_length.py <(for FILE in $(ls {params.map_dir}); do echo \"${{FILE##*/}}\"; grep \"average length\" $FILE; done) > {output.read_length}
         
         Rscript code/histogram_indv.R {input.gencov} {input.het} {output.read_length} {output.gencov_het} {output.n1_cov} with-synteny {params.chromosomes} {params.hetero} {params.homo}
         """
