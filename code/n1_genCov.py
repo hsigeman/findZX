@@ -19,12 +19,12 @@ elif not len(sys.argv)>=3:
 	sys.exit()
 
 
-nr_samples = int(len(sys.argv) - 3)
+nr_samples = int(len(sys.argv) - 2)
 
 heterogametic_samples = []
 homogametic_samples = []
 
-for i in range(3, len(sys.argv)):
+for i in range(2, len(sys.argv)):
         sample_args = sys.argv[i].split(':')
 
         if sys.argv[i].startswith('het'):
@@ -39,15 +39,8 @@ nr_homogametic = len(homogametic_samples)
 
 gencov = pn.read_csv(sys.argv[1], sep='\t', header=None)
 
-# If data is matched to a synteny species, some columns have to be dropped
-if sys.argv[2] == "with-synteny":
-	gencov = gencov.drop(gencov.columns[[3, 4, 5, 6, 10, 11, 12]], axis=1)
-	
-	sample_index_start = 13
-	chr_columns = [7,8,9]
-else:
-	sample_index_start = 3
-	chr_columns = [0,1,2]
+sample_index_start = 2
+chr_columns = [0,1,2]
 
 
 samples = list(range(sample_index_start, sample_index_start + nr_samples))

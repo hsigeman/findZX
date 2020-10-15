@@ -204,12 +204,12 @@ rule n1:
         n1_chr = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".N1.nodup.nm.{ED}.chr.out"
     threads: 1
     params:
-        hetero = expand("{heterogametic}", heterogametic = HETEROGAMETIC),
-        homo = expand("{homogametic}", homogametic = HOMOGAMETIC),
+        hetero = expand("het:{heterogametic}", heterogametic = HETEROGAMETIC),
+        homo = expand("homo:{homogametic}", homogametic = HOMOGAMETIC),
         chromosomes = CHROMOSOMES
     shell: 
         """
-        python3 code/n1_genCov.py {input.n1_cov} with-synteny {params.hetero} {params.homo} > {output.n1_mean}
+        python3 code/n1_genCov.py {input.n1_cov} {params.hetero} {params.homo} > {output.n1_mean}
 
         Rscript code/calculate_N1_windows.R {output.n1_mean} {output.n1_1Mbp} {output.n1_100kbp} {output.n1_chr} {params.chromosomes}
         """
