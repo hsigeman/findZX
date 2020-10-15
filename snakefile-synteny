@@ -48,7 +48,7 @@ rule all:
         expand(MAP_DIR + "{S}.sorted.nodup.nm.{ED}.bam.bai", S = ID, ED = EDIT_DIST),
 #        expand(MAP_DIR + "{S}.sorted.stats", S = ID),
         expand(MAP_DIR + "{S}.sorted.nodup.nm.{ED}.stats", S = ID, ED = EDIT_DIST),
-        expand(MATCHDIR + SPECIES + ".gencov.nodup.nm.{ED}." + SYNTENY_SPECIES + ".out.norm", ED = EDIT_DIST),
+        expand(MATCHDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov.nodup.nm.{ED}.out.norm", ED = EDIT_DIST),
 #        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".allFreq.1Mbp.out",
 #        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".allFreq.100kbp.out",
         expand(RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov_heterozygosity_indv.{ED}.pdf", ED = EDIT_DIST),
@@ -139,8 +139,8 @@ rule matchScaffold2Chr_snp:
         bestMatch = COMP_GEN_SYNS + "bestMatch.list",
         snp_statistic = VCF_DIR + SPECIES + ".{snp_statistic}.5kb.windows.mean.bed"
     output:
-        bestmatch = MATCHDIR + SPECIES + ".{snp_statistic}.bestMatch." + SYNTENY_SPECIES,
-        bestmatch_small = MATCHDIR + SPECIES + ".{snp_statistic}.bestMatch." + SYNTENY_SPECIES + ".small"
+        bestmatch = MATCHDIR + SPECIES + "." + SYNTENY_SPECIES + ".{snp_statistic}.bestMatch.",
+        bestmatch_small = MATCHDIR + SPECIES + "." + SYNTENY_SPECIES +".{snp_statistic}.bestMatch.small"
     threads: 1
     shell:
         """
@@ -154,8 +154,8 @@ rule matchScaffold2Chr_cov:
         bestMatch = COMP_GEN_SYNS + "bestMatch.list",
         cov = GENCOV_DIR + SPECIES + ".gencov.nodup.nm.{ED}.out"
     output:
-        bestMatch = MATCHDIR + SPECIES + ".gencov.nodup.nm.{ED}." + SYNTENY_SPECIES + ".out",
-        bestMatch_norm = MATCHDIR + SPECIES + ".gencov.nodup.nm.{ED}." + SYNTENY_SPECIES + ".out.norm"
+        bestMatch = MATCHDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov.nodup.nm.{ED}.out",
+        bestMatch_norm = MATCHDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov.nodup.nm.{ED}.out.norm"
     params:
         hetero = expand("het:{heterogametic}", heterogametic = HETEROGAMETIC),
         homo = expand("homo:{homogametic}", homogametic = HOMOGAMETIC)
@@ -173,13 +173,13 @@ rule matchScaffold2Chr_cov:
 
 rule confirm_sexing_synteny:
     input:
-        gencov = MATCHDIR + SPECIES + ".gencov.nodup.nm.{ED}." + SYNTENY_SPECIES + ".out",
-        het = MATCHDIR + SPECIES + ".heterozygosity.bestMatch." + SYNTENY_SPECIES,
+        gencov = MATCHDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov.nodup.nm.{ED}.out",
+        het =  MATCHDIR + SPECIES + "." + SYNTENY_SPECIES + ".heterozygosity.bestMatch.",
         stats = expand(MAP_DIR + "{S}.sorted.nodup.nm.{{ED}}.stats", S = ID)
     output:
         read_length = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".read_length.sorted.nodup.nm.{ED}.csv",
         gencov_het = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov_heterozygosity_indv.{ED}.pdf",
-        n1_cov = MATCHDIR + SPECIES + ".N1.nodup.nm.{ED}." + SYNTENY_SPECIES + ".out"
+        n1_cov = MATCHDIR + SPECIES + "." + SYNTENY_SPECIES + ".N1.nodup.nm.{ED}.out"
     threads: 1
     params:
         map_dir = MAP_DIR + "*.sorted.nodup.nm.{ED}.stats",
@@ -192,72 +192,4 @@ rule confirm_sexing_synteny:
         python code/read_length.py <(for FILE in $(ls {params.map_dir}); do echo \"${{FILE##*/}}\"; grep \"average length\" $FILE; done) > {output.read_length}
 
         Rscript code/histogram_indv.R {input.gencov} {input.het} {output.read_length} {output.gencov_het} {output.n1_cov} with-synteny {params.chromosomes} {params.hetero} {params.homo}
-        """
-
-rule n1:
-    input:
-        n1_cov = MATCHDIR + SPECIES + ".N1.nodup.nm.{ED}." + SYNTENY_SPECIES + ".out"
-    output:
-        n1_mean = MATCHDIR + SPECIES + ".N1.nodup.nm.{ED}." + SYNTENY_SPECIES + ".out.mean",
-        n1_1Mbp = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".N1.nodup.nm.{ED}.1Mbp.out",
-        n1_100kbp = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".N1.nodup.nm.{ED}.100kbp.out",
-        n1_chr = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".N1.nodup.nm.{ED}.chr.out"
-    threads: 1
-    params:
-        hetero = expand("het:{heterogametic}", heterogametic = HETEROGAMETIC),
-        homo = expand("homo:{homogametic}", homogametic = HOMOGAMETIC),
-        chromosomes = CHROMOSOMES
-    shell:
-        """
-        python3 code/n1_genCov.py {input.n1_cov} {params.hetero} {params.homo} > {output.n1_mean}
-
-        Rscript code/calculate_N1_windows.R {output.n1_mean} {output.n1_1Mbp} {output.n1_100kbp} {output.n1_chr} {params.chromosomes}
-        """
-
-##########################################################
-################ STATISTICAL CALCULATIONS ################
-##########################################################
-
-rule calculate_heterozygosity_synteny:
-    input:
-        MATCHDIR + SPECIES + ".diffHeterozygosity.bestMatch." + SYNTENY_SPECIES + ".small"
-    output:
-        Mb = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".diffHeterozygosity.1Mbp.out",
-        kb = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".diffHeterozygosity.100kbp.out",
-        chr = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".diffHeterozygosity.chr.out"
-    threads: 1
-    params:
-        chromosomes = CHROMOSOMES
-    shell:
-        """
-        Rscript code/calculate_hetDiff_windows.R {input} {output.Mb} {output.kb} {output.chr} {params.chromosomes}
-        """
-
-rule calculate_allFreq_synteny:
-    input:
-        MATCHDIR + SPECIES + ".allFreq.bestMatch." + SYNTENY_SPECIES + ".small"
-    output:
-        Mb = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".allFreq.1Mbp.out",
-        kb = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".allFreq.100kbp.out"
-    threads: 1
-    params:
-        chromosomes = CHROMOSOMES
-    shell:
-        """
-        Rscript code/calculate_snpCount_windows.R {input} {output.Mb} {output.kb} {params.chromosomes}
-        """
-
-rule calculate_ratio_synteny:
-    input:
-        MATCHDIR + SPECIES + ".gencov.nodup.nm.{ED}." + SYNTENY_SPECIES + ".out.norm"
-    output:
-        Mb = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov.nodup.nm.{ED}.1Mbp.out",
-        kb = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov.nodup.nm.{ED}.100kbp.out",
-        chr = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov.nodup.nm.{ED}.chr.out"
-    threads: 1
-    params:
-        chromosomes = CHROMOSOMES
-    shell:
-        """
-        Rscript code/calculate_genCov_windows.R {input} {output.Mb} {output.kb} {output.chr} {params.chromosomes}
         """
