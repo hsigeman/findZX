@@ -254,7 +254,7 @@ rule proportion_heterozygosity_window:
         cat {output.diff_het_sorted_window} | sed 's/\t/STARTCOORD/' | sed 's/\t/ENDCOORD/' | awk '{{count[$1]++; sum[$1]+=$2}} END {{for(i in count) {{m = sum[i]/count[i]; print i, m}}}}' |  sed 's/STARTCOORD/\t/' | sed 's/ENDCOORD/\t/' > {output.diff_het_sorted_window_mean}
 
         bedtools intersect -a {input.windows} -b {input.het_sorted} -wa -wb | cut -f 1-3,7- > {output.het_sorted_window}
-        cat {output.het_sorted_window} | sed 's/\t/STARTCOORD/' | sed 's/\t/ENDCOORD/' | awk ' {{c[$1]++; for (i=2;i<=NF;i++) {{ s[$1"."i]+=$i}}; } END {{for (k in c) {{printf "%s\t", k; for(i=2;i<NF;i++) printf "%.1f\t", s[k"."i]/c[k]; printf "%.1f\n", s[k"."NF]/c[k];}}}}' |  sed 's/STARTCOORD/\t/' | sed 's/ENDCOORD/\t/' > {output.het_sorted_window_mean}
+        cat {output.het_sorted_window} | sed 's/\t/STARTCOORD/' | sed 's/\t/ENDCOORD/' | awk ' {{c[$1]++; for (i=2;i<=NF;i++) {{ s[$1"."i]+=$i}}; }} END {{for (k in c) {{printf "%s\t", k; for(i=2;i<NF;i++) printf "%.1f\t", s[k"."i]/c[k]; printf "%.1f\n", s[k"."NF]/c[k];}}}}' |  sed 's/STARTCOORD/\t/' | sed 's/ENDCOORD/\t/' > {output.het_sorted_window_mean}
 	"""
 
 #rule allele_frequency:
