@@ -1,15 +1,15 @@
 # Written by Hanna Sigeman, Nov 2019
 
-##########################################################  
-##################### INDEX GENOME #######################      
+##########################################################
+##################### INDEX GENOME #######################
 ##########################################################
 
 rule index_fasta_bwa:
-    input: 
+    input:
         REF_FASTA
     output:
-        REF_FASTA + ".bwt" 
-    priority : 80   
+        REF_FASTA + ".bwt"
+    priority : 80
     message:
         """--- Indexing {input} with BWA index."""
     threads: 2
@@ -19,26 +19,26 @@ rule index_fasta_bwa:
         """
 
 rule index_fasta_samtools:
-    input: 
+    input:
         REF_FASTA
-    output: 
+    output:
         REF_FASTA + ".fai"
     priority : 70
     threads: 2
-    shell: 
+    shell:
         """
         samtools faidx {input}
         """
 
-##########################################################  
-######################## MAPPING #########################       
-##########################################################   
+##########################################################
+######################## MAPPING #########################
+##########################################################
 
-rule map: 
+rule map:
     input:
         R1= FQ_DIR + "{S}_forward_paired.fq.gz",
         R2= FQ_DIR + "{S}_reverse_paired.fq.gz",
-        ref = REF_FASTA, 
+        ref = REF_FASTA,
         ref_bwt = REF_FASTA + ".bwt"
     output:
         temp(MAP_DIR + "{S}.bam")
@@ -47,9 +47,9 @@ rule map:
     params:
         rg="\"@RG\\tID:{S}\\tSM:{S}\""
     shell:
-        """ 
+        """
         bwa mem -t {threads} -M -R {params.rg} {input.ref} {input.R1} {input.R2} | samtools view -Sb - > {output}
-        """ 
+        """
 
 rule sort_bam:
     input:
@@ -68,15 +68,15 @@ rule sort_bam:
         echo "DONE" > {log}
         """
 
-rule remove_duplicates: 
-    input: 
+rule remove_duplicates:
+    input:
         MAP_DIR + "{S}.sorted.bam"
-    output: 
+    output:
         MAP_DIR + "{S}.sorted.nodup.nm.all.bam"
     log: MAP_DIR + "{S}.sorted.nodup.nm.all.status"
     params:
         tmpdir = MAP_DIR + "{S}_temp_dupl/"
-    shell: 
+    shell:
         """
         mkdir {params.tmpdir}
         picard MarkDuplicates -Xmx10g MAX_FILE_HANDLES=500 REMOVE_DUPLICATES=true I={input} O={output} M={input}_duplicatedata.txt TMP_DIR={params.tmpdir}
@@ -84,90 +84,90 @@ rule remove_duplicates:
         echo "DONE" > {log}
         """
 
-rule index_bam: 
-    input: 
+rule index_bam:
+    input:
         MAP_DIR + "{S}.sorted.nodup.nm.{ED}.bam"
-    output: 
+    output:
         MAP_DIR + "{S}.sorted.nodup.nm.{ED}.bam.bai"
     threads: 1
-    shell: 
+    shell:
         """
         samtools index {input}
         """
 
-rule mismatch_bam: 
-    input: 
-        bam = MAP_DIR + "{S}.sorted.nodup.nm.all.bam", 
+rule mismatch_bam:
+    input:
+        bam = MAP_DIR + "{S}.sorted.nodup.nm.all.bam",
         ref = REF_FASTA,
         bai = MAP_DIR + "{S}.sorted.nodup.nm.all.bam.bai"
-    output: 
+    output:
         MAP_DIR + "{S}.sorted.nodup.nm.0.{ED, [0-9]+}.bam"
     threads: 2
     params:
         "\"NM:i:[0-{ED}]\""
-    shell: 
+    shell:
         """
         samtools view -@ {threads} {input.bam} | grep -E {params} | samtools view -bS -T {input.ref} - > {output}
         """
 
 rule samtools_stats:
     input:
-        MAP_DIR + "{S}.sorted.nodup{V}bam"
+        MAP_DIR + "{S}.sorted.nodup{ED}bam"
     output:
-        MAP_DIR + "{S}.sorted.nodup{V}stats"
+        MAP_DIR + "{S}.sorted.nodup{ED}stats"
     shell:
         """
-        samtools stats {input} > {output}  
+        samtools stats {input} > {output}
         """
 
-##########################################################  
-#################### GENOME COVERAGE #####################       
-########################################################## 
+##########################################################
+#################### GENOME COVERAGE #####################
+##########################################################
 
 rule gencov_prepare_fasta:
-    input: 
+    input:
         REF_FASTA + ".fai"
-    output: 
+    output:
         filter_fai = GENCOV_DIR_REF + REF_SPECIES + ".filter." + MIN_SIZE_SCAFFOLD + ".fasta.fai",
         windows = GENCOV_DIR_REF + "genome_5kb_windows.out"
-    params: 
+    params:
         MIN_SIZE_SCAFFOLD
     threads: 1
-    shell: 
+    shell:
         """
 	cat {input} | awk '$2>= {params} {{print $0}}' > {output.filter_fai}
         bedtools makewindows -g {output.filter_fai} -w 5000 -s 5000 | awk '$3-$2==5000 {{print}}' > {output.windows}
         """
 
 rule gencov_bedtools:
-    input: 
-        bam_hetero = expand(MAP_DIR + "{heterogametic}.sorted.nodup.nm.{{V}}.bam", heterogametic = HETEROGAMETIC),
-        bai_hetero = expand(MAP_DIR + "{heterogametic}.sorted.nodup.nm.{{V}}.bam.bai", heterogametic = HETEROGAMETIC),
-        bam_homo = expand(MAP_DIR + "{homogametic}.sorted.nodup.nm.{{V}}.bam", homogametic = HOMOGAMETIC),
-        bai_homo = expand(MAP_DIR + "{homogametic}.sorted.nodup.nm.{{V}}.bam.bai", homogametic = HOMOGAMETIC),
+    input:
+        bam_hetero = expand(MAP_DIR + "{heterogametic}.sorted.nodup.nm.{{ED}}.bam", heterogametic = HETEROGAMETIC),
+        bai_hetero = expand(MAP_DIR + "{heterogametic}.sorted.nodup.nm.{{ED}}.bam.bai", heterogametic = HETEROGAMETIC),
+        bam_homo = expand(MAP_DIR + "{homogametic}.sorted.nodup.nm.{{ED}}.bam", homogametic = HOMOGAMETIC),
+        bai_homo = expand(MAP_DIR + "{homogametic}.sorted.nodup.nm.{{ED}}.bam.bai", homogametic = HOMOGAMETIC),
         bed = GENCOV_DIR_REF + "genome_5kb_windows.out"
-    output: 
-        protected(GENCOV_DIR + SPECIES + ".gencov.nodup.nm.{V}.out")
+    output:
+        protected(GENCOV_DIR + SPECIES + ".gencov.nodup.nm.{ED}.out")
     threads: 2
-    shell: 
+    shell:
         """
         bedtools multicov -bams {input.bam_hetero} {input.bam_homo} -bed {input.bed} -p -q 20 > {output}
         """
 
-##########################################################  
-#################### VARIANT CALLING #####################      
-########################################################## 
+##########################################################
+#################### VARIANT CALLING #####################
+##########################################################
 
 rule freebayes_prep:
-    input: 
+    input:
         REF_FASTA + ".fai"
-    output: 
+    output:
         filter_fai = VCF_DIR_REF + REF_SPECIES + ".filter." + MIN_SIZE_SCAFFOLD + ".fasta.fai",
         regions = VCF_DIR_REF + REF_SPECIES + ".100kbp.regions"
-    params: 
+    params:
         MIN_SIZE_SCAFFOLD
     threads: 4
-    shell: 
+    shell:
         """
 	cat {input} | awk '$2>= {params} {{print $0}}' > {output.filter_fai}
         fasta_generate_regions.py {output.filter_fai} 100000 > {output.regions}
@@ -175,12 +175,12 @@ rule freebayes_prep:
 
 
 rule freebayes_parallel:
-    input: 
+    input:
         ref = REF_FASTA,
         regions = VCF_DIR_REF + REF_SPECIES + ".100kbp.regions",
         samples = expand(MAP_DIR + "{S}.sorted.nodup.nm.all.bam", S = ID),
-	bai = expand(MAP_DIR + "{S}.sorted.nodup.nm.all.bam.bai", S = ID)
-    output: 
+	    bai = expand(MAP_DIR + "{S}.sorted.nodup.nm.all.bam.bai", S = ID)
+    output:
         vcf = temp(VCF_DIR + SPECIES + ".vcf"),
         gz = VCF_DIR + SPECIES + ".vcf.gz"
     log: VCF_DIR + SPECIES + ".vcf.log"
@@ -188,7 +188,7 @@ rule freebayes_parallel:
     threads: 18
     params:
         tmpdir=VCF_DIR + "temp/"
-    shell: 
+    shell:
         """
         mkdir {params.tmpdir}
         export TMPDIR={params.tmpdir}
@@ -225,8 +225,6 @@ rule proportion_heterozygosity:
     output:
         diff_het = temp(VCF_DIR + SPECIES + ".diffHeterozygosity.bed"),
         het = temp(VCF_DIR + SPECIES + ".heterozygosity.bed"),
-        diff_het_sorted = temp(VCF_DIR + SPECIES + ".diffHeterozygosity.sorted.bed"),
-        het_sorted = temp(VCF_DIR + SPECIES + ".heterozygosity.sorted.bed")
     log: VCF_DIR + SPECIES + ".proportion_heterozygosity.log"
     params:
         hetero = expand("het:{heterogametic}", heterogametic = HETEROGAMETIC),
@@ -235,22 +233,20 @@ rule proportion_heterozygosity:
     shell:
         """
         python3 code/calculate_hetDiff.py {input} {output.diff_het} {params.hetero} {params.homo} > {log}
-        sort {output.diff_het} -k 1,1 -k 2,2 > {output.diff_het_sorted}
 
         python3 code/heterozygosity_per_indv.py {input} {output.het} {params.hetero} {params.homo} >> {log}
-        sort {output.het} -k 1,1 -k 2,2 > {output.het_sorted}
         """
 
 rule proportion_heterozygosity_window:
     input:
-        diff_het_sorted = VCF_DIR + SPECIES + ".diffHeterozygosity.sorted.bed",
-        het_sorted = VCF_DIR + SPECIES + ".heterozygosity.sorted.bed",
+        diff_het_sorted = VCF_DIR + SPECIES + ".diffHeterozygosity.bed",
+        het_sorted = VCF_DIR + SPECIES + ".heterozygosity.bed",
         windows = GENCOV_DIR_REF + "genome_5kb_windows.out"
     output:
-        diff_het_sorted_window = temp(VCF_DIR + SPECIES + ".diffHeterozygosity.sorted.5kb.windows.bed"),
-        diff_het_sorted_window_mean = VCF_DIR + SPECIES + ".diffHeterozygosity.sorted.5kb.windows.mean.bed",
-        het_sorted_window = temp(VCF_DIR + SPECIES + ".heterozygosity.sorted.5kb.windows.bed"),
-        het_sorted_window_mean = VCF_DIR + SPECIES + ".heterozygosity.sorted.5kb.windows.mean.bed"
+        diff_het_sorted_window = temp(VCF_DIR + SPECIES + ".diffHeterozygosity.5kb.windows.bed"),
+        diff_het_sorted_window_mean = VCF_DIR + SPECIES + ".diffHeterozygosity.5kb.windows.mean.bed",
+        het_sorted_window = temp(VCF_DIR + SPECIES + ".heterozygosity.5kb.windows.bed"),
+        het_sorted_window_mean = VCF_DIR + SPECIES + ".heterozygosity.5kb.windows.mean.bed"
     threads: 1
     shell:
         """
@@ -296,10 +292,10 @@ rule proportion_heterozygosity_window:
 ##########################################################
 
 rule plotting:
-    input: 
+    input:
         cov = expand(RESULTDIR + SPECIES + "{{synteny}}{{gencov}}.nodup.nm.{ED}.{{bp}}bp.out", ED = EDIT_DIST),
         snp = RESULTDIR + SPECIES + "{synteny}diffHeterozygosity.{bp}bp.out"
-    output: 
+    output:
         touch(RESULTDIR + SPECIES + "{synteny}{gencov}.plotting.{bp}bp.done")
     threads: 1
     params:
@@ -308,7 +304,7 @@ rule plotting:
         chromosomes = CHROMOSOMES
     wildcard_constraints:
         gencov = "gencov|N1"
-    shell: 
+    shell:
         """
         Rscript code/plot_windows.R {input.cov} {input.snp} {params.out_circlize} {params.out_scatter} {params.chromosomes}
         """
@@ -366,6 +362,3 @@ rule modify_genome:
         tabix -p vcf {output.gz}
         cat {input.ref} | bcftools consensus {output.gz} > {output.ref}
         """
-
-
-

@@ -83,7 +83,7 @@ rule normalize_cov:
 rule confirm_sexing:
     input:
         gencov = GENCOV_DIR + SPECIES + ".gencov.nodup.nm.{ED}.out",
-        het = VCF_DIR + SPECIES + ".heterozygosity.sorted.5kb.windows.mean.bed",
+        het = VCF_DIR + SPECIES + ".heterozygosity.5kb.windows.mean.bed",
         stats = expand(MAP_DIR + "{S}.sorted.nodup.nm.{{ED}}.stats", S = ID)
     output:
         read_length = RESULTDIR + SPECIES + ".read_length.sorted.nodup.nm.{ED}.csv",
@@ -129,7 +129,7 @@ rule n1:
 
 rule calculate_heterozygosity:
     input:
-        VCF_DIR + SPECIES + ".diffHeterozygosity.sorted.5kb.windows.mean.bed"
+        VCF_DIR + SPECIES + ".diffHeterozygosity.5kb.windows.mean.bed"
     output:
         Mb = RESULTDIR + SPECIES + ".diffHeterozygosity.1Mbp.out",
         kb = RESULTDIR + SPECIES + ".diffHeterozygosity.100kbp.out",
@@ -170,4 +170,3 @@ rule calculate_ratio:
         """
         Rscript code/calculate_genCov_windows.R {input} {output.Mb} {output.kb} {output.chr} {params.chromosomes}
         """
-

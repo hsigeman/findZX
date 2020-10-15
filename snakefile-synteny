@@ -63,47 +63,47 @@ rule all:
 
 include: "snakefile"
 
-##########################################################  
-#################### SYNTENY ANALYSIS ####################      
-########################################################## 
+##########################################################
+#################### SYNTENY ANALYSIS ####################
+##########################################################
 
 rule fasta_formatter:
-    input: 
+    input:
         REF_FASTA
-    output: 
+    output:
         REF_PATH + "wrap.fasta"
     threads: 1
-    shell: 
+    shell:
         """
         fasta_formatter -i {input} -w 80 -o {output}
         """
 
 rule lastal_syns:
-    input: 
+    input:
         REF_PATH + "wrap.fasta"
-    output: 
+    output:
         COMP_GEN_SYNS + REF_SPECIES + "_align"
-    params: 
+    params:
         db = SYNS_DB
     threads: 15
-    shell: 
+    shell:
         """
         lastal {params.db} {input} -P 15 | last-split > {output}
         """
 
 rule maf_convert_syns:
-    input: 
+    input:
         COMP_GEN_SYNS + REF_SPECIES + "_align"
-    output: 
+    output:
         COMP_GEN_SYNS + REF_SPECIES + "_align_converted"
     threads: 1
-    shell: 
+    shell:
         """
         maf-convert psl {input} > {output}
         """
-        
+
 ##########################################################
-################### MATCHING DATASETS ####################      
+################### MATCHING DATASETS ####################
 ##########################################################
 
 rule matchScaffold2Chr:
@@ -127,7 +127,7 @@ rule matchScaffold2Chr:
 
         sort -r -n -k2 < {output.windows} | awk '!x[$1]++' | sort -k1 | sed 's/STARTCOORD/\t/' | sed 's/ENDCOORD/\t/' > {params.absBestMatch}
 
-        cat {params.absBestMatch} | cut -f 8-10 | sort | uniq -c | awk '$1<=2 {{print}}' | awk '{{print $2,$3,$4}}' | sed 's/ /\t/g' | sort | uniq | bedtools sort > {params.okWindows} 
+        cat {params.absBestMatch} | cut -f 8-10 | sort | uniq -c | awk '$1<=2 {{print}}' | awk '{{print $2,$3,$4}}' | sed 's/ /\t/g' | sort | uniq | bedtools sort > {params.okWindows}
 
         bedtools intersect -a <(<{params.absBestMatch} awk '{{print $8,$9,$10,$0}}' | sed 's/ /\t/g' | sort -k1,1 | bedtools sort) -b {params.okWindows} -f 1 -r -wa | cut -f 4- | awk '$4>500 {{print}}'> {params.absBestMatchFilter}
 
@@ -137,7 +137,7 @@ rule matchScaffold2Chr:
 rule matchScaffold2Chr_snp:
     input:
         bestMatch = COMP_GEN_SYNS + "bestMatch.list",
-        snp_statistic = VCF_DIR + SPECIES + ".{snp_statistic}.sorted.5kb.windows.mean.bed"
+        snp_statistic = VCF_DIR + SPECIES + ".{snp_statistic}.5kb.windows.mean.bed"
     output:
         bestmatch = MATCHDIR + SPECIES + ".{snp_statistic}.bestMatch." + SYNTENY_SPECIES,
         bestmatch_small = MATCHDIR + SPECIES + ".{snp_statistic}.bestMatch." + SYNTENY_SPECIES + ".small"
@@ -145,7 +145,7 @@ rule matchScaffold2Chr_snp:
     shell:
         """
         bedtools intersect -a {input.bestMatch} -b {input.snp_statistic} -wa -wb > {output.bestmatch}
-        
+
         cut -f 8,9,10,14 {output.bestmatch} > {output.bestmatch_small}
         """
 
@@ -190,7 +190,7 @@ rule confirm_sexing_synteny:
     shell:
         """
         python code/read_length.py <(for FILE in $(ls {params.map_dir}); do echo \"${{FILE##*/}}\"; grep \"average length\" $FILE; done) > {output.read_length}
-        
+
         Rscript code/histogram_indv.R {input.gencov} {input.het} {output.read_length} {output.gencov_het} {output.n1_cov} with-synteny {params.chromosomes} {params.hetero} {params.homo}
         """
 
@@ -207,7 +207,7 @@ rule n1:
         hetero = expand("het:{heterogametic}", heterogametic = HETEROGAMETIC),
         homo = expand("homo:{homogametic}", homogametic = HOMOGAMETIC),
         chromosomes = CHROMOSOMES
-    shell: 
+    shell:
         """
         python3 code/n1_genCov.py {input.n1_cov} {params.hetero} {params.homo} > {output.n1_mean}
 
@@ -261,5 +261,3 @@ rule calculate_ratio_synteny:
         """
         Rscript code/calculate_genCov_windows.R {input} {output.Mb} {output.kb} {output.chr} {params.chromosomes}
         """
-
-
