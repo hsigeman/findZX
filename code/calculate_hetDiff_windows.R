@@ -8,6 +8,8 @@ library(data.table)
 # Columns in input file: chromosome/scaffold start_position end_position difference_in_heterozygosity
 # Call: Rscriipt {r-script} {infile} {out 1Mbp} {out 100kbp} {out chromosome/scaffold} {chr-list}
 
+# Update: Is no longer used (heterozygosity difference and genome coverage difference are both calculated in plot_windows.py). 
+
 set.seed(999)
 source("code/functions.R")
 
