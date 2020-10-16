@@ -139,7 +139,7 @@ rule matchScaffold2Chr_snp:
         bestMatch = COMP_GEN_SYNS + "bestMatch.list",
         snp_statistic = VCF_DIR + SPECIES + ".{snp_statistic}.5kb.windows.mean.bed"
     output:
-        bestmatch = MATCHDIR + SPECIES + "." + SYNTENY_SPECIES + ".{snp_statistic}.bestMatch.",
+        bestmatch = MATCHDIR + SPECIES + "." + SYNTENY_SPECIES + ".{snp_statistic}.bestMatch",
         bestmatch_small = MATCHDIR + SPECIES + "." + SYNTENY_SPECIES +".{snp_statistic}.bestMatch.small"
     threads: 1
     shell:
