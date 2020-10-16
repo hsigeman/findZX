@@ -140,13 +140,16 @@ rule matchScaffold2Chr_snp:
         snp_statistic = VCF_DIR + SPECIES + ".{snp_statistic}.5kb.windows.mean.bed"
     output:
         bestmatch = MATCHDIR + SPECIES + "." + SYNTENY_SPECIES + ".{snp_statistic}.bestMatch",
-        bestmatch_small = MATCHDIR + SPECIES + "." + SYNTENY_SPECIES +".{snp_statistic}.bestMatch.small"
+        bestmatch_small = MATCHDIR + SPECIES + "." + SYNTENY_SPECIES +".{snp_statistic}.bestMatch.small",
+        bestmatch_small_sexAverage = MATCHDIR + SPECIES + "." + SYNTENY_SPECIES +".heterozygosity.bestMatch.small.sexAverage"
     threads: 1
     shell:
         """
         bedtools intersect -a {input.bestMatch} -b {input.snp_statistic} -wa -wb > {output.bestmatch}
 
         cut -f 8,9,10,14- {output.bestmatch} > {output.bestmatch_small}
+        
+        python3 code/mean_heterozygosity_per_sex.py {output.bestmatch_small} with-synteny {params.hetero} {params.homo} > {output.bestmatch_small_sexAverage}
         """
 
 rule matchScaffold2Chr_cov:
