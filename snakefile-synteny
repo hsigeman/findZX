@@ -49,12 +49,9 @@ rule all:
 #        expand(MAP_DIR + "{S}.sorted.stats", S = ID),
         expand(MAP_DIR + "{S}.sorted.nodup.nm.{ED}.stats", S = ID, ED = EDIT_DIST),
         expand(MATCHDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov.nodup.nm.{ED}.out.norm", ED = EDIT_DIST),
-#        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".allFreq.1Mbp.out",
-#        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".allFreq.100kbp.out",
         expand(RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov_heterozygosity_indv.{ED}.pdf", ED = EDIT_DIST),
         RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov.plotting.1Mbp.done",
         RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov.plotting.100kbp.done",
-        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".N1.plotting.1Mbp.done",
         RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".plotting_chr.done"
 
 ##########################################################
@@ -148,7 +145,7 @@ rule matchScaffold2Chr_snp:
         bedtools intersect -a {input.bestMatch} -b {input.snp_statistic} -wa -wb > {output.bestmatch}
 
         cut -f 8,9,10,14- {output.bestmatch} > {output.bestmatch_small}
-        
+
         python3 code/mean_heterozygosity_per_sex.py {output.bestmatch_small} with-synteny {params.hetero} {params.homo} > {output.bestmatch_small_sexAverage}
         """
 
@@ -201,26 +198,6 @@ rule confirm_sexing_synteny:
 ################ STATISTICAL CALCULATIONS ################
 ##########################################################
 
-rule n1:
-    input:
-        n1_cov = MATCHDIR + SPECIES + "{synteny}N1.nodup.nm.{ED}.out"
-    output:
-        n1_mean = GENCOV_DIR + SPECIES + "{synteny}N1.nodup.nm.{ED}.out.mean",
-        n1_1Mbp = RESULTDIR + SPECIES + "{synteny}N1.nodup.nm.{ED}.1Mbp.out",
-        n1_100kbp = RESULTDIR + SPECIES + "{synteny}N1.nodup.nm.{ED}.100kbp.out",
-        n1_chr = RESULTDIR + SPECIES + "{synteny}N1.nodup.nm.{ED}.chr.out"
-    threads: 1
-    params:
-        hetero = expand("het:{heterogametic}", heterogametic = HETEROGAMETIC),
-        homo = expand("homo:{homogametic}", homogametic = HOMOGAMETIC),
-        chromosomes = CHROMOSOMES
-    shell:
-        """
-        python3 code/n1_genCov.py {input.n1_cov} {params.hetero} {params.homo} > {output.n1_mean}
-
-        Rscript code/calculate_N1_windows.R {output.n1_mean} {output.n1_1Mbp} {output.n1_100kbp} {output.n1_chr} {params.chromosomes}
-        """
-
 rule calculate_heterozygosity:
     input:
         MATCHDIR + SPECIES + "{synteny}diffHeterozygosity.bestMatch.small"
@@ -234,20 +211,6 @@ rule calculate_heterozygosity:
     shell:
         """
         Rscript code/calculate_hetDiff_windows.R {input} {output.Mb} {output.kb} {output.chr} {params.chromosomes}
-        """
-
-rule calculate_allFreq:
-    input:
-        MATCHDIR + SPECIES + "{synteny}allFreq.bestMatch.small"
-    output:
-        Mb = RESULTDIR + SPECIES + "{synteny}allFreq.1Mbp.out",
-        kb = RESULTDIR + SPECIES + "{synteny}allFreq.100kbp.out"
-    threads: 1
-    params:
-        chromosomes = CHROMOSOMES
-    shell:
-        """
-        Rscript code/calculate_snpCount_windows.R {input} {output.Mb} {output.kb} {params.chromosomes}
         """
 
 rule calculate_ratio:
@@ -264,4 +227,3 @@ rule calculate_ratio:
         """
         Rscript code/calculate_genCov_windows.R {input} {output.Mb} {output.kb} {output.chr} {params.chromosomes}
         """
-

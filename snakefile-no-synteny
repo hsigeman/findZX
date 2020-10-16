@@ -44,12 +44,9 @@ rule all:
 #        expand(MAP_DIR + "{S}.sorted.stats", S = ID),
         expand(MAP_DIR + "{S}.sorted.nodup.nm.{ED}.stats", S = ID, ED = EDIT_DIST),
         expand(GENCOV_DIR + SPECIES + ".gencov.nodup.nm.{ED}.out.norm", ED = EDIT_DIST),
-#        RESULTDIR + SPECIES + ".allFreq.1Mbp.out",
-#        RESULTDIR + SPECIES + ".allFreq.100kbp.out",
         expand(RESULTDIR + SPECIES + ".gencov_heterozygosity_indv.{ED}.pdf", ED = EDIT_DIST),
         RESULTDIR + SPECIES + ".gencov.plotting.1Mbp.done",
         RESULTDIR + SPECIES + ".gencov.plotting.100kbp.done",
-        RESULTDIR + SPECIES + ".N1.plotting.1Mbp.done",
         RESULTDIR + SPECIES + ".plotting_chr.done"
 
 ##########################################################
@@ -107,26 +104,6 @@ rule confirm_sexing:
 ################ STATISTICAL CALCULATIONS ################
 ##########################################################
 
-rule n1:
-    input:
-        n1_cov = GENCOV_DIR + SPECIES + "{synteny}N1.nodup.nm.{ED}.out"
-    output:
-        n1_mean = GENCOV_DIR + SPECIES + "{synteny}N1.nodup.nm.{ED}.out.mean",
-        n1_1Mbp = RESULTDIR + SPECIES + "{synteny}N1.nodup.nm.{ED}.1Mbp.out",
-        n1_100kbp = RESULTDIR + SPECIES + "{synteny}N1.nodup.nm.{ED}.100kbp.out",
-        n1_chr = RESULTDIR + SPECIES + "{synteny}N1.nodup.nm.{ED}.chr.out"
-    threads: 1
-    params:
-        hetero = expand("het:{heterogametic}", heterogametic = HETEROGAMETIC),
-        homo = expand("homo:{homogametic}", homogametic = HOMOGAMETIC),
-        chromosomes = CHROMOSOMES
-    shell:
-        """
-        python3 code/n1_genCov.py {input.n1_cov} {params.hetero} {params.homo} > {output.n1_mean}
-
-        Rscript code/calculate_N1_windows.R {output.n1_mean} {output.n1_1Mbp} {output.n1_100kbp} {output.n1_chr} {params.chromosomes}
-        """
-
 rule calculate_heterozygosity:
     input:
         VCF_DIR + SPECIES + ".diffHeterozygosity.5kb.windows.mean.bed"
@@ -140,20 +117,6 @@ rule calculate_heterozygosity:
     shell:
         """
         Rscript code/calculate_hetDiff_windows.R {input} {output.Mb} {output.kb} {output.chr} {params.chromosomes}
-        """
-
-rule calculate_allFreq:
-    input:
-        GENCOV_DIR + SPECIES + "{synteny}allFreq.small"
-    output:
-        Mb = RESULTDIR + SPECIES + "{synteny}allFreq.1Mbp.out",
-        kb = RESULTDIR + SPECIES + "{synteny}allFreq.100kbp.out"
-    threads: 1
-    params:
-        chromosomes = CHROMOSOMES
-    shell:
-        """
-        Rscript code/calculate_snpCount_windows.R {input} {output.Mb} {output.kb} {params.chromosomes}
         """
 
 rule calculate_ratio:

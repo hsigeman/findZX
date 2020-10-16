@@ -257,36 +257,6 @@ rule proportion_heterozygosity_window:
         cat {output.het_sorted_window} | sed 's/\t/STARTCOORD/' | sed 's/\t/ENDCOORD/' | awk ' {{c[$1]++; for (i=2;i<=NF;i++) {{ s[$1"."i]+=$i}}; }} END {{for (k in c) {{printf "%s\t", k; for(i=2;i<NF;i++) printf "%.1f\\t", s[k"."i]/c[k]; printf "%.1f\\n", s[k"."NF]/c[k];}}}}' |  sed 's/STARTCOORD/\t/' | sed 's/ENDCOORD/\t/' | sed 's/ /\t/g' > {output.het_sorted_window_mean}
 	"""
 
-#rule allele_frequency:
-#    input:
-#        VCF_DIR + SPECIES + ".biallelic.minQ20.minDP3.vcf.gz"
-#    output:
-#        hetero = VCF_DIR + SPECIES + ".allFreq.heterogametic.out",
-#        homo = VCF_DIR + SPECIES + ".allFreq.homogametic.out"
-#    params:
-#        hetero = expand("--indv {heterogametic}", heterogametic = HETEROGAMETIC),
-#        homo = expand("--indv {homogametic}", homogametic = HOMOGAMETIC)
-#    shell:
-#        """
-#        vcftools --gzvcf {input} {params.hetero} --freq --stdout > {output.hetero}
-#        vcftools --gzvcf {input} {params.homo} --freq --stdout > {output.homo}
-#        """
-
-#rule filter_allele_frequency:
-#    input:
-#        hetero = VCF_DIR + SPECIES + ".allFreq.heterogametic.out",
-#        homo = VCF_DIR + SPECIES + ".allFreq.homogametic.out"
-#    output:
-#        bed = temp(VCF_DIR + SPECIES + ".allFreq.bed"),
-#        sorted = VCF_DIR + SPECIES + ".allFreq.sorted.bed"
-#    threads: 1
-#    shell:
-#        """
-#        python3 code/filter_allFreq.py {input.hetero} heterogametic > {output.bed}
-#        python3 code/filter_allFreq.py {input.homo} homogametic >> {output.bed}
-#        sort {output.bed} -k 1,1 -k 2,2 > {output.sorted}
-#        """
-
 ##########################################################
 ####################### RESULTS ##########################
 ##########################################################
@@ -328,24 +298,6 @@ rule plotting_chr:
 ##########################################################
 ################### MODIFY REF GENOME ####################
 ##########################################################
-
-#rule modify_genome:
-#    input:
-#        vcf = VCF_DIR + SPECIES + ".vcf.gz",
-#        ref = REF_FASTA
-#    output:
-#        noN_vcf = temp(VCF_DIR + SPECIES + ".noN.vcf.gz"),
-#        vcf = temp(VCF_DIR + SPECIES + ".non-ref-af_05_biallelic_qual.vcf"),
-#        gz = VCF_DIR + SPECIES + ".non-ref-af_05_biallelic_qual.vcf.gz",
-#        ref = REF_DIR + REF_NAME + "_nonRefAf_consensus.fasta"
-#    shell:
-#        """
-#        zcat {input.vcf} | awk '$4 !~ /N/' | gzip -c > {output.noN_vcf}
-#        vcftools --gzvcf {output.noN_vcf} --non-ref-af 0.5 --min-alleles 2 --max-alleles 2 --remove-filtered-all --recode --stdout > {output.vcf}
-#        bgzip -c {output.vcf} > {output.gz}
-#        tabix -p vcf {output.gz}
-#        cat {input.ref} | bcftools consensus {output.gz} > {output.ref}
-#        """
 
 rule modify_genome:
     input:
