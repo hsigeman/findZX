@@ -136,8 +136,8 @@ rule matchScaffold2Chr_snp:
         bestMatch = COMP_GEN_SYNS + "bestMatch.list",
         snp_statistic = VCF_DIR + SPECIES + ".heterozygosity.5kb.windows.mean.bed"
     output:
-        bestmatch = MATCHDIR + SPECIES + "." + SYNTENY_SPECIES + ".{snp_statistic}.bestMatch",
-        bestmatch_small = MATCHDIR + SPECIES + "." + SYNTENY_SPECIES +".{snp_statistic}.bestMatch.small",
+        bestmatch = MATCHDIR + SPECIES + "." + SYNTENY_SPECIES + ".heterozygosity.bestMatch",
+        bestmatch_small = MATCHDIR + SPECIES + "." + SYNTENY_SPECIES +".heterozygosity.bestMatch.small",
         bestmatch_small_sexAverage = MATCHDIR + SPECIES + "." + SYNTENY_SPECIES +".heterozygosity.bestMatch.small.sexAverage.bed"
     params:
         hetero = expand("het:{heterogametic}", heterogametic = HETEROGAMETIC),
