@@ -134,11 +134,14 @@ rule matchScaffold2Chr:
 rule matchScaffold2Chr_snp:
     input:
         bestMatch = COMP_GEN_SYNS + "bestMatch.list",
-        snp_statistic = VCF_DIR + SPECIES + ".{snp_statistic}.5kb.windows.mean.bed"
+        snp_statistic = VCF_DIR + SPECIES + ".heterozygosity.5kb.windows.mean.bed"
     output:
         bestmatch = MATCHDIR + SPECIES + "." + SYNTENY_SPECIES + ".{snp_statistic}.bestMatch",
         bestmatch_small = MATCHDIR + SPECIES + "." + SYNTENY_SPECIES +".{snp_statistic}.bestMatch.small",
-        bestmatch_small_sexAverage = MATCHDIR + SPECIES + "." + SYNTENY_SPECIES +".heterozygosity.bestMatch.small.sexAverage"
+        bestmatch_small_sexAverage = MATCHDIR + SPECIES + "." + SYNTENY_SPECIES +".heterozygosity.bestMatch.small.sexAverage.bed"
+    params:
+        hetero = expand("het:{heterogametic}", heterogametic = HETEROGAMETIC),
+        homo = expand("homo:{homogametic}", homogametic = HOMOGAMETIC)
     threads: 1
     shell:
         """
@@ -200,7 +203,7 @@ rule confirm_sexing_synteny:
 
 rule calculate_heterozygosity:
     input:
-        MATCHDIR + SPECIES + "{synteny}diffHeterozygosity.bestMatch.small"
+        MATCHDIR + SPECIES + "." + SYNTENY_SPECIES +".heterozygosity.bestMatch.small.sexAverage.bed"
     output:
         Mb = RESULTDIR + SPECIES + "{synteny}diffHeterozygosity.1Mbp.out",
         kb = RESULTDIR + SPECIES + "{synteny}diffHeterozygosity.100kbp.out",
@@ -210,7 +213,7 @@ rule calculate_heterozygosity:
         chromosomes = CHROMOSOMES
     shell:
         """
-        Rscript code/calculate_hetDiff_windows.R {input} {output.Mb} {output.kb} {output.chr} {params.chromosomes}
+        Rscript code/calculate_windows.R {input} {output.Mb} {output.kb} {output.chr} {params.chromosomes}
         """
 
 rule calculate_ratio:
@@ -225,5 +228,5 @@ rule calculate_ratio:
         chromosomes = CHROMOSOMES
     shell:
         """
-        Rscript code/calculate_genCov_windows.R {input} {output.Mb} {output.kb} {output.chr} {params.chromosomes}
+        Rscript code/calculate_windows.R {input} {output.Mb} {output.kb} {output.chr} {params.chromosomes}
         """

@@ -223,8 +223,7 @@ rule proportion_heterozygosity:
     input:
         VCF_DIR + SPECIES + ".biallelic.minQ20.minDP3.vcf.gz"
     output:
-        diff_het = temp(VCF_DIR + SPECIES + ".diffHeterozygosity.bed"),
-        het = temp(VCF_DIR + SPECIES + ".heterozygosity.bed"),
+        het = temp(VCF_DIR + SPECIES + ".heterozygosity.bed")
     log: VCF_DIR + SPECIES + ".proportion_heterozygosity.log"
     params:
         hetero = expand("het:{heterogametic}", heterogametic = HETEROGAMETIC),
@@ -232,30 +231,22 @@ rule proportion_heterozygosity:
     threads: 1
     shell:
         """
-        python3 code/calculate_hetDiff.py {input} {output.diff_het} {params.hetero} {params.homo} > {log}
-
-        python3 code/heterozygosity_per_indv.py {input} {output.het} {params.hetero} {params.homo} >> {log}
+        python3 code/heterozygosity_per_indv.py {input} {output.het} {params.hetero} {params.homo} > {log}
         """
 
 rule proportion_heterozygosity_window:
     input:
-        diff_het_sorted = VCF_DIR + SPECIES + ".diffHeterozygosity.bed",
         het_sorted = VCF_DIR + SPECIES + ".heterozygosity.bed",
         windows = GENCOV_DIR_REF + "genome_5kb_windows.out"
     output:
-        diff_het_sorted_window = temp(VCF_DIR + SPECIES + ".diffHeterozygosity.5kb.windows.bed"),
-        diff_het_sorted_window_mean = VCF_DIR + SPECIES + ".diffHeterozygosity.5kb.windows.mean.bed",
         het_sorted_window = temp(VCF_DIR + SPECIES + ".heterozygosity.5kb.windows.bed"),
         het_sorted_window_mean = VCF_DIR + SPECIES + ".heterozygosity.5kb.windows.mean.bed"
     threads: 1
     shell:
         """
-        bedtools intersect -a {input.windows} -b {input.diff_het_sorted} -wa -wb | cut -f 1-3,7 > {output.diff_het_sorted_window}
-        cat {output.diff_het_sorted_window} | sed 's/\t/STARTCOORD/' | sed 's/\t/ENDCOORD/' | awk '{{count[$1]++; sum[$1]+=$2}} END {{for(i in count) {{m = sum[i]/count[i]; print i, m}}}}' |  sed 's/STARTCOORD/\t/' | sed 's/ENDCOORD/\t/' | sed 's/ /\t/g' > {output.diff_het_sorted_window_mean}
-
         bedtools intersect -a {input.windows} -b {input.het_sorted} -wa -wb | cut -f 1-3,7- > {output.het_sorted_window}
         cat {output.het_sorted_window} | sed 's/\t/STARTCOORD/' | sed 's/\t/ENDCOORD/' | awk ' {{c[$1]++; for (i=2;i<=NF;i++) {{ s[$1"."i]+=$i}}; }} END {{for (k in c) {{printf "%s\t", k; for(i=2;i<NF;i++) printf "%.1f\\t", s[k"."i]/c[k]; printf "%.1f\\n", s[k"."NF]/c[k];}}}}' |  sed 's/STARTCOORD/\t/' | sed 's/ENDCOORD/\t/' | sed 's/ /\t/g' > {output.het_sorted_window_mean}
-	"""
+	    """
 
 ##########################################################
 ####################### RESULTS ##########################
