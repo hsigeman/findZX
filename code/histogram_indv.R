@@ -60,33 +60,14 @@ for (i in 1:nr_samples) {
 ################################################################################
 
 col_names <- colnames(cov)[4:length(cov)]
-f <- as.formula( paste( paste( col_names, 
-                               collapse = "+"), 
-                        "~", "chr + range"))
 
 max_per_chr <- setDT(cov)[, .SD[which.max(end)], by=chr]
 len_chr <- as.data.frame( max_per_chr[,1:2])
 colnames(len_chr) <- c("chr","length")
 
-Tcov <- transform(cov, 
-                  range=floor(start/5000))
-Tcov <- summaryBy(f, 
-                  data=Tcov, 
-                  keep.names=TRUE, 
-                  na.rm = TRUE)
-colnames(Tcov) <- c("chr","range",sample_names)
-
-Thet <- transform(het, 
-                  range=floor(end/5000))
-Thet <- summaryBy(f, 
-                  data=Thet, 
-                  keep.names=TRUE, 
-                  na.rm = TRUE)
-colnames(Thet) <- c("chr","range",sample_names)
-
-cov_het <- merge(Tcov, 
-                 Thet, 
-                 by = c("chr","range"))
+cov_het <- merge(cov, 
+                 het, 
+                 by = c("chr", "start", "end"))
 cov_het <- merge(cov_het, 
                  len_chr, 
                  by = "chr")
@@ -124,8 +105,8 @@ for (i in 1:nr_samples) {
 
 ############## HEATMAP HETEROZYGOSITY VS GENOME COVERAGE VS LENGTH #############
   
-  x = i + 2
-  y = i + 2 + nr_samples
+  x = i + 3
+  y = i + 3 + nr_samples
   
   gh <- ggplot(data = cov_het, 
                aes(x = cov_het[,x], 
@@ -190,9 +171,9 @@ for (i in 1:nr_samples) {
   # All windows with a coverage in the N1 range are set to 1, all other 0
   window_range <- 0.25
   
-  simple_cov[,(x+1)][simple_cov[,(x+1)] < halfMax_x*(1-window_range)] <- 0
-  simple_cov[,(x+1)][simple_cov[,(x+1)] > halfMax_x*(1+window_range)] <- 0
-  simple_cov[,(x+1)][simple_cov[,(x+1)] > 0] <- 1
+  simple_cov[,(x)][simple_cov[,(x)] < halfMax_x*(1-window_range)] <- 0
+  simple_cov[,(x)][simple_cov[,(x)] > halfMax_x*(1+window_range)] <- 0
+  simple_cov[,(x)][simple_cov[,(x)] > 0] <- 1
   
 ########################### HISTOGRAM HETEROZYGOSITY ###########################
   
@@ -221,7 +202,7 @@ for (i in 1:nr_samples) {
   cov_het_subset$chr <- factor(cov_het_subset$chr, levels = top_chr)
   
   c <- ggplot(cov_het_subset, 
-              aes(x=range, 
+              aes(x=end, 
                   y=cov_het_subset[,x])) + 
     geom_smooth(na.rm = TRUE) + 
     facet_grid(. ~ chr, 
@@ -230,6 +211,7 @@ for (i in 1:nr_samples) {
     labs(y = "genome coverage", 
          x = "position [5kbp window]", 
          title = sample_names[i]) +
+    scale_x_continuous(limits = c(0, NA)) +
     theme(axis.text.x = element_blank()) +
     theme_bw()
   
