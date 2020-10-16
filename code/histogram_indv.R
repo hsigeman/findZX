@@ -25,11 +25,10 @@ file_snp = args[2]
 file_read_len = args[3]
 
 outPdf = args[4]
-outCov = args[5]
-synteny = args[6]
-chr_file = args[7]
+synteny = args[5]
+chr_file = args[6]
 
-sample_names = args[8:length(args)]
+sample_names = args[7:length(args)]
 
 ################################################################################
 ################################# READ FILES ###################################
@@ -99,8 +98,6 @@ if (file.exists(chr_file)) {
 
 plist <- list()
 
-simple_cov <- cov
-
 for (i in 1:nr_samples) {
 
 ############## HEATMAP HETEROZYGOSITY VS GENOME COVERAGE VS LENGTH #############
@@ -168,13 +165,6 @@ for (i in 1:nr_samples) {
     geom_vline(xintercept = max_x, 
                color = "red")
   
-  # All windows with a coverage in the N1 range are set to 1, all other 0
-  window_range <- 0.25
-  
-  simple_cov[,(x)][simple_cov[,(x)] < halfMax_x*(1-window_range)] <- 0
-  simple_cov[,(x)][simple_cov[,(x)] > halfMax_x*(1+window_range)] <- 0
-  simple_cov[,(x)][simple_cov[,(x)] > 0] <- 1
-  
 ########################### HISTOGRAM HETEROZYGOSITY ###########################
   
   h <- ggplot(cov_het, 
@@ -236,10 +226,3 @@ for (i in 1:nr_samples) {
 }
 
 dev.off()
-
-# Write coverage table where windows around N1 is 1 and all other windows are 0
-write.table(simple_cov, outCov, 
-            quote=FALSE, 
-            sep="\t", 
-            row.names = F, col.names = F, 
-            na = "NA")
