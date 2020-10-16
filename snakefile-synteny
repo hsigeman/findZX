@@ -146,7 +146,7 @@ rule matchScaffold2Chr_snp:
         """
         bedtools intersect -a {input.bestMatch} -b {input.snp_statistic} -wa -wb > {output.bestmatch}
 
-        cut -f 8,9,10,14 {output.bestmatch} > {output.bestmatch_small}
+        cut -f 8,9,10,14- {output.bestmatch} > {output.bestmatch_small}
         """
 
 rule matchScaffold2Chr_cov:
