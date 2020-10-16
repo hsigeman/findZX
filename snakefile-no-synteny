@@ -129,7 +129,7 @@ rule n1:
 
 rule calculate_heterozygosity:
     input:
-        GENCOV_DIR + SPECIES + "{synteny}diffHeterozygosity.small"
+        VCF_DIR + SPECIES + ".diffHeterozygosity.5kb.windows.mean.bed"
     output:
         Mb = RESULTDIR + SPECIES + "{synteny}diffHeterozygosity.1Mbp.out",
         kb = RESULTDIR + SPECIES + "{synteny}diffHeterozygosity.100kbp.out",
