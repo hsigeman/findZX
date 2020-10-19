@@ -34,7 +34,7 @@ if (file.exists(chr_file)) {
 
 cov <- calculate_ratio(cov)
 cov <- calculate_diff(cov)
-cov <- remove_outliers(cov)
+#cov <- remove_outliers(cov)
 
 ################################################################################
 ################################# CHROMOSOME ###################################
