@@ -226,7 +226,7 @@ rule calculate_heterozygosity:
 
 rule calculate_ratio:
     input:
-        MATCHDIR + SPECIES + "{synteny}gencov.nodup.nm.{ED}.norm.sexAverage.out"
+        MATCHDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov.nodup.nm.{ED}.norm.sexAverage.small.out"
     output:
         Mb = RESULTDIR + SPECIES + "{synteny}gencov.nodup.nm.{ED}.1Mbp.out",
         kb = RESULTDIR + SPECIES + "{synteny}gencov.nodup.nm.{ED}.100kbp.out",
