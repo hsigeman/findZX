@@ -147,12 +147,27 @@ rule gencov_bedtools:
         bai_homo = expand(MAP_DIR + "{homogametic}.sorted.nodup.nm.{{ED}}.bam.bai", homogametic = HOMOGAMETIC),
         bed = GENCOV_DIR_REF + "genome_5kb_windows.out"
     output:
-        protected(GENCOV_DIR + SPECIES + ".gencov.nodup.nm.{ED}.out")
+        GENCOV_DIR + SPECIES + ".gencov.nodup.nm.{ED}.out"
     threads: 2
     shell:
         """
         bedtools multicov -bams {input.bam_hetero} {input.bam_homo} -bed {input.bed} -p -q 20 > {output}
         """
+	
+rule normalize_cov:
+    input:
+        GENCOV_DIR + SPECIES + ".gencov.nodup.nm.{ED}.out"
+    output:
+        GENCOV_DIR + SPECIES + ".gencov.nodup.nm.{ED}.out.norm"
+    threads: 1
+    params:
+        hetero = expand("het:{heterogametic}", heterogametic = HETEROGAMETIC),
+        homo = expand("homo:{homogametic}", homogametic = HOMOGAMETIC)
+    shell:
+        """
+        python3 code/normalize_genCov.py {input} no-synteny {params.hetero} {params.homo} > {output}
+        """
+
 
 ##########################################################
 #################### VARIANT CALLING #####################
@@ -240,13 +255,18 @@ rule proportion_heterozygosity_window:
         windows = GENCOV_DIR_REF + "genome_5kb_windows.out"
     output:
         het_sorted_window = temp(VCF_DIR + SPECIES + ".heterozygosity.5kb.windows.bed"),
-        het_sorted_window_mean = VCF_DIR + SPECIES + ".heterozygosity.5kb.windows.mean.bed"
+        het_sorted_window_mean = VCF_DIR + SPECIES + ".heterozygosity.5kb.windows.mean.bed",
+	het_sexAverage = VCF_DIR + SPECIES + ".heterozygosity.sexAverage.bed"
+    params:
+        hetero = expand("het:{heterogametic}", heterogametic = HETEROGAMETIC),
+        homo = expand("homo:{homogametic}", homogametic = HOMOGAMETIC)
     threads: 1
     shell:
         """
         bedtools intersect -a {input.windows} -b {input.het_sorted} -wa -wb | cut -f 1-3,7- > {output.het_sorted_window}
         cat {output.het_sorted_window} | sed 's/\t/STARTCOORD/' | sed 's/\t/ENDCOORD/' | awk ' {{c[$1]++; for (i=2;i<=NF;i++) {{ s[$1"."i]+=$i}}; }} END {{for (k in c) {{printf "%s\t", k; for(i=2;i<NF;i++) printf "%.1f\\t", s[k"."i]/c[k]; printf "%.1f\\n", s[k"."NF]/c[k];}}}}' |  sed 's/STARTCOORD/\t/' | sed 's/ENDCOORD/\t/' | sed 's/ /\t/g' > {output.het_sorted_window_mean}
-	    """
+	python3 code/mean_heterozygosity_per_sex.py {output.het_sorted_window_mean} no-synteny {params.hetero} {params.homo} > {output.het_sexAverage}
+	"""
 
 ##########################################################
 ####################### RESULTS ##########################
