@@ -154,11 +154,11 @@ rule gencov_bedtools:
         bedtools multicov -bams {input.bam_hetero} {input.bam_homo} -bed {input.bed} -p -q 20 > {output}
         """
 	
-rule normalize_cov:
+rule normalize_cov_mean:
     input:
         GENCOV_DIR + SPECIES + ".gencov.nodup.nm.{ED}.out"
     output:
-        GENCOV_DIR + SPECIES + ".gencov.nodup.nm.{ED}.out.norm"
+        GENCOV_DIR + SPECIES + ".gencov.nodup.nm.{ED}.norm.sexAverage.out"
     threads: 1
     params:
         hetero = expand("het:{heterogametic}", heterogametic = HETEROGAMETIC),
