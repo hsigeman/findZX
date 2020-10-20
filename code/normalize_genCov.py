@@ -42,15 +42,9 @@ nr_homogametic = len(homogametic_samples)
 
 gencov = pn.read_csv(sys.argv[1], sep='\t', header=None)
 
-# If data is matched to a synteny species, some columns have to be dropped
-if sys.argv[2] == "with-synteny":
-	gencov = gencov.drop(gencov.columns[[3, 4, 5, 6, 10, 11, 12]], axis=1)
-	
-	sample_index_start = 13
-	chr_columns = [7,8,9]
-else:
-	sample_index_start = 3
-	chr_columns = [0,1,2]
+# If data is matched to a synteny species, some columns have to be dropped - removed
+sample_index_start = 3
+chr_columns = [0,1,2]
 
 
 samples = list(range(sample_index_start, sample_index_start + nr_samples))
