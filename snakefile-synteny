@@ -48,6 +48,7 @@ rule all:
         expand(MAP_DIR + "{S}.sorted.nodup.nm.{ED}.bam.bai", S = ID, ED = EDIT_DIST),
 #        expand(MAP_DIR + "{S}.sorted.stats", S = ID),
         expand(MAP_DIR + "{S}.sorted.nodup.nm.{ED}.stats", S = ID, ED = EDIT_DIST),
+        expand(MATCHDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov.nodup.nm.{ED}.norm.sexAverage.small.out", ED = EDIT_DIST),
         expand(MATCHDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov.nodup.nm.{ED}.out.norm", ED = EDIT_DIST),
         expand(RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov_heterozygosity_indv.{ED}.pdf", ED = EDIT_DIST),
         RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov.plotting.1Mbp.done",
@@ -160,10 +161,12 @@ rule matchScaffold2Chr_cov:
     input:
         bestMatch = COMP_GEN_SYNS + "bestMatch.list",
         cov = GENCOV_DIR + SPECIES + ".gencov.nodup.nm.{ED}.out",
-        cov_mean = GENCOV_DIR + SPECIES + ".gencov.nodup.nm.{ED}.norm.sexAverage.out"
+        cov_sexAverage = GENCOV_DIR + SPECIES + ".gencov.nodup.nm.{ED}.norm.sexAverage.out"
     output:
         bestMatch = MATCHDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov.nodup.nm.{ED}.out",
-        bestMatch_mean = MATCHDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov.nodup.nm.{ED}.norm.sexAverage.out"
+        bestMatch_small = MATCHDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov.nodup.nm.{ED}.small.out",
+        bestMatch_sexAverage = MATCHDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov.nodup.nm.{ED}.norm.sexAverage.out",
+        bestmatch_small_sexAverage = MATCHDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov.nodup.nm.{ED}.norm.sexAverage.small.out"
     params:
         hetero = expand("het:{heterogametic}", heterogametic = HETEROGAMETIC),
         homo = expand("homo:{homogametic}", homogametic = HOMOGAMETIC)
@@ -171,7 +174,9 @@ rule matchScaffold2Chr_cov:
     shell:
         """
         bedtools intersect -a {input.bestMatch} -b {input.cov} -wa -wb > {output.bestMatch}
-        bedtools intersect -a {input.bestMatch} -b {input.cov_mean} -wa -wb > {output.bestMatch_mean}
+        cut -f 8,9,10,14- {output.bestmatch} > {output.bestmatch_small}
+        bedtools intersect -a {input.bestMatch} -b {input.cov_sexAverage} -wa -wb > {output.bestMatch_sexAverage}
+        cut -f 8,9,10,14- {output.bestmatch_sexAverage} > {output.bestmatch_small_sexAverage}
         """
 
 ##########################################################
