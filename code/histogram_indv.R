@@ -75,8 +75,8 @@ cov <- as.data.frame(cov)
 
 for (i in 1:nr_samples) {
   
-  outliers <- boxplot(cov_het[,(i+2)], plot = FALSE)$stats[5]
-  cov_het[,(i+2)][cov_het[,(i+2)] > outliers] = NA
+  outliers <- boxplot(cov_het[,(i+3)], plot = FALSE)$stats[5]
+  cov_het[,(i+3)][cov_het[,(i+3)] > outliers] = NA
   
   outliers <- boxplot(cov[,(i+3)], plot = FALSE)$stats[5]
   cov[,(i+3)][cov[,(i+3)] > outliers] = NA
