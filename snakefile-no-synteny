@@ -106,7 +106,7 @@ rule calculate_heterozygosity:
 
 rule calculate_ratio:
     input:
-        GENCOV_DIR + SPECIES + "{synteny}gencov.nodup.nm.{ED}.out.norm"
+        GENCOV_DIR + SPECIES + "{synteny}gencov.nodup.nm.{ED}.norm.sexAverage.out"
     output:
         Mb = RESULTDIR + SPECIES + "{synteny}gencov.nodup.nm.{ED}.1Mbp.out",
         kb = RESULTDIR + SPECIES + "{synteny}gencov.nodup.nm.{ED}.100kbp.out",
