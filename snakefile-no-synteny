@@ -59,32 +59,6 @@ include: "snakefile"
 ################## NO SYNTENY ANALYSIS ###################
 ##########################################################
 
-rule normalize_cov:
-    input:
-        GENCOV_DIR + SPECIES + ".gencov.nodup.nm.{ED}.out"
-    output:
-        GENCOV_DIR + SPECIES + ".gencov.nodup.nm.{ED}.out.norm"
-    threads: 1
-    params:
-        hetero = expand("het:{heterogametic}", heterogametic = HETEROGAMETIC),
-        homo = expand("homo:{homogametic}", homogametic = HOMOGAMETIC)
-    shell:
-        """
-        python3 code/normalize_genCov.py {input} no-synteny {params.hetero} {params.homo} > {output}
-        """
-
-rule mean_heterozygosity:
-    input:
-        het = VCF_DIR + SPECIES + ".heterozygosity.5kb.windows.mean.bed"
-    output:
-        het_sexAverage = VCF_DIR + SPECIES + ".heterozygosity.sexAverage.bed"
-    params:
-        hetero = expand("het:{heterogametic}", heterogametic = HETEROGAMETIC),
-        homo = expand("homo:{homogametic}", homogametic = HOMOGAMETIC)
-    shell:
-        """
-        python3 code/mean_heterozygosity_per_sex.py {input.het} no-synteny {params.hetero} {params.homo} > {output.het_sexAverage}
-        """
 
 ##########################################################
 ##################### CONFIRM SEXING #####################
