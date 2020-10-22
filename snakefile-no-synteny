@@ -46,7 +46,9 @@ rule all:
         expand(RESULTDIR + SPECIES + ".gencov_heterozygosity_indv.{ED}.pdf", ED = EDIT_DIST),
         RESULTDIR + SPECIES + ".gencov.plotting.1Mbp.done",
         RESULTDIR + SPECIES + ".gencov.plotting.100kbp.done",
-        RESULTDIR + SPECIES + ".plotting_chr.done"
+        RESULTDIR + SPECIES + ".plotting_chr.done",
+        RESULTDIR + SPECIES + ".gencov.plotting.linear.1Mbp.done",
+        RESULTDIR + SPECIES + ".gencov.plotting.linear.100kbp.done"
 
 ##########################################################
 ################### INCLUDE SNAKEFILE ####################
