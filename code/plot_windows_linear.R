@@ -15,7 +15,7 @@ library(gridGraphics)
 
 set.seed(999)
 
-source("functions.R")
+source("code/functions.R")
 args <- commandArgs(trailingOnly = TRUE)
 
 file1 = args[1]
