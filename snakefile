@@ -280,14 +280,32 @@ rule plotting:
         touch(RESULTDIR + SPECIES + "{synteny}{gencov}.plotting.{bp}bp.done")
     threads: 1
     params:
-        out_circlize = protected(RESULTDIR + SPECIES + "{synteny}{gencov}.circlize.{bp}bp.pdf"),
-        out_scatter = protected(RESULTDIR + SPECIES + "{synteny}{gencov}.scatter.{bp}bp.pdf"),
+        out_circlize = RESULTDIR + SPECIES + "{synteny}{gencov}.circlize.{bp}bp.pdf",
+        out_scatter = RESULTDIR + SPECIES + "{synteny}{gencov}.scatter.{bp}bp.pdf",
         chromosomes = CHROMOSOMES
     wildcard_constraints:
-        gencov = "gencov|N1"
+        gencov = "gencov"
     shell:
         """
         Rscript code/plot_windows.R {input.cov} {input.snp} {params.out_circlize} {params.out_scatter} {params.chromosomes}
+        """
+
+rule plotting_linear:
+    input:
+        cov = expand(RESULTDIR + SPECIES + "{{synteny}}{{gencov}}.nodup.nm.{ED}.{{bp}}bp.out", ED = EDIT_DIST),
+        snp = RESULTDIR + SPECIES + "{synteny}diffHeterozygosity.{bp}bp.out"
+    output:
+        touch(RESULTDIR + SPECIES + "{synteny}{gencov}.plotting.linear.{bp}bp.done")
+    threads: 1
+    params:
+        absolute_out = RESULTDIR + SPECIES + "{synteny}{gencov}.sexSpecificValues.{bp}bp.pdf",
+        diff_out = RESULTDIR + SPECIES + "{synteny}{gencov}.sexDifference.{bp}bp.pdf",
+        chromosomes = CHROMOSOMES
+    wildcard_constraints:
+        gencov = "gencov"
+    shell:
+        """
+        Rscript code/plot_windows_linear.R {input.cov} {input.snp} {params.absolute_out} {params.diff_out} {params.chromosomes}
         """
 
 rule plotting_chr:
