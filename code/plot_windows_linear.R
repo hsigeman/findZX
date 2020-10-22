@@ -15,7 +15,7 @@ library(gridGraphics)
 
 set.seed(999)
 
-source("code/functions.R")
+source("functions.R")
 args <- commandArgs(trailingOnly = TRUE)
 
 file1 = args[1]
@@ -115,7 +115,7 @@ library(plotly)
 library(dplyr)
 
 
-colors <- c("heterogametic" = "blue", "homogametic" = "red")
+colors <- c("heterogametic" = "darkgoldenrod1", "homogametic" = "darkmagenta")
 
 
 
@@ -300,4 +300,115 @@ d <- plot_grid(c, legend_b, ncol = 1, rel_heights = c(1, .1))
 pdf(file=absolute_out, width = 9, height = 5)
 #pdf(file="test.pdf", width = 9, height = 5)
 print(d)
+dev.off()
+
+
+
+
+############### DIFF
+
+
+# Make the plot
+p.cov1 <- ggplot(cov1, aes(x=BPcum, y=diff)) +
+  # custom X axis:
+  scale_x_continuous( label = axisdf$chr, breaks= axisdf$center ) +
+  scale_y_continuous(expand = c(0, 0) ) +     # remove space between plot area and x axis
+  coord_cartesian(ylim=c(-1, 1)) +
+  geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
+  geom_point(alpha=0.8, size=1) +
+  #scale_color_manual(values = rep(c("darkgrey", "black"), 50 )) +
+  scale_color_manual(values = colors) +
+  # Custom the theme:
+  theme_bw() +
+  theme( 
+    legend.position="none",
+    panel.border = element_blank(),
+    axis.title.x = element_blank(),
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor.x = element_blank(),
+    axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)
+  )
+
+
+# Make the plot
+p.cov2 <- ggplot(cov2, aes(x=BPcum, y=diff)) +
+  # custom X axis:
+  scale_x_continuous( label = axisdf$chr, breaks= axisdf$center ) +
+  scale_y_continuous(expand = c(0, 0) ) +     # remove space between plot area and x axis
+  coord_cartesian(ylim=c(-1, 1)) +
+  geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
+  geom_point(alpha=0.8, size=1) +
+  #scale_color_manual(values = rep(c("darkgrey", "black"), 50 )) +
+  scale_color_manual(values = colors) +
+  # Custom the theme:
+  theme_bw() +
+  theme( 
+    legend.position="none",
+    panel.border = element_blank(),
+    axis.title.x = element_blank(),
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor.x = element_blank(),
+    axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)
+  ) 
+
+# Make the plot
+p.cov3 <- ggplot(cov3, aes(x=BPcum, y=diff)) +
+  # custom X axis:
+  scale_x_continuous( label = axisdf$chr, breaks= axisdf$center ) +
+  scale_y_continuous(expand = c(0, 0) ) +     # remove space between plot area and x axis
+  coord_cartesian(ylim=c(-1, 1)) +
+  geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
+  geom_point(alpha=0.8, size=1) +
+  #scale_color_manual(values = rep(c("darkgrey", "black"), 50 )) +
+  scale_color_manual(values = colors) +
+  # Custom the theme:
+  theme_bw() +
+  theme( 
+    legend.position="none",
+    panel.border = element_blank(),
+    axis.title.x = element_blank(),
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor.x = element_blank(),
+    axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)
+  )
+
+
+# Make the plot
+p.snp <- ggplot(snp, aes(x=BPcum, y=diff)) +
+  # custom X axis:
+  scale_x_continuous( label = axisdf$chr, breaks= axisdf$center ) +
+  scale_y_continuous(expand = c(0, 0) ) +     # remove space between plot area and x axis
+  coord_cartesian(ylim=c(-1, 1)) +
+  geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
+  geom_point(alpha=0.8, size=1) +
+  #scale_color_manual(values = rep(c("darkgrey", "black"), 50 )) +
+  scale_color_manual(values = colors) +
+  # Custom the theme:
+  theme_bw() +
+  theme( 
+    # legend.position="none",
+    panel.border = element_blank(),
+    axis.title.x = element_blank(),
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor.x = element_blank(),
+    axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)
+  )
+
+
+#legend_b <- get_legend(p.snp + guides(color = guide_legend(nrow = 1)) + theme_bw() + theme(legend.position = "bottom"))
+
+
+c <- plot_grid(p.snp + theme(legend.position="none"), 
+               p.cov1 + theme(legend.position="none"), 
+               p.cov2 + theme(legend.position="none"), 
+               p.cov3 + theme(legend.position="none"), 
+               nrow = 4, 
+               labels = c("A","B","C", "D"))
+
+
+#d <- plot_grid(c, legend_b, ncol = 1, rel_heights = c(1, .1))
+
+pdf(file=diff_out, width = 9, height = 5)
+#pdf(file="test.pdf", width = 9, height = 5)
+print(c)
 dev.off()
