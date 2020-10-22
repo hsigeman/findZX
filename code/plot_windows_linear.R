@@ -1,9 +1,8 @@
-library(circlize)
 library(doBy)
 library(data.table)
 library(ggplot2)
 library(cowplot)
-library(RColorBrewer)
+#library(RColorBrewer)
 library(plyr)
 #library(rlang) # New
 library(gridGraphics)
