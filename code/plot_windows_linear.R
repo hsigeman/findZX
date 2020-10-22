@@ -142,10 +142,10 @@ p.cov1 <- ggplot(cov1, aes(x=BPcum, y=diff)) +
   scale_y_continuous(expand = c(0, 0) ) +     # remove space between plot area and x axis
   coord_cartesian(ylim=c(0, 2)) +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
-  geom_line( aes(y = heterogametic, color="heterogametic"), alpha=0.2,size = 0.5 ) +
-  geom_line( aes(y = homogametic, color="homogametic"), alpha=0.2,size = 0.5 ) +
-  geom_smooth( aes(y = heterogametic, color="heterogametic", group = chr), span = 0.3) +
-  geom_smooth( aes(y = homogametic, color="homogametic", group = chr), span = 0.3) +
+  geom_point( aes(y = heterogametic, color="heterogametic"), alpha=0.2,size = 0.5 ) +
+  geom_point( aes(y = homogametic, color="homogametic"), alpha=0.2,size = 0.5 ) +
+  geom_smooth( aes(y = heterogametic, color="heterogametic", group = chr), method = 'loess', span = 0.3) +
+  geom_smooth( aes(y = homogametic, color="homogametic", group = chr), method = 'loess', span = 0.3) +
   #geom_point( aes(color=as.factor(chr)), alpha=0.8, size=1) +
   #scale_color_manual(values = rep(c("darkgrey", "black"), 50 )) +
   scale_color_manual(values = colors) +
@@ -183,10 +183,10 @@ p.cov2 <- ggplot(cov2, aes(x=BPcum, y=diff)) +
   scale_y_continuous(expand = c(0, 0) ) +     # remove space between plot area and x axis
   coord_cartesian(ylim=c(0, 2)) +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
-  geom_line( aes(y = heterogametic, color="heterogametic"), alpha=0.2,size = 0.5 ) +
-  geom_line( aes(y = homogametic, color="homogametic"), alpha=0.2,size = 0.5 ) +
-  geom_smooth( aes(y = heterogametic, color="heterogametic", group = chr), span = 0.3) +
-  geom_smooth( aes(y = homogametic, color="homogametic", group = chr), span = 0.3) +
+  geom_point( aes(y = heterogametic, color="heterogametic"), alpha=0.2,size = 0.5 ) +
+  geom_point( aes(y = homogametic, color="homogametic"), alpha=0.2,size = 0.5 ) +
+  geom_smooth( aes(y = heterogametic, color="heterogametic", group = chr), method = 'loess', span = 0.3) +
+  geom_smooth( aes(y = homogametic, color="homogametic", group = chr), method = 'loess', span = 0.3) +
   #geom_point( aes(color=as.factor(chr)), alpha=0.8, size=1) +
   #scale_color_manual(values = rep(c("darkgrey", "black"), 50 )) +
   scale_color_manual(values = colors) +
@@ -224,10 +224,10 @@ p.cov3 <- ggplot(cov3, aes(x=BPcum, y=diff)) +
   scale_y_continuous(expand = c(0, 0) ) +     # remove space between plot area and x axis
   coord_cartesian(ylim=c(0, 2)) +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
-  geom_line( aes(y = heterogametic, color="heterogametic"), alpha=0.2,size = 0.5 ) +
-  geom_line( aes(y = homogametic, color="homogametic"), alpha=0.2,size = 0.5 ) +
-  geom_smooth( aes(y = heterogametic, color="heterogametic", group = chr), span = 0.3) +
-  geom_smooth( aes(y = homogametic, color="homogametic", group = chr), span = 0.3) +
+  geom_point( aes(y = heterogametic, color="heterogametic"), alpha=0.2,size = 0.5 ) +
+  geom_point( aes(y = homogametic, color="homogametic"), alpha=0.2,size = 0.5 ) +
+  geom_smooth( aes(y = heterogametic, color="heterogametic", group = chr), method = 'loess', span = 0.3) +
+  geom_smooth( aes(y = homogametic, color="homogametic", group = chr), method = 'loess', span = 0.3) +
   #geom_point( aes(color=as.factor(chr)), alpha=0.8, size=1) +
   #scale_color_manual(values = rep(c("darkgrey", "black"), 50 )) +
   scale_color_manual(values = colors) +
@@ -265,10 +265,10 @@ p.snp <- ggplot(snp, aes(x=BPcum, y=diff)) +
   scale_y_continuous(expand = c(0, 0) ) +     # remove space between plot area and x axis
   coord_cartesian(ylim=c(0, 1)) +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
-  geom_line( aes(y = heterogametic, color="heterogametic"), alpha=0.2,size = 0.5 ) +
-  geom_line( aes(y = homogametic, color="homogametic"), alpha=0.2,size = 0.5 ) +
-  geom_smooth( aes(y = heterogametic, color="heterogametic", group = chr), span = 0.3) +
-  geom_smooth( aes(y = homogametic, color="homogametic", group = chr), span = 0.3) +
+  geom_point( aes(y = heterogametic, color="heterogametic"), alpha=0.2,size = 0.5 ) +
+  geom_point( aes(y = homogametic, color="homogametic"), alpha=0.2,size = 0.5 ) +
+  geom_smooth( aes(y = heterogametic, color="heterogametic", group = chr), method = 'loess', span = 0.3) +
+  geom_smooth( aes(y = homogametic, color="homogametic", group = chr), method = 'loess', span = 0.3) +
   #geom_point( aes(color=as.factor(chr)), alpha=0.8, size=1) +
   #scale_color_manual(values = rep(c("darkgrey", "black"), 50 )) +
   scale_color_manual(values = colors) +
@@ -298,5 +298,6 @@ c <- plot_grid(p.snp + theme(legend.position="none"),
 d <- plot_grid(c, legend_b, ncol = 1, rel_heights = c(1, .1))
 
 pdf(file=absolute_out, width = 9, height = 5)
+#pdf(file="test.pdf", width = 9, height = 5)
 print(d)
 dev.off()
