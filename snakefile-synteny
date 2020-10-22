@@ -54,8 +54,8 @@ rule all:
         RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov.plotting.1Mbp.done",
         RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov.plotting.100kbp.done",
         RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".plotting_chr.done",
-        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".plotting.linear.1Mbp.done",
-        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".plotting.linear.100kbp.done"
+        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov.plotting.linear.1Mbp.done",
+        RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov.plotting.linear.100kbp.done"
         
 ##########################################################
 ################### INCLUDE SNAKEFILE ####################
