@@ -93,21 +93,21 @@ cov.select <- cov.select[order(cov.select$length),]
 l0 <- ggplot(cov.select, aes(x = cov00, y = hetDiff, size=length)) + 
   labs(title = file1, x = "", y = "difference in heterozygosity") + 
   theme_bw() + 
-  geom_point(aes(color = length)) +
+  geom_point(aes(color = length), alpha = 0.5) +
   theme(legend.position="none") +
   scale_color_gradient(low="lightgrey", high="red")
 
 l2 <- ggplot(cov.select, aes(x = cov02, y = hetDiff, size=length)) + 
   labs(title = file2, x = "difference in normalized genome coverage", y = "") + 
   theme_bw() + 
-  geom_point(aes(color = length)) + 
+  geom_point(aes(color = length), alpha = 0.5) + 
   theme(legend.position="none") +
   scale_color_gradient(low="lightgrey", high="red")
 
 l4 <- ggplot(cov.select, aes(x = cov04, y = hetDiff, size=length)) + 
   labs(title = file3, x = "", color = "scaffold length", y = "") + 
   theme_bw() + 
-  geom_point(aes(color = length)) + 
+  geom_point(aes(color = length), alpha = 0.5) + 
   scale_color_gradient(low="lightgrey", high="red")
 
 legend <- get_legend(l4)
@@ -125,11 +125,11 @@ cov.select <- cov.select[order(cov.select$cov00),]
 c0 <- ggplot(cov.select, aes(y = length, x = hetDiff)) + 
   labs(title = "", y = "scaffold length", x = "", color = "coverage") + 
   theme_bw() + 
-  geom_point(aes(color = cov00)) + 
+  geom_point(aes(color = cov00), alpha = 0.5) + 
   scale_color_viridis()
-  
+
 legend <- get_legend(c0)
-  
+
 c0 <- c0 + theme(legend.position="none")
 
 cov.select <- cov.select[order(cov.select$cov02),]
@@ -137,7 +137,7 @@ cov.select <- cov.select[order(cov.select$cov02),]
 c2 <- ggplot(cov.select, aes(y = length, x = hetDiff)) + 
   labs(title = "", y = "", x = "difference in heterozygosity") + 
   theme_bw() + 
-  geom_point(aes(color = cov02)) +
+  geom_point(aes(color = cov02), alpha = 0.5) +
   scale_color_viridis() +
   theme(legend.position="none")
 
@@ -146,7 +146,7 @@ cov.select <- cov.select[order(cov.select$cov04),]
 c4 <- ggplot(cov.select, aes(y = length, x = hetDiff)) + 
   labs(title = "", x = "", y = "") + 
   theme_bw() + 
-  geom_point(aes(color = cov04)) + 
+  geom_point(aes(color = cov04), alpha = 0.5) + 
   scale_color_viridis() + 
   theme(legend.position="none")
 
@@ -157,28 +157,27 @@ c <- plot_grid(c0, c2, c4, legend, ncol = 4, rel_widths = c(3,3,3,1))
 ################################################################################
 
 cov.select <- cov.select[order(cov.select$hetDiff),]
-hetDiff_low <- cov.select[cov.select$hetDiff < 0,]
 
 mid <- 0
 
-hl0 <- ggplot(hetDiff_low, aes(y = length, x = cov00)) + 
+hl0 <- ggplot(cov.select, aes(y = length, x = cov00)) + 
   labs(title = "", y = "scaffold length", x = "") + 
   theme_bw() + 
-  geom_point(aes(color = hetDiff)) + 
+  geom_point(aes(color = hetDiff), alpha = 0.5) + 
   scale_color_gradient2(midpoint = mid, mid = "lightgrey",low="blue", high="red") + 
   theme(legend.position="none")
 
-hl2 <- ggplot(hetDiff_low, aes(y = length, x = cov02)) + 
+hl2 <- ggplot(cov.select, aes(y = length, x = cov02)) + 
   labs(title = "", y = "", x = "difference in normalized genome coverage") + 
   theme_bw() + 
-  geom_point(aes(color = hetDiff)) + 
+  geom_point(aes(color = hetDiff), alpha = 0.5) + 
   scale_color_gradient2(midpoint = mid, mid = "lightgrey",low="blue", high="red") + 
   theme(legend.position="none")
 
-hl4 <- ggplot(hetDiff_low, aes(y = length, x = cov04)) + 
+hl4 <- ggplot(cov.select, aes(y = length, x = cov04)) + 
   labs(title = "", x = "", color = "heterozygosity", y = "") + 
   theme_bw() + 
-  geom_point(aes(color = hetDiff)) + 
+  geom_point(aes(color = hetDiff), alpha = 0.5) + 
   scale_color_gradient2(midpoint = mid, mid = "lightgrey",low="blue", high="red")
 
 legend <- get_legend(hl4)
@@ -189,37 +188,7 @@ hl <- plot_grid(hl0, hl2, hl4, legend, ncol = 4, rel_widths = c(3,3,3,1))
 
 ################################################################################
 
-hetDiff_high <- cov.select[cov.select$hetDiff >= 0,]
-
-hh0 <- ggplot(hetDiff_high, aes(y = length, x = cov00)) + 
-  labs(title = "", y = "scaffold length", x = "") + 
-  theme_bw() + 
-  geom_point(aes(color = hetDiff)) + 
-  scale_color_gradient2(midpoint = mid, mid = "lightgrey",low="blue", high="red") + 
-  theme(legend.position="none")
-
-hh2 <- ggplot(hetDiff_high, aes(y = length, x = cov02)) + 
-  labs(title = "", y = "", x = "difference in normalized genome coverage") + 
-  theme_bw() + 
-  geom_point(aes(color = hetDiff)) + 
-  scale_color_gradient2(midpoint = mid, mid = "lightgrey",low="blue", high="red") + 
-  theme(legend.position="none")
-
-hh4 <- ggplot(hetDiff_high, aes(y = length, x = cov04)) + 
-  labs(title = "", x = "", color = "heterozygosity", y = "") + 
-  theme_bw() + 
-  geom_point(aes(color = hetDiff)) + 
-  scale_color_gradient2(midpoint = mid, mid = "lightgrey",low="blue", high="red")
-
-legend <- get_legend(hh4)
-
-hh4 <- hh4 + theme(legend.position="none")
-
-hh <- plot_grid(hh0, hh2, hh4, legend, ncol = 4, rel_widths = c(3,3,3,1))
-
-################################################################################
-
-pg <- plot_grid(l,c,hl,hh, ncol = 1, labels = 'AUTO')
+pg <- plot_grid(l,c,hl, ncol = 1, labels = 'AUTO')
 
 ggsave(scatter2D_out, plot = pg, device = pdf(), width = 14, height = 14)
 
@@ -253,4 +222,3 @@ scatter3D(cov.select$length, cov.select$cov04, cov.select$hetDiff,
           phi = 20, theta = 60)
 
 dev.off()
-
