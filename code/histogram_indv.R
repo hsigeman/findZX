@@ -207,7 +207,7 @@ for (i in 1:nr_samples) {
   
 ##################################### ALL ######################################
   
-  pg <- plot_grid(gh, gl, hl, g, h, 
+  pg <- plot_grid(g,h, gh, gl, hl, 
                   ncol = 5)
   
   p <- plot_grid(pg, c, ncol = 1)
