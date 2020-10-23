@@ -88,7 +88,7 @@ colnames(cov.select) <- c("Chromosome", "cov00", "cov02", "cov04", "length", "he
 ############################# SCATTER PLOT LENGTH ##############################
 ################################################################################
 
-cov.select <- cov.select[order(cov.select$length),]
+cov.select <- cov.select[order(abs(cov.select$length)),]
 
 l0 <- ggplot(cov.select, aes(x = cov00, y = hetDiff, size=length)) + 
   labs(title = file1, x = "", y = "difference in heterozygosity") + 
@@ -120,33 +120,35 @@ l <- plot_grid(l0, l2, l4, legend, ncol = 4, rel_widths = c(3,3,3,1))
 ############################ SCATTER PLOT COVERAGE #############################
 ################################################################################
 
-cov.select <- cov.select[order(cov.select$cov00),]
+cov.select <- cov.select[order(abs(cov.select$cov00)),]
+
 
 c0 <- ggplot(cov.select, aes(y = length, x = hetDiff)) + 
   labs(title = "", y = "scaffold length", x = "", color = "coverage") + 
   theme_bw() + 
-  geom_point(aes(color = cov00), alpha = 0.5) + 
+  geom_point(aes(color = cov00)) + 
   scale_color_viridis()
 
 legend <- get_legend(c0)
 
 c0 <- c0 + theme(legend.position="none")
 
-cov.select <- cov.select[order(cov.select$cov02),]
+cov.select <- cov.select[order(abs(cov.select$cov02)),]
+
 
 c2 <- ggplot(cov.select, aes(y = length, x = hetDiff)) + 
   labs(title = "", y = "", x = "difference in heterozygosity") + 
   theme_bw() + 
-  geom_point(aes(color = cov02), alpha = 0.5) +
+  geom_point(aes(color = cov02)) +
   scale_color_viridis() +
   theme(legend.position="none")
 
-cov.select <- cov.select[order(cov.select$cov04),]
+cov.select <- cov.select[order(abs(cov.select$cov04)),]
 
 c4 <- ggplot(cov.select, aes(y = length, x = hetDiff)) + 
   labs(title = "", x = "", y = "") + 
   theme_bw() + 
-  geom_point(aes(color = cov04), alpha = 0.5) + 
+  geom_point(aes(color = cov04)) + 
   scale_color_viridis() + 
   theme(legend.position="none")
 
@@ -156,28 +158,29 @@ c <- plot_grid(c0, c2, c4, legend, ncol = 4, rel_widths = c(3,3,3,1))
 ############################ SCATTER PLOT HETDIFF ##############################
 ################################################################################
 
-cov.select <- cov.select[order(cov.select$hetDiff),]
+
+cov.select <- cov.select[order(abs(cov.select$hetDiff)),]
 
 mid <- 0
 
 hl0 <- ggplot(cov.select, aes(y = length, x = cov00)) + 
   labs(title = "", y = "scaffold length", x = "") + 
   theme_bw() + 
-  geom_point(aes(color = hetDiff), alpha = 0.5) + 
+  geom_point(aes(color = hetDiff)) + 
   scale_color_gradient2(midpoint = mid, mid = "lightgrey",low="blue", high="red") + 
   theme(legend.position="none")
 
 hl2 <- ggplot(cov.select, aes(y = length, x = cov02)) + 
   labs(title = "", y = "", x = "difference in normalized genome coverage") + 
   theme_bw() + 
-  geom_point(aes(color = hetDiff), alpha = 0.5) + 
+  geom_point(aes(color = hetDiff)) + 
   scale_color_gradient2(midpoint = mid, mid = "lightgrey",low="blue", high="red") + 
   theme(legend.position="none")
 
 hl4 <- ggplot(cov.select, aes(y = length, x = cov04)) + 
   labs(title = "", x = "", color = "heterozygosity", y = "") + 
   theme_bw() + 
-  geom_point(aes(color = hetDiff), alpha = 0.5) + 
+  geom_point(aes(color = hetDiff)) + 
   scale_color_gradient2(midpoint = mid, mid = "lightgrey",low="blue", high="red")
 
 legend <- get_legend(hl4)
