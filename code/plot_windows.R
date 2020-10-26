@@ -26,10 +26,18 @@ filesnp = args[4]
 circlize_out = args[5]
 scatter_out = args[6]
 chr_file = args[7]
+ED1 = args[8]
+ED2 = args[9]
+ED3 = args[10]
+
 
 ################################################################################
 ################################# READ FILES ###################################
 ################################################################################
+
+ED1 = gsub("\\.", "-", ED1)
+ED2 = gsub("\\.", "-", ED2)
+ED3 = gsub("\\.", "-", ED3)
 
 cov_1_table <- read.table( file1, 
                            header=TRUE, 
@@ -204,7 +212,7 @@ if ( dim( cov_1_table )[1] == 0) {
                 scale_color_manual(values = point_colors) +
                 scale_shape_manual(values = point_shapes) +
                 theme(legend.key.size = unit(2, "mm")) +
-                labs(title = file1, 
+                labs(title = sprintf("Genome coverage: %s mismatches", ED1), 
                      x = "difference in normalized genome coverage",
                      y = "difference in heterozygosity") + 
                 theme_bw()
@@ -221,7 +229,7 @@ if ( dim( cov_1_table )[1] == 0) {
                                shape = Chromosomes)) + 
                 scale_color_manual(values = point_colors) + 
                 scale_shape_manual(values = point_shapes) +
-                labs(title = file2, 
+                labs(title = sprintf("Genome coverage: %s mismatches", ED2), 
                      x = "difference in normalized genome coverage",
                      y = "difference in heterozygosity") + 
                 theme_bw() +
@@ -234,7 +242,7 @@ if ( dim( cov_1_table )[1] == 0) {
                                shape = Chromosomes)) + 
                 scale_color_manual(values = point_colors) + 
                 scale_shape_manual(values = point_shapes) +
-                labs(title = file3, 
+                labs(title = sprintf("Genome coverage: %s mismatches", ED3), 
                      x = "difference in normalized genome coverage",
                      y = "difference in heterozygosity") + 
                 theme_bw() +
