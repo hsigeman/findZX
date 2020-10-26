@@ -207,7 +207,7 @@ for (i in 1:nr_samples) {
   
     title <- ggdraw() +
     draw_label(
-    sample_names[i]),
+    sample_names[i],
     fontface = 'bold',
     x = 0,
     hjust = 0
@@ -215,7 +215,7 @@ for (i in 1:nr_samples) {
     theme(
     plot.margin = margin(0, 0, 0, 7)
   )
-  
+ 
 ##################################### ALL ######################################
   
   pg <- plot_grid(g,h, gh, gl, hl, 
