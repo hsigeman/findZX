@@ -110,8 +110,7 @@ for (i in 1:nr_samples) {
                    y = cov_het[,y])) + 
     geom_bin2d(na.rm = TRUE) + 
     labs(x = "genome coverage", 
-         y = "heterozygosity", 
-         title = sample_names[i]) + 
+         y = "heterozygosity") + 
     theme_bw() +
     scale_fill_gradient(low="white",
                         high="darkblue",
@@ -122,8 +121,7 @@ for (i in 1:nr_samples) {
                    y = length)) + 
     geom_bin2d(na.rm = TRUE) + 
     labs(x = "genome coverage", 
-         y = "scaffold length", 
-         title = sample_names[i]) + 
+         y = "scaffold length") + 
     theme_bw() +
     scale_fill_gradient(low="white",
                         high="darkblue",
@@ -134,8 +132,7 @@ for (i in 1:nr_samples) {
                    y = length)) + 
     geom_bin2d(na.rm = TRUE) + 
     labs(x = "heterozygosity", 
-         y = "scaffold length", 
-         title = sample_names[i]) + 
+         y = "scaffold length") + 
     theme_bw() +
     scale_fill_gradient(low="white",
                         high="darkblue",
@@ -148,8 +145,7 @@ for (i in 1:nr_samples) {
      geom_histogram(bins = 50, 
                     na.rm = TRUE) + 
      labs(x="genome coverage", 
-          y="Frequency", 
-          title = sample_names[i]) + 
+          y="Frequency") + 
      theme_bw()
   
   # Find the x value for the bin with the highest count
@@ -172,8 +168,7 @@ for (i in 1:nr_samples) {
      geom_histogram(bins = 50, 
                     na.rm = TRUE) + 
      labs(x="heterozygosity", 
-          y="Frequency", 
-          title = sample_names[i]) + 
+          y="Frequency") + 
      theme_bw()
   
 ################################# CHROMOSOMES ##################################
@@ -199,8 +194,7 @@ for (i in 1:nr_samples) {
                scales = "free_x", 
                space = "free_x") +
     labs(y = "genome coverage", 
-         x = "position [5kbp window]", 
-         title = sample_names[i]) +
+         x = "position [5kbp window]") +
     scale_x_continuous(limits = c(0, NA)) +
     theme(axis.text.x = element_blank()) +
     theme_bw()
