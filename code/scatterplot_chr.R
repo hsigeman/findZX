@@ -33,6 +33,10 @@ ED3 = args[10]
 ################################# READ FILES ###################################
 ################################################################################
 
+ED1 = gsub("\\.", "-", ED1)
+ED2 = gsub("\\.", "-", ED2)
+ED3 = gsub("\\.", "-", ED3)
+
 cov_00_table <- read.table(file1, header=TRUE,fill=TRUE,stringsAsFactor=FALSE)
 cov_02_table <- read.table(file2, header=TRUE,fill=TRUE,stringsAsFactor=FALSE)
 cov_04_table <- read.table(file3, header=TRUE,fill=TRUE,stringsAsFactor=FALSE)
