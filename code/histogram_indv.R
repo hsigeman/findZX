@@ -205,14 +205,27 @@ for (i in 1:nr_samples) {
     theme(axis.text.x = element_blank()) +
     theme_bw()
   
+    title <- ggdraw() +
+    draw_label(
+    sample_names[i]),
+    fontface = 'bold',
+    x = 0,
+    hjust = 0
+    ) +
+    theme(
+    plot.margin = margin(0, 0, 0, 7)
+  )
+  
 ##################################### ALL ######################################
   
   pg <- plot_grid(g,h, gh, gl, hl, 
                   ncol = 5)
   
   p <- plot_grid(pg, c, ncol = 1)
-
-  plist[[i]] <- p
+  
+  p2 <- plot_grid(title, p, ncol = 1, rel_heights = c(0.1, 1))
+  
+  plist[[i]] <- p2
   
 }
 
