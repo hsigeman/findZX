@@ -282,12 +282,13 @@ rule plotting:
     params:
         out_circlize = RESULTDIR + SPECIES + "{synteny}{gencov}.circlize.{bp}bp.pdf",
         out_scatter = RESULTDIR + SPECIES + "{synteny}{gencov}.scatter.{bp}bp.pdf",
-        chromosomes = CHROMOSOMES
+        chromosomes = CHROMOSOMES,
+	ED = expand("{ED}", ED = EDIT_DIST)
     wildcard_constraints:
         gencov = "gencov"
     shell:
         """
-        Rscript code/plot_windows.R {input.cov} {input.snp} {params.out_circlize} {params.out_scatter} {params.chromosomes}
+        Rscript code/plot_windows.R {input.cov} {input.snp} {params.out_circlize} {params.out_scatter} {params.chromosomes} {params.ED}
         """
 
 rule plotting_linear:
