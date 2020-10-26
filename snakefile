@@ -317,11 +317,12 @@ rule plotting_chr:
     params:
         out_scatter2D = protected(RESULTDIR + SPECIES + "{synteny}chr_scatter2D.pdf"),
         out_scatter3D = protected(RESULTDIR + SPECIES + "{synteny}chr_scatter3D.pdf"),
-        chromosomes = CHROMOSOMES
+        chromosomes = CHROMOSOMES,
+	ED = expand("{ED}", ED = EDIT_DIST)
     threads: 1
     shell:
         """
-        Rscript code/scatterplot_chr.R {input.cov} {input.snp} {params.out_scatter2D} {params.out_scatter3D} {params.chromosomes}
+        Rscript code/scatterplot_chr.R {input.cov} {input.snp} {params.out_scatter2D} {params.out_scatter3D} {params.chromosomes} {params.ED}
         """
 
 ##########################################################
