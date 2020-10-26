@@ -14,7 +14,7 @@ library(viridis)
 # Makes a 3D scatterplot of all three variables and colors after length.
 
 set.seed(999)
-source("code/functions.R")
+source("functions.R")
 
 args <- commandArgs(trailingOnly = TRUE)
 
@@ -25,6 +25,9 @@ filesnp = args[4]
 scatter2D_out = args[5]
 scatter3D_out = args[6]
 chr_file = args[7]
+ED1 = args[8]
+ED2 = args[9]
+ED3 = args[10]
 
 ################################################################################
 ################################# READ FILES ###################################
@@ -91,21 +94,21 @@ colnames(cov.select) <- c("Chromosome", "cov00", "cov02", "cov04", "length", "he
 cov.select <- cov.select[order(abs(cov.select$length)),]
 
 l0 <- ggplot(cov.select, aes(x = cov00, y = hetDiff, size=length)) + 
-  labs(title = file1, x = "", y = "difference in heterozygosity") + 
+  labs(title = sprintf("Genome coverage: %s mismatches", ED1), x = "", y = "difference in heterozygosity") + 
   theme_bw() + 
   geom_point(aes(color = length), alpha = 0.5) +
   theme(legend.position="none") +
   scale_color_gradient(low="lightgrey", high="red")
 
 l2 <- ggplot(cov.select, aes(x = cov02, y = hetDiff, size=length)) + 
-  labs(title = file2, x = "difference in normalized genome coverage", y = "") + 
+  labs(title = sprintf("Genome coverage: %s mismatches", ED2), x = "difference in normalized genome coverage", y = "") + 
   theme_bw() + 
   geom_point(aes(color = length), alpha = 0.5) + 
   theme(legend.position="none") +
   scale_color_gradient(low="lightgrey", high="red")
 
 l4 <- ggplot(cov.select, aes(x = cov04, y = hetDiff, size=length)) + 
-  labs(title = file3, x = "", color = "scaffold length", y = "") + 
+  labs(title = sprintf("Genome coverage: %s mismatches", ED3), x = "", color = "scaffold length", y = "") + 
   theme_bw() + 
   geom_point(aes(color = length), alpha = 0.5) + 
   scale_color_gradient(low="lightgrey", high="red")
