@@ -14,7 +14,7 @@ library(viridis)
 # Makes a 3D scatterplot of all three variables and colors after length.
 
 set.seed(999)
-source("functions.R")
+source("code/functions.R")
 
 args <- commandArgs(trailingOnly = TRUE)
 
