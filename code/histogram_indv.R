@@ -189,7 +189,8 @@ for (i in 1:nr_samples) {
   c <- ggplot(cov_het_subset, 
               aes(x=end, 
                   y=cov_het_subset[,x])) + 
-    geom_smooth(na.rm = TRUE) + 
+    geom_point(alpha=0.1, size=0.2) +
+    geom_smooth(na.rm = TRUE, span = 0.3) + 
     facet_grid(. ~ chr, 
                scales = "free_x", 
                space = "free_x") +
