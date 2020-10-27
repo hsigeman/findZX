@@ -187,7 +187,7 @@ rule matchScaffold2Chr_cov:
 rule confirm_sexing_synteny:
     input:
         gencov = MATCHDIR + SPECIES + "." + SYNTENY_SPECIES + ".gencov.nodup.nm.{ED}.small.out",
-        het =  MATCHDIR + SPECIES + "." + SYNTENY_SPECIES + ".heterozygosity.bestMatch",
+        het =  MATCHDIR + SPECIES + "." + SYNTENY_SPECIES + ".heterozygosity.bestMatch.small",
         stats = expand(MAP_DIR + "{S}.sorted.nodup.nm.{{ED}}.stats", S = ID)
     output:
         read_length = RESULTDIR + SPECIES + "." + SYNTENY_SPECIES + ".read_length.sorted.nodup.nm.{ED}.csv",
