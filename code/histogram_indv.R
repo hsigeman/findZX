@@ -38,11 +38,6 @@ cov <- read.table(file_gencov, header=FALSE, fill=TRUE, stringsAsFactor=FALSE)
 het <- read.table(file_snp, header=FALSE, fill=TRUE, stringsAsFactor=FALSE)
 read_len <- read.csv(file_read_len, header = FALSE)
 
-if (synteny == "with-synteny") {
-  cov <- cov[-c(1:7,11:13)]
-  het <- het[-c(1:7,11:13)]
-}
-
 colnames(cov)[1:3] <- c("chr","start","end")
 colnames(het)[1:3] <- c("chr","start","end")
 
