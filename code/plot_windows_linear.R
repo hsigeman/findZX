@@ -54,7 +54,6 @@ ED3 = gsub("\\.", "-", ED3)
 ################################# READ FILES ###################################
 ################################################################################
 
-
 cov_1_table <- read.table(file1, 
                           header=TRUE, 
                           fill=TRUE, 
@@ -86,7 +85,7 @@ if ( dim( cov_1_table )[1] == 0) {
     
     chromosome <- read.delim(chr_file, 
                            header = FALSE)
-    
+    chromosome <- chromosome$V1
     cov_1_table <- cov_1_table[ cov_1_table$chr %in% chromosome, ]
     
   }
