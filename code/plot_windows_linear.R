@@ -109,10 +109,10 @@ if ( !file.exists(chr_file) ) {
                                   by=chr]
   max_per_chr <- as.data.frame( max_per_chr[,1:2] )
   chromosome <- max_per_chr[ order( -max_per_chr$range ), ][,1]
-  len_chr <- as.data.frame( max_per_chr[,1:2])
+
 }
 
-
+len_chr <- as.data.frame( max_per_chr[,1:2])
 
 cov_1_table$chr <- ordered( cov_1_table$chr, 
                             levels = chromosome)
@@ -131,14 +131,15 @@ if ( !file.exists(chr_file) & dim(len_chr)[1] >= CHR_NR) {
   nr_chr <- CHR_NR
 } else {
   nr_chr <- dim(len_chr)[1]
+  chromosome <- as.factor(len_chr[with(len_chr, order(-range)),][1:nr_chr,1])
 }
 
-top_chr <- as.factor(len_chr[with(len_chr, order(-range)),][1:nr_chr,1])
 
-cov_1_table <- cov_1_table[cov_1_table$chr %in% top_chr,]
-cov_2_table <- cov_2_table[cov_2_table$chr %in% top_chr,]
-cov_3_table <- cov_3_table[cov_3_table$chr %in% top_chr,]
-snp_table <- snp_table[snp_table$chr %in% top_chr,]
+
+cov_1_table <- cov_1_table[cov_1_table$chr %in% chromosome,]
+cov_2_table <- cov_2_table[cov_2_table$chr %in% chromosome,]
+cov_3_table <- cov_3_table[cov_3_table$chr %in% chromosome,]
+snp_table <- snp_table[snp_table$chr %in% chromosome,]
 
 
 # Mean and standard deviation calculation
