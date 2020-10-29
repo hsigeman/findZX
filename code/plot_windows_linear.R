@@ -54,6 +54,7 @@ ED3 = gsub("\\.", "-", ED3)
 ################################# READ FILES ###################################
 ################################################################################
 
+
 cov_1_table <- read.table(file1, 
                           header=TRUE, 
                           fill=TRUE, 
@@ -94,6 +95,7 @@ if ( dim( cov_1_table )[1] == 0) {
 
 
 
+
 ################################################################################
 ############################# ORDER CHROMOSOMES ################################
 ################################################################################
@@ -123,6 +125,8 @@ snp_table$chr <- ordered( snp_table$chr,
 
 len_chr <- as.data.frame( max_per_chr[,1:2])
 
+
+# Filter data for n longest scaffolds, determined by args[11]
 if ( !file.exists(chr_file) & dim(len_chr)[1] >= CHR_NR) {
   nr_chr <- CHR_NR
 } else {
@@ -136,6 +140,17 @@ cov_2_table <- cov_2_table[cov_2_table$chr %in% top_chr,]
 cov_3_table <- cov_3_table[cov_3_table$chr %in% top_chr,]
 snp_table <- snp_table[snp_table$chr %in% top_chr,]
 
+
+# Mean and standard deviation calculation
+fun <- function(x){
+  c(m=mean(x), s = sd(x))
+}
+
+sd_cov_1_table <- summaryBy(diff ~ 1 , data = cov_1_table, FUN = fun)
+sd_cov_2_table <- summaryBy(diff ~ 1 , data = cov_2_table, FUN = fun)
+sd_cov_3_table <- summaryBy(diff ~ 1 , data = cov_3_table, FUN = fun)
+sd_snp_table <- summaryBy(diff ~ 1 , data = snp_table, FUN = fun)
+
 ################################################################################
 ############################### MANHATTAN PLOT #################################
 ################################################################################
@@ -147,8 +162,6 @@ snp_table <- snp_table[snp_table$chr %in% top_chr,]
 
 
 colors <- c("heterogametic" = "darkgoldenrod1", "homogametic" = "darkmagenta")
-
-
 
 # Prepare the dataset
 cov1 <- cov_1_table %>% 
@@ -172,6 +185,7 @@ p.cov1 <- ggplot(cov1, aes(x=BPcum, y=diff)) +
   scale_x_continuous( label = axisdf$chr, breaks= axisdf$center ) +
   scale_y_continuous(expand = c(0, 0) ) +     # remove space between plot area and x axis
   coord_cartesian(ylim=c(0, 2)) +
+ # geom_rect(mapping=aes(xmin=-Inf, xmax=Inf, ymin=se_cov_1_table$ratio.m-se_cov_1_table$ratio.s, ymax=se_cov_1_table$ratio.m+se_cov_1_table$ratio.s), fill="pink", alpha=0.5) +
   ylab(sprintf("%s mismatches", ED1)) +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
   geom_point( aes(y = heterogametic, color="heterogametic"), alpha=0.2,size = 0.5 ) +
@@ -214,6 +228,7 @@ p.cov2 <- ggplot(cov2, aes(x=BPcum, y=diff)) +
   scale_x_continuous( label = axisdf$chr, breaks= axisdf$center ) +
   scale_y_continuous(expand = c(0, 0) ) +     # remove space between plot area and x axis
   coord_cartesian(ylim=c(0, 2)) + 
+ # geom_rect(mapping=aes(xmin=-Inf, xmax=Inf, ymin=se_cov_2_table$ratio.m-se_cov_2_table$ratio.s, ymax=se_cov_2_table$ratio.m+se_cov_2_table$ratio.s), fill="pink", alpha=0.5) +
   ylab(sprintf("%s mismatches", ED2)) +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
   geom_point( aes(y = heterogametic, color="heterogametic"), alpha=0.2,size = 0.5 ) +
@@ -256,6 +271,7 @@ p.cov3 <- ggplot(cov3, aes(x=BPcum, y=diff)) +
   scale_x_continuous( label = axisdf$chr, breaks= axisdf$center ) +
   scale_y_continuous(expand = c(0, 0) ) +     # remove space between plot area and x axis
   coord_cartesian(ylim=c(0, 2)) +
+ # geom_rect(mapping=aes(xmin=-Inf, xmax=Inf, ymin=se_cov_3_table$ratio.m-se_cov_3_table$ratio.s, ymax=se_cov_3_table$ratio.m+se_cov_3_table$ratio.s), fill="pink", alpha=0.5) +
   ylab(sprintf("%s mismatches", ED3)) +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
   geom_point( aes(y = heterogametic, color="heterogametic"), alpha=0.2,size = 0.5 ) +
@@ -332,8 +348,8 @@ c <- plot_grid(p.snp + theme(legend.position="none"),
 
 d <- plot_grid(c, legend_b, ncol = 1, rel_heights = c(1, .1))
 
-pdf(file=absolute_out, width = 9, height = 5)
-#pdf(file="test.pdf", width = 9, height = 5)
+#pdf(file=absolute_out, width = 9, height = 5)
+pdf(file="test.pdf", width = 9, height = 5)
 print(d)
 dev.off()
 
@@ -344,7 +360,8 @@ dev.off()
 
 
 # Make the plot
-p.cov1 <- ggplot(cov1, aes(x=BPcum, y=diff)) +
+b <- c(sd_cov_1_table$diff.m-sd_cov_1_table$diff.s, sd_cov_1_table$diff.m, sd_cov_1_table$diff.m+sd_cov_1_table$diff.s)
+p.cov1 <- ggplot(cov1, aes(x=BPcum, y=diff, color = diff)) +
   # custom X axis:
   scale_x_continuous( label = axisdf$chr, breaks= axisdf$center ) +
   scale_y_continuous(expand = c(0, 0) ) +     # remove space between plot area and x axis
@@ -352,12 +369,10 @@ p.cov1 <- ggplot(cov1, aes(x=BPcum, y=diff)) +
   ylab(sprintf("%s mismatches", ED1)) +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
   geom_point(alpha=0.8, size=1) +
-  #scale_color_manual(values = rep(c("darkgrey", "black"), 50 )) +
-  scale_color_manual(values = colors) +
-  # Custom the theme:
+  scale_color_gradientn(limits = c(-1,1), colours=c("blue", "grey", "red"),breaks=b, labels=format(b)) + 
   theme_bw() +
   theme( 
-    legend.position="none",
+   # legend.position="none",
     panel.border = element_blank(),
     axis.title.x = element_blank(),
     panel.grid.major.x = element_blank(),
@@ -367,7 +382,8 @@ p.cov1 <- ggplot(cov1, aes(x=BPcum, y=diff)) +
 
 
 # Make the plot
-p.cov2 <- ggplot(cov2, aes(x=BPcum, y=diff)) +
+b <- c(sd_cov_2_table$diff.m-sd_cov_2_table$diff.s, sd_cov_2_table$diff.m, sd_cov_2_table$diff.m+sd_cov_2_table$diff.s)
+p.cov2 <- ggplot(cov2, aes(x=BPcum, y=diff, color = diff)) +
   # custom X axis:
   scale_x_continuous( label = axisdf$chr, breaks= axisdf$center ) +
   scale_y_continuous(expand = c(0, 0) ) +     # remove space between plot area and x axis
@@ -375,12 +391,10 @@ p.cov2 <- ggplot(cov2, aes(x=BPcum, y=diff)) +
   ylab(sprintf("%s mismatches", ED2)) +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
   geom_point(alpha=0.8, size=1) +
-  #scale_color_manual(values = rep(c("darkgrey", "black"), 50 )) +
-  scale_color_manual(values = colors) +
-  # Custom the theme:
+  scale_color_gradientn(limits = c(-1,1), colours=c("blue", "grey", "red"),breaks=b, labels=format(b)) + 
   theme_bw() +
   theme( 
-    legend.position="none",
+   # legend.position="none",
     panel.border = element_blank(),
     axis.title.x = element_blank(),
     panel.grid.major.x = element_blank(),
@@ -389,7 +403,8 @@ p.cov2 <- ggplot(cov2, aes(x=BPcum, y=diff)) +
   ) 
 
 # Make the plot
-p.cov3 <- ggplot(cov3, aes(x=BPcum, y=diff)) +
+b <- c(sd_cov_3_table$diff.m-sd_cov_3_table$diff.s, sd_cov_3_table$diff.m, sd_cov_3_table$diff.m+sd_cov_3_table$diff.s)
+p.cov3 <- ggplot(cov3, aes(x=BPcum, y=diff, color = diff)) +
   # custom X axis:
   scale_x_continuous( label = axisdf$chr, breaks= axisdf$center ) +
   scale_y_continuous(expand = c(0, 0) ) +     # remove space between plot area and x axis
@@ -397,12 +412,10 @@ p.cov3 <- ggplot(cov3, aes(x=BPcum, y=diff)) +
   ylab(sprintf("%s mismatches", ED3)) +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
   geom_point(alpha=0.8, size=1) +
-  #scale_color_manual(values = rep(c("darkgrey", "black"), 50 )) +
-  scale_color_manual(values = colors) +
-  # Custom the theme:
+  scale_color_gradientn(limits = c(-1,1), colours=c("blue", "grey", "red"),breaks=b, labels=format(b)) + 
   theme_bw() +
   theme( 
-    legend.position="none",
+   # legend.position="none",
     panel.border = element_blank(),
     axis.title.x = element_blank(),
     panel.grid.major.x = element_blank(),
@@ -411,8 +424,10 @@ p.cov3 <- ggplot(cov3, aes(x=BPcum, y=diff)) +
   )
 
 
+
+b <- c(sd_snp_table$diff.m-sd_snp_table$diff.s, sd_snp_table$diff.m, sd_snp_table$diff.m+sd_snp_table$diff.s)
 # Make the plot
-p.snp <- ggplot(snp, aes(x=BPcum, y=diff)) +
+p.snp <- ggplot(snp, aes(x=BPcum, y=diff, color = diff)) +
   # custom X axis:
   scale_x_continuous( label = axisdf$chr, breaks= axisdf$center ) +
   scale_y_continuous(expand = c(0, 0) ) +     # remove space between plot area and x axis
@@ -420,9 +435,7 @@ p.snp <- ggplot(snp, aes(x=BPcum, y=diff)) +
   ylab("SNP diff") +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
   geom_point(alpha=0.8, size=1) +
-  #scale_color_manual(values = rep(c("darkgrey", "black"), 50 )) +
-  scale_color_manual(values = colors) +
-  # Custom the theme:
+  scale_color_gradientn(limits = c(-1,1), colours=c("blue", "grey", "red"),breaks=b, labels=format(b)) + 
   theme_bw() +
   theme( 
     # legend.position="none",
@@ -437,17 +450,19 @@ p.snp <- ggplot(snp, aes(x=BPcum, y=diff)) +
 #legend_b <- get_legend(p.snp + guides(color = guide_legend(nrow = 1)) + theme_bw() + theme(legend.position = "bottom"))
 
 
-c <- plot_grid(p.snp + theme(legend.position="none"), 
-               p.cov1 + theme(legend.position="none"), 
-               p.cov2 + theme(legend.position="none"), 
-               p.cov3 + theme(legend.position="none"), 
-               nrow = 4, 
-               labels = c("A","B","C", "D"))
 
+
+c <- plot_grid(p.snp, 
+               p.cov1, 
+               p.cov2, 
+               p.cov3, 
+               nrow = 4, align = "v", 
+               labels = c("A","B","C", "D"))
 
 #d <- plot_grid(c, legend_b, ncol = 1, rel_heights = c(1, .1))
 
-pdf(file=diff_out, width = 9, height = 5)
-#pdf(file="test.pdf", width = 9, height = 5)
+#pdf(file=diff_out, width = 15, height = 12)
+pdf(file="test.pdf", width = 15, height = 9)
 print(c)
 dev.off()
+
