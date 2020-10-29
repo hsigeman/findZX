@@ -109,10 +109,11 @@ if ( !file.exists(chr_file) ) {
                                   by=chr]
   max_per_chr <- as.data.frame( max_per_chr[,1:2] )
   chromosome <- max_per_chr[ order( -max_per_chr$range ), ][,1]
+  len_chr <- as.data.frame( max_per_chr[,1:2])
 
 }
 
-len_chr <- as.data.frame( max_per_chr[,1:2])
+
 
 cov_1_table$chr <- ordered( cov_1_table$chr, 
                             levels = chromosome)
