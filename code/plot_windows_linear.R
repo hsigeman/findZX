@@ -54,6 +54,7 @@ ED3 = gsub("\\.", "-", ED3)
 ################################# READ FILES ###################################
 ################################################################################
 
+
 cov_1_table <- read.table(file1, 
                           header=TRUE, 
                           fill=TRUE, 
@@ -108,7 +109,7 @@ if ( !file.exists(chr_file) ) {
                                   by=chr]
   max_per_chr <- as.data.frame( max_per_chr[,1:2] )
   chromosome <- max_per_chr[ order( -max_per_chr$range ), ][,1]
-  
+  len_chr <- as.data.frame( max_per_chr[,1:2])
 }
 
 
@@ -122,7 +123,7 @@ cov_3_table$chr <- ordered( cov_3_table$chr,
 snp_table$chr <- ordered( snp_table$chr, 
                           levels = chromosome)
 
-len_chr <- as.data.frame( max_per_chr[,1:2])
+
 
 
 # Filter data for n longest scaffolds, determined by args[11]
