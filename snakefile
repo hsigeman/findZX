@@ -302,12 +302,14 @@ rule plotting_linear:
     params:
         absolute_out = RESULTDIR + SPECIES + "{synteny}{gencov}.sexSpecificValues.{bp}bp.pdf",
         diff_out = RESULTDIR + SPECIES + "{synteny}{gencov}.sexDifference.{bp}bp.pdf",
-        chromosomes = CHROMOSOMES
+        chromosomes = CHROMOSOMES,
+	ED = expand("{ED}", ED = EDIT_DIST),
+	nr_chromosomes = 50
     wildcard_constraints:
         gencov = "gencov"
     shell:
         """
-        Rscript code/plot_windows_linear.R {input.cov} {input.snp} {params.absolute_out} {params.diff_out} {params.chromosomes}
+        Rscript code/plot_windows_linear.R {input.cov} {input.snp} {params.absolute_out} {params.diff_out} {params.chromosomes} {params.ED} {params.nr_chromosomes}
         """
 
 rule plotting_chr:
