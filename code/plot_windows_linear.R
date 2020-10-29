@@ -87,6 +87,9 @@ if ( dim( cov_1_table )[1] == 0) {
                            header = FALSE)
     chromosome <- chromosome$V1
     cov_1_table <- cov_1_table[ cov_1_table$chr %in% chromosome, ]
+    cov_2_table <- cov_2_table[ cov_2_table$chr %in% chromosome, ]
+    cov_3_table <- cov_3_table[ cov_3_table$chr %in% chromosome, ]
+    snp_table <- snp_table[ snp_table$chr %in% chromosome, ]
     
   }
 }
@@ -108,7 +111,7 @@ if ( !file.exists(chr_file) ) {
   max_per_chr <- as.data.frame( max_per_chr[,1:2] )
   chromosome <- max_per_chr[ order( -max_per_chr$range ), ][,1]
   len_chr <- as.data.frame( max_per_chr[,1:2])
-} else { len_chr <- dim(chromosome)[1]
+} else { len_chr <- length(chromosome)
 
 }
 
