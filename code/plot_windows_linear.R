@@ -110,7 +110,6 @@ if ( !file.exists(chr_file) ) {
   max_per_chr <- as.data.frame( max_per_chr[,1:2] )
   chromosome <- max_per_chr[ order( -max_per_chr$range ), ][,1]
   len_chr <- as.data.frame( max_per_chr[,1:2])
-
 }
 
 
@@ -130,10 +129,8 @@ snp_table$chr <- ordered( snp_table$chr,
 # Filter data for n longest scaffolds, determined by args[11]
 if ( !file.exists(chr_file) & dim(len_chr)[1] >= CHR_NR) {
   nr_chr <- CHR_NR
-} else {
-  nr_chr <- dim(len_chr)[1]
   chromosome <- as.factor(len_chr[with(len_chr, order(-range)),][1:nr_chr,1])
-}
+} 
 
 
 
