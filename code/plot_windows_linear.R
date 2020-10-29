@@ -54,7 +54,6 @@ ED3 = gsub("\\.", "-", ED3)
 ################################# READ FILES ###################################
 ################################################################################
 
-
 cov_1_table <- read.table(file1, 
                           header=TRUE, 
                           fill=TRUE, 
@@ -92,6 +91,8 @@ if ( dim( cov_1_table )[1] == 0) {
     
   }
 }
+
+
 
 
 ################################################################################
@@ -358,13 +359,14 @@ dev.off()
 
 
 # Make the plot
-b <- c(sd_cov_1_table$diff.m-sd_cov_1_table$diff.s, sd_cov_1_table$diff.m, sd_cov_1_table$diff.m+sd_cov_1_table$diff.s)
+b <- c(sd_cov_1_table$diff.m-(sd_cov_1_table$diff.s*2), sd_cov_1_table$diff.m, (sd_cov_1_table$diff.m+sd_cov_1_table$diff.s*2))
 p.cov1 <- ggplot(cov1, aes(x=BPcum, y=diff, color = diff)) +
   # custom X axis:
   scale_x_continuous( label = axisdf$chr, breaks= axisdf$center ) +
   scale_y_continuous(expand = c(0, 0) ) +     # remove space between plot area and x axis
   coord_cartesian(ylim=c(-1, 1)) +
   ylab(sprintf("%s mismatches", ED1)) +
+  labs(color = "95 % CI") +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
   geom_point(alpha=0.8, size=1) +
   scale_color_gradientn(limits = c(-1,1), colours=c("blue", "grey", "red"),breaks=b, labels=format(b)) + 
@@ -380,13 +382,14 @@ p.cov1 <- ggplot(cov1, aes(x=BPcum, y=diff, color = diff)) +
 
 
 # Make the plot
-b <- c(sd_cov_2_table$diff.m-sd_cov_2_table$diff.s, sd_cov_2_table$diff.m, sd_cov_2_table$diff.m+sd_cov_2_table$diff.s)
+b <- c(sd_cov_2_table$diff.m-(sd_cov_2_table$diff.s*2), sd_cov_2_table$diff.m, (sd_cov_2_table$diff.m+sd_cov_2_table$diff.s*2))
 p.cov2 <- ggplot(cov2, aes(x=BPcum, y=diff, color = diff)) +
   # custom X axis:
   scale_x_continuous( label = axisdf$chr, breaks= axisdf$center ) +
   scale_y_continuous(expand = c(0, 0) ) +     # remove space between plot area and x axis
   coord_cartesian(ylim=c(-1, 1)) +
   ylab(sprintf("%s mismatches", ED2)) +
+  labs(color = "95 % CI") +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
   geom_point(alpha=0.8, size=1) +
   scale_color_gradientn(limits = c(-1,1), colours=c("blue", "grey", "red"),breaks=b, labels=format(b)) + 
@@ -401,13 +404,14 @@ p.cov2 <- ggplot(cov2, aes(x=BPcum, y=diff, color = diff)) +
   ) 
 
 # Make the plot
-b <- c(sd_cov_3_table$diff.m-sd_cov_3_table$diff.s, sd_cov_3_table$diff.m, sd_cov_3_table$diff.m+sd_cov_3_table$diff.s)
+b <- c(sd_cov_3_table$diff.m-(sd_cov_3_table$diff.s*2), sd_cov_3_table$diff.m, (sd_cov_3_table$diff.m+sd_cov_3_table$diff.s*2))
 p.cov3 <- ggplot(cov3, aes(x=BPcum, y=diff, color = diff)) +
   # custom X axis:
   scale_x_continuous( label = axisdf$chr, breaks= axisdf$center ) +
   scale_y_continuous(expand = c(0, 0) ) +     # remove space between plot area and x axis
   coord_cartesian(ylim=c(-1, 1)) +
   ylab(sprintf("%s mismatches", ED3)) +
+  labs(color = "95 % CI") +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
   geom_point(alpha=0.8, size=1) +
   scale_color_gradientn(limits = c(-1,1), colours=c("blue", "grey", "red"),breaks=b, labels=format(b)) + 
@@ -423,7 +427,7 @@ p.cov3 <- ggplot(cov3, aes(x=BPcum, y=diff, color = diff)) +
 
 
 
-b <- c(sd_snp_table$diff.m-sd_snp_table$diff.s, sd_snp_table$diff.m, sd_snp_table$diff.m+sd_snp_table$diff.s)
+b <- c(sd_snp_table$diff.m-(sd_snp_table$diff.s*2), sd_snp_table$diff.m, (sd_snp_table$diff.m+sd_snp_table$diff.s*2))
 # Make the plot
 p.snp <- ggplot(snp, aes(x=BPcum, y=diff, color = diff)) +
   # custom X axis:
@@ -431,6 +435,7 @@ p.snp <- ggplot(snp, aes(x=BPcum, y=diff, color = diff)) +
   scale_y_continuous(expand = c(0, 0) ) +     # remove space between plot area and x axis
   coord_cartesian(ylim=c(-1, 1)) +
   ylab("SNP diff") +
+  labs(color = "95 % CI") +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
   geom_point(alpha=0.8, size=1) +
   scale_color_gradientn(limits = c(-1,1), colours=c("blue", "grey", "red"),breaks=b, labels=format(b)) + 
@@ -443,11 +448,6 @@ p.snp <- ggplot(snp, aes(x=BPcum, y=diff, color = diff)) +
     panel.grid.minor.x = element_blank(),
     axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)
   )
-
-
-#legend_b <- get_legend(p.snp + guides(color = guide_legend(nrow = 1)) + theme_bw() + theme(legend.position = "bottom"))
-
-
 
 
 c <- plot_grid(p.snp, 
