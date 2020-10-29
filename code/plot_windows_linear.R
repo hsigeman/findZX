@@ -94,8 +94,6 @@ if ( dim( cov_1_table )[1] == 0) {
 }
 
 
-
-
 ################################################################################
 ############################# ORDER CHROMOSOMES ################################
 ################################################################################
@@ -348,8 +346,8 @@ c <- plot_grid(p.snp + theme(legend.position="none"),
 
 d <- plot_grid(c, legend_b, ncol = 1, rel_heights = c(1, .1))
 
-#pdf(file=absolute_out, width = 9, height = 5)
-pdf(file="test.pdf", width = 9, height = 5)
+pdf(file=absolute_out, width = 9, height = 5)
+#pdf(file="test.pdf", width = 9, height = 5)
 print(d)
 dev.off()
 
@@ -461,8 +459,8 @@ c <- plot_grid(p.snp,
 
 #d <- plot_grid(c, legend_b, ncol = 1, rel_heights = c(1, .1))
 
-#pdf(file=diff_out, width = 15, height = 12)
-pdf(file="test.pdf", width = 15, height = 9)
+pdf(file=diff_out, width = 15, height = 12)
+#pdf(file="test.pdf", width = 15, height = 9)
 print(c)
 dev.off()
 
