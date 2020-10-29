@@ -84,9 +84,8 @@ if ( dim( cov_1_table )[1] == 0) {
   
   if ( file.exists( chr_file ) ) {
     
-    chromosome <- read.csv(chr_file, 
-                           header = FALSE, 
-                           sep = ",")
+    chromosome <- read.delim(chr_file, 
+                           header = FALSE)
     
     cov_1_table <- cov_1_table[ cov_1_table$chr %in% chromosome, ]
     
@@ -110,8 +109,9 @@ if ( !file.exists(chr_file) ) {
   max_per_chr <- as.data.frame( max_per_chr[,1:2] )
   chromosome <- max_per_chr[ order( -max_per_chr$range ), ][,1]
   len_chr <- as.data.frame( max_per_chr[,1:2])
-}
+} else { len_chr <- dim(chromosome)[1]
 
+}
 
 
 cov_1_table$chr <- ordered( cov_1_table$chr, 
