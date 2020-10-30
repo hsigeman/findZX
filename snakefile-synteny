@@ -218,11 +218,8 @@ rule calculate_heterozygosity:
         kb = RESULTDIR + SPECIES + "{synteny}diffHeterozygosity.100kbp.out",
         chr = RESULTDIR + SPECIES + "{synteny}diffHeterozygosity.chr.out"
     threads: 1
-#    params:
-#        chromosomes = CHROMOSOMES
     shell:
         """
-#        Rscript code/calculate_windows.R {input} {output.Mb} {output.kb} {output.chr} {params.chromosomes}
         Rscript code/calculate_windows.R {input} {output.Mb} {output.kb} {output.chr} 
         """
 
@@ -234,10 +231,7 @@ rule calculate_ratio:
         kb = RESULTDIR + SPECIES + "{synteny}gencov.nodup.nm.{ED}.100kbp.out",
         chr = RESULTDIR + SPECIES + "{synteny}gencov.nodup.nm.{ED}.chr.out"
     threads: 1
-#    params:
-#        chromosomes = CHROMOSOMES
     shell:
         """
-        #Rscript code/calculate_windows.R {input} {output.Mb} {output.kb} {output.chr} {params.chromosomes}
         Rscript code/calculate_windows.R {input} {output.Mb} {output.kb} {output.chr} 
         """
