@@ -44,9 +44,10 @@ snp_table <- read.table(filesnp, header=TRUE,fill=TRUE,stringsAsFactor=FALSE)
 
 if (file.exists(chr_file)) {
   
-  chromosome <- read.csv(chr_file, header = FALSE, sep = ",")
-  chromosome <- as.factor(chromosome)
-  
+#  chromosome <- read.csv(chr_file, header = FALSE, sep = ",")
+#  chromosome <- as.factor(chromosome)
+  chromosome <- read.delim(chr_file, header = FALSE)
+  chromosome <- chromosome$V1 
   cov_00_table <- cov_00_table[cov_00_table$chr %in% chromosome, ]
   cov_02_table <- cov_02_table[cov_02_table$chr %in% chromosome, ]
   cov_04_table <- cov_04_table[cov_04_table$chr %in% chromosome, ]
