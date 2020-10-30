@@ -74,6 +74,9 @@ snp_table   <- read.table(filesnp,
                           fill=TRUE, 
                           stringsAsFactor=FALSE)
 
+# Mean and standard deviation calculation
+
+
 if ( dim( cov_1_table )[1] == 0) {
   
   print("Warning: No chromosome/scaffold over 1Mbp or 11kbp! Check output based 
@@ -81,6 +84,15 @@ if ( dim( cov_1_table )[1] == 0) {
   
 } else {
   
+  fun <- function(x){
+  c(m=mean(x), s = sd(x))
+}
+
+sd_cov_1_table <- summaryBy(diff ~ 1 , data = cov_1_table, FUN = fun)
+sd_cov_2_table <- summaryBy(diff ~ 1 , data = cov_2_table, FUN = fun)
+sd_cov_3_table <- summaryBy(diff ~ 1 , data = cov_3_table, FUN = fun)
+sd_snp_table <- summaryBy(diff ~ 1 , data = snp_table, FUN = fun)
+
   if ( file.exists( chr_file ) ) {
     
     chromosome <- read.delim(chr_file, 
@@ -142,15 +154,7 @@ cov_3_table <- cov_3_table[cov_3_table$chr %in% chromosome,]
 snp_table <- snp_table[snp_table$chr %in% chromosome,]
 
 
-# Mean and standard deviation calculation
-fun <- function(x){
-  c(m=mean(x), s = sd(x))
-}
 
-sd_cov_1_table <- summaryBy(diff ~ 1 , data = cov_1_table, FUN = fun)
-sd_cov_2_table <- summaryBy(diff ~ 1 , data = cov_2_table, FUN = fun)
-sd_cov_3_table <- summaryBy(diff ~ 1 , data = cov_3_table, FUN = fun)
-sd_snp_table <- summaryBy(diff ~ 1 , data = snp_table, FUN = fun)
 
 ################################################################################
 ############################### MANHATTAN PLOT #################################
