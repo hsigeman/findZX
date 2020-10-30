@@ -68,10 +68,11 @@ if ( dim( cov_1_table )[1] == 0) {
   
   if ( file.exists( chr_file ) ) {
     
-    chromosome <- read.csv(chr_file, 
-                           header = FALSE, 
-                           sep = ",")
-    
+    #chromosome <- read.csv(chr_file, 
+    #                       header = FALSE, 
+    #                       sep = ",")
+    chromosome <- read.delim(chr_file, header = FALSE)
+    chromosome <- chromosome$V1
     cov_1_table <- cov_1_table[ cov_1_table$chr %in% chromosome, ]
     
   }
