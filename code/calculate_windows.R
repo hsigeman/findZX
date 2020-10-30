@@ -15,7 +15,7 @@ filename = args[1]
 out1Mb = args[2]
 out100kb = args[3]
 outChr = args[4]
-chr_file = args[5]
+#chr_file = args[5]
 
 ################################################################################
 ################################# READ FILES ###################################
@@ -25,12 +25,12 @@ cov = read.table(filename,header=FALSE,fill=TRUE,stringsAsFactor=FALSE)
 cov <- plyr::rename(cov, c("V1"="chr", "V2"="start", "V3"="end", "V4"="heterogametic", 
                            "V5"="homogametic"))
 
-if (file.exists(chr_file)) { 
-  
-  chromosomes <- read.csv(chr_file, header = FALSE, sep = ",")
-  cov <- remove_chr_not_in_list(cov, chromosomes)
-  
-}
+#if (file.exists(chr_file)) { 
+#  
+#  chromosomes <- read.csv(chr_file, header = FALSE, sep = ",")
+#  cov <- remove_chr_not_in_list(cov, chromosomes)
+#  
+#}
 
 cov <- calculate_ratio(cov)
 cov <- calculate_diff(cov)
