@@ -103,7 +103,6 @@ rule calculate_heterozygosity:
 #        chromosomes = CHROMOSOMES
     shell:
         """
-#        Rscript code/calculate_windows.R {input} {output.Mb} {output.kb} {output.chr} {params.chromosomes}
         Rscript code/calculate_windows.R {input} {output.Mb} {output.kb} {output.chr}
         """
 
@@ -119,6 +118,5 @@ rule calculate_ratio:
 #        chromosomes = CHROMOSOMES
     shell:
         """
-#        Rscript code/calculate_windows.R {input} {output.Mb} {output.kb} {output.chr} {params.chromosomes}
         Rscript code/calculate_windows.R {input} {output.Mb} {output.kb} {output.chr}
         """
