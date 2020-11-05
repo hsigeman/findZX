@@ -384,7 +384,7 @@ p.cov1 <- ggplot(cov1, aes(x=BPcum, y=diff, color = diff)) +
     panel.grid.major.x = element_blank(),
     panel.grid.minor.x = element_blank(),
     axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)
-  )
+  ) + guides(fill = guide_colourbar(barwidth = 0.5, barheight = 10))
 
 
 # Make the plot
@@ -407,7 +407,7 @@ p.cov2 <- ggplot(cov2, aes(x=BPcum, y=diff, color = diff)) +
     panel.grid.major.x = element_blank(),
     panel.grid.minor.x = element_blank(),
     axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)
-  ) 
+  ) + guides(fill = guide_colourbar(barwidth = 0.5, barheight = 10))
 
 # Make the plot
 b <- c(sd_cov_3_table$diff.m-(sd_cov_3_table$diff.s*2), sd_cov_3_table$diff.m, (sd_cov_3_table$diff.m+sd_cov_3_table$diff.s*2))
@@ -429,7 +429,7 @@ p.cov3 <- ggplot(cov3, aes(x=BPcum, y=diff, color = diff)) +
     panel.grid.major.x = element_blank(),
     panel.grid.minor.x = element_blank(),
     axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)
-  )
+  )+ guides(fill = guide_colourbar(barwidth = 0.5, barheight = 10))
 
 
 
@@ -453,7 +453,7 @@ p.snp <- ggplot(snp, aes(x=BPcum, y=diff, color = diff)) +
     panel.grid.major.x = element_blank(),
     panel.grid.minor.x = element_blank(),
     axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)
-  )
+  )+ guides(fill = guide_colourbar(barwidth = 0.5, barheight = 10))
 
 
 c <- plot_grid(p.snp, 
