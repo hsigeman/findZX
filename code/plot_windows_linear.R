@@ -50,9 +50,17 @@ ED1 = gsub("\\.", "-", ED1)
 ED2 = gsub("\\.", "-", ED2)
 ED3 = gsub("\\.", "-", ED3)
 
+file1_base = gsub(".out", "", file1)
+file2_base = gsub(".out", "", file2)
+file3_base = gsub(".out", "", file3)
+filesnp_base = gsub(".out", "", filesnp)
+
+
 ################################################################################
 ################################# READ FILES ###################################
 ################################################################################
+
+
 
 cov_1_table <- read.table(file1, 
                           header=TRUE, 
@@ -79,24 +87,24 @@ snp_table   <- read.table(filesnp,
 
 if ( dim( cov_1_table )[1] == 0) {
   
-  print("Warning: No chromosome/scaffold over 1Mbp or 11kbp! Check output based 
+  print("Warning: No chromosome/scaffold over 1Mbp or 100kbp! Check output based 
         on chromosome instead.")
   
 } else {
   
   fun <- function(x){
-  c(m=mean(x), s = sd(x))
-}
-
-sd_cov_1_table <- summaryBy(diff ~ 1 , data = cov_1_table, FUN = fun)
-sd_cov_2_table <- summaryBy(diff ~ 1 , data = cov_2_table, FUN = fun)
-sd_cov_3_table <- summaryBy(diff ~ 1 , data = cov_3_table, FUN = fun)
-sd_snp_table <- summaryBy(diff ~ 1 , data = snp_table, FUN = fun)
-
+    c(m=mean(x), s = sd(x))
+  }
+  
+  sd_cov_1_table <- summaryBy(diff ~ 1 , data = cov_1_table, FUN = fun)
+  sd_cov_2_table <- summaryBy(diff ~ 1 , data = cov_2_table, FUN = fun)
+  sd_cov_3_table <- summaryBy(diff ~ 1 , data = cov_3_table, FUN = fun)
+  sd_snp_table <- summaryBy(diff ~ 1 , data = snp_table, FUN = fun)
+  
   if ( file.exists( chr_file ) ) {
     
     chromosome <- read.delim(chr_file, 
-                           header = FALSE)
+                             header = FALSE)
     chromosome <- chromosome$V1
     cov_1_table <- cov_1_table[ cov_1_table$chr %in% chromosome, ]
     cov_2_table <- cov_2_table[ cov_2_table$chr %in% chromosome, ]
@@ -107,6 +115,30 @@ sd_snp_table <- summaryBy(diff ~ 1 , data = snp_table, FUN = fun)
 }
 
 
+cov_1_table$diff_genome_mean <- sd_cov_1_table$diff.m
+cov_1_table$diff_genome_sd <- sd_cov_1_table$diff.s
+cov_2_table$diff_genome_mean <- sd_cov_2_table$diff.m
+cov_2_table$diff_genome_sd <- sd_cov_2_table$diff.s
+cov_3_table$diff_genome_mean <- sd_cov_3_table$diff.m
+cov_3_table$diff_genome_sd <- sd_cov_3_table$diff.s
+snp_table$diff_genome_mean <- sd_snp_table$diff.m
+snp_table$diff_genome_sd <- sd_snp_table$diff.s
+
+# Subset files for outlier (outside 95% CI) values
+outlier.cov_1_table <- subset(cov_1_table, c(cov_1_table$diff > (cov_1_table$diff_genome_mean + cov_1_table$diff_genome_sd*2) | cov_1_table$diff < (cov_1_table$diff_genome_mean - cov_1_table$diff_genome_sd*2)))
+outlier.cov_2_table <- subset(cov_2_table, c(cov_2_table$diff > (cov_2_table$diff_genome_mean + cov_2_table$diff_genome_sd*2) | cov_2_table$diff < (cov_2_table$diff_genome_mean - cov_2_table$diff_genome_sd*2)))
+outlier.cov_3_table <- subset(cov_3_table, c(cov_3_table$diff > (cov_3_table$diff_genome_mean + cov_3_table$diff_genome_sd*2) | cov_3_table$diff < (cov_3_table$diff_genome_mean - cov_3_table$diff_genome_sd*2)))
+outlier.snp_table <- subset(snp_table, c(snp_table$diff > (snp_table$diff_genome_mean + snp_table$diff_genome_sd*2) | snp_table$diff < (snp_table$diff_genome_mean - snp_table$diff_genome_sd*2)))
+
+# Write outlier windows to tables
+outname <- sprintf("%s.outlier.out", file1_base)
+write.table(outlier.cov_1_table, file = outname, sep = "\t", quote = FALSE, row.names = F)
+outname <- sprintf("%s.outlier.out", file2_base)
+write.table(outlier.cov_2_table, file = outname, sep = "\t", quote = FALSE, row.names = F)
+outname <- sprintf("%s.outlier.out", file3_base)
+write.table(outlier.cov_3_table, file = outname, sep = "\t", quote = FALSE, row.names = F)
+outname <- sprintf("%s.outlier.out", filesnp_base)
+write.table(outlier.snp_table, file = outname, sep = "\t", quote = FALSE, row.names = F)
 
 
 ################################################################################
@@ -128,17 +160,19 @@ if ( !file.exists(chr_file) ) {
 }
 
 
-cov_1_table$chr <- ordered( cov_1_table$chr, 
+cov_1_table$chr <- ordered(cov_1_table$chr, 
                             levels = chromosome)
-cov_2_table$chr <- ordered( cov_2_table$chr, 
+cov_2_table$chr <- ordered(cov_2_table$chr, 
                             levels = chromosome)
-cov_3_table$chr <- ordered( cov_3_table$chr, 
+cov_3_table$chr <- ordered(cov_3_table$chr, 
                             levels = chromosome)
-snp_table$chr <- ordered( snp_table$chr, 
+snp_table$chr <- ordered(snp_table$chr, 
                           levels = chromosome)
 
 
-
+################################################################################
+############################### MANHATTAN PLOT #################################
+################################################################################
 
 # Filter data for n longest scaffolds, determined by args[11]
 if ( !file.exists(chr_file) & len_chr >= CHR_NR) {
@@ -146,24 +180,13 @@ if ( !file.exists(chr_file) & len_chr >= CHR_NR) {
   chromosome <- as.factor(len_chr[with(len_chr, order(-range)),][1:nr_chr,1])
 } 
 
-
-
 cov_1_table <- cov_1_table[cov_1_table$chr %in% chromosome,]
 cov_2_table <- cov_2_table[cov_2_table$chr %in% chromosome,]
 cov_3_table <- cov_3_table[cov_3_table$chr %in% chromosome,]
 snp_table <- snp_table[snp_table$chr %in% chromosome,]
 
 
-
-
-################################################################################
-############################### MANHATTAN PLOT #################################
-################################################################################
-
-
-
 # Got code from here: https://www.r-graph-gallery.com/101_Manhattan_plot.html
-
 
 
 colors <- c("heterogametic" = "darkgoldenrod1", "homogametic" = "darkmagenta")
@@ -190,7 +213,7 @@ p.cov1 <- ggplot(cov1, aes(x=BPcum, y=diff)) +
   scale_x_continuous( label = axisdf$chr, breaks= axisdf$center ) +
   scale_y_continuous(expand = c(0, 0) ) +     # remove space between plot area and x axis
   coord_cartesian(ylim=c(0, 2)) +
- # geom_rect(mapping=aes(xmin=-Inf, xmax=Inf, ymin=se_cov_1_table$ratio.m-se_cov_1_table$ratio.s, ymax=se_cov_1_table$ratio.m+se_cov_1_table$ratio.s), fill="pink", alpha=0.5) +
+  # geom_rect(mapping=aes(xmin=-Inf, xmax=Inf, ymin=se_cov_1_table$ratio.m-se_cov_1_table$ratio.s, ymax=se_cov_1_table$ratio.m+se_cov_1_table$ratio.s), fill="pink", alpha=0.5) +
   ylab(sprintf("%s mismatches", ED1)) +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
   geom_point( aes(y = heterogametic, color="heterogametic"), alpha=0.2,size = 0.5 ) +
@@ -233,7 +256,7 @@ p.cov2 <- ggplot(cov2, aes(x=BPcum, y=diff)) +
   scale_x_continuous( label = axisdf$chr, breaks= axisdf$center ) +
   scale_y_continuous(expand = c(0, 0) ) +     # remove space between plot area and x axis
   coord_cartesian(ylim=c(0, 2)) + 
- # geom_rect(mapping=aes(xmin=-Inf, xmax=Inf, ymin=se_cov_2_table$ratio.m-se_cov_2_table$ratio.s, ymax=se_cov_2_table$ratio.m+se_cov_2_table$ratio.s), fill="pink", alpha=0.5) +
+  # geom_rect(mapping=aes(xmin=-Inf, xmax=Inf, ymin=se_cov_2_table$ratio.m-se_cov_2_table$ratio.s, ymax=se_cov_2_table$ratio.m+se_cov_2_table$ratio.s), fill="pink", alpha=0.5) +
   ylab(sprintf("%s mismatches", ED2)) +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
   geom_point( aes(y = heterogametic, color="heterogametic"), alpha=0.2,size = 0.5 ) +
@@ -276,7 +299,7 @@ p.cov3 <- ggplot(cov3, aes(x=BPcum, y=diff)) +
   scale_x_continuous( label = axisdf$chr, breaks= axisdf$center ) +
   scale_y_continuous(expand = c(0, 0) ) +     # remove space between plot area and x axis
   coord_cartesian(ylim=c(0, 2)) +
- # geom_rect(mapping=aes(xmin=-Inf, xmax=Inf, ymin=se_cov_3_table$ratio.m-se_cov_3_table$ratio.s, ymax=se_cov_3_table$ratio.m+se_cov_3_table$ratio.s), fill="pink", alpha=0.5) +
+  # geom_rect(mapping=aes(xmin=-Inf, xmax=Inf, ymin=se_cov_3_table$ratio.m-se_cov_3_table$ratio.s, ymax=se_cov_3_table$ratio.m+se_cov_3_table$ratio.s), fill="pink", alpha=0.5) +
   ylab(sprintf("%s mismatches", ED3)) +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
   geom_point( aes(y = heterogametic, color="heterogametic"), alpha=0.2,size = 0.5 ) +
@@ -378,7 +401,7 @@ p.cov1 <- ggplot(cov1, aes(x=BPcum, y=diff, color = diff)) +
   scale_color_gradientn(limits = c(-1,1), colours=c("blue", "grey", "red"),breaks=b, labels=format(b)) + 
   theme_bw() +
   theme( 
-   # legend.position="none",
+    # legend.position="none",
     panel.border = element_blank(),
     axis.title.x = element_blank(),
     panel.grid.major.x = element_blank(),
@@ -401,7 +424,7 @@ p.cov2 <- ggplot(cov2, aes(x=BPcum, y=diff, color = diff)) +
   scale_color_gradientn(limits = c(-1,1), colours=c("blue", "grey", "red"),breaks=b, labels=format(b)) + 
   theme_bw() +
   theme( 
-   # legend.position="none",
+    # legend.position="none",
     panel.border = element_blank(),
     axis.title.x = element_blank(),
     panel.grid.major.x = element_blank(),
@@ -423,7 +446,7 @@ p.cov3 <- ggplot(cov3, aes(x=BPcum, y=diff, color = diff)) +
   scale_color_gradientn(limits = c(-1,1), colours=c("blue", "grey", "red"),breaks=b, labels=format(b)) + 
   theme_bw() +
   theme( 
-   # legend.position="none",
+    # legend.position="none",
     panel.border = element_blank(),
     axis.title.x = element_blank(),
     panel.grid.major.x = element_blank(),
@@ -469,4 +492,3 @@ pdf(file=diff_out, width = 15, height = 12)
 #pdf(file="test.pdf", width = 15, height = 9)
 print(c)
 dev.off()
-
