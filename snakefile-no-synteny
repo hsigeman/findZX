@@ -18,6 +18,7 @@ REF_SPECIES = config["ref_species"]
 REF_DIR = config["ref_dir"]
 REF_NAME = config["ref_name"]
 CHROMOSOMES = config["chr_file"]
+CHROMOSOMES_HIGHLIGHT = config["chr_highlight_file"]
 PREFIX = SPECIES + "_ref_" + REF_SPECIES
 
 REF_PATH = REF_DIR + REF_NAME
