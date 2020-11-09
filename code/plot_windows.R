@@ -23,13 +23,39 @@ file1 = args[1]
 file2 = args[2]
 file3 = args[3]
 filesnp = args[4]
-circlize_out = args[5]
-scatter_out = args[6]
-chr_file = args[7]
+scatter_out = args[5]
+chr_file = args[6]
+highlight_file = args[7]
 ED1 = args[8]
 ED2 = args[9]
 ED3 = args[10]
 
+
+#setwd("~/Dropbox (MEEL)/PhD/Subprojects/6 Sylvioidea neosc-scan/9 Sexchromoscanner/code/")
+#file1 = "../results/bella/aloatta/aloatta.HS.gencov.nodup.nm.0.0.1Mbp.out"
+#file2 = "../results/bella/aloatta/aloatta.HS.gencov.nodup.nm.0.2.1Mbp.out"
+#file3 = "../results/bella/aloatta/aloatta.HS.gencov.nodup.nm.all.1Mbp.out"
+#filesnp = "../results/bella/aloatta/aloatta.HS.diffHeterozygosity.1Mbp.out"
+#circlize_out = "test.circlize.pdf"
+#scatter_out = "test.scatter.pdf"
+#chr_file = "chr.txt"
+#source("functions.R")
+#ED1 = "0.0"
+#ED2 = "0.2"
+#ED3 = "all"
+#CHR_NR = 5
+#highlight_file = "highlight.txt"
+
+ED1 = gsub("\\.", "-", ED1)
+ED2 = gsub("\\.", "-", ED2)
+ED3 = gsub("\\.", "-", ED3)
+
+file1_base = gsub(".out$", "", file1)
+file2_base = gsub(".out$", "", file2)
+file3_base = gsub(".out$", "", file3)
+filesnp_base = gsub(".out$", "", filesnp)
+
+scatter_out_base = gsub(".pdf$", "", scatter_out)
 
 ################################################################################
 ################################# READ FILES ###################################
@@ -126,29 +152,29 @@ if ( dim( cov_1_table )[1] == 0) {
   max.cov.1 <- cov_1$max
   min.cov.1 <- cov_1$min
   median.cov.1 <- cov_1$median
-
+  
   cov_2 <- gen_data_4plotting( cov_2_table, c("chr", "range", "diff"))
   cov.select.2 <- cov_2$df
   max.cov.2 <- cov_2$max
   min.cov.2 <- cov_2$min
   median.cov.2 <- cov_2$median
-
+  
   cov_3 <- gen_data_4plotting( cov_3_table, c("chr", "range", "diff"))
   cov.select.3 <- cov_3$df
   max.cov.3 <- cov_3$max
   min.cov.3 <- cov_3$min
   median.cov.3 <- cov_3$median
-
+  
   snp <- gen_data_4plotting( snp_table, c("chr", "range", "diff"))
   snp.select <- snp$df
   max.snp <- snp$max
   min.snp <- snp$min
   median.snp <- snp$median
-
-################################################################################
-############################# ORDER CHROMOSOMES ################################
-################################################################################
-
+  
+  ################################################################################
+  ############################# ORDER CHROMOSOMES ################################
+  ################################################################################
+  
   # Order after scaffold length if no chromosome file is given
   if ( !file.exists(chr_file) ) {
     max_per_chr <- setDT( cov.select.1 )[, .SD[ which.max(x) ], 
@@ -167,10 +193,10 @@ if ( dim( cov_1_table )[1] == 0) {
   snp.select$factor <- ordered( snp.select$factor, 
                                 levels = chromosome)
   
-################################################################################
-################################ SCATTER PLOT ##################################
-################################################################################
-
+  ################################################################################
+  ################################ SCATTER PLOT ##################################
+  ################################################################################
+  
   cov.select <- merge(cov.select.1, 
                       cov.select.2, 
                       by = c("factor", "x"))
@@ -186,9 +212,28 @@ if ( dim( cov_1_table )[1] == 0) {
                       by = c("factor", "x"))
   colnames(cov.select) <- c("Chromosomes", "window", "cov1", "cov2", "cov3", "hetDiff")
   
-  
+  cov.select$highlight_col <- as.character(cov.select$Chromosomes)
+  if ( file.exists( highlight_file ) ) {
+    highlight <- read.delim(highlight_file, header = FALSE)
+    autosome_list <- !(cov.select$highlight_col %in% highlight$V1)
+    cov.select$highlight_col[autosome_list] <- "Autosomes"
+    chr_list <- as.vector(highlight$V1)
+    autosome_list <- "Autosomes"
+    all_chr <- append(autosome_list, chr_list)
+    cov.select <- cov.select[order(factor(cov.select$highlight_col, levels=unique(all_chr))),]
+    
+  }
+
+  point_colors <- c("#A4A0A0",
+    "#e31a1c",
+    "#ff7f00",
+    "#1f78b4",
+    "#b2df8a",
+    "#cab2d6",
+    "#6a3d9a",
+    "#33a02c")
   # Get colors and shapes for all chromosomes
-  point_colors <- c( brewer.pal( n = 8, name = "Dark2" ) )
+ # point_colors <- c( brewer.pal( n = 8, name = "Set1" ) )
   point_reps <- ceiling( nr_factors[1]/length( point_colors ) )
   point_colors <- rep( point_colors, point_reps )[1:nr_factors[1]]
   
@@ -208,86 +253,89 @@ if ( dim( cov_1_table )[1] == 0) {
   cov1_plot <- ggplot(cov.select, 
                       aes(x = cov1, 
                           y = hetDiff)) + 
-		            geom_point(aes(color = Chromosomes, 
-		                           shape = Chromosomes)) + 
-                scale_color_manual(values = point_colors) +
-                scale_shape_manual(values = point_shapes) +
-                theme(legend.key.size = unit(2, "mm")) +
-                labs(title = sprintf("Genome coverage: %s mismatches", ED1), 
-                     x = "difference in normalized genome coverage",
-                     y = "difference in heterozygosity") + 
-                theme_bw()
-
+    geom_point(aes(color = Chromosomes, 
+                   shape = Chromosomes), size = 3) + 
+    scale_color_manual(values = point_colors) +
+    scale_shape_manual(values = point_shapes) +
+    theme(legend.key.size = unit(2, "mm")) +
+    labs(title = sprintf("Genome coverage: %s mismatches", ED1), 
+         x = "difference in normalized genome coverage",
+         y = "difference in heterozygosity") + 
+    theme_bw(base_family="Times", base_size = 12) +
+    theme(plot.title=element_text(family="Times", face="bold", size=16) )
+  
   legend <- get_legend(cov1_plot)
-
+  
   cov1_plot <- cov1_plot +
-                theme(legend.position="none")
+    theme(legend.position="none")
   
   cov2_plot <- ggplot(cov.select, 
                       aes(x = cov2, 
                           y = hetDiff)) + 
-                geom_point(aes(color = Chromosomes, 
-                               shape = Chromosomes)) + 
-                scale_color_manual(values = point_colors) + 
-                scale_shape_manual(values = point_shapes) +
-                labs(title = sprintf("Genome coverage: %s mismatches", ED2), 
-                     x = "difference in normalized genome coverage",
-                     y = "difference in heterozygosity") + 
-                theme_bw() +
-                theme(legend.position="none")
+    geom_point(aes(color = Chromosomes, 
+                   shape = Chromosomes), size = 3) + 
+    scale_color_manual(values = point_colors) + 
+    scale_shape_manual(values = point_shapes) +
+    labs(title = sprintf("Genome coverage: %s mismatches", ED2), 
+         x = "difference in normalized genome coverage",
+         y = "difference in heterozygosity") + 
+    theme_bw(base_family="Times", base_size = 12) +
+    theme(legend.position="none") + 
+    theme(plot.title=element_text(family="Times", face="bold", size=16) )
   
   cov3_plot <- ggplot(cov.select, 
                       aes(x = cov3, 
                           y = hetDiff)) + 
-                geom_point(aes(color = Chromosomes, 
-                               shape = Chromosomes)) + 
-                scale_color_manual(values = point_colors) + 
-                scale_shape_manual(values = point_shapes) +
-                labs(title = sprintf("Genome coverage: %s mismatches", ED3), 
-                     x = "difference in normalized genome coverage",
-                     y = "difference in heterozygosity") + 
-                theme_bw() +
-                theme(legend.position="none")
-
+    geom_point(aes(color = Chromosomes, 
+                   shape = Chromosomes), size = 3) + 
+    scale_color_manual(values = point_colors) + 
+    scale_shape_manual(values = point_shapes) +
+    labs(title = sprintf("Genome coverage: %s mismatches", ED3), 
+         x = "difference in normalized genome coverage",
+         y = "difference in heterozygosity") + 
+    theme_bw(base_family="Times", base_size = 12) +
+    theme(legend.position="none") + 
+    theme(plot.title=element_text(family="Times", face="bold", size=16) )
+  
   p <- plot_grid(cov1_plot, 
                  cov2_plot, 
                  cov3_plot, 
-                 nrow = 3, 
+                 nrow = 1, 
                  labels = c("A","B","C"))
   
   l <- plot_grid(legend)
   
-################################################################################
-################################ SCATTER PLOT ##################################
-################################################################################
+  ################################################################################
+  ################################ SCATTER PLOT ##################################
+  ################################################################################
   
   # Get mean and standard deviation for all chromosomes
   cov1_chr_sd = summaryBy(data=cov.select, 
-                          cov1 ~ Chromosomes, 
+                          cov1 ~ Chromosomes + highlight_col, 
                           FUN = sd)
   cov1_chr_mean = summaryBy(data=cov.select, 
-                            cov1 ~ Chromosomes, 
+                            cov1 ~ Chromosomes + highlight_col, 
                             FUN = mean)
   
   cov2_chr_sd = summaryBy(data=cov.select, 
-                          cov2 ~ Chromosomes, 
+                          cov2 ~ Chromosomes + highlight_col, 
                           FUN = sd)
   cov2_chr_mean = summaryBy(data=cov.select, 
-                            cov2 ~ Chromosomes, 
+                            cov2 ~ Chromosomes + highlight_col, 
                             FUN = mean)
   
   cov3_chr_sd = summaryBy(data=cov.select, 
-                          cov3 ~ Chromosomes, 
+                          cov3 ~ Chromosomes + highlight_col, 
                           FUN = sd)
   cov3_chr_mean = summaryBy(data=cov.select, 
-                            cov3 ~ Chromosomes, 
+                            cov3 ~ Chromosomes + highlight_col, 
                             FUN = mean)
   
   hetDiff_chr_sd = summaryBy(data=cov.select, 
-                             hetDiff ~ Chromosomes, 
+                             hetDiff ~ Chromosomes + highlight_col, 
                              FUN = sd)
   hetDiff_chr_mean = summaryBy(data=cov.select, 
-                               hetDiff ~ Chromosomes, 
+                               hetDiff ~ Chromosomes + highlight_col, 
                                FUN = mean)
   
   # Combine all statistics
@@ -308,211 +356,195 @@ if ( dim( cov_1_table )[1] == 0) {
   
   
   cov1_plot <- ggplot(chr.stats, aes(x = cov1.mean, 
-                                      xmin = cov1.mean - cov1.sd,
-                                      xmax = cov1.mean + cov1.sd,
-                                      y = hetDiff.mean, 
-                                      ymin = hetDiff.mean - hetDiff.sd,
-                                      ymax = hetDiff.mean + hetDiff.sd,)) +
+                                     xmin = cov1.mean - cov1.sd,
+                                     xmax = cov1.mean + cov1.sd,
+                                     y = hetDiff.mean, 
+                                     ymin = hetDiff.mean - hetDiff.sd,
+                                     ymax = hetDiff.mean + hetDiff.sd,)) +
     geom_point(aes(color = Chromosomes, 
-                   shape = Chromosomes)) + 
+                   shape = Chromosomes), size = 3) + 
     scale_color_manual(values = point_colors) + 
     scale_shape_manual(values = point_shapes) +
     geom_errorbar(aes(color = Chromosomes)) + 
     geom_errorbarh(aes(color = Chromosomes)) +
-    labs(title = file1, 
+    labs(title = sprintf("Genome coverage: %s mismatches", ED1), 
          x = "difference in normalized genome coverage",
          y = "difference in heterozygosity") + 
-    theme_bw() +
-    theme(legend.position="none")
+    theme_bw(base_family="Times", base_size = 12) +
+    theme(legend.position="none") + 
+    theme(plot.title=element_text(family="Times", face="bold", size=16) )
   
   cov2_plot <- ggplot(chr.stats, aes(x = cov2.mean, 
-                                      xmin = cov2.mean - cov2.sd,
-                                      xmax = cov2.mean + cov2.sd,
-                                      y = hetDiff.mean, 
-                                      ymin = hetDiff.mean - hetDiff.sd,
-                                      ymax = hetDiff.mean + hetDiff.sd,)) +
+                                     xmin = cov2.mean - cov2.sd,
+                                     xmax = cov2.mean + cov2.sd,
+                                     y = hetDiff.mean, 
+                                     ymin = hetDiff.mean - hetDiff.sd,
+                                     ymax = hetDiff.mean + hetDiff.sd,)) +
     geom_point(aes(color = Chromosomes, 
-                   shape = Chromosomes)) + 
+                   shape = Chromosomes), size = 3) + 
     scale_color_manual(values = point_colors) + 
     scale_shape_manual(values = point_shapes) +
     geom_errorbar(aes(color = Chromosomes)) + 
     geom_errorbarh(aes(color = Chromosomes)) +
-    labs(title = file2, 
+    labs(title = sprintf("Genome coverage: %s mismatches", ED2),
          x = "difference in normalized genome coverage",
          y = "difference in heterozygosity") + 
-    theme_bw() +
-    theme(legend.position="none")
+    theme_bw(base_family="Times", base_size = 12) +
+    theme(legend.position="none") + 
+    theme(plot.title=element_text(family="Times", face="bold", size=16) )
   
   cov3_plot <- ggplot(chr.stats, aes(x = cov3.mean, 
-                                      xmin = cov3.mean - cov3.sd,
-                                      xmax = cov3.mean + cov3.sd,
-                                      y = hetDiff.mean, 
-                                      ymin = hetDiff.mean - hetDiff.sd,
-                                      ymax = hetDiff.mean + hetDiff.sd,)) +
+                                     xmin = cov3.mean - cov3.sd,
+                                     xmax = cov3.mean + cov3.sd,
+                                     y = hetDiff.mean, 
+                                     ymin = hetDiff.mean - hetDiff.sd,
+                                     ymax = hetDiff.mean + hetDiff.sd,)) +
     geom_point(aes(color = Chromosomes, 
-                   shape = Chromosomes)) + 
+                   shape = Chromosomes), size = 3) + 
     scale_color_manual(values = point_colors) + 
     scale_shape_manual(values = point_shapes) +
     geom_errorbar(aes(color = Chromosomes)) + 
     geom_errorbarh(aes(color = Chromosomes)) +
-    labs(title = file3, 
+    labs(title = sprintf("Genome coverage: %s mismatches", ED3),
          x = "difference in normalized genome coverage",
          y = "difference in heterozygosity") + 
-    theme_bw() +
-    theme(legend.position="none")
+    theme_bw(base_family="Times", base_size = 12) +
+    theme(legend.position="none") + 
+    theme(plot.title=element_text(family="Times", face="bold", size=16) )
   
   c <- plot_grid(cov1_plot, 
                  cov2_plot, 
                  cov3_plot, 
-                 nrow = 3, 
+                 nrow = 1, 
                  labels = c("A","B","C"))
   
   
-  pdf(file=scatter_out, width = 9, height = 9)
+  pdf(file=scatter_out, width = 15, height = 5)
   print(p)
   print(c)
   print(l)
   dev.off()
-
-################################################################################
-################################ CIRCLIZE PLOT #################################
-################################################################################
   
-  # Remove chr/scaffolds that only have one window
   
-  # Count the number of windows for each chr/scaff and join to one table
-  factor_counts <- merge(count(cov.select.1, "factor"), 
-                         count(cov.select.2, "factor"), 
-                         by = 'factor', suffixes = c("1","2"))
-  factor_counts <- merge(factor_counts, 
-                         count(cov.select.3, "factor"), 
-                         by = 'factor')
-  factor_counts <- merge(factor_counts, 
-                         count(snp.select, "factor"), 
-                         by = 'factor', suffixes = c("3","4"))
-  
-  factor_mask <- cbind((factor_counts[,2:5] <= 1)[,1], 
-                       (factor_counts[,2:5] <= 1))
-  
-  if ( length( factor_counts[factor_mask] ) > 0 ) {
+  if ( file.exists( highlight_file ) ) {
+    cov1_plot <- ggplot(cov.select, 
+                        aes(x = cov1, 
+                            y = hetDiff)) + 
+      geom_point(aes(fill = highlight_col), pch = 21, size = 3) + 
+      scale_fill_manual(values = point_colors) +
+      theme(legend.key.size = unit(2, "mm")) +
+      labs(title = sprintf("Genome coverage: %s mismatches", ED1), 
+           x = "difference in normalized genome coverage",
+           y = "difference in heterozygosity") + 
+      theme_bw(base_family="Times", base_size = 12) +
+      theme(plot.title=element_text(family="Times", face="bold", size=16) )
     
-    factor_counts[factor_mask] = NA
-    factor_counts <- factor_counts[complete.cases(factor_counts),]
+    legend <- get_legend(cov1_plot)
     
-    factor_counts <- droplevels(factor_counts)
+    cov1_plot <- cov1_plot +
+      theme(legend.position="none")
     
-    chromosome <- levels(factor_counts$factor)
+    cov2_plot <- ggplot(cov.select, 
+                        aes(x = cov2, 
+                            y = hetDiff)) + 
+      geom_point(aes(fill = highlight_col), pch = 21, size = 3) + 
+      scale_fill_manual(values = point_colors) +
+      labs(title = sprintf("Genome coverage: %s mismatches", ED2), 
+           x = "difference in normalized genome coverage",
+           y = "difference in heterozygosity") + 
+      theme_bw(base_family="Times", base_size = 12) +
+      theme(legend.position="none") + 
+      theme(plot.title=element_text(family="Times", face="bold", size=16) )
     
-    cov.select.1 <- cov.select.1[ cov.select.1$factor %in% chromosome, ]
-    cov.select.2 <- cov.select.2[ cov.select.2$factor %in% chromosome, ]
-    cov.select.3 <- cov.select.3[ cov.select.3$factor %in% chromosome, ]
-    snp.select <- snp.select[ snp.select$factor %in% chromosome, ]
+    cov3_plot <- ggplot(cov.select, 
+                        aes(x = cov3, 
+                            y = hetDiff)) + 
+      geom_point(aes(fill = highlight_col), pch = 21, size = 3) + 
+      scale_fill_manual(values = point_colors) +
+      labs(title = sprintf("Genome coverage: %s mismatches", ED3), 
+           x = "difference in normalized genome coverage",
+           y = "difference in heterozygosity") + 
+      theme_bw(base_family="Times", base_size = 12) +
+      theme(legend.position="none") + 
+      theme(plot.title=element_text(family="Times", face="bold", size=16) )
     
-    cov.select.1$factor <- ordered(cov.select.1$factor, 
-                                   levels = chromosome)
-    cov.select.2$factor <- ordered(cov.select.2$factor, 
-                                   levels = chromosome)
-    cov.select.3$factor <- ordered(cov.select.3$factor, 
-                                   levels = chromosome)
-    snp.select$factor <- ordered(snp.select$factor, 
-                                 levels = chromosome)
+    p <- plot_grid(cov1_plot, 
+                   cov2_plot, 
+                   cov3_plot, 
+                   nrow = 1, 
+                   labels = c("A","B","C"))
     
-    nr_factors <- c( length( unique( cov.select.1$factor ) ),
-                     length( unique( cov.select.2$factor ) ),
-                     length( unique( cov.select.3$factor ) ),
-                     length( unique( snp.select$factor )) )
+    l <- plot_grid(legend)
+    
+    
+    cov1_plot <- ggplot(chr.stats, aes(x = cov1.mean, 
+                                       xmin = cov1.mean - cov1.sd,
+                                       xmax = cov1.mean + cov1.sd,
+                                       y = hetDiff.mean, 
+                                       ymin = hetDiff.mean - hetDiff.sd,
+                                       ymax = hetDiff.mean + hetDiff.sd,)) +
+      scale_fill_manual(values = point_colors) +
+      scale_color_manual(values = point_colors) +
+      geom_errorbar(aes(color = highlight_col)) + 
+      geom_errorbarh(aes(color = highlight_col)) +
+      geom_point(aes(fill = highlight_col), pch = 21, size = 3) + 
+      labs(title = sprintf("Genome coverage: %s mismatches", ED1), 
+           x = "difference in normalized genome coverage",
+           y = "difference in heterozygosity") + 
+      theme_bw(base_family="Times", base_size = 12) +
+      theme(legend.position="none") + 
+      theme(plot.title=element_text(family="Times", face="bold", size=16) )
+    
+    cov2_plot <- ggplot(chr.stats, aes(x = cov2.mean, 
+                                       xmin = cov2.mean - cov2.sd,
+                                       xmax = cov2.mean + cov2.sd,
+                                       y = hetDiff.mean, 
+                                       ymin = hetDiff.mean - hetDiff.sd,
+                                       ymax = hetDiff.mean + hetDiff.sd,)) +
+      scale_fill_manual(values = point_colors) +
+      scale_color_manual(values = point_colors) +
+      geom_errorbar(aes(color = highlight_col)) + 
+      geom_errorbarh(aes(color = highlight_col)) +
+      geom_point(aes(fill = highlight_col), pch = 21, size = 3) + 
+      labs(title = sprintf("Genome coverage: %s mismatches", ED2),
+           x = "difference in normalized genome coverage",
+           y = "difference in heterozygosity") + 
+      theme_bw(base_family="Times", base_size = 12) +
+      theme(legend.position="none") + 
+      theme(plot.title=element_text(family="Times", face="bold", size=16) )
+    
+    cov3_plot <- ggplot(chr.stats, aes(x = cov3.mean, 
+                                       xmin = cov3.mean - cov3.sd,
+                                       xmax = cov3.mean + cov3.sd,
+                                       y = hetDiff.mean, 
+                                       ymin = hetDiff.mean - hetDiff.sd,
+                                       ymax = hetDiff.mean + hetDiff.sd,)) +
+      scale_fill_manual(values = point_colors) +
+      scale_color_manual(values = point_colors) +
+      geom_errorbar(aes(color = highlight_col)) + 
+      geom_errorbarh(aes(color = highlight_col)) +
+      geom_point(aes(fill = highlight_col), pch = 21, size = 3) + 
+      labs(title = sprintf("Genome coverage: %s mismatches", ED3),
+           x = "difference in normalized genome coverage",
+           y = "difference in heterozygosity") + 
+      theme_bw(base_family="Times", base_size = 12) +
+      theme(legend.position="none") + 
+      theme(plot.title=element_text(family="Times", face="bold", size=16) )
+    
+    c <- plot_grid(cov1_plot, 
+                   cov2_plot, 
+                   cov3_plot, 
+                   nrow = 1, 
+                   labels = c("A","B","C"))
+    
+    outname <- sprintf("%s.highlight.pdf", scatter_out_base)
+    pdf(file=outname, width = 15, height = 5)
+    print(p)
+    print(c)
+    print(l)
+    dev.off()  
+    
   }
   
-################################################################################
-  
-  circos.clear()
-  pdf(file=circlize_out, width = 9, height = 9)
-  par(mfrow=c(1,1), 
-      mar = c(1, 1, 1, 1), 
-      lwd = 0.1, cex = 0.7) 
-  circos.par(cell.padding = c(0, 0, 0, 0), 
-             "track.height" = 0.15, 
-             gap.after = c(rep(1, nr_factors[1]-1), 10))
-  circos.initialize(factors = cov.select.3$factor, 
-                    x = cov.select.3$x)
-
-  
-  circos.trackPlotRegion(factors = snp.select$factor, 
-                         ylim = c(-1,1), 
-                         x = snp.select$x, 
-                         y = snp.select$y, 
-                         panel.fun = function(x, y) {
-    grey = c("#FFFFFF", "#CCCCCC", "#999999")
-    sector.index = get.cell.meta.data("sector.index")
-    xlim = get.cell.meta.data("xlim")
-    ylim = get.cell.meta.data("ylim")
-    circos.text(mean(xlim), 
-                mean(ylim) + uy(9, "mm"), 
-                cex = 1.1, sector.index) 
-    circos.lines(x, y, 
-                 col = "blue", 
-                 area = TRUE, 
-                 baseline = 0)
-    circos.yaxis(side = "left", 
-                 sector.index = levels(cov.select.1$factor)[1])
-  })
-
-  circos.trackPlotRegion(factors = cov.select.1$factor, 
-                         ylim = c(-1,1), 
-                         x = cov.select.1$x, 
-                         y = cov.select.1$y, 
-                         panel.fun = function(x, y) {
-    grey = c("#FFFFFF", "#CCCCCC", "#999999")
-    sector.index = get.cell.meta.data("sector.index")
-    xlim = get.cell.meta.data("xlim")
-    ylim = get.cell.meta.data("ylim")
-    circos.lines(x, y, 
-                 col = "red", 
-                 area = TRUE, 
-                 baseline = 0)
-    circos.yaxis(side = "left", 
-                 sector.index = levels(cov.select.1$factor)[1])
-  })
-
-  circos.trackPlotRegion(factors = cov.select.2$factor, 
-                         ylim = c(-1,1), 
-                         x = cov.select.2$x, 
-                         y = cov.select.2$y, 
-                         panel.fun = function(x, y) {
-  
-    grey = c("#FFFFFF", "#CCCCCC", "#999999")
-    sector.index = get.cell.meta.data("sector.index")
-    xlim = get.cell.meta.data("xlim")
-    ylim = get.cell.meta.data("ylim")
-    circos.lines(x, y, 
-                 col = "red", 
-                 area = TRUE, 
-                 baseline = 0)
-    circos.yaxis(side = "left", 
-                 sector.index = levels(cov.select.1$factor)[1])
-  })
-
-  circos.trackPlotRegion(factors = cov.select.3$factor, 
-                         ylim = c(-1,1), 
-                         x = cov.select.3$x, 
-                         y = cov.select.3$y, 
-                         panel.fun = function(x, y) {
-  
-    grey = c("#FFFFFF", "#CCCCCC", "#999999")
-    sector.index = get.cell.meta.data("sector.index")
-    xlim = get.cell.meta.data("xlim")
-    ylim = get.cell.meta.data("ylim")
-    circos.lines(x, y, 
-                 col = "red", 
-                 area = TRUE, baseline = 0)
-    circos.yaxis(side = "left", 
-                 sector.index = levels(cov.select.1$factor)[1])
-    circos.axis("bottom", 
-                direction = "inside", 
-                labels.facing = "reverse.clockwise")
-  })
-
-  dev.off()
-
+ 
 }
-
