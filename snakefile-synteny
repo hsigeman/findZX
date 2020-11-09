@@ -14,12 +14,12 @@ SPECIES = config["species"]
 HETEROGAMETIC = config["heterogametic"]
 HOMOGAMETIC = config["homogametic"]
 FQ_DIR = config["fastq"]
-REF_SPECIES = config["ref_species"]
+#REF_SPECIES = config["ref_species"]
 REF_DIR = config["ref_dir"]
 REF_NAME = config["ref_name"]
 CHROMOSOMES = config["chr_file"]
 CHROMOSOMES_HIGHLIGHT = config["chr_highlight_file"]
-PREFIX = SPECIES + "_ref_" + REF_SPECIES
+PREFIX = SPECIES + "_ref_" + REF_NAME
 
 REF_PATH = REF_DIR + REF_NAME
 REF_FASTA = REF_DIR + REF_NAME + ".fasta"
@@ -82,7 +82,7 @@ rule lastal_syns:
     input:
         REF_PATH + "wrap.fasta"
     output:
-        COMP_GEN_SYNS + REF_SPECIES + "_align"
+        COMP_GEN_SYNS + REF_NAME + "_align"
     params:
         db = SYNS_DB
     threads: 15
@@ -93,9 +93,9 @@ rule lastal_syns:
 
 rule maf_convert_syns:
     input:
-        COMP_GEN_SYNS + REF_SPECIES + "_align"
+        COMP_GEN_SYNS + REF_NAME + "_align"
     output:
-        COMP_GEN_SYNS + REF_SPECIES + "_align_converted"
+        COMP_GEN_SYNS + REF_NAME + "_align_converted"
     threads: 1
     shell:
         """
@@ -108,7 +108,7 @@ rule maf_convert_syns:
 
 rule matchScaffold2Chr:
     input:
-        syns = COMP_GEN_SYNS + REF_SPECIES + "_align_converted",
+        syns = COMP_GEN_SYNS + REF_NAME + "_align_converted",
         gencov = GENCOV_DIR_REF + "genome_5kb_windows.out"
     output:
         windows = COMP_GEN_SYNS  + "genome_windows.out",
