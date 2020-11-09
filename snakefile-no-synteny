@@ -14,12 +14,12 @@ SPECIES = config["species"]
 HETEROGAMETIC = config["heterogametic"]
 HOMOGAMETIC = config["homogametic"]
 FQ_DIR = config["fastq"]
-REF_SPECIES = config["ref_species"]
+#REF_SPECIES = config["ref_species"]
 REF_DIR = config["ref_dir"]
 REF_NAME = config["ref_name"]
 CHROMOSOMES = config["chr_file"]
 CHROMOSOMES_HIGHLIGHT = config["chr_highlight_file"]
-PREFIX = SPECIES + "_ref_" + REF_SPECIES
+PREFIX = SPECIES + "_ref_" + REF_NAME
 
 REF_PATH = REF_DIR + REF_NAME
 REF_FASTA = REF_DIR + REF_NAME + ".fasta"
