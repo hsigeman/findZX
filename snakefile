@@ -280,16 +280,15 @@ rule plotting:
         touch(RESULTDIR + SPECIES + "{synteny}{gencov}.plotting.{bp}bp.done")
     threads: 1
     params:
-        out_circlize = RESULTDIR + SPECIES + "{synteny}{gencov}.circlize.{bp}bp.pdf",
         out_scatter = RESULTDIR + SPECIES + "{synteny}{gencov}.scatter.{bp}bp.pdf",
         chromosomes = CHROMOSOMES,
+	chromosomes_highlight = CHROMOSOMES_HIGHLIGHT,
 	ED = expand("{ED}", ED = EDIT_DIST),
-	nr_chromosomes = 50
     wildcard_constraints:
         gencov = "gencov"
     shell:
         """
-        Rscript code/plot_windows.R {input.cov} {input.snp} {params.out_circlize} {params.out_scatter} {params.chromosomes} {params.ED} {params.nr_chromosomes}
+        Rscript code/plot_windows.R {input.cov} {input.snp} {params.out_scatter} {params.chromosomes} {params.chromosomes_highlight} {params.ED} 
         """
 
 rule plotting_linear:
