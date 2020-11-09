@@ -50,17 +50,14 @@ ED1 = gsub("\\.", "-", ED1)
 ED2 = gsub("\\.", "-", ED2)
 ED3 = gsub("\\.", "-", ED3)
 
-file1_base = gsub(".out", "", file1)
-file2_base = gsub(".out", "", file2)
-file3_base = gsub(".out", "", file3)
-filesnp_base = gsub(".out", "", filesnp)
-
+file1_base = gsub(".out$", "", file1)
+file2_base = gsub(".out$", "", file2)
+file3_base = gsub(".out$", "", file3)
+filesnp_base = gsub(".out$", "", filesnp)
 
 ################################################################################
 ################################# READ FILES ###################################
 ################################################################################
-
-
 
 cov_1_table <- read.table(file1, 
                           header=TRUE, 
