@@ -128,7 +128,7 @@ rule gencov_prepare_fasta:
     input:
         REF_FASTA + ".fai"
     output:
-        filter_fai = GENCOV_DIR_REF + REF_SPECIES + ".filter." + MIN_SIZE_SCAFFOLD + ".fasta.fai",
+        filter_fai = GENCOV_DIR_REF + REF_NAME + ".filter." + MIN_SIZE_SCAFFOLD + ".fasta.fai",
         windows = GENCOV_DIR_REF + "genome_5kb_windows.out"
     params:
         MIN_SIZE_SCAFFOLD
@@ -177,8 +177,8 @@ rule freebayes_prep:
     input:
         REF_FASTA + ".fai"
     output:
-        filter_fai = VCF_DIR_REF + REF_SPECIES + ".filter." + MIN_SIZE_SCAFFOLD + ".fasta.fai",
-        regions = VCF_DIR_REF + REF_SPECIES + ".100kbp.regions"
+        filter_fai = VCF_DIR_REF + REF_NAME + ".filter." + MIN_SIZE_SCAFFOLD + ".fasta.fai",
+        regions = VCF_DIR_REF + REF_NAME + ".100kbp.regions"
     params:
         MIN_SIZE_SCAFFOLD
     threads: 4
@@ -192,7 +192,7 @@ rule freebayes_prep:
 rule freebayes_parallel:
     input:
         ref = REF_FASTA,
-        regions = VCF_DIR_REF + REF_SPECIES + ".100kbp.regions",
+        regions = VCF_DIR_REF + REF_NAME + ".100kbp.regions",
         samples = expand(MAP_DIR + "{S}.sorted.nodup.nm.all.bam", S = ID),
 	    bai = expand(MAP_DIR + "{S}.sorted.nodup.nm.all.bam.bai", S = ID)
     output:
