@@ -174,7 +174,7 @@ snp_table$chr <- ordered(snp_table$chr,
 # Filter data for n longest scaffolds, determined by args[11]
 if ( !file.exists(chr_file) & len_chr >= CHR_NR) {
   nr_chr <- CHR_NR
-  chromosome <- as.factor(len_chr[with(len_chr, order(-range)),][1:nr_chr,1])
+  chromosome <- as.factor(chromosome[1:nr_chr])
 } 
 
 cov_1_table <- cov_1_table[cov_1_table$chr %in% chromosome,]
@@ -215,8 +215,8 @@ p.cov1 <- ggplot(cov1, aes(x=BPcum, y=diff)) +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
   geom_point( aes(y = heterogametic, color="heterogametic"), alpha=0.2,size = 0.5 ) +
   geom_point( aes(y = homogametic, color="homogametic"), alpha=0.2,size = 0.5 ) +
-  geom_smooth( aes(y = heterogametic, color="heterogametic", group = chr), method = 'loess', span = 0.3) +
-  geom_smooth( aes(y = homogametic, color="homogametic", group = chr), method = 'loess', span = 0.3) +
+  geom_smooth( aes(y = heterogametic, color="heterogametic", group = chr), method = 'gam', span = 0.3) +
+  geom_smooth( aes(y = homogametic, color="homogametic", group = chr), method = 'gam', span = 0.3) +
   #geom_point( aes(color=as.factor(chr)), alpha=0.8, size=1) +
   #scale_color_manual(values = rep(c("darkgrey", "black"), 50 )) +
   scale_color_manual(values = colors) +
@@ -258,8 +258,8 @@ p.cov2 <- ggplot(cov2, aes(x=BPcum, y=diff)) +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
   geom_point( aes(y = heterogametic, color="heterogametic"), alpha=0.2,size = 0.5 ) +
   geom_point( aes(y = homogametic, color="homogametic"), alpha=0.2,size = 0.5 ) +
-  geom_smooth( aes(y = heterogametic, color="heterogametic", group = chr), method = 'loess', span = 0.3) +
-  geom_smooth( aes(y = homogametic, color="homogametic", group = chr), method = 'loess', span = 0.3) +
+  geom_smooth( aes(y = heterogametic, color="heterogametic", group = chr), method = 'gam', span = 0.3) +
+  geom_smooth( aes(y = homogametic, color="homogametic", group = chr), method = 'gam', span = 0.3) +
   #geom_point( aes(color=as.factor(chr)), alpha=0.8, size=1) +
   #scale_color_manual(values = rep(c("darkgrey", "black"), 50 )) +
   scale_color_manual(values = colors) +
@@ -301,8 +301,8 @@ p.cov3 <- ggplot(cov3, aes(x=BPcum, y=diff)) +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
   geom_point( aes(y = heterogametic, color="heterogametic"), alpha=0.2,size = 0.5 ) +
   geom_point( aes(y = homogametic, color="homogametic"), alpha=0.2,size = 0.5 ) +
-  geom_smooth( aes(y = heterogametic, color="heterogametic", group = chr), method = 'loess', span = 0.3) +
-  geom_smooth( aes(y = homogametic, color="homogametic", group = chr), method = 'loess', span = 0.3) +
+  geom_smooth( aes(y = heterogametic, color="heterogametic", group = chr), method = 'gam', span = 0.3) +
+  geom_smooth( aes(y = homogametic, color="homogametic", group = chr), method = 'gam', span = 0.3) +
   #geom_point( aes(color=as.factor(chr)), alpha=0.8, size=1) +
   #scale_color_manual(values = rep(c("darkgrey", "black"), 50 )) +
   scale_color_manual(values = colors) +
@@ -343,8 +343,8 @@ p.snp <- ggplot(snp, aes(x=BPcum, y=diff)) +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
   geom_point( aes(y = heterogametic, color="heterogametic"), alpha=0.2,size = 0.5 ) +
   geom_point( aes(y = homogametic, color="homogametic"), alpha=0.2,size = 0.5 ) +
-  geom_smooth( aes(y = heterogametic, color="heterogametic", group = chr), method = 'loess', span = 0.3) +
-  geom_smooth( aes(y = homogametic, color="homogametic", group = chr), method = 'loess', span = 0.3) +
+  geom_smooth( aes(y = heterogametic, color="heterogametic", group = chr), method = 'gam', span = 0.3) +
+  geom_smooth( aes(y = homogametic, color="homogametic", group = chr), method = 'gam', span = 0.3) +
   #geom_point( aes(color=as.factor(chr)), alpha=0.8, size=1) +
   #scale_color_manual(values = rep(c("darkgrey", "black"), 50 )) +
   scale_color_manual(values = colors) +
@@ -373,7 +373,7 @@ c <- plot_grid(p.snp + theme(legend.position="none"),
 
 d <- plot_grid(c, legend_b, ncol = 1, rel_heights = c(1, .1))
 
-pdf(file=absolute_out, width = 9, height = 5)
+pdf(file=absolute_out, width = 15, height = 10)
 #pdf(file="test.pdf", width = 9, height = 5)
 print(d)
 dev.off()
@@ -485,7 +485,7 @@ c <- plot_grid(p.snp,
 
 #d <- plot_grid(c, legend_b, ncol = 1, rel_heights = c(1, .1))
 
-pdf(file=diff_out, width = 15, height = 12)
+pdf(file=diff_out, width = 15, height = 10)
 #pdf(file="test.pdf", width = 15, height = 9)
 print(c)
 dev.off()
