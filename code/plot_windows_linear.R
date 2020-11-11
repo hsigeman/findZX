@@ -49,6 +49,7 @@ CHR_NR = args[11]
 ED1 = gsub("\\.", "-", ED1)
 ED2 = gsub("\\.", "-", ED2)
 ED3 = gsub("\\.", "-", ED3)
+CHR_NR <- as.integer(CHR_NR)
 
 file1_base = gsub(".out$", "", file1)
 file2_base = gsub(".out$", "", file2)
