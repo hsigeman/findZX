@@ -172,7 +172,7 @@ snp_table$chr <- ordered(snp_table$chr,
 ################################################################################
 
 # Filter data for n longest scaffolds, determined by args[11]
-if ( !file.exists(chr_file) & len_chr >= CHR_NR) {
+if ( !file.exists(chr_file) & (len_chr > CHR_NR)) {
   nr_chr <- CHR_NR
   chromosome <- as.factor(chromosome[1:nr_chr])
 } 
