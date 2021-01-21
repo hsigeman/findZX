@@ -199,9 +199,13 @@ hl <- plot_grid(hl0, hl2, hl4, legend, ncol = 4, rel_widths = c(3,3,3,1))
 
 ################################################################################
 
-pg <- plot_grid(l,c,hl, ncol = 1, labels = 'AUTO')
+#pg <- plot_grid(l,c,hl, ncol = 1, labels = 'AUTO')
 
-ggsave(scatter2D_out, plot = pg, device = pdf(), width = 14, height = 14)
+#ggsave(scatter2D_out, plot = pg, device = pdf(), width = 14, height = 14)
+
+pg <- plot_grid(l,hl, ncol = 1, labels = 'AUTO')
+
+ggsave(scatter2D_out, plot = pg, device = pdf(), width = 14, height = 8)
 
 ################################################################################
 ############################### SCATTER PLOT 3D ################################
