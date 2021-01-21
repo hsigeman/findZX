@@ -103,20 +103,20 @@ l0 <- ggplot(cov.select, aes(x = cov00, y = hetDiff, size=length)) +
   theme_bw() + 
   geom_point(aes(color = length), alpha = 0.5) +
   theme(legend.position="none") +
-  scale_color_gradient(low="lightgrey", high="red")
+  scale_color_viridis(option = "D", direction = -1) 
 
 l2 <- ggplot(cov.select, aes(x = cov02, y = hetDiff, size=length)) + 
   labs(title = sprintf("Genome coverage: %s mismatches", ED2), x = "difference in normalized genome coverage", y = "") + 
   theme_bw() + 
   geom_point(aes(color = length), alpha = 0.5) + 
   theme(legend.position="none") +
-  scale_color_gradient(low="lightgrey", high="red")
+  scale_color_viridis(option = "D", direction = -1) 
 
 l4 <- ggplot(cov.select, aes(x = cov04, y = hetDiff, size=length)) + 
   labs(title = sprintf("Genome coverage: %s mismatches", ED3), x = "", color = "scaffold length", y = "") + 
   theme_bw() + 
   geom_point(aes(color = length), alpha = 0.5) + 
-  scale_color_gradient(low="lightgrey", high="red")
+  scale_color_viridis(option = "D", direction = -1) 
 
 legend <- get_legend(l4)
 
