@@ -49,6 +49,12 @@ CHR_NR = args[11]
 ED1 = gsub("\\.", "-", ED1)
 ED2 = gsub("\\.", "-", ED2)
 ED3 = gsub("\\.", "-", ED3)
+
+ED1 = gsub("0-0", "0", ED1)
+ED1 = gsub("0-", "<= ", ED1)
+ED2 = gsub("0-", "<= ", ED2)
+
+
 CHR_NR <- as.integer(CHR_NR)
 
 file1_base = gsub(".out$", "", file1)
@@ -230,7 +236,8 @@ p.cov1 <- ggplot(cov1, aes(x=BPcum, y=diff)) +
     panel.grid.major.x = element_blank(),
     panel.grid.minor.x = element_blank(),
     axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)
-  )
+  ) + theme(axis.text = element_text(size = 12)) + 
+  theme(text=element_text(family="Helvetica"))
 
 # Prepare the dataset
 cov2 <- cov_2_table %>% 
@@ -273,7 +280,8 @@ p.cov2 <- ggplot(cov2, aes(x=BPcum, y=diff)) +
     panel.grid.major.x = element_blank(),
     panel.grid.minor.x = element_blank(),
     axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)
-  ) 
+  ) + theme(axis.text = element_text(size = 12)) + 
+  theme(text=element_text(family="Helvetica"))
 
 # Prepare the dataset
 cov3 <- cov_3_table %>% 
@@ -316,7 +324,8 @@ p.cov3 <- ggplot(cov3, aes(x=BPcum, y=diff)) +
     panel.grid.major.x = element_blank(),
     panel.grid.minor.x = element_blank(),
     axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)
-  )
+  ) + theme(axis.text = element_text(size = 12)) + 
+  theme(text=element_text(family="Helvetica"))
 
 # Prepare the dataset
 snp <- snp_table %>% 
@@ -358,7 +367,8 @@ p.snp <- ggplot(snp, aes(x=BPcum, y=diff)) +
     panel.grid.major.x = element_blank(),
     panel.grid.minor.x = element_blank(),
     axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)
-  )
+  ) + theme(axis.text = element_text(size = 12)) + 
+  theme(text=element_text(family="Helvetica"))
 
 
 legend_b <- get_legend(p.snp + guides(color = guide_legend(nrow = 1)) + theme_bw() + theme(legend.position = "bottom"))
