@@ -193,7 +193,7 @@ pg <- plot_grid(l,hl, ncol = 1, labels = 'AUTO')
 
 ggsave(scatter2D_out, plot = pg, device = pdf(), width = 14, height = 8)
 
-ggsave(sprintf("%s.png", scatter2D_out_base), plot = pg, device = png(), width = 14, height = 8)
+ggsave(sprintf("%s.png", scatter2D_out_base), plot = pg, device = png(), width = 14, height = 8, dpi = 900)
 
 
 ################################################################################
