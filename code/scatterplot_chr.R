@@ -28,6 +28,7 @@ chr_file = args[7]
 ED1 = args[8]
 ED2 = args[9]
 ED3 = args[10]
+scatter2D_out_png = args[11]
 
 ################################################################################
 ################################# READ FILES ###################################
@@ -190,6 +191,9 @@ hl <- plot_grid(hl0, hl2, hl4, legend, ncol = 4, rel_widths = c(3,3,3,1))
 pg <- plot_grid(l,hl, ncol = 1, labels = 'AUTO')
 
 ggsave(scatter2D_out, plot = pg, device = pdf(), width = 14, height = 8)
+
+ggsave(scatter2D_out_png, plot = pg, device = png(), width = 14, height = 8)
+
 
 ################################################################################
 ############################### SCATTER PLOT 3D ################################
