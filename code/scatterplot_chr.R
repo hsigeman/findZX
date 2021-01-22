@@ -28,7 +28,6 @@ chr_file = args[7]
 ED1 = args[8]
 ED2 = args[9]
 ED3 = args[10]
-scatter2D_out_png = args[11]
 
 ################################################################################
 ################################# READ FILES ###################################
@@ -42,6 +41,8 @@ ED1 = gsub("0-0", "0", ED1)
 ED1 = gsub("0-", "<= ", ED1)
 ED2 = gsub("0-", "<= ", ED2)
 
+
+scatter2D_out_base = gsub("\\.pdf", "", scatter2D_out)
 
 cov_00_table <- read.table(file1, header=TRUE,fill=TRUE,stringsAsFactor=FALSE)
 cov_02_table <- read.table(file2, header=TRUE,fill=TRUE,stringsAsFactor=FALSE)
@@ -192,7 +193,7 @@ pg <- plot_grid(l,hl, ncol = 1, labels = 'AUTO')
 
 ggsave(scatter2D_out, plot = pg, device = pdf(), width = 14, height = 8)
 
-ggsave(scatter2D_out_png, plot = pg, device = png(), width = 14, height = 8)
+ggsave(sprintf("%s.png", scatter2D_out_base), plot = pg, device = png(), width = 14, height = 8)
 
 
 ################################################################################
