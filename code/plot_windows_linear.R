@@ -378,8 +378,8 @@ png(file=absolute_out_base, width = 1100, height = 600)
 print(d)
 dev.off()
 
-absolute_out_base = gsub("\\.pdf", "", absolute_out)
-ggsave(sprintf("%s.png", diff_out_base), plot = d, device = png(), width = 14, height = 8, dpi = 900)
+absolute_out_base2 = gsub("\\.pdf", "", absolute_out)
+ggsave(sprintf("%s.png", absolute_out_base2), plot = d, device = png(), width = 14, height = 8, dpi = 900)
 
 ############### DIFF
 
@@ -503,12 +503,7 @@ print(c)
 dev.off()
 
 
-diff_out_base = gsub("\\.pdf", "", diff_out)
-ggsave(sprintf("%s.png", diff_out_base), plot = c, device = png(), width = 14, height = 8, dpi = 900)
+diff_out_base2 = gsub("\\.pdf", "", diff_out)
+ggsave(sprintf("%s.png", diff_out_base2), plot = c, device = png(), width = 14, height = 8, dpi = 900)
 
 
-
-absolute_out_tiff = gsub("\\.pdf", ".tiff", absolute_out)
-tiff(file=absolute_out_tiff, width = 1000, height = 600)
-print(c)
-dev.off()
