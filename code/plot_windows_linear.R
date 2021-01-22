@@ -32,20 +32,6 @@ ED2 = args[9]
 ED3 = args[10]
 CHR_NR = args[11]
 
-#setwd("~/Dropbox (MEEL)/PhD/Subprojects/6 Sylvioidea neosc-scan/9 Sexchromoscanner/code/")
-#file1 = "../results/bella/aloatta/aloatta.HS.gencov.nodup.nm.0.0.1Mbp.out"
-#file2 = "../results/bella/aloatta/aloatta.HS.gencov.nodup.nm.0.2.1Mbp.out"
-#file3 = "../results/bella/aloatta/aloatta.HS.gencov.nodup.nm.all.1Mbp.out"
-#filesnp = "../results/bella/aloatta/aloatta.HS.diffHeterozygosity.1Mbp.out"
-#circlize_out = "test.circlize.pdf"
-#scatter_out = "test.scatter.pdf"
-#chr_file = "hello.txt"
-#source("functions.R")
-#ED1 = "0.0"
-#ED2 = "0.2"
-#ED3 = "all"
-#CHR_NR = 5
-
 ED1 = gsub("\\.", "-", ED1)
 ED2 = gsub("\\.", "-", ED2)
 ED3 = gsub("\\.", "-", ED3)
@@ -61,6 +47,9 @@ file1_base = gsub(".out$", "", file1)
 file2_base = gsub(".out$", "", file2)
 file3_base = gsub(".out$", "", file3)
 filesnp_base = gsub(".out$", "", filesnp)
+
+diff_out_base = gsub("\\.pdf", ".png", diff_out)
+absolute_out_base = gsub("\\.pdf", ".png", absolute_out)
 
 ################################################################################
 ################################# READ FILES ###################################
@@ -165,13 +154,13 @@ if ( !file.exists(chr_file) ) {
 
 
 cov_1_table$chr <- ordered(cov_1_table$chr, 
-                            levels = chromosome)
+                           levels = chromosome)
 cov_2_table$chr <- ordered(cov_2_table$chr, 
-                            levels = chromosome)
+                           levels = chromosome)
 cov_3_table$chr <- ordered(cov_3_table$chr, 
-                            levels = chromosome)
+                           levels = chromosome)
 snp_table$chr <- ordered(snp_table$chr, 
-                          levels = chromosome)
+                         levels = chromosome)
 
 
 ################################################################################
@@ -217,15 +206,12 @@ p.cov1 <- ggplot(cov1, aes(x=BPcum, y=diff)) +
   scale_x_continuous( label = axisdf$chr, breaks= axisdf$center ) +
   scale_y_continuous(expand = c(0, 0) ) +     # remove space between plot area and x axis
   coord_cartesian(ylim=c(0, 2)) +
-  # geom_rect(mapping=aes(xmin=-Inf, xmax=Inf, ymin=se_cov_1_table$ratio.m-se_cov_1_table$ratio.s, ymax=se_cov_1_table$ratio.m+se_cov_1_table$ratio.s), fill="pink", alpha=0.5) +
   ylab(sprintf("%s mismatches", ED1)) +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
   geom_point( aes(y = heterogametic, color="heterogametic"), alpha=0.2,size = 0.5 ) +
   geom_point( aes(y = homogametic, color="homogametic"), alpha=0.2,size = 0.5 ) +
   geom_smooth( aes(y = heterogametic, color="heterogametic", group = chr), method = 'gam', span = 0.3) +
   geom_smooth( aes(y = homogametic, color="homogametic", group = chr), method = 'gam', span = 0.3) +
-  #geom_point( aes(color=as.factor(chr)), alpha=0.8, size=1) +
-  #scale_color_manual(values = rep(c("darkgrey", "black"), 50 )) +
   scale_color_manual(values = colors) +
   # Custom the theme:
   theme_bw() +
@@ -236,8 +222,9 @@ p.cov1 <- ggplot(cov1, aes(x=BPcum, y=diff)) +
     panel.grid.major.x = element_blank(),
     panel.grid.minor.x = element_blank(),
     axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)
-  ) + theme(axis.text = element_text(size = 12)) + 
-  theme(text=element_text(family="Helvetica"))
+  )+ theme(axis.text = element_text(size = 12)) + 
+  theme(text=element_text(family="Helvetica"))+ theme(legend.title = element_blank()) + theme(legend.text = element_text(size=18, family="Helvetica")) + 
+  theme(legend.key.height= unit(2, 'cm'),legend.key.width= unit(4, 'cm'))
 
 # Prepare the dataset
 cov2 <- cov_2_table %>% 
@@ -261,15 +248,12 @@ p.cov2 <- ggplot(cov2, aes(x=BPcum, y=diff)) +
   scale_x_continuous( label = axisdf$chr, breaks= axisdf$center ) +
   scale_y_continuous(expand = c(0, 0) ) +     # remove space between plot area and x axis
   coord_cartesian(ylim=c(0, 2)) + 
-  # geom_rect(mapping=aes(xmin=-Inf, xmax=Inf, ymin=se_cov_2_table$ratio.m-se_cov_2_table$ratio.s, ymax=se_cov_2_table$ratio.m+se_cov_2_table$ratio.s), fill="pink", alpha=0.5) +
   ylab(sprintf("%s mismatches", ED2)) +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
   geom_point( aes(y = heterogametic, color="heterogametic"), alpha=0.2,size = 0.5 ) +
   geom_point( aes(y = homogametic, color="homogametic"), alpha=0.2,size = 0.5 ) +
   geom_smooth( aes(y = heterogametic, color="heterogametic", group = chr), method = 'gam', span = 0.3) +
   geom_smooth( aes(y = homogametic, color="homogametic", group = chr), method = 'gam', span = 0.3) +
-  #geom_point( aes(color=as.factor(chr)), alpha=0.8, size=1) +
-  #scale_color_manual(values = rep(c("darkgrey", "black"), 50 )) +
   scale_color_manual(values = colors) +
   # Custom the theme:
   theme_bw() +
@@ -280,8 +264,9 @@ p.cov2 <- ggplot(cov2, aes(x=BPcum, y=diff)) +
     panel.grid.major.x = element_blank(),
     panel.grid.minor.x = element_blank(),
     axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)
-  ) + theme(axis.text = element_text(size = 12)) + 
-  theme(text=element_text(family="Helvetica"))
+  )  +   theme(axis.text = element_text(size = 12)) + 
+  theme(text=element_text(family="Helvetica"))+ theme(legend.title = element_blank()) + theme(legend.text = element_text(size=18, family="Helvetica")) + 
+  theme(legend.key.height= unit(2, 'cm'),legend.key.width= unit(4, 'cm'))
 
 # Prepare the dataset
 cov3 <- cov_3_table %>% 
@@ -305,15 +290,12 @@ p.cov3 <- ggplot(cov3, aes(x=BPcum, y=diff)) +
   scale_x_continuous( label = axisdf$chr, breaks= axisdf$center ) +
   scale_y_continuous(expand = c(0, 0) ) +     # remove space between plot area and x axis
   coord_cartesian(ylim=c(0, 2)) +
-  # geom_rect(mapping=aes(xmin=-Inf, xmax=Inf, ymin=se_cov_3_table$ratio.m-se_cov_3_table$ratio.s, ymax=se_cov_3_table$ratio.m+se_cov_3_table$ratio.s), fill="pink", alpha=0.5) +
   ylab(sprintf("%s mismatches", ED3)) +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
   geom_point( aes(y = heterogametic, color="heterogametic"), alpha=0.2,size = 0.5 ) +
   geom_point( aes(y = homogametic, color="homogametic"), alpha=0.2,size = 0.5 ) +
   geom_smooth( aes(y = heterogametic, color="heterogametic", group = chr), method = 'gam', span = 0.3) +
   geom_smooth( aes(y = homogametic, color="homogametic", group = chr), method = 'gam', span = 0.3) +
-  #geom_point( aes(color=as.factor(chr)), alpha=0.8, size=1) +
-  #scale_color_manual(values = rep(c("darkgrey", "black"), 50 )) +
   scale_color_manual(values = colors) +
   # Custom the theme:
   theme_bw() +
@@ -324,8 +306,9 @@ p.cov3 <- ggplot(cov3, aes(x=BPcum, y=diff)) +
     panel.grid.major.x = element_blank(),
     panel.grid.minor.x = element_blank(),
     axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)
-  ) + theme(axis.text = element_text(size = 12)) + 
-  theme(text=element_text(family="Helvetica"))
+  )+ theme(axis.text = element_text(size = 12)) + 
+  theme(text=element_text(family="Helvetica"))+ theme(legend.title = element_blank()) + theme(legend.text = element_text(size=18, family="Helvetica")) + 
+  theme(legend.key.height= unit(2, 'cm'),legend.key.width= unit(4, 'cm'))
 
 # Prepare the dataset
 snp <- snp_table %>% 
@@ -355,8 +338,6 @@ p.snp <- ggplot(snp, aes(x=BPcum, y=diff)) +
   geom_point( aes(y = homogametic, color="homogametic"), alpha=0.2,size = 0.5 ) +
   geom_smooth( aes(y = heterogametic, color="heterogametic", group = chr), method = 'gam', span = 0.3) +
   geom_smooth( aes(y = homogametic, color="homogametic", group = chr), method = 'gam', span = 0.3) +
-  #geom_point( aes(color=as.factor(chr)), alpha=0.8, size=1) +
-  #scale_color_manual(values = rep(c("darkgrey", "black"), 50 )) +
   scale_color_manual(values = colors) +
   # Custom the theme:
   theme_bw() +
@@ -368,10 +349,13 @@ p.snp <- ggplot(snp, aes(x=BPcum, y=diff)) +
     panel.grid.minor.x = element_blank(),
     axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)
   ) + theme(axis.text = element_text(size = 12)) + 
-  theme(text=element_text(family="Helvetica"))
+  theme(text=element_text(family="Helvetica")) + theme(legend.title = element_blank()) + theme(legend.text = element_text(size=14, family="Helvetica")) + 
+  theme(legend.key.height= unit(1, 'cm'),legend.key.width= unit(1, 'cm'), legend.key=element_rect(fill='white'))
 
 
-legend_b <- get_legend(p.snp + guides(color = guide_legend(nrow = 1)) + theme_bw() + theme(legend.position = "bottom"))
+#legend_b <- get_legend(p.snp + guides(color = guide_legend(nrow = 1)) + theme_bw() + theme(legend.position = "bottom")) 
+
+legend_b <- get_legend(p.snp + theme(legend.position = "bottom", legend.key=element_rect(fill='white')))
 
 
 c <- plot_grid(p.snp + theme(legend.position="none"), 
@@ -384,13 +368,18 @@ c <- plot_grid(p.snp + theme(legend.position="none"),
 
 d <- plot_grid(c, legend_b, ncol = 1, rel_heights = c(1, .1))
 
-pdf(file=absolute_out, width = 15, height = 10)
-#pdf(file="test.pdf", width = 9, height = 5)
+#pdf(file=absolute_out, width = 15, height = 10)
+pdf(file=absolute_out, width = 13, height = 7)
 print(d)
 dev.off()
 
 
+png(file=absolute_out_base, width = 1100, height = 600)
+print(d)
+dev.off()
 
+absolute_out_base = gsub("\\.pdf", "", absolute_out)
+ggsave(sprintf("%s.png", diff_out_base), plot = d, device = png(), width = 14, height = 8, dpi = 900)
 
 ############### DIFF
 
@@ -405,8 +394,8 @@ p.cov1 <- ggplot(cov1, aes(x=BPcum, y=diff, color = diff)) +
   ylab(sprintf("%s mismatches", ED1)) +
   labs(color = "95 % CI") +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
-  geom_point(alpha=0.8, size=1) +
-  scale_color_gradientn(limits = c(-1,1), colours=c("blue", "grey", "red"),breaks=b, labels=format(b)) + 
+  geom_point(alpha=0.8, size=1.5) +
+  scale_color_gradientn(limits = c(-1,1), colours=c("blue", "grey40", "red"),breaks=b, labels=format(b)) + 
   theme_bw() +
   theme( 
     # legend.position="none",
@@ -415,7 +404,9 @@ p.cov1 <- ggplot(cov1, aes(x=BPcum, y=diff, color = diff)) +
     panel.grid.major.x = element_blank(),
     panel.grid.minor.x = element_blank(),
     axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)
-  ) + guides(fill = guide_colourbar(barwidth = 0.5, barheight = 10))
+  ) + guides(fill = guide_colourbar(barwidth = 0.5, barheight = 10))+ 
+  theme(axis.text = element_text(size = 12)) + 
+  theme(text=element_text(family="Helvetica"))
 
 
 # Make the plot
@@ -428,8 +419,8 @@ p.cov2 <- ggplot(cov2, aes(x=BPcum, y=diff, color = diff)) +
   ylab(sprintf("%s mismatches", ED2)) +
   labs(color = "95 % CI") +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
-  geom_point(alpha=0.8, size=1) +
-  scale_color_gradientn(limits = c(-1,1), colours=c("blue", "grey", "red"),breaks=b, labels=format(b)) + 
+  geom_point(alpha=0.8, size=1.5) +
+  scale_color_gradientn(limits = c(-1,1), colours=c("blue", "grey40", "red"),breaks=b, labels=format(b)) + 
   theme_bw() +
   theme( 
     # legend.position="none",
@@ -437,8 +428,10 @@ p.cov2 <- ggplot(cov2, aes(x=BPcum, y=diff, color = diff)) +
     axis.title.x = element_blank(),
     panel.grid.major.x = element_blank(),
     panel.grid.minor.x = element_blank(),
-    axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)
-  ) + guides(fill = guide_colourbar(barwidth = 0.5, barheight = 10))
+    axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + 
+  guides(fill = guide_colourbar(barwidth = 0.5, barheight = 10))+ 
+  theme(axis.text = element_text(size = 12)) + 
+  theme(text=element_text(family="Helvetica"))
 
 # Make the plot
 b <- c(sd_cov_3_table$diff.m-(sd_cov_3_table$diff.s*2), sd_cov_3_table$diff.m, (sd_cov_3_table$diff.m+sd_cov_3_table$diff.s*2))
@@ -450,8 +443,8 @@ p.cov3 <- ggplot(cov3, aes(x=BPcum, y=diff, color = diff)) +
   ylab(sprintf("%s mismatches", ED3)) +
   labs(color = "95 % CI") +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
-  geom_point(alpha=0.8, size=1) +
-  scale_color_gradientn(limits = c(-1,1), colours=c("blue", "grey", "red"),breaks=b, labels=format(b)) + 
+  geom_point(alpha=0.8, size=1.5) +
+  scale_color_gradientn(limits = c(-1,1), colours=c("blue", "grey40", "red"),breaks=b, labels=format(b)) + 
   theme_bw() +
   theme( 
     # legend.position="none",
@@ -459,8 +452,10 @@ p.cov3 <- ggplot(cov3, aes(x=BPcum, y=diff, color = diff)) +
     axis.title.x = element_blank(),
     panel.grid.major.x = element_blank(),
     panel.grid.minor.x = element_blank(),
-    axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)
-  )+ guides(fill = guide_colourbar(barwidth = 0.5, barheight = 10))
+    axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+ 
+    guides(fill = guide_colourbar(barwidth = 0.5, barheight = 10))+ 
+    theme(axis.text = element_text(size = 12)) + 
+    theme(text=element_text(family="Helvetica"))
 
 
 
@@ -474,8 +469,8 @@ p.snp <- ggplot(snp, aes(x=BPcum, y=diff, color = diff)) +
   ylab("SNP diff") +
   labs(color = "95 % CI") +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
-  geom_point(alpha=0.8, size=1) +
-  scale_color_gradientn(limits = c(-1,1), colours=c("blue", "grey", "red"),breaks=b, labels=format(b)) + 
+  geom_point(alpha=0.8, size=1.5) +
+  scale_color_gradientn(limits = c(-1,1), colours=c("blue", "grey40", "red"),breaks=b, labels=format(b)) + 
   theme_bw() +
   theme( 
     # legend.position="none",
@@ -483,8 +478,10 @@ p.snp <- ggplot(snp, aes(x=BPcum, y=diff, color = diff)) +
     axis.title.x = element_blank(),
     panel.grid.major.x = element_blank(),
     panel.grid.minor.x = element_blank(),
-    axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)
-  )+ guides(fill = guide_colourbar(barwidth = 0.5, barheight = 10))
+    axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+ 
+    guides(fill = guide_colourbar(barwidth = 0.5, barheight = 10))+ 
+    theme(axis.text = element_text(size = 12)) + 
+    theme(text=element_text(family="Helvetica"))
 
 
 c <- plot_grid(p.snp, 
@@ -496,7 +493,22 @@ c <- plot_grid(p.snp,
 
 #d <- plot_grid(c, legend_b, ncol = 1, rel_heights = c(1, .1))
 
-pdf(file=diff_out, width = 15, height = 10)
+pdf(file=diff_out, width = 14, height = 7)
 #pdf(file="test.pdf", width = 15, height = 9)
+print(c)
+dev.off()
+
+png(file=diff_out_base, width = 1000, height = 600)
+print(c)
+dev.off()
+
+
+diff_out_base = gsub("\\.pdf", "", diff_out)
+ggsave(sprintf("%s.png", diff_out_base), plot = c, device = png(), width = 14, height = 8, dpi = 900)
+
+
+
+absolute_out_tiff = gsub("\\.pdf", ".tiff", absolute_out)
+tiff(file=absolute_out_tiff, width = 1000, height = 600)
 print(c)
 dev.off()
