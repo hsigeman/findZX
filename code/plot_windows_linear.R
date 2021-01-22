@@ -332,7 +332,7 @@ p.snp <- ggplot(snp, aes(x=BPcum, y=diff)) +
   scale_x_continuous( label = axisdf$chr, breaks= axisdf$center ) +
   scale_y_continuous(expand = c(0, 0) ) +     # remove space between plot area and x axis
   coord_cartesian(ylim=c(0, 1)) +
-  ylab("SNP diff") +
+  ylab("heterozygosity") +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
   geom_point( aes(y = heterogametic, color="heterogametic"), alpha=0.2,size = 0.5 ) +
   geom_point( aes(y = homogametic, color="homogametic"), alpha=0.2,size = 0.5 ) +
@@ -466,7 +466,7 @@ p.snp <- ggplot(snp, aes(x=BPcum, y=diff, color = diff)) +
   scale_x_continuous( label = axisdf$chr, breaks= axisdf$center ) +
   scale_y_continuous(expand = c(0, 0) ) +     # remove space between plot area and x axis
   coord_cartesian(ylim=c(-1, 1)) +
-  ylab("SNP diff") +
+  ylab("heterozygosity") +
   labs(color = "95 % CI") +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
   geom_point(alpha=0.8, size=1.5) +
