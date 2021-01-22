@@ -37,6 +37,11 @@ ED1 = gsub("\\.", "-", ED1)
 ED2 = gsub("\\.", "-", ED2)
 ED3 = gsub("\\.", "-", ED3)
 
+ED1 = gsub("0-0", "0", ED1)
+ED1 = gsub("0-", "<= ", ED1)
+ED2 = gsub("0-", "<= ", ED2)
+
+
 cov_00_table <- read.table(file1, header=TRUE,fill=TRUE,stringsAsFactor=FALSE)
 cov_02_table <- read.table(file2, header=TRUE,fill=TRUE,stringsAsFactor=FALSE)
 cov_04_table <- read.table(file3, header=TRUE,fill=TRUE,stringsAsFactor=FALSE)
@@ -98,25 +103,35 @@ colnames(cov.select) <- c("Chromosome", "cov00", "cov02", "cov04", "length", "he
 
 cov.select <- cov.select[order(abs(cov.select$length)),]
 
-l0 <- ggplot(cov.select, aes(x = cov00, y = hetDiff, size=length)) + 
-  labs(title = sprintf("Genome coverage: %s mismatches", ED1), x = "", y = "difference in heterozygosity") + 
+l0 <- ggplot(cov.select, aes(x = cov00, y = hetDiff, size=length/1000000)) + 
+  labs(title = sprintf("%s mismatches", ED1), x = "", y = "difference in heterozygosity") + 
   theme_bw() + 
-  geom_point(aes(color = length), alpha = 0.5) +
+  geom_point(aes(color = length/1000000), alpha = 0.5) +
   theme(legend.position="none") +
-  scale_color_viridis(option = "D", direction = -1) 
+  theme(plot.title = element_text(hjust = 0.5)) +
+  scale_color_gradient(low="gray90", high="blue")  +
+  theme(axis.text = element_text(size = 10)) + 
+  theme(text=element_text(family="Helvetica"))
 
-l2 <- ggplot(cov.select, aes(x = cov02, y = hetDiff, size=length)) + 
-  labs(title = sprintf("Genome coverage: %s mismatches", ED2), x = "difference in normalized genome coverage", y = "") + 
+l2 <- ggplot(cov.select, aes(x = cov02, y = hetDiff, size=length/1000000)) + 
+  #labs(title = sprintf("%s mismatches", ED2), x = "difference in normalized genome coverage", y = "") + 
+  labs(title = sprintf("%s mismatches", ED2), x = " ", y = "") + 
   theme_bw() + 
-  geom_point(aes(color = length), alpha = 0.5) + 
+  geom_point(aes(color = length/1000000), alpha = 0.5) + 
   theme(legend.position="none") +
-  scale_color_viridis(option = "D", direction = -1) 
+  theme(plot.title = element_text(hjust = 0.5)) +
+  scale_color_gradient(low="gray90", high="blue") +
+  theme(axis.text = element_text(size = 10)) + 
+  theme(text=element_text(family="Helvetica"))
 
-l4 <- ggplot(cov.select, aes(x = cov04, y = hetDiff, size=length)) + 
-  labs(title = sprintf("Genome coverage: %s mismatches", ED3), x = "", color = "scaffold length", y = "") + 
+l4 <- ggplot(cov.select, aes(x = cov04, y = hetDiff, size=length/1000000)) + 
+  labs(title = sprintf("%s mismatches", ED3), x = "", size = "scaffold length (Mb)", color = "scaffold length (Mb)", y = "") + 
   theme_bw() + 
-  geom_point(aes(color = length), alpha = 0.5) + 
-  scale_color_viridis(option = "D", direction = -1) 
+  geom_point(aes(color = length/1000000), alpha = 0.5) + 
+  theme(plot.title = element_text(hjust = 0.5)) +
+  scale_color_gradient(low="gray90", high="blue")  +
+  theme(axis.text = element_text(size = 10)) + 
+  theme(text=element_text(family="Helvetica"))
 
 legend <- get_legend(l4)
 
@@ -124,43 +139,6 @@ l4 <- l4 + theme(legend.position="none")
 
 l <- plot_grid(l0, l2, l4, legend, ncol = 4, rel_widths = c(3,3,3,1))
 
-################################################################################
-############################ SCATTER PLOT COVERAGE #############################
-################################################################################
-
-cov.select <- cov.select[order(abs(cov.select$cov00)),]
-
-
-c0 <- ggplot(cov.select, aes(y = length, x = hetDiff)) + 
-  labs(title = "", y = "scaffold length", x = "", color = "coverage") + 
-  theme_bw() + 
-  geom_point(aes(color = cov00)) + 
-  scale_color_viridis()
-
-legend <- get_legend(c0)
-
-c0 <- c0 + theme(legend.position="none")
-
-cov.select <- cov.select[order(abs(cov.select$cov02)),]
-
-
-c2 <- ggplot(cov.select, aes(y = length, x = hetDiff)) + 
-  labs(title = "", y = "", x = "difference in heterozygosity") + 
-  theme_bw() + 
-  geom_point(aes(color = cov02)) +
-  scale_color_viridis() +
-  theme(legend.position="none")
-
-cov.select <- cov.select[order(abs(cov.select$cov04)),]
-
-c4 <- ggplot(cov.select, aes(y = length, x = hetDiff)) + 
-  labs(title = "", x = "", y = "") + 
-  theme_bw() + 
-  geom_point(aes(color = cov04)) + 
-  scale_color_viridis() + 
-  theme(legend.position="none")
-
-c <- plot_grid(c0, c2, c4, legend, ncol = 4, rel_widths = c(3,3,3,1))
 
 ################################################################################
 ############################ SCATTER PLOT HETDIFF ##############################
@@ -171,25 +149,31 @@ cov.select <- cov.select[order(abs(cov.select$hetDiff)),]
 
 mid <- 0
 
-hl0 <- ggplot(cov.select, aes(y = length, x = cov00)) + 
-  labs(title = "", y = "scaffold length", x = "") + 
+hl0 <- ggplot(cov.select, aes(y = length/1000000, x = cov00)) + 
+  labs(title = "", y = "scaffold length (Mb)", x = "") + 
   theme_bw() + 
   geom_point(aes(color = hetDiff)) + 
   scale_color_gradient2(midpoint = mid, mid = "lightgrey",low="blue", high="red") + 
-  theme(legend.position="none")
+  theme(legend.position="none") +
+  theme(axis.text = element_text(size = 10)) +
+  theme(text=element_text(family="Helvetica"))
 
-hl2 <- ggplot(cov.select, aes(y = length, x = cov02)) + 
+hl2 <- ggplot(cov.select, aes(y = length/1000000, x = cov02)) + 
   labs(title = "", y = "", x = "difference in normalized genome coverage") + 
   theme_bw() + 
   geom_point(aes(color = hetDiff)) + 
   scale_color_gradient2(midpoint = mid, mid = "lightgrey",low="blue", high="red") + 
-  theme(legend.position="none")
+  theme(legend.position="none") + 
+  theme(axis.text = element_text(size = 10)) +
+  theme(text=element_text(family="Helvetica"))
 
-hl4 <- ggplot(cov.select, aes(y = length, x = cov04)) + 
+hl4 <- ggplot(cov.select, aes(y = length/1000000, x = cov04)) + 
   labs(title = "", x = "", color = "heterozygosity", y = "") + 
   theme_bw() + 
   geom_point(aes(color = hetDiff)) + 
-  scale_color_gradient2(midpoint = mid, mid = "lightgrey",low="blue", high="red")
+  scale_color_gradient2(midpoint = mid, mid = "lightgrey",low="blue", high="red") + 
+  theme(axis.text = element_text(size = 10)) +
+  theme(text=element_text(family="Helvetica"))
 
 legend <- get_legend(hl4)
 
