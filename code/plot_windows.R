@@ -231,13 +231,13 @@ if ( dim( cov_1_table )[1] == 0) {
   }
 
   point_colors <- c("#A4A0A0",
+    "#33a02c",               
     "#6a3d9a",
     "#e31a1c",
     "#1f78b4",
     "#b2df8a",
     "#cab2d6",
-    "#ff7f00",
-    "#33a02c")
+    "#ff7f00")
   # Get colors and shapes for all chromosomes
  # point_colors <- c( brewer.pal( n = 8, name = "Set1" ) )
   point_reps <- ceiling( nr_factors[1]/length( point_colors ) )
@@ -361,6 +361,15 @@ if ( dim( cov_1_table )[1] == 0) {
                     hetDiff_chr_sd)
   
   
+  chr.stats <- chr.stats[order(chr.stats$highlight_col),]
+  chr.stats.A <- subset(chr.stats, chr.stats$highlight_col=="Autosomes")
+  chr.stats.SC <- subset(chr.stats, chr.stats$highlight_col!="Autosomes")
+  chr.stats <- rbind(chr.stats.A, chr.stats.SC)
+  cov.select <- cov.select[order(cov.select$highlight_col),]
+  cov.select.A <- subset(cov.select, cov.select$highlight_col=="Autosomes")
+  cov.select.SC <- subset(cov.select, cov.select$highlight_col!="Autosomes")
+  cov.select <- rbind(cov.select.A, cov.select.SC)
+  
   cov1_plot <- ggplot(chr.stats, aes(x = cov1.mean, 
                                      xmin = cov1.mean - cov1.sd,
                                      xmax = cov1.mean + cov1.sd,
@@ -371,8 +380,8 @@ if ( dim( cov_1_table )[1] == 0) {
                    shape = Chromosomes), size = 3) + 
     scale_color_manual(values = point_colors) + 
     scale_shape_manual(values = point_shapes) +
-    geom_errorbar(aes(color = Chromosomes)) + 
-    geom_errorbarh(aes(color = Chromosomes)) +
+   geom_errorbar(aes(color = Chromosomes)) + 
+  geom_errorbarh(aes(color = Chromosomes)) +
     labs(title = sprintf("%s mismatches", ED1), 
          x = "difference in normalized genome coverage",
          y = "difference in heterozygosity") + 
@@ -385,7 +394,7 @@ if ( dim( cov_1_table )[1] == 0) {
                                      xmax = cov2.mean + cov2.sd,
                                      y = hetDiff.mean, 
                                      ymin = hetDiff.mean - hetDiff.sd,
-                                     ymax = hetDiff.mean + hetDiff.sd,)) +
+                                     ymax = hetDiff.mean + hetDiff.sd)) +
     geom_point(aes(color = Chromosomes, 
                    shape = Chromosomes), size = 3) + 
     scale_color_manual(values = point_colors) + 
