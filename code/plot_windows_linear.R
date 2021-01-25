@@ -179,6 +179,8 @@ cov_3_table <- cov_3_table[cov_3_table$chr %in% chromosome,]
 snp_table <- snp_table[snp_table$chr %in% chromosome,]
 
 
+cov_1_table$heterogametic <- as.numeric(cov_1_table$heterogametic)
+cov_1_table$homogametic <- as.numeric(cov_1_table$homogametic)
 # Got code from here: https://www.r-graph-gallery.com/101_Manhattan_plot.html
 
 
@@ -221,10 +223,13 @@ p.cov1 <- ggplot(cov1, aes(x=BPcum, y=diff)) +
     axis.title.x = element_blank(),
     panel.grid.major.x = element_blank(),
     panel.grid.minor.x = element_blank(),
-    axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)
+    axis.text.x = element_text(vjust = 0.5, hjust=1)
   )+ theme(axis.text = element_text(size = 12)) + 
   theme(text=element_text(family="Helvetica"))+ theme(legend.title = element_blank()) + theme(legend.text = element_text(size=18, family="Helvetica")) + 
-  theme(legend.key.height= unit(2, 'cm'),legend.key.width= unit(4, 'cm'))
+  theme(legend.key.height= unit(2, 'cm'),legend.key.width= unit(4, 'cm')) +
+  theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())
 
 # Prepare the dataset
 cov2 <- cov_2_table %>% 
@@ -263,10 +268,13 @@ p.cov2 <- ggplot(cov2, aes(x=BPcum, y=diff)) +
     axis.title.x = element_blank(),
     panel.grid.major.x = element_blank(),
     panel.grid.minor.x = element_blank(),
-    axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)
+    axis.text.x = element_text(vjust = 0.5, hjust=1)
   )  +   theme(axis.text = element_text(size = 12)) + 
   theme(text=element_text(family="Helvetica"))+ theme(legend.title = element_blank()) + theme(legend.text = element_text(size=18, family="Helvetica")) + 
-  theme(legend.key.height= unit(2, 'cm'),legend.key.width= unit(4, 'cm'))
+  theme(legend.key.height= unit(2, 'cm'),legend.key.width= unit(4, 'cm'))+
+  theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())
 
 # Prepare the dataset
 cov3 <- cov_3_table %>% 
@@ -305,7 +313,7 @@ p.cov3 <- ggplot(cov3, aes(x=BPcum, y=diff)) +
     axis.title.x = element_blank(),
     panel.grid.major.x = element_blank(),
     panel.grid.minor.x = element_blank(),
-    axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)
+    axis.text.x = element_text(vjust = 0.5, hjust=1)
   )+ theme(axis.text = element_text(size = 12)) + 
   theme(text=element_text(family="Helvetica"))+ theme(legend.title = element_blank()) + theme(legend.text = element_text(size=18, family="Helvetica")) + 
   theme(legend.key.height= unit(2, 'cm'),legend.key.width= unit(4, 'cm'))
@@ -347,10 +355,13 @@ p.snp <- ggplot(snp, aes(x=BPcum, y=diff)) +
     axis.title.x = element_blank(),
     panel.grid.major.x = element_blank(),
     panel.grid.minor.x = element_blank(),
-    axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)
+    axis.text.x = element_text(vjust = 0.5, hjust=1)
   ) + theme(axis.text = element_text(size = 12)) + 
   theme(text=element_text(family="Helvetica")) + theme(legend.title = element_blank()) + theme(legend.text = element_text(size=14, family="Helvetica")) + 
-  theme(legend.key.height= unit(1, 'cm'),legend.key.width= unit(1, 'cm'), legend.key=element_rect(fill='white'))
+  theme(legend.key.height= unit(1, 'cm'),legend.key.width= unit(1, 'cm'), legend.key=element_rect(fill='white'))+
+  theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())
 
 
 #legend_b <- get_legend(p.snp + guides(color = guide_legend(nrow = 1)) + theme_bw() + theme(legend.position = "bottom")) 
@@ -369,7 +380,7 @@ c <- plot_grid(p.snp + theme(legend.position="none"),
 d <- plot_grid(c, legend_b, ncol = 1, rel_heights = c(1, .1))
 
 #pdf(file=absolute_out, width = 15, height = 10)
-pdf(file=absolute_out, width = 13, height = 7)
+pdf(file=absolute_out, width = 14, height = 8)
 print(d)
 dev.off()
 
@@ -403,10 +414,13 @@ p.cov1 <- ggplot(cov1, aes(x=BPcum, y=diff, color = diff)) +
     axis.title.x = element_blank(),
     panel.grid.major.x = element_blank(),
     panel.grid.minor.x = element_blank(),
-    axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)
+    axis.text.x = element_text(vjust = 0.5, hjust=1)
   ) + guides(fill = guide_colourbar(barwidth = 0.5, barheight = 10))+ 
   theme(axis.text = element_text(size = 12)) + 
-  theme(text=element_text(family="Helvetica"))
+  theme(text=element_text(family="Helvetica"))+
+  theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())
 
 
 # Make the plot
@@ -428,10 +442,13 @@ p.cov2 <- ggplot(cov2, aes(x=BPcum, y=diff, color = diff)) +
     axis.title.x = element_blank(),
     panel.grid.major.x = element_blank(),
     panel.grid.minor.x = element_blank(),
-    axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + 
+    axis.text.x = element_text(vjust = 0.5, hjust=1)) + 
   guides(fill = guide_colourbar(barwidth = 0.5, barheight = 10))+ 
   theme(axis.text = element_text(size = 12)) + 
-  theme(text=element_text(family="Helvetica"))
+  theme(text=element_text(family="Helvetica"))+
+  theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())
 
 # Make the plot
 b <- c(sd_cov_3_table$diff.m-(sd_cov_3_table$diff.s*2), sd_cov_3_table$diff.m, (sd_cov_3_table$diff.m+sd_cov_3_table$diff.s*2))
@@ -452,7 +469,7 @@ p.cov3 <- ggplot(cov3, aes(x=BPcum, y=diff, color = diff)) +
     axis.title.x = element_blank(),
     panel.grid.major.x = element_blank(),
     panel.grid.minor.x = element_blank(),
-    axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+ 
+    axis.text.x = element_text(vjust = 0.5, hjust=1))+ 
     guides(fill = guide_colourbar(barwidth = 0.5, barheight = 10))+ 
     theme(axis.text = element_text(size = 12)) + 
     theme(text=element_text(family="Helvetica"))
@@ -478,10 +495,13 @@ p.snp <- ggplot(snp, aes(x=BPcum, y=diff, color = diff)) +
     axis.title.x = element_blank(),
     panel.grid.major.x = element_blank(),
     panel.grid.minor.x = element_blank(),
-    axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+ 
+    axis.text.x = element_text(vjust = 0.5, hjust=1))+ 
     guides(fill = guide_colourbar(barwidth = 0.5, barheight = 10))+ 
     theme(axis.text = element_text(size = 12)) + 
-    theme(text=element_text(family="Helvetica"))
+    theme(text=element_text(family="Helvetica"))+
+  theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())
 
 
 c <- plot_grid(p.snp, 
@@ -491,9 +511,11 @@ c <- plot_grid(p.snp,
                nrow = 4, align = "v", 
                labels = c("A","B","C", "D"))
 
+
+#c- ggarrange(p.snp, p.cov1, p.cov2, p.cov3, nrow = 4)
 #d <- plot_grid(c, legend_b, ncol = 1, rel_heights = c(1, .1))
 
-pdf(file=diff_out, width = 14, height = 7)
+pdf(file=diff_out, width = 14, height = 8)
 #pdf(file="test.pdf", width = 15, height = 9)
 print(c)
 dev.off()
