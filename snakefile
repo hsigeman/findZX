@@ -249,7 +249,7 @@ rule proportion_heterozygosity:
         python3 code/heterozygosity_per_indv.py {input} {output.het} {params.hetero} {params.homo} > {log}
         """
 
-rule proportion_heterozygosity_window:
+rule proportion_heterozygosity_window_old:
     input:
         het_sorted = VCF_DIR + SPECIES + ".heterozygosity.bed",
         windows = GENCOV_DIR_REF + "genome_5kb_windows.out"
@@ -268,7 +268,7 @@ rule proportion_heterozygosity_window:
 	python3 code/mean_heterozygosity_per_sex.py {output.het_sorted_window_mean} no-synteny {params.hetero} {params.homo} > {output.het_sexAverage}
 	"""
 
-rule proportion_heterozygosity_window_new:
+rule proportion_heterozygosity_window:
     input:
         het_sorted = VCF_DIR + SPECIES + ".heterozygosity.bed",
         windows = GENCOV_DIR_REF + "genome_5kb_windows.out"
