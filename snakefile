@@ -288,7 +288,7 @@ rule proportion_heterozygosity_window_new:
         {{for(i=2;i<=NF;i++)  
                 a[$1][i]+=$i   
             a[$1][1]=i                    
-        }
+        }}
         END {{
             for(i in a) {{
                 for((j=2)&&b="";j<a[i][1];j++) 
