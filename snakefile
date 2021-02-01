@@ -295,7 +295,7 @@ rule proportion_heterozygosity_window:
                     b=b (b==""?"":OFS)a[i][j]
                 print i,b          
             }}
-        }} ' |  sed 's/STARTCOORD/\t/' | sed 's/ENDCOORD/\t/' | sed 's/ /\t/g' | awk '{{for(i=4;i<=NF;i++)$i/=5}}1' > {output.het_sorted_window_mean}
+        }} ' |  sed 's/STARTCOORD/\t/' | sed 's/ENDCOORD/\t/' | sed 's/ /\t/g' | awk '{{for(i=4;i<=NF;i++)$i/=5}}1' | sed 's/ /\t/g' > {output.het_sorted_window_mean}
 	python3 code/mean_heterozygosity_per_sex.py {output.het_sorted_window_mean} no-synteny {params.hetero} {params.homo} > {output.het_sexAverage}
 	"""
 
