@@ -133,7 +133,7 @@ rule matchScaffold2Chr:
         echo "DONE" > {params.absLog}
         """
 
-rule matchScaffold2Chr_snp:
+rule matchScaffold2Chr_snp_old:
     input:
         bestMatch = COMP_GEN_SYNS + "bestMatch.list",
         het = VCF_DIR + SPECIES + ".heterozygosity.5kb.windows.mean.bed",
@@ -157,6 +157,32 @@ rule matchScaffold2Chr_snp:
 
         cut -f 8,9,10,14- {output.bestMatch_sexAverage} > {output.bestMatch_small_sexAverage}
         """
+
+rule matchScaffold2Chr_snp:
+    input:
+        bestMatch = COMP_GEN_SYNS + "bestMatch.list",
+        het = VCF_DIR + SPECIES + ".heterozygosity.5kb.windows.NR.bed",
+        het_sexAverage = VCF_DIR + SPECIES + ".heterozygosity.sexAverage.NR.bed"
+    output:
+        bestMatch = MATCHDIR + SPECIES + "." + SYNTENY_SPECIES + ".heterozygosity.bestMatch",
+        bestMatch_small = MATCHDIR + SPECIES + "." + SYNTENY_SPECIES +".heterozygosity.bestMatch.small",
+        bestMatch_sexAverage = MATCHDIR + SPECIES + "." + SYNTENY_SPECIES + ".heterozygosity.bestMatch.sexAverage.bed",
+        bestMatch_small_sexAverage = MATCHDIR + SPECIES + "." + SYNTENY_SPECIES +".heterozygosity.bestMatch.small.sexAverage.bed"
+    params:
+        hetero = expand("het:{heterogametic}", heterogametic = HETEROGAMETIC),
+        homo = expand("homo:{homogametic}", homogametic = HOMOGAMETIC)
+    threads: 1
+    shell:
+        """
+        bedtools intersect -a {input.bestMatch} -b {input.het} -wa -wb > {output.bestMatch}
+
+        cut -f 8,9,10,14- {output.bestMatch} > {output.bestMatch_small}
+        
+        bedtools intersect -a {input.bestMatch} -b {input.het_sexAverage} -wa -wb > {output.bestMatch_sexAverage}
+
+        cut -f 8,9,10,14- {output.bestMatch_sexAverage} > {output.bestMatch_small_sexAverage}
+        """
+
 
 rule matchScaffold2Chr_cov:
     input:
