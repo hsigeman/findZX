@@ -68,7 +68,7 @@ include: "snakefile"
 rule confirm_sexing:
     input:
         gencov = GENCOV_DIR + SPECIES + ".gencov.nodup.nm.{ED}.out",
-        het = VCF_DIR + SPECIES + ".heterozygosity.5kb.windows.mean.bed",
+        het = VCF_DIR + SPECIES + ".heterozygosity.5kb.windows.NR.bed",
         stats = expand(MAP_DIR + "{S}.sorted.nodup.nm.{{ED}}.stats", S = ID)
     output:
         read_length = RESULTDIR + SPECIES + ".read_length.sorted.nodup.nm.{ED}.csv",
@@ -93,7 +93,7 @@ rule confirm_sexing:
 
 rule calculate_heterozygosity:
     input:
-        VCF_DIR + SPECIES + ".heterozygosity.sexAverage.bed"
+        VCF_DIR + SPECIES + ".heterozygosity.sexAverage.NR.bed"
     output:
         Mb = RESULTDIR + SPECIES + "{synteny}diffHeterozygosity.1Mbp.out",
         kb = RESULTDIR + SPECIES + "{synteny}diffHeterozygosity.100kbp.out",
