@@ -368,12 +368,12 @@ rule modify_genome:
         vcf = VCF_DIR + SPECIES + ".vcf.gz",
         ref = REF_FASTA
     output:
-        vcf = temp(VCF_DIR + SPECIES + ".non-ref-ac_2_biallelic_qual.vcf"),
-        gz = VCF_DIR + SPECIES + ".non-ref-ac_2_biallelic_qual.vcf.gz",
-        ref = REF_DIR + REF_NAME + "_nonRefAc_consensus.fasta"
+        vcf = temp(VCF_DIR + SPECIES + ".non-ref-af_05_biallelic_qual.vcf"),
+        gz = VCF_DIR + SPECIES + ".non-ref-af_05_biallelic_qual.vcf.gz",
+        ref = REF_DIR + REF_NAME + "_nonRefAf_consensus.fasta"
     shell:
         """
-        vcftools --gzvcf {input.vcf} --non-ref-ac 2 --min-alleles 2 --max-alleles 2 --remove-filtered-all --recode --stdout > {output.vcf}
+        vcftools --gzvcf {input.vcf} --non-ref-af 0.5 --min-alleles 2 --max-alleles 2 --remove-filtered-all --recode --stdout > {output.vcf}
         bgzip -c {output.vcf} > {output.gz}
         tabix -p vcf {output.gz}
         cat {input.ref} | bcftools consensus {output.gz} > {output.ref}
