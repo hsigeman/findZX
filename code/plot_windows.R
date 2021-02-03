@@ -29,9 +29,9 @@ highlight_file = args[7]
 ED1 = args[8]
 ED2 = args[9]
 ED3 = args[10]
+#minRange = args[11]
 
-
-
+#minRange = 800000
 #setwd("~/Dropbox (MEEL)/PhD/Subprojects/6 Sylvioidea neosc-scan/9 Sexchromoscanner/code/")
 #file1 = "../results/bella/aloatta/aloatta.HS.gencov.nodup.nm.0.0.1Mbp.out"
 #file2 = "../results/bella/aloatta/aloatta.HS.gencov.nodup.nm.0.2.1Mbp.out"
@@ -90,6 +90,12 @@ snp_table   <- read.table( filesnp,
                            header=TRUE, 
                            fill=TRUE, 
                            stringsAsFactor=FALSE)
+
+
+#cov_1_table <- subset(cov_1_table, c((cov_1_table$end - cov_1_table$start) > minRange ))
+#cov_2_table <- subset(cov_2_table, c((cov_2_table$end - cov_2_table$start) > minRange ))
+#cov_3_table <- subset(cov_3_table, c((cov_3_table$end - cov_3_table$start) > minRange ))
+#snp_table <- subset(snp_table, c((snp_table$end - snp_table$start) > minRange ))
 
 if ( dim( cov_1_table )[1] == 0) {
   
@@ -344,6 +350,11 @@ if ( dim( cov_1_table )[1] == 0) {
                                hetDiff ~ Chromosomes + highlight_col, 
                                FUN = mean)
   
+  chr_max = summaryBy(data=cov.select, 
+                             window ~ Chromosomes + highlight_col, 
+                             FUN = max)
+
+  
   # Combine all statistics
   chr.stats = merge(cov1_chr_mean, 
                     cov1_chr_sd)
@@ -359,6 +370,8 @@ if ( dim( cov_1_table )[1] == 0) {
                     hetDiff_chr_mean)
   chr.stats = merge(chr.stats, 
                     hetDiff_chr_sd)
+  chr.stats = merge(chr.stats, 
+                    chr_max)
   
   
   chr.stats <- chr.stats[order(chr.stats$highlight_col),]
@@ -443,6 +456,7 @@ if ( dim( cov_1_table )[1] == 0) {
   
   if ( file.exists( highlight_file ) ) {
     cov.select$highlight_col <- factor(cov.select$highlight_col, levels = unique(cov.select$highlight_col))
+    
         cov1_plot <- ggplot(cov.select, 
                         aes(x = cov1, 
                             y = hetDiff)) + 
@@ -494,6 +508,15 @@ if ( dim( cov_1_table )[1] == 0) {
     
     l <- plot_grid(legend)
     
+    
+    #colnames(max_per_chr) <- c("Chromosomes","length")
+    #chr.stats <- join(chr.stats,max_per_chr)
+    
+
+    
+  #  Max <- tapply(cov.select$window, cov.select$Chromosomes,max)
+    #Max
+  #  chr.stats <- data.frame(chr.stats, max.per.group=rep(Max, table(chr.stats$Chromosomes)))
     chr.stats$highlight_col <- factor(chr.stats$highlight_col, levels = unique(chr.stats$highlight_col))
     cov1_plot <- ggplot(chr.stats, aes(x = cov1.mean, 
                                        xmin = cov1.mean - cov1.sd,
@@ -505,13 +528,13 @@ if ( dim( cov_1_table )[1] == 0) {
       scale_color_manual(values = point_colors) +
       geom_errorbar(aes(color = highlight_col)) + 
       geom_errorbarh(aes(color = highlight_col)) +
-      geom_point(aes(fill = highlight_col), pch = 21, size = 3) + 
+      geom_point(aes(fill = highlight_col, size = window.max), pch = 21) + 
       labs(title = sprintf("%s mismatches", ED1), 
            x = "difference in normalized genome coverage",
            y = "difference in heterozygosity") + 
       theme_bw(base_family="Helvetica", base_size = 12) +
       theme(legend.position="none") + 
-      theme(plot.title=element_text(family="Helvetica", size=12, hjust = 0.5) )
+      theme(plot.title=element_text(family="Helvetica", size=12, hjust = 0.5) )+ scale_size_continuous(range = c(2, 8))
     
     cov2_plot <- ggplot(chr.stats, aes(x = cov2.mean, 
                                        xmin = cov2.mean - cov2.sd,
@@ -523,13 +546,13 @@ if ( dim( cov_1_table )[1] == 0) {
       scale_color_manual(values = point_colors) +
       geom_errorbar(aes(color = highlight_col)) + 
       geom_errorbarh(aes(color = highlight_col)) +
-      geom_point(aes(fill = highlight_col), pch = 21, size = 3) + 
+      geom_point(aes(fill = highlight_col, size = window.max), pch = 21) + 
       labs(title = sprintf("%s mismatches", ED2),
            x = "difference in normalized genome coverage",
            y = "difference in heterozygosity") + 
       theme_bw(base_family="Helvetica", base_size = 12) +
       theme(legend.position="none") + 
-      theme(plot.title=element_text(family="Helvetica", size=12, hjust = 0.5) )
+      theme(plot.title=element_text(family="Helvetica", size=12, hjust = 0.5) )+ scale_size_continuous(range = c(2, 8))
     
     cov3_plot <- ggplot(chr.stats, aes(x = cov3.mean, 
                                        xmin = cov3.mean - cov3.sd,
@@ -541,13 +564,13 @@ if ( dim( cov_1_table )[1] == 0) {
       scale_color_manual(values = point_colors) +
       geom_errorbar(aes(color = highlight_col)) + 
       geom_errorbarh(aes(color = highlight_col)) +
-      geom_point(aes(fill = highlight_col), pch = 21, size = 3) + 
+      geom_point(aes(fill = highlight_col, size = window.max), pch = 21) + 
       labs(title = sprintf("%s mismatches", ED3),
            x = "difference in normalized genome coverage",
            y = "difference in heterozygosity") + 
       theme_bw(base_family="Helvetica", base_size = 12) +
       theme(legend.position="none") + 
-      theme(plot.title=element_text(family="Helvetica", size=12, hjust = 0.5) )
+      theme(plot.title=element_text(family="Helvetica", size=12, hjust = 0.5) )+ scale_size_continuous(range = c(2, 8))
     
     c <- plot_grid(cov1_plot, 
                    cov2_plot, 
