@@ -32,6 +32,24 @@ ED2 = args[9]
 ED3 = args[10]
 CHR_NR = args[11]
 
+#minRange = 800000
+#setwd("~/Dropbox (MEEL)/PhD/Subprojects/6 Sylvioidea neosc-scan/9 Sexchromoscanner/code/")
+#file1 = "../results/bella/aloatta/aloatta.HS.gencov.nodup.nm.0.0.1Mbp.out"
+#file2 = "../results/bella/aloatta/aloatta.HS.gencov.nodup.nm.0.2.1Mbp.out"
+#file3 = "../results/bella/aloatta/aloatta.HS.gencov.nodup.nm.all.1Mbp.out"
+#filesnp = "../results/bella/aloatta/aloatta.HS.diffHeterozygosity.1Mbp.out"
+#circlize_out = "test.circlize.pdf"
+#scatter_out = "test.scatter.pdf"
+#chr_file = "chr.txt"
+#source("functions.R")
+#ED1 = "0.0"
+#ED2 = "0.2"
+#ED3 = "all"
+#CHR_NR = 5
+#highlight_file = "highlight.txt"
+
+
+
 ED1 = gsub("\\.", "-", ED1)
 ED2 = gsub("\\.", "-", ED2)
 ED3 = gsub("\\.", "-", ED3)
@@ -184,7 +202,7 @@ cov_1_table$homogametic <- as.numeric(cov_1_table$homogametic)
 # Got code from here: https://www.r-graph-gallery.com/101_Manhattan_plot.html
 
 
-colors <- c("heterogametic" = "darkgoldenrod1", "homogametic" = "darkmagenta")
+colors <- c("heterogametic" = "dodgerblue", "homogametic" = "darkmagenta")
 
 # Prepare the dataset
 cov1 <- cov_1_table %>% 
@@ -210,8 +228,8 @@ p.cov1 <- ggplot(cov1, aes(x=BPcum, y=diff)) +
   coord_cartesian(ylim=c(0, 2)) +
   ylab(sprintf("%s mismatches", ED1)) +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
-  geom_point( aes(y = heterogametic, color="heterogametic"), alpha=0.2,size = 0.5 ) +
-  geom_point( aes(y = homogametic, color="homogametic"), alpha=0.2,size = 0.5 ) +
+  geom_point( aes(y = heterogametic, color="heterogametic"), alpha=0.5,size = 1 ) +
+  geom_point( aes(y = homogametic, color="homogametic"), alpha=0.5,size = 1 ) +
   geom_smooth( aes(y = heterogametic, color="heterogametic", group = chr), method = 'gam', span = 0.3) +
   geom_smooth( aes(y = homogametic, color="homogametic", group = chr), method = 'gam', span = 0.3) +
   scale_color_manual(values = colors) +
@@ -255,8 +273,8 @@ p.cov2 <- ggplot(cov2, aes(x=BPcum, y=diff)) +
   coord_cartesian(ylim=c(0, 2)) + 
   ylab(sprintf("%s mismatches", ED2)) +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
-  geom_point( aes(y = heterogametic, color="heterogametic"), alpha=0.2,size = 0.5 ) +
-  geom_point( aes(y = homogametic, color="homogametic"), alpha=0.2,size = 0.5 ) +
+  geom_point( aes(y = heterogametic, color="heterogametic"), alpha=0.5,size = 1 ) +
+  geom_point( aes(y = homogametic, color="homogametic"), alpha=0.5,size = 1 ) +
   geom_smooth( aes(y = heterogametic, color="heterogametic", group = chr), method = 'gam', span = 0.3) +
   geom_smooth( aes(y = homogametic, color="homogametic", group = chr), method = 'gam', span = 0.3) +
   scale_color_manual(values = colors) +
@@ -300,8 +318,8 @@ p.cov3 <- ggplot(cov3, aes(x=BPcum, y=diff)) +
   coord_cartesian(ylim=c(0, 2)) +
   ylab(sprintf("%s mismatches", ED3)) +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
-  geom_point( aes(y = heterogametic, color="heterogametic"), alpha=0.2,size = 0.5 ) +
-  geom_point( aes(y = homogametic, color="homogametic"), alpha=0.2,size = 0.5 ) +
+  geom_point( aes(y = heterogametic, color="heterogametic"), alpha=0.5,size = 1 ) +
+  geom_point( aes(y = homogametic, color="homogametic"), alpha=0.5,size = 1 ) +
   geom_smooth( aes(y = heterogametic, color="heterogametic", group = chr), method = 'gam', span = 0.3) +
   geom_smooth( aes(y = homogametic, color="homogametic", group = chr), method = 'gam', span = 0.3) +
   scale_color_manual(values = colors) +
@@ -334,16 +352,20 @@ snp <- snp_table %>%
 # Prepare X axis
 axisdf <- snp %>% group_by(chr) %>% summarize(center=( max(BPcum) + min(BPcum) ) / 2 )
 
+
+MaxDiff <- max(abs(pmax(snp$homogametic, snp$heterogametic)))
+MinDiff <- MaxDiff - MaxDiff*2
+
 # Make the plot
 p.snp <- ggplot(snp, aes(x=BPcum, y=diff)) +
   # custom X axis:
   scale_x_continuous( label = axisdf$chr, breaks= axisdf$center ) +
   scale_y_continuous(expand = c(0, 0) ) +     # remove space between plot area and x axis
-  coord_cartesian(ylim=c(0, 1)) +
+  coord_cartesian(ylim=c(MinDiff, MaxDiff)) +
   ylab("heterozygosity") +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
-  geom_point( aes(y = heterogametic, color="heterogametic"), alpha=0.2,size = 0.5 ) +
-  geom_point( aes(y = homogametic, color="homogametic"), alpha=0.2,size = 0.5 ) +
+  geom_point( aes(y = heterogametic, color="heterogametic"), alpha=0.5,size = 1 ) +
+  geom_point( aes(y = homogametic, color="homogametic"), alpha=0.5,size = 1 ) +
   geom_smooth( aes(y = heterogametic, color="heterogametic", group = chr), method = 'gam', span = 0.3) +
   geom_smooth( aes(y = homogametic, color="homogametic", group = chr), method = 'gam', span = 0.3) +
   scale_color_manual(values = colors) +
@@ -476,18 +498,22 @@ p.cov3 <- ggplot(cov3, aes(x=BPcum, y=diff, color = diff)) +
 
 
 
+
+MaxDiff <- max(abs(snp$diff))
+MinDiff <- MaxDiff - MaxDiff*2
+
 b <- c(sd_snp_table$diff.m-(sd_snp_table$diff.s*2), sd_snp_table$diff.m, (sd_snp_table$diff.m+sd_snp_table$diff.s*2))
 # Make the plot
 p.snp <- ggplot(snp, aes(x=BPcum, y=diff, color = diff)) +
   # custom X axis:
   scale_x_continuous( label = axisdf$chr, breaks= axisdf$center ) +
-  scale_y_continuous(expand = c(0, 0) ) +     # remove space between plot area and x axis
-  coord_cartesian(ylim=c(-1, 1)) +
+#  scale_y_continuous(expand = c(0, 0) ) +     # remove space between plot area and x axis
+  coord_cartesian(ylim=c(MinDiff, MaxDiff)) +
   ylab("heterozygosity") +
   labs(color = "95 % CI") +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
   geom_point(alpha=0.8, size=1.5) +
-  scale_color_gradientn(limits = c(-1,1), colours=c("blue", "grey40", "red"),breaks=b, labels=format(b)) + 
+  scale_color_gradientn(limits = c(MinDiff,MaxDiff), colours=c("blue", "grey40", "red"),breaks=b, labels=format(b)) + 
   theme_bw() +
   theme( 
     # legend.position="none",
