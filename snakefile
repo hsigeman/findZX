@@ -207,7 +207,7 @@ rule freebayes_parallel:
         """
         mkdir {params.tmpdir}
         export TMPDIR={params.tmpdir}
-        freebayes-parallel {input.regions} {threads} -f {input.ref} {input.samples} > {output.vcf}
+        freebayes-parallel {input.regions} {threads} -f {input.ref} {input.samples} --use-best-n-alleles 4 > {output.vcf}
         rm -r {params.tmpdir}
 
         bgzip -c {output.vcf} > {output.gz}
