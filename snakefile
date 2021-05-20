@@ -78,7 +78,7 @@ rule remove_duplicates:
         tmpdir = MAP_DIR + "{S}_temp_dupl/"
     shell:
         """
-        mkdir {params.tmpdir}
+        mkdir -p {params.tmpdir}
         picard MarkDuplicates -Xmx10g MAX_FILE_HANDLES=500 REMOVE_DUPLICATES=true I={input} O={output} M={input}_duplicatedata.txt TMP_DIR={params.tmpdir}
         rm -r {params.tmpdir}
         echo "DONE" > {log}
@@ -175,17 +175,18 @@ rule normalize_cov_mean:
 
 rule freebayes_prep:
     input:
-        REF_FASTA + ".fai"
+        fai = REF_FASTA + ".fai",
+        samples = expand(MAP_DIR + "{S}.sorted.nodup.nm.all.bam", S = ID)
     output:
         filter_fai = VCF_DIR_REF + REF_NAME + ".filter." + MIN_SIZE_SCAFFOLD + ".fasta.fai",
         regions = VCF_DIR_REF + REF_NAME + ".100kbp.regions"
     params:
         MIN_SIZE_SCAFFOLD
-    threads: 4
+    threads: 1
     shell:
         """
-	cat {input} | awk '$2>= {params} {{print $0}}' > {output.filter_fai}
-        fasta_generate_regions.py {output.filter_fai} 100000 > {output.regions}
+	cat {input.fai} | awk '$2>= {params} {{print $0}}' > {output.filter_fai}
+        code/split_ref_by_bai_datasize.py {input.samples} -r {input.fai} -s 100000 | sed 's/\t/:/' | sed 's/\t/-/' > {output.regions}
         """
 
 
@@ -205,7 +206,7 @@ rule freebayes_parallel:
         tmpdir=VCF_DIR + "temp/"
     shell:
         """
-        mkdir {params.tmpdir}
+        mkdir -p {params.tmpdir}
         export TMPDIR={params.tmpdir}
         freebayes-parallel {input.regions} {threads} -f {input.ref} {input.samples} --use-best-n-alleles 4 > {output.vcf}
         rm -r {params.tmpdir}
@@ -225,7 +226,6 @@ rule vcftools_filter:
     shell:
         """
         vcftools --gzvcf {input} --min-alleles 2 --max-alleles 2 --remove-filtered-geno-all --minQ 20 --minDP 3 --recode --stdout > {output.vcf}
-
         bgzip -c {output.vcf} > {output.gz}
         tabix -p vcf {output.gz}
         """
