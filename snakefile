@@ -136,7 +136,8 @@ rule normalize_cov_mean:
 rule freebayes_prep:
     input:
         fai = REF_FASTA + ".fai",
-        samples = expand(MAP_DIR + "{S}.sorted.nodup.nm.all.bam", S = ID)
+        samples = expand(MAP_DIR + "{S}.sorted.nodup.nm.all.bam", S = ID),
+	samples_bai = expand(MAP_DIR + "{S}.sorted.nodup.nm.all.bam.bai", S = ID)
     output:
         filter_fai = VCF_DIR_REF + REF_NAME + ".filter." + MIN_SIZE_SCAFFOLD + ".fasta.fai",
         regions = VCF_DIR_REF + REF_NAME + ".100kbp.regions"
@@ -144,7 +145,7 @@ rule freebayes_prep:
         MIN_SIZE_SCAFFOLD
     shell:
         """
-	    cat {input.fai} | awk '$2>= {params} {{print $0}}' > {output.filter_fai}
+	cat {input.fai} | awk '$2>= {params} {{print $0}}' > {output.filter_fai}
         python3 code/split_ref_by_bai_datasize.py {input.samples} -r {input.fai} | sed 's/ /\t/g' > {output.regions}
         """
 
