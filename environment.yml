@@ -15,6 +15,9 @@ dependencies:
   - bcftools=1.12
   - vcftools=0.1.16
   - last=1238
+  - fastqc=0.11.9
+  - pigz=2.6
+  - trimmomatic=0.39
   - r-doby=4.6.6
   - r-data.table=1.14.0
   - r-ggplot2=3.3.3
