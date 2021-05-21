@@ -1,4 +1,4 @@
-name : XYZWfinder_test
+name : XYZWfinder
 channels:
   - conda-forge
   - bioconda
