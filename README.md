@@ -20,34 +20,9 @@ If a large amount of samples are used (more than 10 individuals with a genome si
  
 Make sure that the suffix of the reads and the reference genome is *'.fq.gz'* and *'.fasta'*, otherwise, the pipeline will not be able to find the files. 
  
-## Install dependencies with conda
-conda create --name XYZWfinder 
-conda activate XYZWfinder
-conda install -c bioconda bwa==0.7.17
-conda install -c bioconda snakemake=6.4.0
-conda install -c bioconda samtools==1.12
-conda install -c bioconda picard==2.20.1
-conda install -c bioconda snakemake-wrapper-utils==0.1.3
-conda install -c bioconda bamtools==2.5.1
-conda install -c bioconda bedtools==2.29.0
-conda install -c bioconda freebayes=1.3.5
-conda install -c bioconda sed=4.7
-conda install -c bioconda bcftools=1.12
-conda install -c bioconda vcftools==0.1.16
-conda install -c conda-forge r-doby=4.6.6
-conda install -c conda-forge r-data.table=1.14.0
-conda install -c conda-forge r-ggplot2=3.3.3
-conda install -c conda-forge r-plot3d=1.3
-conda install -c conda-forge r-circlize=0.4.12
-conda install -c conda-forge r-cowplot=1.1.1
-conda install -c conda-forge r-viridislite=0.4.0
-conda install -c conda-forge r-gridGraphics=0.5_1
-conda install -c conda-forge r-plotly=4.9.3
-pip install numpy
-pip install scipy
-pip install pandas 
- 
- 
+## Install dependencies with conda (Tested with conda version 4.10.1)
+conda env create -f XYZWfinder/environment.yml
+### After all dependencies are downloaded and installed, activate the conda environment according to instructions given in the terminal
  
  
 ## How to Run
