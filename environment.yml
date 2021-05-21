@@ -18,6 +18,7 @@ dependencies:
   - fastqc=0.11.9
   - pigz=2.6
   - trimmomatic=0.39
+  - fastx_toolkit=0.0.14
   - r-doby=4.6.6
   - r-data.table=1.14.0
   - r-ggplot2=3.3.3
