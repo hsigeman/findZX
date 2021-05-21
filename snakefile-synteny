@@ -16,18 +16,17 @@ HOMOGAMETIC = config["homogametic"]
 FQ_DIR = config["fastq"]
 REF_DIR = config["ref_dir"]
 REF_NAME = config["ref_name"]
-REF_FASTA = config["ref_fasta"]
 CHROMOSOMES = config["chr_file"]
 CHROMOSOMES_HIGHLIGHT = config["chr_highlight_file"]
 PREFIX = SPECIES + "_ref_" + REF_NAME
 
 REF_PATH = REF_DIR + REF_NAME
+REF_FASTA = REF_DIR + REF_NAME + ".fasta"
 MAP_DIR = "intermediate/bwa/" + REF_NAME + "/"
 GENCOV_DIR = "intermediate/bedtools/" + PREFIX + "/"
 GENCOV_DIR_REF = "intermediate/bedtools/" + REF_NAME + "/"
 VCF_DIR = "intermediate/freebayes/" + PREFIX + "/"
 VCF_DIR_REF = "intermediate/freebayes/" + REF_NAME + "/"
-MATCHDIR = "intermediate/synteny_match/" + PREFIX + "/"
 RESULTDIR = "results/" + PREFIX + "/"
 
 SYNTENY_SPECIES = config["synteny_species"]
