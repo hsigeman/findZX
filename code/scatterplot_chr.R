@@ -4,7 +4,7 @@ library(plot3D)
 library(ggplot2)
 require(scales)
 library(cowplot)
-library(viridis)
+library(viridisLite)
 
 # Reads in files ending with '.chr.out' produced by calculate_gencov_windows.R 
 # and calculate_heterozygosityDiff_windows.R
