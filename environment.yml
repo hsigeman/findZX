@@ -25,6 +25,7 @@ dependencies:
   - r-gridGraphics=0.5_1
   - r-plotly=4.9.3
   - python=3.9.5
+  - pip=21.1.1
   - pip: 
     - numpy
     - scipy
