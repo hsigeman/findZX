@@ -1,0 +1,15 @@
+include: "rules/common.smk"
+
+
+##### Target rules #####
+
+
+rule all:
+    input:
+        "results/qc/multiqc.html"
+
+
+##### Modules #####
+
+
+include: "rules/qc.smk"
