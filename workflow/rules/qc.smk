@@ -12,14 +12,9 @@ rule fastqc:
 
 rule multiqc:
     input:
-        expand("results/qc/fastqc/{u.sample}-{u.unit}.zip",
-            u=units.itertuples()),
+        expand("results/qc/fastqc/{sample}-{unit}.zip")
     output:
-        report(
-            "results/qc/multiqc.html",
-            caption="../report/multiqc.rst",
-            category="Quality control",
-        ),
+        "results/qc/multiqc.html"
     log:
         "logs/multiqc.log",
     wrapper:
