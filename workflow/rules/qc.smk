@@ -12,14 +12,7 @@ rule fastqc:
 
 rule multiqc:
     input:
-        expand(
-            [
-              #  "results/qc/samtools-stats/{u.sample}-{u.unit}.txt",
-                "results/qc/fastqc/{u.sample}-{u.unit}.zip",
-              #  "results/qc/dedup/{u.sample}-{u.unit}.metrics.txt",
-            ],
-            u=units.itertuples(),
-        ),
+        expand("results/qc/fastqc/{u.sample}-{u.unit}.zip", u=units.itertuples()),
     output:
         report(
             "results/qc/multiqc.html",
