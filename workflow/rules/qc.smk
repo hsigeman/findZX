@@ -12,7 +12,8 @@ rule fastqc:
 
 rule multiqc:
     input:
-        expand("results/qc/fastqc/{sample}-{unit}.zip")
+        expand("results/qc/fastqc/{u.sample}-{u.unit}.zip",
+             u=units.itertuples(),
     output:
         report(
             "results/qc/multiqc.html",
