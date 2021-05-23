@@ -6,7 +6,7 @@ include: "rules/common.smk"
 
 rule all:
     input:
-        "results/qc/multiqc.html"
+        expand("results/qc/fastqc/{sample}-{unit}.zip")
 
 
 ##### Modules #####
