@@ -11,13 +11,13 @@ report: "../report/workflow.rst"
 
 
 ###### Config file and sample sheets #####
-configfile: "config/config.yml"
+configfile: "config/config.yaml"
 
 
 samples = pd.read_table(config["samples"]).set_index("sample", drop=False)
 
-units = pd.read_table(config["heterogamety"], dtype=str).set_index(
-    ["sample", "heterogamety"], drop=False
+units = pd.read_table(config["units"], dtype=str).set_index(
+    ["sample", "unit"], drop=False
 )
 units.index = units.index.set_levels(
     [i.astype(str) for i in units.index.levels]
@@ -28,7 +28,7 @@ units.index = units.index.set_levels(
 wildcard_constraints:
     vartype="snvs|indels",
     sample="|".join(samples.index),
-    unit="|".join(units["heterogamety"]),
+    unit="|".join(units["unit"]),
 
 
 ##### Helper functions #####
@@ -40,7 +40,7 @@ def get_contigs():
 
 
 def get_fastq(wildcards):
-    """Get fastq files of given sample-heterogamety."""
+    """Get fastq files of given sample-unit."""
     fastqs = units.loc[(wildcards.sample, wildcards.unit), ["fq1", "fq2"]].dropna()
     if len(fastqs) == 2:
         return {"r1": fastqs.fq1, "r2": fastqs.fq2}
@@ -65,9 +65,9 @@ def get_trimmed_reads(wildcards):
     if not is_single_end(**wildcards):
         # paired-end sample
         return expand(
-            "results/trimmed/{sample}-{heterogamety}.{group}.fastq.gz",
+            "results/trimmed/{sample}-{unit}.{group}.fastq.gz",
             group=[1, 2],
             **wildcards
         )
     # single end sample
-    return "results/trimmed/{sample}-{heterogamety}.fastq.gz".format(**wildcards)
+    return "results/trimmed/{sample}-{unit}.fastq.gz".format(**wildcards)
