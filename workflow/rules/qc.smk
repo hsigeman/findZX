@@ -14,9 +14,9 @@ rule multiqc:
     input:
         expand(
             [
-                "results/qc/samtools-stats/{u.sample}-{u.unit}.txt",
+              #  "results/qc/samtools-stats/{u.sample}-{u.unit}.txt",
                 "results/qc/fastqc/{u.sample}-{u.unit}.zip",
-                "results/qc/dedup/{u.sample}-{u.unit}.metrics.txt",
+              #  "results/qc/dedup/{u.sample}-{u.unit}.metrics.txt",
             ],
             u=units.itertuples(),
         ),
