@@ -11,7 +11,7 @@ report: "../report/workflow.rst"
 
 
 ###### Config file and sample sheets #####
-configfile: "config/config.yaml"
+configfile: "config/config.yml"
 
 
 samples = pd.read_table(config["samples"]).set_index("sample", drop=False)
