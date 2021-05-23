@@ -10,17 +10,6 @@ rule fastqc:
         "0.74.0/bio/fastqc"
 
 
-rule samtools_stats:
-    input:
-        "results/recal/{sample}-{unit}.bam",
-    output:
-        "results/qc/samtools-stats/{sample}-{unit}.txt",
-    log:
-        "logs/samtools-stats/{sample}-{unit}.log",
-    wrapper:
-        "0.74.0/bio/samtools/stats"
-
-
 rule multiqc:
     input:
         expand(
