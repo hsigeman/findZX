@@ -14,7 +14,7 @@ rule fastqc_unzip:
         "results/qc/fastqc/{sample}-{unit}.zip"
     output:
         log="results/qc/fastqc/{sample}-{unit}.done.txt",
-        dir="results/qc/fastqc/{sample}-{unit}"
+        out="results/qc/fastqc/{sample}-{unit}/fastqc_data.txt"
     shell:
         """
         unzip -d results/qc/fastqc/ {input}
