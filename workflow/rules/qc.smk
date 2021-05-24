@@ -6,9 +6,18 @@ rule fastqc:
         zip="results/qc/fastqc/{sample}-{unit}.zip",
     log:
         "logs/fastqc/{sample}-{unit}.log",
-    params: "--extract"
     wrapper:
         "0.74.0/bio/fastqc"
+
+rule fastqc_unzip:
+    input:
+        "results/qc/fastqc/{sample}-{unit}.zip"
+    output:
+        "results/qc/fastqc/{sample}-{unit}"
+    shell:
+        "cd results/qc/fastqc/"
+        " unzip *"
+
 
 rule multiqc:
     input:
