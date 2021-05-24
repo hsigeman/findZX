@@ -6,6 +6,7 @@ rule fastqc:
         zip="results/qc/fastqc/{sample}-{unit}.zip",
     log:
         "logs/fastqc/{sample}-{unit}.log",
+    params: "--extract"
     wrapper:
         "0.74.0/bio/fastqc"
 
@@ -23,6 +24,8 @@ rule multiqc:
  #           caption="../report/multiqc.rst",
   #          category="Quality control",
   #      ),
+    params:
+        ""  # Optional: extra parameters for multiqc.
     log:
         "logs/multiqc.log",
     wrapper:
