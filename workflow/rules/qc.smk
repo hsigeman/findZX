@@ -16,8 +16,10 @@ rule fastqc_unzip:
         log="results/qc/fastqc/{sample}-{unit}.done.txt",
         dir="results/qc/fastqc/{sample}-{unit}"
     shell:
-        "unzip -d results/qc/fastqc/ {input} "
-        "touch {output.log}"
+        """
+        unzip -d results/qc/fastqc/ {input}
+        touch {output.log}
+        """
 
 
 rule multiqc:
