@@ -15,7 +15,7 @@ rule fastqc_unzip:
     output:
         "results/qc/fastqc/{sample}-{unit}.done.txt"
     shell:
-        "unzip -d {input}"
+        "unzip -d results/qc/fastqc {input}"
         "touch {output}"
 
 
