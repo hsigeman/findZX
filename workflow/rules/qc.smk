@@ -13,10 +13,11 @@ rule fastqc_unzip:
     input:
         "results/qc/fastqc/{sample}-{unit}.zip"
     output:
-        "results/qc/fastqc/{sample}-{unit}"
+        "results/qc/fastqc/done.txt"
     shell:
         "cd results/qc/fastqc/"
-        " unzip *"
+        "unzip *""
+        "echo "DONE" > done.txt"
 
 
 rule multiqc:
