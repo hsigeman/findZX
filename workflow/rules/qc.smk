@@ -23,7 +23,7 @@ rule multiqc:
     input:
         expand(
             [
-                "results/qc/fastqc/{u.sample}-{u.unit}.zip",
+                "results/qc/fastqc/{u.sample}-{u.unit}",
             ],
             u=units.itertuples(),
         ),
