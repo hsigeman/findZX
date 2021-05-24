@@ -6,7 +6,8 @@ include: "rules/common.smk"
 
 rule all:
     input:
-        "results/qc/multiqc.html"
+        "results/qc/multiqc.html",
+        "results/qc/fastqc/{sample}-{unit}.done.txt"
 
 
 ##### Modules #####
