@@ -18,11 +18,11 @@ rule multiqc:
             u=units.itertuples(),
         ),
     output:
-        report(
+ #       report(
             "results/qc/multiqc.html",
  #           caption="../report/multiqc.rst",
   #          category="Quality control",
-        ),
+  #      ),
     log:
         "logs/multiqc.log",
     wrapper:
