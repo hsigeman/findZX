@@ -17,7 +17,7 @@ rule fastqc_unzip:
         out=directory("results/qc/fastqc/{sample}-{unit}")
     shell:
         """
-        unzip -d results/qc/fastqc/ {input}
+        unzip -o -d results/qc/fastqc/ {input}
         touch {output.log}
         """
 
