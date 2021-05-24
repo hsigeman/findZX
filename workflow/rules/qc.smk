@@ -13,7 +13,8 @@ rule fastqc_unzip:
     input:
         "results/qc/fastqc/{sample}-{unit}.zip"
     output:
-        "results/qc/fastqc/{sample}-{unit}.done.txt"
+        "results/qc/fastqc/{sample}-{unit}.done.txt",
+        "results/qc/fastqc/{sample}-{unit}"
     shell:
         "unzip -d results/qc/fastqc/ {input}"
         "touch {output}"
