@@ -9,30 +9,30 @@ rule fastqc:
     wrapper:
         "0.74.0/bio/fastqc"
 
-rule fastqc_unzip:
-    input:
-        "results/qc/fastqc/{sample}-{unit}.zip"
-    output:
- #       log="results/qc/fastqc/{sample}-{unit}.done.txt",
-        directory("results/qc/fastqc/{sample}-{unit}")
-    shell:
-        """
-        unzip -o -d {output} {input}
-  #      touch {output.log}
-        """
+#rule fastqc_unzip:
+#    input:
+#        "results/qc/fastqc/{sample}-{unit}.zip"
+#    output:
+#       log="results/qc/fastqc/{sample}-{unit}.done.txt",
+#        directory("results/qc/fastqc/{sample}-{unit}")
+#    shell:
+#        """
+#        unzip -o -d {output} {input}
+#        touch {output.log}
+#        """
 
 
 rule multiqc:
     input:
         expand(
             [
-                "results/qc/fastqc/{u.sample}-{u.unit}",
+                "results/qc/fastqc/{u.sample}-{u.unit}.html",
             ],
             u=units.itertuples(),
         ),
     output:
  #       report(
-            "results/qc/multiqc.html",
+            "results/qc/multiqc.html"
  #           caption="../report/multiqc.rst",
   #          category="Quality control",
   #      ),
