@@ -15,8 +15,8 @@ rule fastqc_unzip:
     output:
         "results/qc/fastqc/done.txt"
     shell:
-        "unzip -d results/qc/fastqc/"
-        "echo "DONE" > done.txt"
+        "unzip -d {input}"
+        "echo "DONE" > {output}"
 
 
 rule multiqc:
