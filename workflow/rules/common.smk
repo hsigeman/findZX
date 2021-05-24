@@ -16,9 +16,11 @@ configfile: "config/config.yml"
 
 samples = pd.read_table(config["samples"]).set_index("sample", drop=False)
 
+
 units = pd.read_table(config["units"], dtype=str).set_index(
     ["sample", "unit"], drop=False
 )
+
 units.index = units.index.set_levels(
     [i.astype(str) for i in units.index.levels]
 )  # enforce str in index
