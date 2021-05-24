@@ -20,8 +20,8 @@ rule multiqc:
     output:
         report(
             "results/qc/multiqc.html",
-            caption="../report/multiqc.rst",
-            category="Quality control",
+ #           caption="../report/multiqc.rst",
+  #          category="Quality control",
         ),
     log:
         "logs/multiqc.log",

@@ -5,7 +5,7 @@ from snakemake.utils import min_version
 min_version("5.18.0")
 
 
-report: "../report/workflow.rst"
+#report: "../report/workflow.rst"
 
 
 
