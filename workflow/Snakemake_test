@@ -1,4 +1,12 @@
-include: "rules/common.smk"
+include: "rules/common_simple.smk"
+
+
+run_name="AloPal_test"
+logs_dir="results/" + run_name + "/logs/"
+qc_dir="results/" + run_name + "/qc/"
+outdir="results/" + run_name + "/"
+ref_genome=".test/Example/AloPal_v1_subset.fasta"
+
 
 
 ##### Target rules #####
@@ -6,10 +14,16 @@ include: "rules/common.smk"
 
 rule all:
     input:
-        "results/qc/multiqc.html"
+        qc_dir + "fastqc/multiqc.untrimmed.html",
+        qc_dir + "fastqc/multiqc.trimmed.html",
+        multiext(ref_genome, ".amb", ".ann", ".bwt", ".pac", ".sa"),
+        expand(qc_dir + "dedup/{u.sample}-{u.unit}.metrics.txt", u=units.itertuples()),
+
 
 
 ##### Modules #####
 
 
 include: "rules/qc.smk"
+include: "rules/ref.smk"
+include: "rules/mapping.smk"

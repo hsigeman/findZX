@@ -1,0 +1,7 @@
+TrimmomaticPE: Started with arguments:
+ -threads 1 -trimlog results/AloPal_test/trimmed/subset_SRR9655169_WGS_of_Alouatta_palliata_S14-homogametic.trimlog.txt .test/Example/subset_SRR9655169_WGS_of_Alouatta_palliata_S145_forward_paired.fq.gz .test/Example/subset_SRR9655169_WGS_of_Alouatta_palliata_S145_reverse_paired.fq.gz results/AloPal_test/trimmed/subset_SRR9655169_WGS_of_Alouatta_palliata_S14-homogametic.1.fastq.gz results/AloPal_test/trimmed/subset_SRR9655169_WGS_of_Alouatta_palliata_S14-homogametic.1.unpaired.fastq.gz results/AloPal_test/trimmed/subset_SRR9655169_WGS_of_Alouatta_palliata_S14-homogametic.2.fastq.gz results/AloPal_test/trimmed/subset_SRR9655169_WGS_of_Alouatta_palliata_S14-homogametic.2.unpaired.fastq.gz LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36 ILLUMINACLIP:data/adapters/TruSeq3-PE.fa:2:30:10
+Using PrefixPair: 'TACACTCTTTCCCTACACGACGCTCTTCCGATCT' and 'GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT'
+ILLUMINACLIP: Using 1 prefix pairs, 0 forward/reverse sequences, 0 forward only sequences, 0 reverse only sequences
+Quality encoding detected as phred33
+Input Read Pairs: 38848 Both Surviving: 38848 (100,00%) Forward Only Surviving: 0 (0,00%) Reverse Only Surviving: 0 (0,00%) Dropped: 0 (0,00%)
+TrimmomaticPE: Completed successfully

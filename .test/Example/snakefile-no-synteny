@@ -1,0 +1,122 @@
+from snakemake.utils import min_version
+min_version("4.4.0")
+
+# Written by Hanna Sigeman, Nov 2019
+
+dir_path = os.getcwd()
+
+##########################################################
+######################## PATHS ###########################
+##########################################################
+
+ID = config["samples"]
+SPECIES = config["species"]
+HETEROGAMETIC = config["heterogametic"]
+HOMOGAMETIC = config["homogametic"]
+FQ_DIR = config["fastq"]
+REF_DIR = config["ref_dir"]
+REF_NAME = config["ref_name"]
+CHROMOSOMES = config["chr_file"]
+CHROMOSOMES_HIGHLIGHT = config["chr_highlight_file"]
+PREFIX = SPECIES + "_ref_" + REF_NAME
+
+REF_PATH = REF_DIR + REF_NAME
+REF_FASTA = REF_DIR + REF_NAME + ".fasta"
+MAP_DIR = "intermediate/bwa/" + REF_NAME + "/"
+GENCOV_DIR = "intermediate/bedtools/" + PREFIX + "/"
+GENCOV_DIR_REF = "intermediate/bedtools/" + REF_NAME + "/"
+VCF_DIR = "intermediate/freebayes/" + PREFIX + "/"
+VCF_DIR_REF = "intermediate/freebayes/" + REF_NAME + "/"
+RESULTDIR = "results/" + PREFIX + "/"
+
+EDIT_DIST = config["edit_distance"]
+MIN_SIZE_SCAFFOLD = config["minSizeScaffold"]
+
+##########################################################
+######################## RULES ###########################
+##########################################################
+
+rule all:
+    input:
+        REF_FASTA + ".bwt",
+        REF_FASTA + ".fai" ,
+        expand(MAP_DIR + "{S}.sorted.nodup.nm.{ED}.bam.bai", S = ID, ED = EDIT_DIST),
+        expand(MAP_DIR + "{S}.sorted.nodup.nm.{ED}.stats", S = ID, ED = EDIT_DIST),
+        expand(GENCOV_DIR + SPECIES + ".gencov.nodup.nm.{ED}.norm.sexAverage.out", ED = EDIT_DIST),
+        expand(RESULTDIR + SPECIES + ".gencov_heterozygosity_indv.{ED}.pdf", ED = EDIT_DIST),
+        RESULTDIR + SPECIES + ".gencov.plotting.1Mbp.done",
+        RESULTDIR + SPECIES + ".gencov.plotting.100kbp.done",
+        RESULTDIR + SPECIES + ".plotting_chr.done",
+        RESULTDIR + SPECIES + ".gencov.plotting.linear.1Mbp.done",
+        RESULTDIR + SPECIES + ".gencov.plotting.linear.100kbp.done"
+
+##########################################################
+################### INCLUDE SNAKEFILE ####################
+##########################################################
+
+include: "snakefile"
+
+##########################################################
+################## NO SYNTENY ANALYSIS ###################
+##########################################################
+
+
+##########################################################
+##################### CONFIRM SEXING #####################
+##########################################################
+
+rule confirm_sexing:
+    input:
+        gencov = GENCOV_DIR + SPECIES + ".gencov.nodup.nm.{ED}.out",
+        het = VCF_DIR + SPECIES + ".heterozygosity.5kb.windows.NR.bed",
+        stats = expand(MAP_DIR + "{S}.sorted.nodup.nm.{{ED}}.stats", S = ID)
+    output:
+        read_length = RESULTDIR + SPECIES + ".read_length.sorted.nodup.nm.{ED}.csv",
+        gencov_het = RESULTDIR + SPECIES + ".gencov_heterozygosity_indv.{ED}.pdf"
+    threads: 1
+    params:
+        map_dir = MAP_DIR + "*.sorted.nodup.nm.{ED}.stats",
+        hetero = expand("{heterogametic}", heterogametic = HETEROGAMETIC),
+        homo = expand("{homogametic}", homogametic = HOMOGAMETIC),
+        chromosomes = CHROMOSOMES
+    threads: 1
+    shell:
+        """
+        python code/read_length.py <(for FILE in $(ls {params.map_dir}); do echo \"${{FILE##*/}}\"; grep \"average length\" $FILE; done) > {output.read_length}
+
+        Rscript code/histogram_indv.R {input.gencov} {input.het} {output.read_length} {output.gencov_het} no-synteny {params.chromosomes} {params.hetero} {params.homo}
+        """
+
+##########################################################
+################ STATISTICAL CALCULATIONS ################
+##########################################################
+
+rule calculate_heterozygosity:
+    input:
+        VCF_DIR + SPECIES + ".heterozygosity.sexAverage.NR.bed"
+    output:
+        Mb = RESULTDIR + SPECIES + "{synteny}diffHeterozygosity.1Mbp.out",
+        kb = RESULTDIR + SPECIES + "{synteny}diffHeterozygosity.100kbp.out",
+        chr = RESULTDIR + SPECIES + "{synteny}diffHeterozygosity.chr.out"
+    threads: 1
+#    params:
+#        chromosomes = CHROMOSOMES
+    shell:
+        """
+        Rscript code/calculate_windows.R {input} {output.Mb} {output.kb} {output.chr}
+        """
+
+rule calculate_ratio:
+    input:
+        GENCOV_DIR + SPECIES + "{synteny}gencov.nodup.nm.{ED}.norm.sexAverage.out"
+    output:
+        Mb = RESULTDIR + SPECIES + "{synteny}gencov.nodup.nm.{ED}.1Mbp.out",
+        kb = RESULTDIR + SPECIES + "{synteny}gencov.nodup.nm.{ED}.100kbp.out",
+        chr = RESULTDIR + SPECIES + "{synteny}gencov.nodup.nm.{ED}.chr.out"
+    threads: 1
+#    params:
+#        chromosomes = CHROMOSOMES
+    shell:
+        """
+        Rscript code/calculate_windows.R {input} {output.Mb} {output.kb} {output.chr}
+        """
