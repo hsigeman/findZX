@@ -1,9 +1,0 @@
-Sample	FastQC_mqc-generalstats-fastqc-percent_duplicates	FastQC_mqc-generalstats-fastqc-percent_gc	FastQC_mqc-generalstats-fastqc-avg_sequence_length	FastQC_mqc-generalstats-fastqc-percent_fails	FastQC_mqc-generalstats-fastqc-total_sequences
-subset_SRR9655168_WGS_of_Alouatta_palliata_S173-homogametic.1	51.55815345610761	38.0	148.8757350610937	10.0	28399.0
-subset_SRR9655168_WGS_of_Alouatta_palliata_S173_forward_paired	51.55815345610761	38.0	148.8757350610937	10.0	28399.0
-subset_SRR9655169_WGS_of_Alouatta_palliata_S14-homogametic.1	50.5920510708402	38.0	148.96633031301482	10.0	38848.0
-subset_SRR9655169_WGS_of_Alouatta_palliata_S145_forward_paired	50.5920510708402	38.0	148.96633031301482	10.0	38848.0
-subset_SRR9655170_WGS_of_Alouatta_palliata_S608-heterogametic.1	50.81118799790661	38.0	148.90818165959178	10.0	17197.0
-subset_SRR9655170_WGS_of_Alouatta_palliata_S608_forward_paired	50.81118799790661	38.0	148.90818165959178	10.0	17197.0
-subset_SRR9655171_WGS_of_Alouatta_palliata_S618-heterogametic.1	50.59880239520958	38.0	148.32215568862276	10.0	28390.0
-subset_SRR9655171_WGS_of_Alouatta_palliata_S618_forward_paired	50.59880239520958	38.0	148.32215568862276	10.0	28390.0
