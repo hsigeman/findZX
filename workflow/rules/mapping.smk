@@ -21,16 +21,17 @@ rule mark_duplicates:
     input:
         outdir + "mapped/{sample}-{unit}.sorted.bam",
     output:
-        bam=outdir + "dedup/{sample}-{unit}.bam",
+        bam=outdir + "dedup/{sample}-{unit}.sorted.dedup.bam",
         metrics=qc_dir + "dedup/{sample}-{unit}.metrics.txt",
     log:
         logs_dir + "picard/dedup/{sample}-{unit}.log",
     params:
-        "REMOVE_DUPLICATES=true"
+        extra="REMOVE_DUPLICATES=true USE_JDK_DEFLATER=true USE_JDK_INFLATER=true"
     resources:
         mem_mb=1024
     wrapper:
         "0.74.0/bio/picard/markduplicates"
+
 
 rule samtools_index:
     input:

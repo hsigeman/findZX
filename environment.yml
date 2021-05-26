@@ -6,7 +6,7 @@ dependencies:
   - bwa=0.7.17
   - snakemake=6.4.0
   - samtools=1.12
-  - picard=2.20.1
+  - picard=2.25.5
   - snakemake-wrapper-utils=0.2.0
   - bamtools=2.5.1
   - bedtools=2.29.0
