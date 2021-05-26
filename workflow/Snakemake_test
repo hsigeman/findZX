@@ -35,7 +35,8 @@ rule all:
         expand(outdir + "dedup/{u.sample}-{u.unit}.sorted.dedup.nm.{ED}.bam.bai",u=units.itertuples(), ED = EDIT_DIST),
         expand(outdir + "coverage/" + "gencov.nodup.nm.{ED}.out", ED = EDIT_DIST),
         expand(outdir + "coverage/" + "gencov.nodup.nm.{ED}.norm.sexAverage.out", ED = EDIT_DIST),
-        outdir + "variant_calling/" + ref_genome_name_simple + ".biallelic.minQ20.minDP3.vcf.gz"
+        outdir + "variant_calling/" + ref_genome_name_simple + ".biallelic.minQ20.minDP3.vcf.gz",
+        outdir + "variant_calling/" + ref_genome_name_simple + ".heterozygosity.sexAverage.NR.bed",
 
 
 ##### Modules #####
@@ -46,3 +47,4 @@ include: "rules/ref.smk"
 include: "rules/mapping.smk"
 include: "rules/coverage.smk"
 include: "rules/variant_calling.smk"
+include: "rules/heterozygosity_calc.smk"
