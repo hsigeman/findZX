@@ -1,4 +1,3 @@
-
 rule map_reads:
     input:
         reads=get_trimmed_reads,
@@ -21,7 +20,7 @@ rule mark_duplicates:
     input:
         outdir + "mapped/{sample}-{unit}.sorted.bam",
     output:
-        bam=outdir + "dedup/{sample}-{unit}.sorted.dedup.bam",
+        bam=outdir + "dedup/{sample}-{unit}.sorted.dedup.nm.all.bam",
         metrics=qc_dir + "dedup/{sample}-{unit}.metrics.txt",
     log:
         logs_dir + "picard/dedup/{sample}-{unit}.log",
@@ -33,12 +32,36 @@ rule mark_duplicates:
         "0.74.0/bio/picard/markduplicates"
 
 
+rule bamtools_filter:
+    input:
+        outdir + "dedup/{sample}-{unit}.sorted.dedup.nm.all.bam",
+    output:
+        outdir + "dedup/{sample}-{unit}.sorted.dedup.nm.0.{ED, [0-9]+}.bam", 
+    params:
+        tags = ["NM:<={ED}"]
+    wrapper:
+        "0.74.0/bio/bamtools/filter"
+
+
 rule samtools_index:
     input:
-        "{prefix}.bam",
+        outdir + "dedup/{sample}-{unit}.sorted.dedup.nm.{ED}.bam", 
     output:
-        "{prefix}.bam.bai",
+        outdir + "dedup/{sample}-{unit}.sorted.dedup.nm.{ED}.bam.bai", 
     log:
-        "logs/samtools/index/{prefix}.log",
+        logs_dir + "samtools/{sample}-{unit}.{ED}.log",
     wrapper:
         "0.74.0/bio/samtools/index"
+
+
+rule samtools_stats:
+    input:
+        outdir + "dedup/{sample}-{unit}.sorted.dedup.nm.{ED}.bam",
+    output:
+        qc_dir + "dedup/{sample}-{unit}.sorted.dedup.nm.{ED}.samtools.stats.txt",
+    params:
+        extra="",                       # Optional: extra arguments.
+    log:
+        logs_dir + "samtools_stats/{sample}-{unit}.{ED}.log",
+    wrapper:
+        "0.74.0/bio/samtools/stats"

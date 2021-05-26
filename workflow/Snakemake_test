@@ -1,12 +1,26 @@
-include: "rules/common_simple.smk"
+include: "rules/common.smk"
 
 
 run_name="AloPal_test"
+ref_genome=".test/Example/AloPal_v1_subset.fasta"
+
+
+##### Config variables #####
+
+
+EDIT_DIST = config["edit_distance"]
+MIN_SIZE_SCAFFOLD = config["minSizeScaffold"]
+
+ref_genome_name = ref_genome[ref_genome.rindex('/')+1:]
+ref_genome_name_simple = ref_genome_name.rpartition('.')[0]
+
+
+##### Output directories #####
+
+
 logs_dir="results/" + run_name + "/logs/"
 qc_dir="results/" + run_name + "/qc/"
 outdir="results/" + run_name + "/"
-ref_genome=".test/Example/AloPal_v1_subset.fasta"
-
 
 
 ##### Target rules #####
@@ -16,9 +30,12 @@ rule all:
     input:
         qc_dir + "fastqc/multiqc.untrimmed.html",
         qc_dir + "fastqc/multiqc.trimmed.html",
-        multiext(ref_genome, ".amb", ".ann", ".bwt", ".pac", ".sa"),
         expand(qc_dir + "dedup/{u.sample}-{u.unit}.metrics.txt", u=units.itertuples()),
-
+        expand(qc_dir + "dedup/{u.sample}-{u.unit}.sorted.dedup.nm.{ED}.samtools.stats.txt",u=units.itertuples(), ED = EDIT_DIST),
+        expand(outdir + "dedup/{u.sample}-{u.unit}.sorted.dedup.nm.{ED}.bam.bai",u=units.itertuples(), ED = EDIT_DIST),
+        expand(outdir + "coverage/" + "gencov.nodup.nm.{ED}.out", ED = EDIT_DIST),
+        expand(outdir + "coverage/" + "gencov.nodup.nm.{ED}.norm.sexAverage.out", ED = EDIT_DIST),
+        outdir + "variant_calling/" + ref_genome_name_simple + ".biallelic.minQ20.minDP3.vcf.gz"
 
 
 ##### Modules #####
@@ -27,3 +44,5 @@ rule all:
 include: "rules/qc.smk"
 include: "rules/ref.smk"
 include: "rules/mapping.smk"
+include: "rules/coverage.smk"
+include: "rules/variant_calling.smk"

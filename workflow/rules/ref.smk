@@ -1,4 +1,4 @@
-rule genome_faidx:
+checkpoint genome_faidx:
     input:
         ref_genome,
     output:

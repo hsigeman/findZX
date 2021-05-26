@@ -26,3 +26,10 @@ params:
         - "SLIDINGWINDOW:4:15"
         - "MINLEN:36"
         - "ILLUMINACLIP:data/adapters/TruSeq3-PE.fa:2:30:10"
+
+
+edit_distance:
+    - 0.0
+    - 0.2
+    - all
+minSizeScaffold: "10000"
