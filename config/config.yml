@@ -1,6 +1,8 @@
-samples: config/samples.tsv
+#samples: config/samples.tsv
 units: config/units.tsv
 
+chr_file: config/chromosomes.list
+chr_highlight: config/chromosomes_highlight.list
 
 #processing:
 #  remove-duplicates: true

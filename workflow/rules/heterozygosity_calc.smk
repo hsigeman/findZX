@@ -6,8 +6,8 @@ rule proportion_heterozygosity:
     log: 
         outdir + "variant_calling/" + ref_genome_name_simple + ".proportion_heterozygosity.log"
     params:
-        hetero = expand("het:{u.sample}", u=heterogametic.itertuples()),
-        homo = expand("homo:{u.sample}", u=homogametic.itertuples())
+        hetero = expand("het:{u.sample}__{u.unit}", u=heterogametic.itertuples()),
+        homo = expand("homo:{u.sample}__{u.unit}", u=homogametic.itertuples())
     shell:
         """
         python3 code/heterozygosity_per_indv.py {input} {output.het} {params.hetero} {params.homo} > {log}
@@ -22,8 +22,8 @@ rule proportion_heterozygosity_window:
         het_sorted_window_mean = outdir + "variant_calling/" + ref_genome_name_simple + ".heterozygosity.5kb.windows.NR.bed",
 	    het_sexAverage = outdir + "variant_calling/" + ref_genome_name_simple + ".heterozygosity.sexAverage.NR.bed"
     params:
-        hetero = expand("het:{u.sample}", u=heterogametic.itertuples()),
-        homo = expand("homo:{u.sample}", u=homogametic.itertuples())
+        hetero = expand("het:{u.sample}__{u.unit}", u=heterogametic.itertuples()),
+        homo = expand("homo:{u.sample}__{u.unit}", u=homogametic.itertuples())
     shell:
         """
         bedtools intersect -a {input.windows} -b {input.het_sorted} -wa -wb | cut -f 1-3,7- > {output.het_sorted_window}

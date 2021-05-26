@@ -3,9 +3,9 @@ rule map_reads:
         reads=get_trimmed_reads,
         idx=rules.bwa_index.output,
     output:
-        temp(outdir + "mapped/{sample}-{unit}.sorted.bam"),
+        temp(outdir + "mapped/{sample}__{unit}.sorted.bam"),
     log:
-        logs_dir + "bwa_mem/{sample}-{unit}.log",
+        logs_dir + "bwa_mem/{sample}__{unit}.log",
     params:
         index=lambda w, input: os.path.splitext(input.idx[0])[0],
         extra=get_read_group,
@@ -18,12 +18,12 @@ rule map_reads:
 
 rule mark_duplicates:
     input:
-        outdir + "mapped/{sample}-{unit}.sorted.bam",
+        outdir + "mapped/{sample}__{unit}.sorted.bam",
     output:
-        bam=outdir + "dedup/{sample}-{unit}.sorted.dedup.nm.all.bam",
-        metrics=qc_dir + "dedup/{sample}-{unit}.metrics.txt",
+        bam=outdir + "dedup/{sample}__{unit}.sorted.dedup.nm.all.bam",
+        metrics=qc_dir + "dedup/{sample}__{unit}.metrics.txt",
     log:
-        logs_dir + "picard/dedup/{sample}-{unit}.log",
+        logs_dir + "picard/dedup/{sample}__{unit}.log",
     params:
         extra="REMOVE_DUPLICATES=true USE_JDK_DEFLATER=true USE_JDK_INFLATER=true"
     resources:
@@ -34,9 +34,9 @@ rule mark_duplicates:
 
 rule bamtools_filter:
     input:
-        outdir + "dedup/{sample}-{unit}.sorted.dedup.nm.all.bam",
+        outdir + "dedup/{sample}__{unit}.sorted.dedup.nm.all.bam",
     output:
-        outdir + "dedup/{sample}-{unit}.sorted.dedup.nm.0.{ED, [0-9]+}.bam", 
+        outdir + "dedup/{sample}__{unit}.sorted.dedup.nm.0.{ED, [0-9]+}.bam", 
     params:
         tags = ["NM:<={ED}"]
     wrapper:
@@ -45,9 +45,9 @@ rule bamtools_filter:
 
 rule samtools_index:
     input:
-        outdir + "dedup/{sample}-{unit}.sorted.dedup.nm.{ED}.bam", 
+        outdir + "dedup/{sample}__{unit}.sorted.dedup.nm.{ED}.bam", 
     output:
-        outdir + "dedup/{sample}-{unit}.sorted.dedup.nm.{ED}.bam.bai", 
+        outdir + "dedup/{sample}__{unit}.sorted.dedup.nm.{ED}.bam.bai", 
     log:
         logs_dir + "samtools/{sample}-{unit}.{ED}.log",
     wrapper:
@@ -56,12 +56,12 @@ rule samtools_index:
 
 rule samtools_stats:
     input:
-        outdir + "dedup/{sample}-{unit}.sorted.dedup.nm.{ED}.bam",
+        outdir + "dedup/{sample}__{unit}.sorted.dedup.nm.{ED}.bam",
     output:
-        qc_dir + "dedup/{sample}-{unit}.sorted.dedup.nm.{ED}.samtools.stats.txt",
+        qc_dir + "dedup/{sample}__{unit}.sorted.dedup.nm.{ED}.samtools.stats.txt",
     params:
         extra="",                       # Optional: extra arguments.
     log:
-        logs_dir + "samtools_stats/{sample}-{unit}.{ED}.log",
+        logs_dir + "samtools_stats/{sample}__{unit}.{ED}.log",
     wrapper:
         "0.74.0/bio/samtools/stats"

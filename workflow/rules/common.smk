@@ -10,7 +10,7 @@ min_version("5.18.0")
 configfile: "config/config.yml"
 
 
-samples = pd.read_table(config["samples"]).set_index("sample", drop=False)
+#samples = pd.read_table(config["samples"]).set_index("sample", drop=False)
 
 units = pd.read_table(config["units"], dtype=str).set_index(
     ["sample", "unit"], drop=False
@@ -26,8 +26,7 @@ heterogametic = units[units["unit"] == "heterogametic"]
 
 ##### Wildcard constraints #####
 wildcard_constraints:
-    vartype="snvs|indels",
-    sample="|".join(samples.index),
+    sample="|".join(units["sample"]),
     unit="|".join(units["unit"]),
 
 
@@ -47,6 +46,7 @@ def get_contigs():
         return pd.read_table(fai, header=None, usecols=[0], squeeze=True, dtype=str)
 
 
+
 def is_single_end(sample, unit):
     """Return True if sample-unit is single end."""
     return pd.isnull(units.loc[(sample, unit), "fq2"])
@@ -57,32 +57,32 @@ def get_trimmed_reads(wildcards):
     if not is_single_end(**wildcards):
         # paired-end sample
         return expand(
-            outdir + "trimmed/{sample}-{unit}.{group}.fastq.gz",
+            outdir + "trimmed/{sample}__{unit}.{group}.fastq.gz",
             group=[1, 2],
             **wildcards
         )
     # single end sample
-    return outdir + "trimmed/{sample}-{unit}.fastq.gz".format(**wildcards)
+    return outdir + "trimmed/{sample}__{unit}.fastq.gz".format(**wildcards)
+
 
 def get_read_group(wildcards):
     """Denote sample name and platform in read group."""
-    return r"-R '@RG\tID:{sample}\tSM:{sample}'".format(
-        sample=wildcards.sample,
-    )
+    return r"-R '@RG\tID:{sample}__{unit}\tSM:{sample}__{unit}'".format(**wildcards)
 
 
 def get_sample_bams(wildcards):
     """Get all aligned reads of given sample."""
     return expand(
-        outdir + "dedup/{sample}-{unit}.bam",
+        outdir + "dedup/{sample}__{unit}.bam",
         sample=wildcards.sample,
         unit=units.loc[wildcards.sample].unit,
     )
 
+
 def new_get_sample_bams(wildcards):
     """Get all aligned reads of given sample."""
     return expand(
-        outdir + "dedup/{sample}-{unit}.sorted.dedup.nm.{ED}.bam",
+        outdir + "dedup/{sample}__{unit}.sorted.dedup.nm.{ED}.bam",
         sample=wildcards.sample,
         unit=units.loc[wildcards.sample].unit,
         ED = EDIT_DIST

@@ -1,8 +1,8 @@
 rule freebayes_prep:
     input:
         fai = ref_genome + ".fai",
-        samples = expand(outdir + "dedup/{u.sample}-{u.unit}.sorted.dedup.nm.all.bam", u=units.itertuples()),
-	samples_bai = expand(outdir + "dedup/{u.sample}-{u.unit}.sorted.dedup.nm.all.bam.bai", u=units.itertuples()),
+        samples = expand(outdir + "dedup/{u.sample}__{u.unit}.sorted.dedup.nm.all.bam", u=units.itertuples()),
+	samples_bai = expand(outdir + "dedup/{u.sample}__{u.unit}.sorted.dedup.nm.all.bam.bai", u=units.itertuples()),
     output:
         filter_fai = outdir + "variant_calling/" + ref_genome_name_simple + ".filter." + MIN_SIZE_SCAFFOLD + ".fasta.fai",
         regions = outdir + "variant_calling/" + ref_genome_name_simple + ".freebayes.regions"
@@ -17,8 +17,8 @@ rule freebayes_prep:
 rule freebayes_parallel:
     input:
         ref = ref_genome,
-        samples = expand(outdir + "dedup/{u.sample}-{u.unit}.sorted.dedup.nm.all.bam", u=units.itertuples()),
-        indexes=expand(outdir + "dedup/{u.sample}-{u.unit}.sorted.dedup.nm.all.bam.bai", u=units.itertuples()),
+        samples = expand(outdir + "dedup/{u.sample}__{u.unit}.sorted.dedup.nm.all.bam", u=units.itertuples()),
+        indexes=expand(outdir + "dedup/{u.sample}__{u.unit}.sorted.dedup.nm.all.bam.bai", u=units.itertuples()),
         regions=outdir + "variant_calling/" + ref_genome_name_simple + ".freebayes.regions"
     output:
         temp(outdir + "variant_calling/" + ref_genome_name_simple + ".vcf")
