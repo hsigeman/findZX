@@ -1,10 +1,27 @@
+rule lastdb:
+    input:
+        synteny_ref
+    output:
+        outdir + "lastdb/" + "lastdb_" + synteny_ref_name_simple + ".prj"
+    params:
+        db_name= "lastdb_" + synteny_ref_name_simple,
+        synteny_dir = outdir + "lastdb/"
+    threads: 15
+    shell:
+        """
+        lastdb -cR11 -P 15 {params.db_name} {input}
+        mv {params.db_name}.* {params.synteny_dir}
+        touch {output}
+        """
+
+
 rule lastal_syns:
     input:
         ref_genome
     output:
-        outdir + "synteny_lastal/ + "_align"
+        outdir + "synteny_lastal/ + synteny_ref_name_simple + "_align"
     params:
-        db = SYNS_DB
+        db = outdir + "lastdb/" + "lastdb_" + synteny_ref_name_simple
     threads: 15
     shell:
         """
@@ -13,9 +30,9 @@ rule lastal_syns:
 
 rule maf_convert_syns:
     input:
-        COMP_GEN_SYNS + REF_NAME + "_align"
+        outdir + "synteny_lastal/ + synteny_ref_name_simple + "_align"
     output:
-        COMP_GEN_SYNS + REF_NAME + "_align_converted"
+        outdir + "synteny_lastal/ + synteny_ref_name_simple + "_align_converted"
     threads: 1
     shell:
         """

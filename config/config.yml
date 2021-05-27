@@ -1,8 +1,15 @@
 #samples: config/samples.tsv
 units: config/units.tsv
 
+
+run_name: "AloPal_test"
+ref_genome: ".test/Example/AloPal_v1_subset.fasta"
+
+
 chr_file: config/chromosomes.list
 chr_highlight: config/chromosomes_highlight.list
+
+synteny_ref: ".test/Example/Homo_sapiens.GRCh38_subset.fasta"
 
 #processing:
 #  remove-duplicates: true
