@@ -24,8 +24,10 @@ Once all dependencies are installed, activate the conda environment according to
 Create configuration files with information about heterogamety of samples, and paths to files. Example config files based on a test dataset (located in .test/Example/) are here: 
 - **config/config.yml** # Specify paths to reference genome etc. 
 - **config/units.tsv** # Sample information and paths to fastq files
-- **config/chromosomes.list** OR **config/HS_chromosomes.list** # Optional: List of chromosomes to include in the final plots
-- **config/chromosomes_highlight.list** OR **config/HS_chromosomes_highlight.list** # Optional: List of chromosomes to be highlighted in the final plots
+- **config/chromosomes.list** # Optional: List of scaffolds/chromosomes in the reference genome to include in the final plots (with snakefile-no-synteny)
+- **config/HS_chromosomes.list** # Optional: List of scaffolds/chromosomes in the synteny-species reference genome to include in the final plots (with snakefile-synteny)
+- **config/chromosomes_highlight.list** # Optional: List of scaffolds/chromosomes in the reference genome to be highlighted in the final plots (with snakefile-no-synteny)
+- **config/HS_chromosomes_highlight.list** # Optional: List of scaffolds/chromosomes in the synteny-species reference genome to be highlighted in the final plots (with snakefile-synteny)
 
 The **cluster.json** file have to be edited if the pipeline will be ran on a cluster. Specify the account name. 
 If a large amount of samples are used (more than 10 individuals with a genome size of 1Gbp), or an organism with a very large genome, the times and number of cores specified might have to be changed. 
