@@ -1,8 +1,0 @@
-[INFO   ]         multiqc : This is MultiQC v1.10.1
-[INFO   ]         multiqc : Template    : default
-[INFO   ]         multiqc : Searching   : /Users/hs/work/XYZWfinder/results/AloPal_test/qc/fastqc
-Searching   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100% 16/16  [INFO   ]          fastqc : Found 8 reports
-[INFO   ]         multiqc : Compressing plot data
-[INFO   ]         multiqc : Report      : results/AloPal_test/qc/fastqc/multiqc.untrimmed.html
-[INFO   ]         multiqc : Data        : results/AloPal_test/qc/fastqc/multiqc.untrimmed_data
-[INFO   ]         multiqc : MultiQC complete
