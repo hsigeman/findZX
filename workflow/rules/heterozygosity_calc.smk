@@ -13,6 +13,7 @@ rule proportion_heterozygosity:
         python3 code/heterozygosity_per_indv.py {input} {output.het} {params.hetero} {params.homo} > {log}
         """
 
+
 rule proportion_heterozygosity_window:
     input:
         het_sorted = outdir + "variant_calling/" + ref_genome_name_simple + ".heterozygosity.bed",

@@ -13,6 +13,7 @@ rule calculate_heterozygosity:
         Rscript code/calculate_windows.R {input} {output.Mb} {output.kb} {output.chr}
         """
 
+
 rule calculate_ratio:
     input:
         outdir + "synteny_lastal/" + "gencov.nodup.nm.{ED}.norm.sexAverage.small.out",

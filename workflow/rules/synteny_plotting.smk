@@ -37,6 +37,7 @@ rule plotting:
         Rscript code/plot_windows.R {input.cov} {input.snp} {params.out_scatter} {params.chromosomes} {params.chromosomes_highlight} {params.ED} 
         """
 
+
 rule plotting_linear:
     input:
         cov = expand(outdir + "output/synteny/" + synteny_abbr + "/tables/" + "gencov.nodup.nm.{ED}.{{bp}}bp.out", ED = EDIT_DIST),
@@ -53,6 +54,7 @@ rule plotting_linear:
         """
         Rscript code/plot_windows_linear.R {input.cov} {input.snp} {params.absolute_out} {params.diff_out} {params.chromosomes} {params.ED} {params.nr_chromosomes}
         """
+
 
 rule plotting_chr:
     input:

@@ -14,6 +14,7 @@ rule freebayes_prep:
         python3 code/split_ref_by_bai_datasize.py {input.samples} -r {input.fai} | sed 's/ /\t/g' > {output.regions}
         """
 
+
 rule freebayes:
     input:
         ref = ref_genome,
@@ -27,9 +28,10 @@ rule freebayes:
         normalize=False,  # flag to use bcftools norm to normalize indels
     log:
         logs_dir + "freebayes/freebayes.log"
-    threads: 16
+    threads: threads_max
     wrapper:
         "0.74.0/bio/freebayes"
+
 
 rule bgzip_tabix:
     input:
@@ -42,6 +44,7 @@ rule bgzip_tabix:
         bgzip -c {input} > {output}
         tabix -p vcf {output}
         """
+
 
 rule vcftools_filter:
     input:

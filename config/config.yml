@@ -1,3 +1,7 @@
+# Specify max number of cores
+threads_max: 2
+
+
 # Path to sample information file
 units: config/units.tsv
 
@@ -46,6 +50,7 @@ params:
         - "REMOVE_DUPLICATES=true"
         - "USE_JDK_DEFLATER=true" 
         - "USE_JDK_INFLATER=true"
+        - "-Xmx2g"
   trimmomatic:
     pe:
       trimmer:

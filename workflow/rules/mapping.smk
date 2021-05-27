@@ -11,7 +11,7 @@ rule map_reads:
         extra=get_read_group,
         sort="samtools",
         sort_order="coordinate",
-    threads: 2
+    threads: threads_max
     wrapper:
         "0.74.0/bio/bwa/mem"
 
@@ -27,10 +27,9 @@ rule mark_duplicates:
     params:
         extra="REMOVE_DUPLICATES=true USE_JDK_DEFLATER=true USE_JDK_INFLATER=true"
     resources:
-        mem_mb=1024
+        mem_mb=2048
     wrapper:
         "0.74.0/bio/picard/markduplicates"
-
 
 rule bamtools_filter:
     input:
