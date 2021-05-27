@@ -8,6 +8,8 @@ rule proportion_heterozygosity:
     params:
         hetero = expand("het:{u.sample}__{u.unit}", u=heterogametic.itertuples()),
         homo = expand("homo:{u.sample}__{u.unit}", u=homogametic.itertuples())
+    resources:
+        mem_mb=2048
     shell:
         """
         python3 code/heterozygosity_per_indv.py {input} {output.het} {params.hetero} {params.homo} > {log}
@@ -25,6 +27,8 @@ rule proportion_heterozygosity_window:
     params:
         hetero = expand("het:{u.sample}__{u.unit}", u=heterogametic.itertuples()),
         homo = expand("homo:{u.sample}__{u.unit}", u=homogametic.itertuples())
+    resources:
+        mem_mb=2048
     shell:
         """
         bedtools intersect -a {input.windows} -b {input.het_sorted} -wa -wb | cut -f 1-3,7- > {output.het_sorted_window}

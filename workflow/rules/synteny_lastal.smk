@@ -23,7 +23,7 @@ rule lastal_syns:
         outdir + "synteny_lastal/" + synteny_abbr + "_align"
     params:
         db = outdir + "lastdb/" + "lastdb_" + synteny_abbr
-    threads: 15
+    threads: threads_max
     shell:
         """
         lastal -P {threads} {params.db} {input.ref}  | last-split > {output}
