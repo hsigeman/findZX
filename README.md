@@ -13,7 +13,7 @@ A Snakemake pipeline for detection of sex-linked regions using WGS data.
 
 ### Step 2: Create conda environment (Tested with conda version 4.10.1)
     cd XYZWfinder
-    conda env create -f XYZWfinder/environment.yml
+    conda env create -f environment.yml
 Once all dependencies are installed, activate the conda environment according to the instructions in the terminal. 
 
 ### Step 3: Run the example data to make sure that all software are installed (runtime ~2 minutes per command)
