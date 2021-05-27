@@ -4,7 +4,7 @@ rule confirm_sexing:
         het = outdir + "variant_calling/" + ref_genome_name_simple + ".heterozygosity.5kb.windows.NR.bed",
         stats = expand(qc_dir + "dedup/{u.sample}__{u.unit}.sorted.dedup.nm.{{ED}}.samtools.stats.txt", zip, u=units.itertuples())
     output:
-        read_length = outdir + "dedup/" + "read_length.sorted.nodup.nm.{ED}.csv",
+        read_length = outdir + "output/no_synteny/" + "/.misc/" + "read_length.sorted.nodup.nm.{ED}.csv",
         gencov_het = outdir + "output/no_synteny/plots/" + "confirm_sexing_indv.{ED}.pdf"
     threads: 1
     params:
@@ -26,7 +26,7 @@ rule plotting:
         cov = expand(outdir + "output/no_synteny/tables/" + "gencov.nodup.nm.{ED}.{{bp}}bp.out", ED = EDIT_DIST),
         snp = outdir + "output/no_synteny/tables/" + "diffHeterozygosity.{bp}bp.out"
     output:
-        touch(outdir + "output/no_synteny/tables/" + "plotting.{bp}bp.done")
+        touch(outdir + "output/no_synteny/" + ".misc/" + "plotting.{bp}bp.done")
     params:
         out_scatter = outdir + "output/no_synteny/plots/scatter.{bp}bp.pdf",
         chromosomes = CHROMOSOMES,
@@ -42,7 +42,7 @@ rule plotting_linear:
         cov = expand(outdir + "output/no_synteny/tables/" + "gencov.nodup.nm.{ED}.{{bp}}bp.out", ED = EDIT_DIST),
         snp = outdir + "output/no_synteny/tables/" + "diffHeterozygosity.{bp}bp.out"
     output:
-        touch(outdir + "output/no_synteny/plots/plotting.linear.{bp}bp.done")
+        touch(outdir + "output/no_synteny/" + ".misc/" + "plotting.linear.{bp}bp.done")
     params:
         absolute_out = outdir + "output/no_synteny/plots/sexSpecificValues.{bp}bp.pdf",
         diff_out = outdir + "output/no_synteny/plots/sexDifference.{bp}bp.pdf",
@@ -59,7 +59,7 @@ rule plotting_chr:
         cov = expand(outdir + "output/no_synteny/tables/" + "gencov.nodup.nm.{ED}.chr.out", ED = EDIT_DIST),
         snp = outdir + "output/no_synteny/tables/" + "diffHeterozygosity.chr.out"
     output:
-        touch(outdir + "output/no_synteny/plots/plotting_chr.done")
+        touch(outdir + "output/no_synteny/" + ".misc/" + "plotting_chr.done")
     params:
         out_scatter2D = protected(outdir + "output/no_synteny/plots/chr_scatter2D.pdf"),
         out_scatter3D = protected(outdir + "output/no_synteny/plots/chr_scatter3D.pdf"),

@@ -39,12 +39,12 @@ rule all:
         qc_dir + "fastqc/multiqc.untrimmed.html",
         qc_dir + "fastqc/multiqc.trimmed.html",
         expand(outdir + "output/no_synteny/plots/" + "confirm_sexing_indv.{ED}.pdf", ED = EDIT_DIST),
-        outdir + "output/no_synteny/plots/plotting_chr.done",
-        outdir + "output/no_synteny/plots/plotting.linear.1Mbp.done",
-        outdir + "output/no_synteny/plots/plotting.linear.100kbp.done",
-        outdir + "output/no_synteny/plots/plotting_chr.done",
-        outdir + "output/no_synteny/tables/" + "plotting.1Mbp.done",
-        outdir + "output/no_synteny/tables/" + "plotting.100kbp.done",
+        outdir + "output/no_synteny/" + ".misc/" + "plotting_chr.done",
+        outdir + "output/no_synteny/" + ".misc/" + "plotting.linear.1Mbp.done",
+        outdir + "output/no_synteny/" + ".misc/" + "plotting.linear.100kbp.done",
+        outdir + "output/no_synteny/" + ".misc/" + "plotting_chr.done",
+        outdir + "output/no_synteny/" + ".misc/" + "plotting.1Mbp.done",
+        outdir + "output/no_synteny/" + ".misc/" + "plotting.100kbp.done",
 
 
 ##### Modules #####

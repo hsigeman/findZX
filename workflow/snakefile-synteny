@@ -41,12 +41,12 @@ rule all:
         qc_dir + "fastqc/multiqc.untrimmed.html",
         qc_dir + "fastqc/multiqc.trimmed.html",
         expand(outdir + "output/synteny/" + synteny_abbr + "/plots/" + "confirm_sexing_indv.{ED}.pdf", ED = EDIT_DIST),
-        outdir + "output/synteny/" + synteny_abbr + "/plots/plotting_chr.done",
-        outdir + "output/synteny/" + synteny_abbr + "/plots/plotting.linear.1Mbp.done",
-        outdir + "output/synteny/" + synteny_abbr + "/plots/plotting.linear.100kbp.done",
-        outdir + "output/synteny/" + synteny_abbr + "/plots/plotting_chr.done",
-        outdir + "output/synteny/" + synteny_abbr + "/tables/" + "plotting.1Mbp.done",
-        outdir + "output/synteny/" + synteny_abbr + "/tables/" + "plotting.100kbp.done",
+        outdir + "output/synteny/" + synteny_abbr + "/.misc/" + "plotting_chr.done",
+        outdir + "output/synteny/" + synteny_abbr + "/.misc/" + "plotting.linear.1Mbp.done",
+        outdir + "output/synteny/" + synteny_abbr + "/.misc/" + "plotting.linear.100kbp.done",
+        outdir + "output/synteny/" + synteny_abbr + "/.misc/" + "plotting_chr.done",
+        outdir + "output/synteny/" + synteny_abbr + "/.misc/" + "plotting.1Mbp.done",
+        outdir + "output/synteny/" + synteny_abbr + "/.misc/" + "plotting.100kbp.done",
 
 
 
