@@ -6,6 +6,16 @@
         "n" : 1,
         "partition" : "core"
     },
+    "trim_reads_pe" :
+    {
+        "time" : "2:00:00",
+        "n" : 2
+    },
+    "trim_reads_se" :
+    {
+        "time" : "2:00:00",
+        "n" : 2
+    },
     "map_reads" :
     {
         "time" : "15:00:00",
