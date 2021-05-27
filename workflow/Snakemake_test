@@ -1,12 +1,7 @@
 include: "rules/common.smk"
 
 
-dir_path = os.getcwd()
 
-
-run_name=config['run_name']
-ref_genome=config['ref_genome']
-synteny_ref=config['synteny_ref']
 
 ##### Config variables #####
 
@@ -16,9 +11,12 @@ MIN_SIZE_SCAFFOLD = config["minSizeScaffold"]
 CHROMOSOMES = config['chr_file']
 CHROMOSOMES_HIGHLIGHT = config['chr_highlight']
 
+run_name=config['run_name']
+ref_genome=config['ref_genome']
+synteny_ref=config['synteny_ref']
+
 ref_genome_name = ref_genome[ref_genome.rindex('/')+1:]
 ref_genome_name_simple = ref_genome_name.rpartition('.')[0]
-
 synteny_ref_name = synteny_ref[synteny_ref.rindex('/')+1:]
 synteny_ref_name_simple = synteny_ref_name.rpartition('.')[0]
 

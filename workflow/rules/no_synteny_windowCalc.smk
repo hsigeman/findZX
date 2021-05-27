@@ -1,7 +1,3 @@
-##########################################################
-################ STATISTICAL CALCULATIONS ################
-##########################################################
-
 rule calculate_heterozygosity:
     input:
         outdir + "variant_calling/" + ref_genome_name_simple + ".heterozygosity.sexAverage.NR.bed"

@@ -7,14 +7,16 @@ dir_path = os.getcwd()
 run_name=config['run_name']
 ref_genome=config['ref_genome']
 synteny_ref=config['synteny_ref']
+synteny_abbr=config['synteny_abbr']
+
 
 ##### Config variables #####
 
 
 EDIT_DIST = config["edit_distance"]
 MIN_SIZE_SCAFFOLD = config["minSizeScaffold"]
-CHROMOSOMES = config['chr_file']
-CHROMOSOMES_HIGHLIGHT = config['chr_highlight']
+CHROMOSOMES = config['synteny_chr_file']
+CHROMOSOMES_HIGHLIGHT = config['synteny_chr_highlight']
 
 ref_genome_name = ref_genome[ref_genome.rindex('/')+1:]
 ref_genome_name_simple = ref_genome_name.rpartition('.')[0]
@@ -38,13 +40,14 @@ rule all:
     input:
         qc_dir + "fastqc/multiqc.untrimmed.html",
         qc_dir + "fastqc/multiqc.trimmed.html",
-        expand(outdir + "output/no_synteny/plots/" + "confirm_sexing_indv.{ED}.pdf", ED = EDIT_DIST),
-        outdir + "output/no_synteny/plots/plotting_chr.done",
-        outdir + "output/no_synteny/plots/plotting.linear.1Mbp.done",
-        outdir + "output/no_synteny/plots/plotting.linear.100kbp.done",
-        outdir + "output/no_synteny/plots/plotting_chr.done",
-        outdir + "output/no_synteny/tables/" + "plotting.1Mbp.done",
-        outdir + "output/no_synteny/tables/" + "plotting.100kbp.done",
+        expand(outdir + "output/synteny/" + synteny_abbr + "/plots/" + "confirm_sexing_indv.{ED}.pdf", ED = EDIT_DIST),
+        outdir + "output/synteny/" + synteny_abbr + "/plots/plotting_chr.done",
+        outdir + "output/synteny/" + synteny_abbr + "/plots/plotting.linear.1Mbp.done",
+        outdir + "output/synteny/" + synteny_abbr + "/plots/plotting.linear.100kbp.done",
+        outdir + "output/synteny/" + synteny_abbr + "/plots/plotting_chr.done",
+        outdir + "output/synteny/" + synteny_abbr + "/tables/" + "plotting.1Mbp.done",
+        outdir + "output/synteny/" + synteny_abbr + "/tables/" + "plotting.100kbp.done",
+
 
 
 ##### Modules #####
@@ -56,5 +59,9 @@ include: "rules/mapping.smk"
 include: "rules/coverage.smk"
 include: "rules/variant_calling.smk"
 include: "rules/heterozygosity_calc.smk"
-include: "rules/no_synteny_windowCalc.smk"
-include: "rules/no_synteny_plotting.smk"
+#include: "rules/no_synteny_windowCalc.smk"
+#include: "rules/no_synteny_plotting.smk"
+include: "rules/synteny_lastal.smk"
+include: "rules/synteny_matchWindows.smk"
+include: "rules/synteny_windowCalc.smk"
+include: "rules/synteny_plotting.smk"

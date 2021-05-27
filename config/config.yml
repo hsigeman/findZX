@@ -10,6 +10,9 @@ chr_file: config/chromosomes.list
 chr_highlight: config/chromosomes_highlight.list
 
 synteny_ref: ".test/Example/Homo_sapiens.GRCh38_subset.fasta"
+synteny_abbr: "HS"
+synteny_chr_file: config/HS_chromosomes.list
+synteny_chr_highlight: config/HS_chromosomes_highlight.list
 
 #processing:
 #  remove-duplicates: true
