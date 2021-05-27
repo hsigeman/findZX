@@ -16,7 +16,11 @@ A Snakemake pipeline for detection of sex-linked regions using WGS data.
     conda env create -f XYZWfinder/environment.yml
 Once all dependencies are installed, activate the conda environment according to the instructions in the terminal. 
 
-### Step 3: Modify config files
+### Step 3: Run the example data to make sure that all software are installed (runtime ~2 minutes per command)
+    snakemake -s workflow/snakefile-no-synteny --configfile config/config.yml -k --cores 1 -p -R all -k
+    snakemake -s workflow/snakefile-synteny --configfile config/config.yml -k --cores 1 -p -R all -k
+
+### Step 4: Modify config files
 Create configuration files with information about heterogamety of samples, and paths to files. Example config files based on a test dataset (located in .test/Example/) are here: 
 - **config/config.yml** # Specify paths to reference genome etc. 
 - **config/units.tsv** # Sample information and paths to fastq files
