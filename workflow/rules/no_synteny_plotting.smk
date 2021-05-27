@@ -4,7 +4,7 @@ rule confirm_sexing:
         het = outdir + "variant_calling/" + ref_genome_name_simple + ".heterozygosity.5kb.windows.NR.bed",
         stats = expand(qc_dir + "dedup/{u.sample}__{u.unit}.sorted.dedup.nm.{{ED}}.samtools.stats.txt", zip, u=units.itertuples())
     output:
-        read_length = outdir + "output/no_synteny/" + "/.misc/" + "read_length.sorted.nodup.nm.{ED}.csv",
+        read_length = outdir + "output/no_synteny/" + ".misc/" + "read_length.sorted.nodup.nm.{ED}.csv",
         gencov_het = outdir + "output/no_synteny/plots/" + "confirm_sexing_indv.{ED}.pdf"
     threads: 1
     params:
