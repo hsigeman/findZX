@@ -51,6 +51,7 @@ rule all:
 
 
 include: "rules/qc.smk"
+include: "rules/trimming.smk"
 include: "rules/ref.smk"
 include: "rules/mapping.smk"
 include: "rules/coverage.smk"

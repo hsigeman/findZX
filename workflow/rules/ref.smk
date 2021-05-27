@@ -4,10 +4,11 @@ checkpoint genome_faidx:
     output:
         ref_genome + ".fai",
     log:
-        "logs/genome-faidx.log",
+        logs_dir + "samtools/genome-faidx.log",
     cache: True
     wrapper:
         "0.74.0/bio/samtools/faidx"
+
 
 rule bwa_index:
     input:
@@ -15,7 +16,7 @@ rule bwa_index:
     output:
         multiext(ref_genome, ".amb", ".ann", ".bwt", ".pac", ".sa"),
     log:
-        "logs/bwa_index.log",
+        logs_dir + "bwa/bwa_index.log",
     resources:
         mem_mb=369000,
     cache: True

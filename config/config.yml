@@ -1,22 +1,45 @@
-#samples: config/samples.tsv
+# Path to sample information file
 units: config/units.tsv
 
+# Name of analysis. The result files will be stored under "results/{run_name}"
+run_name: "AloPal_test" 
 
-run_name: "AloPal_test"
-ref_genome: ".test/Example/AloPal_v1_subset.fasta"
+# Homogametic reference genome of the studied species (not .gz format)
+ref_genome: ".test/Example/AloPal_v1_subset.fasta" 
 
-
+# List of chromosomes that should be plotted (and highlighted) in the end (optional) 
 chr_file: config/chromosomes.list
 chr_highlight: config/chromosomes_highlight.list
 
+
+############# snakefile-synteny variables #############
+
+# If snakemake-synteny is used, specify the path to the synteny-species reference genome (not .gz format)
 synteny_ref: ".test/Example/Homo_sapiens.GRCh38_subset.fasta"
+
+# Synteny-species abbreviation (can be anything)
 synteny_abbr: "HS"
+
+# List of chromosomes in the synteny-species reference genome that should be plotted (and highlighted) in the end (optional) 
 synteny_chr_file: config/HS_chromosomes.list
 synteny_chr_highlight: config/HS_chromosomes_highlight.list
 
-#processing:
-#  remove-duplicates: true
 
+############# Other optional variables ##########
+
+# The pipeline will produce genome coverage results based on three different mismatches criteria. 
+# The first two variables can be edited. 
+edit_distance:
+    - 0.0 # 0 mismatches allowed
+    - 0.2 # <=2 mismatches allowed
+    - all # Do not edit this one
+
+
+# The Mimimum size of scaffolds in the reference genome to be considered. 
+minSizeScaffold: "10000"
+
+
+# Software-specific settings. Modify if needed. 
 params:
   picard:
     MarkDuplicates: 
@@ -40,8 +63,3 @@ params:
         - "ILLUMINACLIP:data/adapters/TruSeq3-PE.fa:2:30:10"
 
 
-edit_distance:
-    - 0.0
-    - 0.2
-    - all
-minSizeScaffold: "10000"

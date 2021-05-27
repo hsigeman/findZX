@@ -39,6 +39,8 @@ rule bamtools_filter:
         outdir + "dedup/{sample}__{unit}.sorted.dedup.nm.0.{ED, [0-9]+}.bam", 
     params:
         tags = ["NM:<={ED}"]
+    log:
+        logs_dir + "bamtools/{sample}-{unit}.{ED}.log",
     wrapper:
         "0.74.0/bio/bamtools/filter"
 

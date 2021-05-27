@@ -54,6 +54,7 @@ rule all:
 
 
 include: "rules/qc.smk"
+include: "rules/trimming.smk"
 include: "rules/ref.smk"
 include: "rules/mapping.smk"
 include: "rules/coverage.smk"
@@ -65,3 +66,4 @@ include: "rules/synteny_lastal.smk"
 include: "rules/synteny_matchWindows.smk"
 include: "rules/synteny_windowCalc.smk"
 include: "rules/synteny_plotting.smk"
+include: "rules/consensus_genome.smk"

@@ -14,7 +14,7 @@ rule freebayes_prep:
         python3 code/split_ref_by_bai_datasize.py {input.samples} -r {input.fai} | sed 's/ /\t/g' > {output.regions}
         """
 
-rule freebayes_parallel:
+rule freebayes:
     input:
         ref = ref_genome,
         samples = expand(outdir + "dedup/{u.sample}__{u.unit}.sorted.dedup.nm.all.bam", u=units.itertuples()),
@@ -25,6 +25,8 @@ rule freebayes_parallel:
     params:
         extra="--use-best-n-alleles 4",         # optional parameters
         normalize=False,  # flag to use bcftools norm to normalize indels
+    log:
+        logs_dir + "freebayes/freebayes.log"
     threads: 16
     wrapper:
         "0.74.0/bio/freebayes"

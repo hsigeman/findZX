@@ -46,7 +46,6 @@ def get_contigs():
         return pd.read_table(fai, header=None, usecols=[0], squeeze=True, dtype=str)
 
 
-
 def is_single_end(sample, unit):
     """Return True if sample-unit is single end."""
     return pd.isnull(units.loc[(sample, unit), "fq2"])
