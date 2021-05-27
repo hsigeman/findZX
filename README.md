@@ -1,31 +1,33 @@
-# Snakemake Pipeline for Detection of Sex-Linked Regions
+# XYZWfinder
+
+A Snakemake pipeline for detection of sex-linked regions using WGS data. 
+
+## Authors
+- Hanna Sigeman (hanna.sigeman@biol.lu.se)
+- Bella Sinclair (bella.sinclair@biol.lu.se)
  
-Modification of the pipeline used in Sigeman et. al (2020). 
- 
-The purpose of this pipeline is to detect new and old sex-linked regions from wgs sequencing data. The first version of this pipeline detected sex-linked regions for birds. Now the pipeline has been expanded to be usable on other organisms and with/without a synteny species.
- 
-The number of male and female samples does not have to be equal, the minimum requirement is one sample from each sex. 
- 
- 
-## Requirements
-Before one can run the pipeline a reference genome is needed, trimmed reads for at least one male and one female individual.  
-Optional is a last database for a synteny species which should be placed in a folder named data/meta/ relative to the directory from which the pipeline is ran. 
- 
-The **config.txt** file gives an example of how the config-file should look. Add the path to the trimmed reads, reference genome. An option is to give the path to a file with a list of chromosomes which will be used to filter out only these chromosomes in the statistical calculations. The chromosomes should be comma separated on the same line.
- 
-Changed the path in the end of the **environment.yml** file to the path to your conda environment. Create a conda environment with the environment.yml file.
- 
+## Usage 
+
+### Step 1: Clone GitHub repository
+    git clone https://github.com/hsigeman/XYZWfinder.git
+
+### Step 2: Create conda environment (Tested with conda version 4.10.1)
+    cd XYZWfinder
+    conda env create -f XYZWfinder/environment.yml
+Once all dependencies are installed, activate the conda environment according to the instructions in the terminal. 
+
+### Step 3: Modify config files
+Create configuration files with information about heterogamety of samples, and paths to files. Example config files based on a test dataset (located in .test/Example/) are here: 
+- **config/config.yml** # Specify paths to reference genome etc. 
+- **config/units.tsv** # Sample information and paths to fastq files
+- **config/chromosomes.list** / **config/HS_chromosomes.list** # Optional: List of chromosomes to include in the final plots
+- **config/chromosomes_highlight.list** / **config/HS_chromosomes_highlight.list** # Optional: List of chromosomes to be highlighted in the final plots
+
 The **cluster.json** file have to be edited if the pipeline will be ran on a cluster. Specify the account name. 
 If a large amount of samples are used (more than 10 individuals with a genome size of 1Gbp), or an organism with a very large genome, the times and number of cores specified might have to be changed. 
  
-Make sure that the suffix of the reads and the reference genome is *'.fq.gz'* and *'.fasta'*, otherwise, the pipeline will not be able to find the files. 
- 
-## Install dependencies with conda (Tested with conda version 4.10.1)
-conda env create -f XYZWfinder/environment.yml
-### After all dependencies are downloaded and installed, activate the conda environment according to instructions given in the terminal
- 
- 
-## How to Run
+
+## Usage
 The pipeline can be ran with and without a synteny species, choose the snakefile with the corresponding name (snakefile-synteny or snakefile-no-synteny).
  
     snakemake -s snakefile-{synteny/no-synteny} -j 15 -R all --configfile config.txt --cluster-config cluster.json --cluster " sbatch -A {cluster.account} -t {cluster.time} -n {cluster.n} "
@@ -41,24 +43,8 @@ This will produce a consensus genome in the same directory as the reference geno
  
  
 ## Output
-The result is shown in figures in the *result/* folder.   
-***[species]*.gencov_heterozygosity_indv.pdf** First a figure is produced which looks at the genome coverage and heterozygosity for each individual so that one can confirm that the sexing of samples were correct.
+The result is shown in figures in the *figures/* folder.   
  
-***[species]*.circliz.pdf** Shows difference in heterozygosity between male and female samples over chromosomes larger than 1Mbp and, if a chr.txt file were used, chromosomes in specified in the chr.txt file. Also shows the genome coverage over the same chromosomes. Three different genome coverage values are shown, 0, 2 or 4 number of mismatches allowed.
- 
-***[species]*.scatter.pdf** A scatterplot of genome coverage vs difference in heterozygosity for 1Mbp windows colored after chromosomes. 
- 
-***[species]*.chr_scatter2D.pdf** Scatterplots of genome coverage, difference in heterozygosity and chromosome length, where two of the variables are plotted against each other and the points are colored based on the third. Each point in these scatterplots represents a chromosome/scaffold, not a 1Mbp window as in the plots mentioned above. 
- 
-***[species]*.chr_scatter3D.pdf** The same variables as above but in a 3D scatterplot and colored on chromosome/scaffold length.
- 
-***[species]*.report.html** A report which states date, which samples that were used and statistics for each chromosome/scaffold.
- 
-The other files in the results directory are used to make the figures. The idea is that the figures will show if there are any sex-linked regions in ones data and if there is, one can analyse the data more thoroughly and make figures that suits that particular data-set better.
- 
-# Contact
-Hanna Sigeman, hanna.sigeman@biol.lu.se; Bella Sinclair, bella.sinclair@biol.lu.se
- 
- 
+
 # Reference
 Sigeman, H., Ponnikas, S. & Hansson, B. Whole-genome analysis across 10 songbird families within Sylvioidea reveals a novel autosome-sex chromosome fusion. Biol. Lett. 16, 20200082 (2020).
