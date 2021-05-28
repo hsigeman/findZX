@@ -4,7 +4,7 @@ rule map_reads:
         reads= get_trimmed_reads if config['trim_reads'] else get_fastq_new,
         idx=rules.bwa_index.output,
     output:
-        temp(outdir + "mapped/{sample}__{unit}.sorted.bam"),
+        temp(map_dir + "{sample}__{unit}.sorted.bam"),
     log:
         logs_dir + "bwa_mem/{sample}__{unit}.log",
     params:
@@ -19,9 +19,9 @@ rule map_reads:
 
 rule mark_duplicates:
     input:
-        outdir + "mapped/{sample}__{unit}.sorted.bam",
+        map_dir + "{sample}__{unit}.sorted.bam",
     output:
-        bam=outdir + "dedup/{sample}__{unit}.sorted.dedup.nm.all.bam",
+        bam=dedup_dir + "{sample}__{unit}.sorted.dedup.nm.all.bam",
         metrics=qc_dir + "dedup/{sample}__{unit}.metrics.txt",
     log:
         logs_dir + "picard/dedup/{sample}__{unit}.log",
@@ -35,9 +35,9 @@ rule mark_duplicates:
 
 rule bamtools_filter:
     input:
-        outdir + "dedup/{sample}__{unit}.sorted.dedup.nm.all.bam",
+        dedup_dir + "{sample}__{unit}.sorted.dedup.nm.all.bam",
     output:
-        outdir + "dedup/{sample}__{unit}.sorted.dedup.nm.0.{ED, [0-9]+}.bam", 
+        dedup_dir + "{sample}__{unit}.sorted.dedup.nm.0.{ED, [0-9]+}.bam", 
     params:
         tags = ["NM:<={ED}"]
     log:
@@ -48,9 +48,9 @@ rule bamtools_filter:
 
 rule samtools_index:
     input:
-        outdir + "dedup/{sample}__{unit}.sorted.dedup.nm.{ED}.bam", 
+        dedup_dir + "{sample}__{unit}.sorted.dedup.nm.{ED}.bam", 
     output:
-        outdir + "dedup/{sample}__{unit}.sorted.dedup.nm.{ED}.bam.bai", 
+        dedup_dir + "{sample}__{unit}.sorted.dedup.nm.{ED}.bam.bai", 
     log:
         logs_dir + "samtools/{sample}-{unit}.{ED}.log",
     wrapper:
@@ -59,9 +59,9 @@ rule samtools_index:
 
 rule samtools_stats:
     input:
-        outdir + "dedup/{sample}__{unit}.sorted.dedup.nm.{ED}.bam",
+        dedup_dir + "{sample}__{unit}.sorted.dedup.nm.{ED}.bam",
     output:
-        qc_dir + "dedup/{sample}__{unit}.sorted.dedup.nm.{ED}.samtools.stats.txt",
+        dedup_dir + "{sample}__{unit}.sorted.dedup.nm.{ED}.samtools.stats.txt",
     params:
         extra="",                       # Optional: extra arguments.
     log:

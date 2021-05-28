@@ -23,6 +23,9 @@ ref_genome_name_simple = ref_genome_name.rpartition('.')[0]
 synteny_ref_name = synteny_ref[synteny_ref.rindex('/')+1:]
 synteny_ref_name_simple = synteny_ref_name.rpartition('.')[0]
 
+map_dir="results/ref/" + ref_genome_name_simple + "/mapped/"
+dedup_dir="results/ref/" + ref_genome_name_simple + "/dedup/"
+lastdb_dir="results/lastdb/"
 
 ##### Output directories #####
 

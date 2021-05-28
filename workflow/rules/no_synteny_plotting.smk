@@ -2,13 +2,13 @@ rule confirm_sexing:
     input:
         gencov = outdir + "coverage/" + "gencov.nodup.nm.{ED}.out",
         het = outdir + "variant_calling/" + ref_genome_name_simple + ".heterozygosity.5kb.windows.NR.bed",
-        stats = expand(qc_dir + "dedup/{u.sample}__{u.unit}.sorted.dedup.nm.{{ED}}.samtools.stats.txt", zip, u=units.itertuples())
+        stats = expand(dedup_dir + "{u.sample}__{u.unit}.sorted.dedup.nm.{{ED}}.samtools.stats.txt", zip, u=units.itertuples())
     output:
         read_length = outdir + "output/no_synteny/" + ".misc/" + "read_length.sorted.nodup.nm.{ED}.csv",
         gencov_het = outdir + "output/no_synteny/plots/" + "confirm_sexing_indv.{ED}.pdf"
     threads: 1
     params:
-        map_dir = qc_dir + "dedup/" + "*.sorted.dedup.nm.{ED}.samtools.stats.txt",
+        map_dir = dedup_dir + "*.sorted.dedup.nm.{ED}.samtools.stats.txt",
         hetero = expand("{u.sample}__{u.unit}", u=heterogametic.itertuples()),
         homo = expand("{u.sample}__{u.unit}", u=homogametic.itertuples()),
         chromosomes = CHROMOSOMES
