@@ -35,21 +35,10 @@ outdir="results/" + run_name + "/"
 ##### Target rules #####
 
 
-if config["trim_reads"]:
-    multiqc_1 = qc_dir + "fastqc/multiqc.untrimmed.html"
-else:
-    multiqc_1 = []
-
-if config["trim_reads"]:
-    multiqc_2 = qc_dir + "fastqc/multiqc.trimmed.html"
-else:
-    multiqc_2 = []
-
-
 rule all:
     input:
-        multiqc_1,
-        multiqc_2,
+        qc_dir + "fastqc/multiqc.untrimmed.html" if config['trim_reads'] else [],
+        qc_dir + "fastqc/multiqc.trimmed.html" if config['trim_reads'] else [],
         expand(outdir + "output/synteny/" + synteny_abbr + "/plots/" + "confirm_sexing_indv.{ED}.pdf", ED = EDIT_DIST),
         outdir + "output/synteny/" + synteny_abbr + "/.misc/" + "plotting_chr.done",
         outdir + "output/synteny/" + synteny_abbr + "/.misc/" + "plotting.linear.1Mbp.done",
