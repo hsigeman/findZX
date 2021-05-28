@@ -1,6 +1,5 @@
 include: "rules/common.smk"
 
-
 dir_path = os.getcwd()
 
 threads_max=config['threads_max']
@@ -31,7 +30,7 @@ synteny_ref_name_simple = synteny_ref_name.rpartition('.')[0]
 logs_dir="results/" + run_name + "/logs/"
 qc_dir="results/" + run_name + "/qc/"
 outdir="results/" + run_name + "/"
-
+report: outdir + "output/synteny/" + synteny_abbr + "/report/workflow.rst"
 
 ##### Target rules #####
 
