@@ -36,8 +36,8 @@ outdir="results/" + run_name + "/"
 
 rule all:
     input:
-        qc_dir + "fastqc/multiqc.untrimmed.html",
-        qc_dir + "fastqc/multiqc.trimmed.html",
+        qc_dir + "fastqc/multiqc.untrimmed.html" if config['trim_reads'] else [],
+        qc_dir + "fastqc/multiqc.trimmed.html", if config['trim_reads'] else [],
         expand(outdir + "output/no_synteny/plots/" + "confirm_sexing_indv.{ED}.pdf", ED = EDIT_DIST),
         outdir + "output/no_synteny/" + ".misc/" + "plotting_chr.done",
         outdir + "output/no_synteny/" + ".misc/" + "plotting.linear.1Mbp.done",
