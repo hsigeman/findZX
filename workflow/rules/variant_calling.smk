@@ -11,7 +11,7 @@ rule freebayes_prep:
     shell:
         """
 	    cat {input.fai} | awk '$2>= {params} {{print $0}}' > {output.filter_fai}
-        python3 code/split_ref_by_bai_datasize.py {input.samples} -r {input.fai} | sed 's/ /\t/g' > {output.regions}
+        python3 code/split_ref_by_bai_datasize.py {input.samples} -r {input.fai} | sed 's/ /\t/g' | sed 's/\t/:/' | sed 's/\t/-/'  > {output.regions}
         """
 
 
