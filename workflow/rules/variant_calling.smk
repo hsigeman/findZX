@@ -25,12 +25,13 @@ rule freebayes:
         temp(outdir + "variant_calling/" + ref_genome_name_simple + ".vcf")
     params:
         extra="--use-best-n-alleles 4 --skip-coverage 1000",         # optional parameters
-        normalize=False,  # flag to use bcftools norm to normalize indels
     log:
         logs_dir + "freebayes/freebayes.log"
     threads: threads_max
-    wrapper:
-        "0.74.0/bio/freebayes"
+    shell:
+        """
+        freebayes-parallel {input.regions} {threads} {params.extra} -f {input.ref} {input.samples} > {output}
+        """
 
 
 rule bgzip_tabix:
