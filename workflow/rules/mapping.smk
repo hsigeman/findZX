@@ -1,6 +1,7 @@
+
 rule map_reads:
     input:
-        reads=get_trimmed_reads,
+        reads= get_trimmed_reads if config['trim_reads'] else get_fastq_new,
         idx=rules.bwa_index.output,
     output:
         temp(outdir + "mapped/{sample}__{unit}.sorted.bam"),
@@ -30,6 +31,7 @@ rule mark_duplicates:
         mem_mb=2048
     wrapper:
         "0.74.0/bio/picard/markduplicates"
+
 
 rule bamtools_filter:
     input:

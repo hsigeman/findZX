@@ -63,6 +63,14 @@ def get_trimmed_reads(wildcards):
     # single end sample
     return outdir + "trimmed/{sample}__{unit}.fastq.gz".format(**wildcards)
 
+def get_fastq_new(wildcards):
+    """Get fastq files of given sample-unit."""
+    fastqs = units.loc[(wildcards.sample, wildcards.unit), ["fq1", "fq2"]].dropna()
+    if len(fastqs) == 2:
+        return {fastqs.fq1, fastqs.fq2}
+    return {fastqs.fq1}
+
+
 
 def get_read_group(wildcards):
     """Denote sample name and platform in read group."""

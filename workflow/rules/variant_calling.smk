@@ -24,7 +24,7 @@ rule freebayes:
     output:
         temp(outdir + "variant_calling/" + ref_genome_name_simple + ".vcf")
     params:
-        extra="--use-best-n-alleles 4 --max-coverage 1000",         # optional parameters
+        extra="--use-best-n-alleles 4 --skip-coverage 1000",         # optional parameters
         normalize=False,  # flag to use bcftools norm to normalize indels
     log:
         logs_dir + "freebayes/freebayes.log"
