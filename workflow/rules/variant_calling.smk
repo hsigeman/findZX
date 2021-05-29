@@ -22,7 +22,8 @@ rule freebayes:
         indexes=expand(dedup_dir + "{u.sample}__{u.unit}.sorted.dedup.nm.all.bam.bai", u=units.itertuples()),
         regions=outdir + "variant_calling/" + ref_genome_name_simple + ".freebayes.regions"
     output:
-        temp(outdir + "variant_calling/" + ref_genome_name_simple + ".vcf")
+        vcf = temp(outdir + "variant_calling/" + ref_genome_name_simple + ".vcf"),
+        log = outdir + "variant_calling/freebayes_done.log"
     params:
         extra="--use-best-n-alleles 4 --skip-coverage 1000",         # optional parameters
     log:
@@ -30,19 +31,21 @@ rule freebayes:
     threads: threads_max
     shell:
         """
-        freebayes-parallel {input.regions} {threads} {params.extra} -f {input.ref} {input.samples} > {output}
+        freebayes-parallel {input.regions} {threads} {params.extra} -f {input.ref} {input.samples} > {output.vcf}
+        echo "DONE" > {output.log}
         """
 
 
 rule bgzip_tabix:
     input:
-        outdir + "variant_calling/" + ref_genome_name_simple + ".vcf"
+        vcf = outdir + "variant_calling/" + ref_genome_name_simple + ".vcf",
+        log = outdir + "variant_calling/freebayes_done.log"
     output:
         outdir + "variant_calling/" + ref_genome_name_simple + ".vcf.gz"
     log: outdir + "variant_calling/" + ref_genome_name_simple + ".vcf.log"
     shell:
         """
-        bgzip -c {input} > {output}
+        bgzip -c {input.vcf} > {output}
         tabix -p vcf {output}
         """
 
