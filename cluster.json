@@ -2,18 +2,18 @@
     "__default__" :
     {
         "account" : "snic2021-5-26",
-        "time" : "1:00:00",
+        "time" : "4:00:00",
         "n" : 1,
         "partition" : "core"
     },
     "trim_reads_pe" :
     {
-        "time" : "2:00:00",
+        "time" : "3:00:00",
         "n" : 2
     },
     "trim_reads_se" :
     {
-        "time" : "2:00:00",
+        "time" : "3:00:00",
         "n" : 2
     },
     "map_reads" :
