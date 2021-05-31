@@ -8,12 +8,12 @@
     },
     "trim_reads_pe" :
     {
-        "time" : "3:00:00",
+        "time" : "8:00:00",
         "n" : 2
     },
     "trim_reads_se" :
     {
-        "time" : "3:00:00",
+        "time" : "8:00:00",
         "n" : 2
     },
     "map_reads" :
