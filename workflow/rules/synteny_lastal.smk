@@ -6,10 +6,10 @@ rule lastdb:
     params:
         db_name= "lastdb_" + synteny_ref_name_simple,
         synteny_dir = lastdb_dir
-    threads: 15
+    threads: threads_max
     shell:
         """
-        lastdb -cR11 -P 15 {params.db_name} {input}
+        lastdb -cR11 -P {threads} {params.db_name} {input}
         mv {params.db_name}.* {params.synteny_dir}
         touch {output}
         """
