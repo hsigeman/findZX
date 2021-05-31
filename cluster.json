@@ -9,12 +9,12 @@
     "trim_reads_pe" :
     {
         "time" : "8:00:00",
-        "n" : 2
+        "n" : 12
     },
     "trim_reads_se" :
     {
         "time" : "8:00:00",
-        "n" : 2
+        "n" : 12
     },
     "map_reads" :
     {
@@ -34,7 +34,7 @@
     "lastal_syns" :
     {
         "time" : "10:00:00",
-        "n" : 12
+        "n" : 16
     },
     "bamtools_filter" :
     {

@@ -11,6 +11,8 @@ if config['trim_reads']:
         params:
             **config["params"]["trimmomatic"]["pe"],
             extra=lambda w, output: "-trimlog {}".format(output.trimlog),
+        threads:
+            10
         log:
             logs_dir + "trimmomatic/{sample}__{unit}.log",
         wrapper:
@@ -26,6 +28,8 @@ if config['trim_reads']:
         params:
             **config["params"]["trimmomatic"]["se"],
             extra="",
+        threads:
+            10
         log:
             logs_dir + "trimmomatic/{sample}__{unit}.log",
         wrapper:
