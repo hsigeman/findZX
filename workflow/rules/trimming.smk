@@ -1,3 +1,4 @@
+
 if config['trim_reads']: 
     rule trim_reads_pe:
         input:
@@ -34,3 +35,5 @@ if config['trim_reads']:
             logs_dir + "trimmomatic/{sample}__{unit}.log",
         wrapper:
             "0.74.0/bio/trimmomatic/se"
+
+

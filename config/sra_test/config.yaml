@@ -3,10 +3,10 @@ threads_max: 2
 
 
 # Path to sample information file
-units: config/units.tsv
+units: config/sra_test/units.tsv
 
 # Name of analysis. The result files will be stored under "results/{run_name}"
-run_name: "AloPal_test" 
+run_name: "sra_test" 
 
 # Homogametic reference genome of the studied species (not .gz format)
 ref_genome: ".test/Example/AloPal_v1_subset.fasta" 
@@ -14,7 +14,7 @@ ref_genome: ".test/Example/AloPal_v1_subset.fasta"
 # List of chromosomes that should be plotted (and highlighted) in the end (optional) 
 chr_file: config/chromosomes.list
 chr_highlight: config/chromosomes_highlight.list
-trim_reads: TRUE # Set to TRUE if you want to trim reads
+trim_reads: FALSE # Set to TRUE if you want to trim reads
 sra_download: TRUE # Set to TRUE if you want to trim reads
 
 

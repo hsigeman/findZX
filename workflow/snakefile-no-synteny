@@ -11,7 +11,7 @@ synteny_abbr=config['synteny_abbr']
 
 ##### Config variables #####
 
-
+window_sizes=config['window_sizes']
 EDIT_DIST = config["edit_distance"]
 MIN_SIZE_SCAFFOLD = config["minSizeScaffold"]
 CHROMOSOMES = config['chr_file']
@@ -43,13 +43,12 @@ rule all:
         qc_dir + "fastqc/multiqc.untrimmed.html" if config['trim_reads'] else [],
         qc_dir + "fastqc/multiqc.trimmed.html" if config['trim_reads'] else [],
         expand(outdir + "output/no_synteny/plots/" + "confirm_sexing_indv.{ED}.pdf", ED = EDIT_DIST),
-        outdir + "output/no_synteny/" + ".misc/" + "plotting_chr.done",
-        outdir + "output/no_synteny/" + ".misc/" + "plotting.linear.1Mbp.done",
-        outdir + "output/no_synteny/" + ".misc/" + "plotting.linear.100kbp.done",
-        outdir + "output/no_synteny/" + ".misc/" + "plotting_chr.done",
-        outdir + "output/no_synteny/" + ".misc/" + "plotting.1Mbp.done",
-        outdir + "output/no_synteny/" + ".misc/" + "plotting.100kbp.done",
-
+        outdir + "output/no_synteny/plots/" + ".misc/" + "plotting_chr.done",
+        expand(outdir + "output/no_synteny/plots/" + ".misc/" + "plotting.linear.{window}bp.done", window = window_sizes),
+        expand(outdir + "output/no_synteny/plots/" + ".misc/" + "plotting.linear.{window}bp.done", window = window_sizes),
+        outdir + "output/no_synteny/plots/" + ".misc/" + "plotting_chr.done",
+        expand(outdir + "output/no_synteny/plots/" + ".misc/" + "plotting.{window}bp.done", window = window_sizes),
+        expand(outdir + "output/no_synteny/plots/" + ".misc/" + "plotting.{window}bp.done", window = window_sizes),
 
 ##### Modules #####
 

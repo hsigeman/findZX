@@ -1,30 +1,48 @@
-rule calculate_heterozygosity:
+rule calculate_heterozygosity_chr:
     input:
         outdir + "variant_calling/" + ref_genome_name_simple + ".heterozygosity.sexAverage.NR.bed"
     output:
-        Mb = outdir + "output/no_synteny/tables/" + "diffHeterozygosity.1Mbp.out",
-        kb = outdir + "output/no_synteny/tables/" + "diffHeterozygosity.100kbp.out",
-        chr = outdir + "output/no_synteny/tables/" + "diffHeterozygosity.chr.out"
+        outdir + "output/no_synteny/tables/" + "diffHeterozygosity.chr.out"
     threads: 1
-#    params:
-#        chromosomes = CHROMOSOMES
     shell:
         """
-        Rscript code/calculate_windows.R {input} {output.Mb} {output.kb} {output.chr}
+        Rscript code/calculate_chr.R {input} {output}
+        """
+
+rule calculate_heterozygosity_window:
+    input:
+        outdir + "variant_calling/" + ref_genome_name_simple + ".heterozygosity.sexAverage.NR.bed"
+    output:
+        outdir + "output/no_synteny/tables/" + "diffHeterozygosity.{window}bp.out"
+    threads: 1
+    params:
+        "{window}"
+    shell:
+        """
+        Rscript code/calculate_windows_userSpec.R {input} {output} {params}
         """
 
 
-rule calculate_ratio:
+rule calculate_ratio_chr:
     input:
         outdir + "coverage/" + "gencov.nodup.nm.{ED}.norm.sexAverage.out"
     output:
-        Mb = outdir + "output/no_synteny/tables/" + "gencov.nodup.nm.{ED}.1Mbp.out",
-        kb = outdir + "output/no_synteny/tables/" + "gencov.nodup.nm.{ED}.100kbp.out",
-        chr = outdir + "output/no_synteny/tables/" + "gencov.nodup.nm.{ED}.chr.out"
+        outdir + "output/no_synteny/tables/" + "gencov.nodup.nm.{ED}.chr.out"
     threads: 1
-#    params:
-#        chromosomes = CHROMOSOMES
     shell:
         """
-        Rscript code/calculate_windows.R {input} {output.Mb} {output.kb} {output.chr}
+        Rscript code/calculate_chr.R {input} {output}
+        """
+
+rule calculate_ratio_window:
+    input:
+        outdir + "coverage/" + "gencov.nodup.nm.{ED}.norm.sexAverage.out"
+    output:
+        outdir + "output/no_synteny/tables/" + "gencov.nodup.nm.{ED}.{window}bp.out"
+    threads: 1
+    params:
+        window="{window}"
+    shell:
+        """
+        Rscript code/calculate_windows_userSpec.R {input} {output} {params}
         """
