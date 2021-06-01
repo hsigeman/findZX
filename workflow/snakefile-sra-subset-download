@@ -1,0 +1,57 @@
+
+dir_path = os.getcwd()
+
+##### Target rules #####
+
+#sra_files=["SRR1738162"]
+import pandas as pd
+
+samples_df = pd.read_table('config/sra_download.list').set_index("sample", drop=False)
+sra_files = list(samples_df['sample'])
+
+
+rule all:
+    input:
+        expand("data/fastq/done__{sra}_dump", sra=sra_files),
+
+
+
+# Rules
+
+
+rule prefetch:
+    output:
+        "data/fastq/.prefetch/sra/{sra}.sra",
+    params:
+        "{sra} -X 10000 -O data/fastq"
+    log:
+        "data/fastq/.prefetch/sra/{sra}.log"
+    shell:
+        """
+        prefetch {params} > {log} 2>&1 && touch {output}
+        """
+
+rule fastqdump:
+    input:
+        "data/fastq/.prefetch/sra/{sra}.sra",
+    output:
+        touch("data/fastq/done__{sra}_dump")
+    params:
+        args = "-X 100000 --gzip --split-files -O data/fastq/",
+        id_sra = "{sra}"
+    log:
+        "data/fastq/{sra}.log"
+    shell:
+        """
+        fastq-dump {params.args} {params.id_sra} > {log} 2>&1 
+        """
+
+rule get_genome:
+    output:
+        "data/genome/{genome}"
+    params:
+        ftp = {ftp}
+    shell:
+        """
+        curl -o - {params.ftp} | gunzip > {output}
+        """
