@@ -110,7 +110,12 @@ for (i in 1:nr_samples) {
     theme_bw() +
     scale_fill_gradient(low="white",
                         high="darkblue",
-                        trans="log10")
+                        trans="log10") + 
+    theme(text=element_text(family="Helvetica"))+
+    theme(
+    axis.text.x = element_text(color="black"),
+    axis.ticks = element_line(color = "black")
+    )
   
   gl <- ggplot(data = cov_het, 
                aes(x = cov_het[,x], 
@@ -121,7 +126,12 @@ for (i in 1:nr_samples) {
     theme_bw() +
     scale_fill_gradient(low="white",
                         high="darkblue",
-                        trans="log10")
+                        trans="log10") +
+    theme(text=element_text(family="Helvetica"))+
+    theme(
+    axis.text.x = element_text(color="black"),
+    axis.ticks = element_line(color = "black")
+    )
   
   hl <- ggplot(data = cov_het, 
                aes(x = cov_het[,y], 
@@ -132,7 +142,12 @@ for (i in 1:nr_samples) {
     theme_bw() +
     scale_fill_gradient(low="white",
                         high="darkblue",
-                        trans="log10")
+                        trans="log10") + 
+    theme(text=element_text(family="Helvetica"))+
+    theme(
+    axis.text.x = element_text(color="black"),
+    axis.ticks = element_line(color = "black")
+    )
   
 ############## HISTOGRAM GENOME COVERAGE WITH LINES FOR N1 AND N2 ##############
   
@@ -142,7 +157,12 @@ for (i in 1:nr_samples) {
                     na.rm = TRUE) + 
      labs(x="genome coverage", 
           y="Frequency") + 
-     theme_bw()
+     theme_bw() +
+     theme(text=element_text(family="Helvetica"))+
+    theme(
+    axis.text.x = element_text(color="black"),
+    axis.ticks = element_line(color = "black")
+    )
   
   # Find the x value for the bin with the highest count
   hist_stats_hg <- ggplot_build(g)$data[[1]]
@@ -155,7 +175,12 @@ for (i in 1:nr_samples) {
   g <- g + geom_vline(xintercept = halfMax_x, 
                       color = "blue") + 
     geom_vline(xintercept = max_x, 
-               color = "red")
+               color = "red") + 
+    theme(text=element_text(family="Helvetica"))+
+    theme(
+    axis.text.x = element_text(color="black"),
+    axis.ticks = element_line(color = "black")
+    )
   
 ########################### HISTOGRAM HETEROZYGOSITY ###########################
   
@@ -165,7 +190,12 @@ for (i in 1:nr_samples) {
                     na.rm = TRUE) + 
      labs(x="heterozygosity", 
           y="Frequency") + 
-     theme_bw()
+     theme_bw() + 
+     theme(text=element_text(family="Helvetica"))+
+    theme(
+    axis.text.x = element_text(color="black"),
+    axis.ticks = element_line(color = "black")
+    )
   
 ################################# CHROMOSOMES ##################################
   
@@ -194,7 +224,12 @@ for (i in 1:nr_samples) {
          x = "position [5kbp window]") +
     scale_x_continuous(limits = c(0, NA)) +
     theme(axis.text.x = element_blank()) +
-    theme_bw()
+    theme_bw() +
+    theme(text=element_text(family="Helvetica"))+
+    theme(
+    axis.text.x = element_text(color="black"),
+    axis.ticks = element_line(color = "black")
+    )
   
     title <- ggdraw() +
     draw_label(
@@ -205,7 +240,11 @@ for (i in 1:nr_samples) {
     ) +
     theme(
     plot.margin = margin(0, 0, 0, 7)
-  )
+  ) + theme(text=element_text(family="Helvetica"))+
+    theme(
+    axis.text.x = element_text(color="black"),
+    axis.ticks = element_line(color = "black")
+    )
  
 ##################################### ALL ######################################
   

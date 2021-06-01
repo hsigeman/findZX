@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """
+Copied from: https://github.com/freebayes/freebayes/blob/master/scripts/split_ref_by_bai_datasize.py
 Create a list of regions by splitting a reference based on the amount of data in bam files.
 Uses the `bai` index of the bam files. Useful for submitting jobs of equal size to a cluster.
 """

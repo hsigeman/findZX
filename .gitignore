@@ -1,1 +1,3 @@
-cluster.json
+config/Datasets
+data/fastq
+data/genome

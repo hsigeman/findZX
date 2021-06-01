@@ -14,8 +14,8 @@ ref_genome: ".test/Example/AloPal_v1_subset.fasta"
 # List of chromosomes that should be plotted (and highlighted) in the end (optional) 
 chr_file: config/chromosomes.list
 chr_highlight: config/chromosomes_highlight.list
-trim_reads: TRUE # Set to TRUE if you want to trim reads
-sra_download: TRUE # Set to TRUE if you want to trim reads
+trim_reads: FALSE # Set to TRUE if you want to trim reads
+#sra_download: TRUE # Set to TRUE if you want to trim reads
 
 
 ############# snakefile-synteny variables #############
