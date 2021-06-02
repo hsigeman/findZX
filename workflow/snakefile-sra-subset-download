@@ -32,36 +32,35 @@ rule prefetch:
         """
 
 
-rule fasterqdump:
-    input:
-        "data/fastq/.prefetch/sra/{sra}.sra",
-    output:
-        touch("data/fastq/done__{sra}_dump")
-    params:
-       # args = "-X 1000000 --gzip --split-files -O data/fastq/",
-        args = "-S -O data/fastq/ -t data/fastq/",
-        id_sra = "{sra}"
-    log:
-        "data/fastq/{sra}.log"
-    threads: 10
-    shell:
-        """
-        fasterq-dump {params.args} {params.id_sra} --threads {threads} > {log} 2>&1 
-        """
-
-
-#rule fastqdump:
+#rule fasterqdump:
 #    input:
 #        "data/fastq/.prefetch/sra/{sra}.sra",
 #    output:
 #        touch("data/fastq/done__{sra}_dump")
 #    params:
-#        args = "-X 1000000 --gzip --split-files -O data/fastq/",
-#        args = "--gzip --split-files -O data/fastq/",
+#        args = "-S -O data/fastq/ -t data/fastq/",
 #        id_sra = "{sra}"
 #    log:
 #        "data/fastq/{sra}.log"
+#    threads: 10
 #    shell:
 #        """
-#        fastq-dump {params.args} {params.id_sra} > {log} 2>&1 
+#        fasterq-dump {params.args} {params.id_sra} --threads {threads} > {log} 2>&1 
 #        """
+
+
+rule fastqdump:
+    input:
+        "data/fastq/.prefetch/sra/{sra}.sra",
+    output:
+        touch("data/fastq/done__{sra}_dump")
+    params:
+#        args = "-X 1000000 --gzip --split-files -O data/fastq/",
+        args = "--gzip --split-files -O data/fastq/",
+        id_sra = "{sra}"
+    log:
+        "data/fastq/{sra}.log"
+    shell:
+        """
+        fastq-dump {params.args} {params.id_sra} > {log} 2>&1 
+        """
