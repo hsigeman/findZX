@@ -39,7 +39,7 @@ rule fasterqdump:
         touch("data/fastq/done__{sra}_dump")
     params:
        # args = "-X 1000000 --gzip --split-files -O data/fastq/",
-        args = "-S -O data/fastq/",
+        args = "-S -O data/fastq/ -t data/fastq/",
         id_sra = "{sra}"
     log:
         "data/fastq/{sra}.log"
