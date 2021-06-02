@@ -31,6 +31,25 @@ rule prefetch:
         prefetch {params} > {log} 2>&1 && touch {output}
         """
 
+
+rule fasterqdump:
+    input:
+        "data/fastq/.prefetch/sra/{sra}.sra",
+    output:
+        touch("data/fastq/done__{sra}_dump")
+    params:
+       # args = "-X 1000000 --gzip --split-files -O data/fastq/",
+        args = "-S -O data/fastq/",
+        id_sra = "{sra}"
+    log:
+        "data/fastq/{sra}.log"
+    threads: 10
+    shell:
+        """
+        fasterq-dump {params.args} {params.id_sra} --threads {threads} -Z | gzip > {log} 2>&1 
+        """
+
+
 rule fastqdump:
     input:
         "data/fastq/.prefetch/sra/{sra}.sra",

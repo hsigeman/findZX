@@ -33,7 +33,7 @@ rule fastqc_2:
         "0.74.0/bio/fastqc"
 
 
-rule multiqc_2:
+checkpoint multiqc_2:
     input:
         expand(qc_dir + "fastqc/{u.sample}__{u.unit}.trimmed_fastqc.zip",
             u=units.itertuples()),
