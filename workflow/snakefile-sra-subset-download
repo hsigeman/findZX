@@ -46,7 +46,7 @@ rule fasterqdump:
     threads: 10
     shell:
         """
-        fasterq-dump {params.args} {params.id_sra} --threads {threads} -Z | gzip > {log} 2>&1 
+        fasterq-dump {params.args} {params.id_sra} --threads {threads} > {log} 2>&1 
         """
 
 
