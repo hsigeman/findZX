@@ -4,14 +4,16 @@ rule freebayes_prep:
         samples = expand(dedup_dir + "{u.sample}__{u.unit}.sorted.dedup.nm.all.bam", u=units.itertuples()),
 	samples_bai = expand(dedup_dir + "{u.sample}__{u.unit}.sorted.dedup.nm.all.bam.bai", u=units.itertuples()),
     output:
-        filter_fai = outdir + "variant_calling/" + ref_genome_name_simple + ".filter." + MIN_SIZE_SCAFFOLD + ".fasta.fai",
-        regions = outdir + "variant_calling/" + ref_genome_name_simple + ".freebayes.regions"
+        filter_fai = outdir + "variant_calling/" + ref_genome_name_simple + ".filter." + MIN_SIZE_SCAFFOLD + ".list",
+        regions = outdir + "variant_calling/" + ref_genome_name_simple + ".freebayes.regions",
+        regions_filter = outdir + "variant_calling/" + ref_genome_name_simple + ".freebayes.regions.filter"
     params:
         MIN_SIZE_SCAFFOLD
     shell:
         """
-	    cat {input.fai} | awk '$2>= {params} {{print $0}}' > {output.filter_fai}
-        python3 code/split_ref_by_bai_datasize.py {input.samples} -r {input.fai} | sed 's/ /\t/g' | sed 's/\t/:/' | sed 's/\t/-/'  > {output.regions}
+	    cat {input.fai} | awk '$2>= {params} {{print $1}}' > {output.filter_fai}
+        python3 code/split_ref_by_bai_datasize.py {input.samples} -r {input.fai} > {output.regions}
+        join {output.regions} {output.filter_fai} | sed 's/ /\t/g' | bedtools sort | sed 's/\t/:/' | sed 's/\t/-/' > {output.regions_filter}
         """
 
 
@@ -20,7 +22,7 @@ rule freebayes:
         ref = ref_genome,
         samples = expand(dedup_dir + "{u.sample}__{u.unit}.sorted.dedup.nm.all.bam", u=units.itertuples()),
         indexes=expand(dedup_dir + "{u.sample}__{u.unit}.sorted.dedup.nm.all.bam.bai", u=units.itertuples()),
-        regions=outdir + "variant_calling/" + ref_genome_name_simple + ".freebayes.regions"
+        regions_filter=outdir + "variant_calling/" + ref_genome_name_simple + ".freebayes.regions.filter"
     output:
         vcf = temp(outdir + "variant_calling/" + ref_genome_name_simple + ".vcf"),
         log = outdir + "variant_calling/freebayes_done.log"
@@ -31,7 +33,7 @@ rule freebayes:
     threads: threads_max
     shell:
         """
-        freebayes-parallel {input.regions} {threads} {params.extra} -f {input.ref} {input.samples} > {output.vcf}
+        freebayes-parallel {input.regions_filter} {threads} {params.extra} -f {input.ref} {input.samples} > {output.vcf}
         echo "DONE" > {output.log}
         """
 
