@@ -31,7 +31,8 @@ rule proportion_heterozygosity_window:
         mem_mb=7048
     shell:
         """
-        bedtools intersect -a {input.windows} -b {input.het_sorted} -wa -wb | cut -f 1-3,7- > {output.het_sorted_window}
+        bedtools intersect -a {input.windows} -b {input.het_sorted} -wa -wb -sorted | cut -f 1-3,7- > {output.het_sorted_window}
+        
         cat {output.het_sorted_window} | sed 's/\t/STARTCOORD/' | sed 's/\t/ENDCOORD/' | awk '
         BEGIN {{ FS=OFS="\t" }}
         {{for(i=2;i<=NF;i++)  
@@ -45,5 +46,6 @@ rule proportion_heterozygosity_window:
                 print i,b          
             }}
         }} ' |  sed 's/STARTCOORD/\t/' | sed 's/ENDCOORD/\t/' | sed 's/ /\t/g' | awk '{{for(i=4;i<=NF;i++)$i/=50}}1' | sed 's/ /\t/g' > {output.het_sorted_window_mean}
-	    python3 code/mean_heterozygosity_per_sex.py {output.het_sorted_window_mean} no-synteny {params.hetero} {params.homo} > {output.het_sexAverage}
+	    
+        python3 code/mean_heterozygosity_per_sex.py {output.het_sorted_window_mean} no-synteny {params.hetero} {params.homo} > {output.het_sexAverage}
 	    """
