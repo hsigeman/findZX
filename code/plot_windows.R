@@ -99,7 +99,7 @@ snp_table   <- read.table( filesnp,
 
 if ( dim( cov_1_table )[1] == 0) {
   
-  print("Warning: No chromosome/scaffold over 1Mbp or 11kbp! Check output based 
+  print("Warning: No chromosome/scaffold longer than the specified window size! Check output based 
         on chromosome instead.")
   
 } else {
@@ -393,8 +393,8 @@ if ( dim( cov_1_table )[1] == 0) {
                    shape = Chromosomes), size = 3) + 
     scale_color_manual(values = point_colors) + 
     scale_shape_manual(values = point_shapes) +
-   geom_errorbar(aes(color = Chromosomes)) + 
-  geom_errorbarh(aes(color = Chromosomes)) +
+    geom_errorbar(aes(color = Chromosomes), width = 0.2) + 
+    geom_errorbarh(aes(color = Chromosomes), width = 0.2) +
     labs(title = sprintf("%s mismatches", ED1), 
          x = "difference in normalized genome coverage",
          y = "difference in heterozygosity") + 
@@ -412,8 +412,8 @@ if ( dim( cov_1_table )[1] == 0) {
                    shape = Chromosomes), size = 3) + 
     scale_color_manual(values = point_colors) + 
     scale_shape_manual(values = point_shapes) +
-    geom_errorbar(aes(color = Chromosomes)) + 
-    geom_errorbarh(aes(color = Chromosomes)) +
+    geom_errorbar(aes(color = Chromosomes), width = 0.2) + 
+    geom_errorbarh(aes(color = Chromosomes), width = 0.2) +
     labs(title = sprintf("%s mismatches", ED2),
          x = "difference in normalized genome coverage",
          y = "difference in heterozygosity") + 
@@ -431,8 +431,8 @@ if ( dim( cov_1_table )[1] == 0) {
                    shape = Chromosomes), size = 3) + 
     scale_color_manual(values = point_colors) + 
     scale_shape_manual(values = point_shapes) +
-    geom_errorbar(aes(color = Chromosomes)) + 
-    geom_errorbarh(aes(color = Chromosomes)) +
+    geom_errorbar(aes(color = Chromosomes), width = 0.2) + 
+    geom_errorbarh(aes(color = Chromosomes), width = 0.2) +
     labs(title = sprintf("%s mismatches", ED3),
          x = "difference in normalized genome coverage",
          y = "difference in heterozygosity") + 
@@ -526,8 +526,8 @@ if ( dim( cov_1_table )[1] == 0) {
                                        ymax = hetDiff.mean + hetDiff.sd)) +
       scale_fill_manual(values = point_colors) +
       scale_color_manual(values = point_colors) +
-      geom_errorbar(aes(color = highlight_col)) + 
-      geom_errorbarh(aes(color = highlight_col)) +
+      geom_errorbar(aes(color = highlight_col), width = 0.2) + 
+      geom_errorbarh(aes(color = highlight_col), width = 0.2) +
       geom_point(aes(fill = highlight_col, size = window.max), pch = 21) + 
       labs(title = sprintf("%s mismatches", ED1), 
            x = "difference in normalized genome coverage",
@@ -544,8 +544,8 @@ if ( dim( cov_1_table )[1] == 0) {
                                        ymax = hetDiff.mean + hetDiff.sd)) +
       scale_fill_manual(values = point_colors) +
       scale_color_manual(values = point_colors) +
-      geom_errorbar(aes(color = highlight_col)) + 
-      geom_errorbarh(aes(color = highlight_col)) +
+      geom_errorbar(aes(color = highlight_col), width = 0.2) + 
+      geom_errorbarh(aes(color = highlight_col), width = 0.2) +
       geom_point(aes(fill = highlight_col, size = window.max), pch = 21) + 
       labs(title = sprintf("%s mismatches", ED2),
            x = "difference in normalized genome coverage",
@@ -562,8 +562,8 @@ if ( dim( cov_1_table )[1] == 0) {
                                        ymax = hetDiff.mean + hetDiff.sd)) +
       scale_fill_manual(values = point_colors) +
       scale_color_manual(values = point_colors) +
-      geom_errorbar(aes(color = highlight_col)) + 
-      geom_errorbarh(aes(color = highlight_col)) +
+      geom_errorbar(aes(color = highlight_col), width = 0.2) + 
+      geom_errorbarh(aes(color = highlight_col), width = 0.2) +
       geom_point(aes(fill = highlight_col, size = window.max), pch = 21) + 
       labs(title = sprintf("%s mismatches", ED3),
            x = "difference in normalized genome coverage",

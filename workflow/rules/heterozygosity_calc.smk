@@ -28,7 +28,7 @@ rule proportion_heterozygosity_window:
         hetero = expand("het:{u.sample}__{u.unit}", u=heterogametic.itertuples()),
         homo = expand("homo:{u.sample}__{u.unit}", u=homogametic.itertuples())
     resources:
-        mem_mb=2048
+        mem_mb=7048
     shell:
         """
         bedtools intersect -a {input.windows} -b {input.het_sorted} -wa -wb | cut -f 1-3,7- > {output.het_sorted_window}
