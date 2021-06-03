@@ -1,5 +1,8 @@
 import sys
 import pandas as pn
+import gc
+gc.collect()
+
 
 if len(sys.argv)==1 or sys.argv[1].startswith('-h'):
 	print("\nScript written for snakemake pipeline for detection of sex-linked genomic regions. WARNING: USE WITH CAUTION OUTSIDE PIPELINE.\n")
