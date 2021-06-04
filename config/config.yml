@@ -11,11 +11,19 @@ run_name: "AloPal_test"
 # Homogametic reference genome of the studied species (not .gz format)
 ref_genome: ".test/Example/AloPal_v1_subset.fasta" 
 
-# List of chromosomes that should be plotted (and highlighted) in the end (optional) 
-chr_file: config/chromosomes.list
-chr_highlight: config/chromosomes_highlight.list
+# Optional: List of chromosomes that should be plotted (and highlighted) in the end (optional) 
+chr_file: "None" # Replace with file consisting of chromosome names to include. Example: config/chromosomes.list" 
+
+# Optional: Specify chromosomes to highlight
+chr_highlight: "config/chromosomes_highlight.list"
+#    - "PVKV010001784.1"
+#    - "PVKV010001533.1"
+
+
 trim_reads: TRUE # Set to TRUE if you want to trim reads
-#sra_download: TRUE # Set to TRUE if you want to trim reads
+
+
+
 
 
 ############# snakefile-synteny variables #############
