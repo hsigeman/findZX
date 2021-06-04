@@ -1,0 +1,45 @@
+# cluster.yaml - cluster configuration file for annotation workflow
+__default__:
+  account: snic2021-5-26 # enter your snic compute project account ID
+  time: 02:00:00
+  n: 1
+  partition: core
+trim_reads_pe:
+  n: 12
+  time: 08:00:00
+trim_reads_pe:
+  n: 12
+  time: 08:00:00
+map_reads:
+  n: 19
+  time: 12:00:00
+mark_duplicates:
+  n: 2
+  time: 1-00:00:00
+gencov_bedtools:
+  time: 2-00:00:00
+lastal_syns:
+  n: 16
+  time: 10:00:00
+bamtools_filter:
+  time: 04:00:00
+freebayes:
+  n: 19
+  time: 6-00:00:00
+proportion_heterozygosity_window:
+  n: 2
+  time: 04:00:00
+matchScaffold2Chr:
+  time: 02:00:00
+matchScaffold2Chr_snp:
+  time: 02:00:00
+calculate_allFreq:
+  time: 02:00:00
+confirm_sexing:
+  time: 03:00:00
+prefetch:
+  n: 2
+  time: 10:00:00
+fastqdump:
+  n: 2
+  time: 12:00:00
