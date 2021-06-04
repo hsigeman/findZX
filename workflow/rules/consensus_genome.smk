@@ -6,6 +6,8 @@ rule modify_genome:
         vcf = temp(outdir + "variant_calling/" + ref_genome_name_simple + ".non-ref-af_05_biallelic_qual.vcf"),
         gz = outdir + "variant_calling/" + ref_genome_name_simple + ".non-ref-af_05_biallelic_qual.vcf.gz",
         ref = outdir + "consensus_genome/" + ref_genome_name_simple + "_nonRefAf_consensus.fasta"
+    conda: 
+        "../envs/modify_genome.yaml"
     shell:
         """
         vcftools --gzvcf {input.vcf} --non-ref-af 0.5 --min-alleles 2 --max-alleles 2 --remove-filtered-all --recode --stdout > {output.vcf}

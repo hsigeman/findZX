@@ -13,6 +13,8 @@ rule confirm_sexing:
         homo = expand("{u.sample}__{u.unit}", u=homogametic.itertuples()),
         chromosomes = CHROMOSOMES
     threads: 1
+    conda: 
+        "../envs/R.yaml"
     shell:
         """
         python code/read_length.py <(for FILE in $(ls {params.map_dir}); do echo \"${{FILE##*/}}\"; grep \"average length\" $FILE; done) > {output.read_length}
@@ -32,6 +34,8 @@ rule plotting:
         chromosomes = CHROMOSOMES,
 	    chromosomes_highlight = CHROMOSOMES_HIGHLIGHT,
 	    ED = expand("{ED}", ED = EDIT_DIST),
+    conda: 
+        "../envs/R.yaml"
     shell:
         """
         Rscript code/plot_windows.R {input.cov} {input.snp} {params.out_scatter} {params.chromosomes} {params.chromosomes_highlight} {params.ED} 
@@ -50,6 +54,8 @@ rule plotting_linear:
         chromosomes = CHROMOSOMES,
 	    ED = expand("{ED}", ED = EDIT_DIST),
 	    nr_chromosomes = 50
+    conda: 
+        "../envs/R.yaml"
     shell:
         """
         Rscript code/plot_windows_linear.R {input.cov} {input.snp} {params.absolute_out} {params.diff_out} {params.chromosomes} {params.ED} {params.nr_chromosomes}
@@ -67,6 +73,8 @@ rule plotting_chr:
         out_scatter3D = protected(outdir + "output/no_synteny/plots/chr_scatter3D.pdf"),
         chromosomes = CHROMOSOMES,
 	    ED = expand("{ED}", ED = EDIT_DIST)
+    conda: 
+        "../envs/R.yaml"
     shell:
         """
         Rscript code/scatterplot_chr.R {input.cov} {input.snp} {params.out_scatter2D} {params.out_scatter3D} {params.chromosomes} {params.ED}

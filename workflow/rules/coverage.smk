@@ -6,6 +6,8 @@ rule gencov_prepare_fasta:
         windows = outdir + "coverage/" + "genome_5kb_windows.out"
     params:
         MIN_SIZE_SCAFFOLD
+    conda: 
+        "../envs/bedtools.yaml"
     shell:
         """
 	    cat {input} | awk '$2>= {params} {{print $0}}' > {output.filter_fai}

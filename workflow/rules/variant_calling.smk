@@ -31,6 +31,8 @@ rule freebayes:
     log:
         logs_dir + "freebayes/freebayes.log"
     threads: threads_max
+    conda: 
+        "../envs/freebayes.yaml"
     shell:
         """
         freebayes-parallel {input.regions_filter} {threads} {params.extra} -f {input.ref} {input.samples} > {output.vcf}
@@ -45,6 +47,8 @@ rule bgzip_tabix:
     output:
         outdir + "variant_calling/" + ref_genome_name_simple + ".vcf.gz"
     log: outdir + "variant_calling/" + ref_genome_name_simple + ".vcf.log"
+    conda: 
+        "../envs/vcftools_filter.yaml"
     shell:
         """
         bgzip -c {input.vcf} > {output}
@@ -58,6 +62,8 @@ rule vcftools_filter:
     output:
         vcf = temp(outdir + "variant_calling/" + ref_genome_name_simple + ".biallelic.minQ20.minDP3.vcf"),
         gz = outdir + "variant_calling/" + ref_genome_name_simple + ".biallelic.minQ20.minDP3.vcf.gz"
+    conda: 
+        "../envs/vcftools_filter.yaml"
     shell:
         """
         vcftools --gzvcf {input} --min-alleles 2 --max-alleles 2 --remove-filtered-geno-all --minQ 20 --minDP 3 --recode --stdout > {output.vcf}

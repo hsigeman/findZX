@@ -41,6 +41,8 @@ rule matchScaffold2Chr_snp:
         hetero = expand("het:{u.sample}__{u.unit}", u=heterogametic.itertuples()),
         homo = expand("homo:{u.sample}__{u.unit}", u=homogametic.itertuples())
     threads: 1
+    conda: 
+        "../envs/bedtools.yaml"
     shell:
         """
         bedtools intersect -a {input.bestMatch} -b {input.het} -wa -wb > {output.bestMatch}
@@ -67,6 +69,8 @@ rule matchScaffold2Chr_cov:
         hetero = expand("het:{u.sample}__{u.unit}", u=heterogametic.itertuples()),
         homo = expand("homo:{u.sample}__{u.unit}", u=homogametic.itertuples())
     threads: 1
+    conda: 
+        "../envs/bedtools.yaml"
     shell:
         """
         bedtools intersect -a {input.bestMatch} -b {input.cov} -wa -wb > {output.bestMatch}
