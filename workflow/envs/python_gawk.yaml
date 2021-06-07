@@ -1,12 +1,11 @@
 channels:
-  - anaconda
   - conda-forge
   - bioconda
 dependencies:
   - gawk=5.1.0
 #  - python=3.9.4
-  - numpy=1.20.3
-  - pandas=1.19.2
+  - numpy=1.19.2
+  - pandas=1.2.4
   - scipy=1.6.3
 #  - pip=21.1.1
 #  - pip:
