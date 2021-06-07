@@ -46,15 +46,15 @@ If a large amount of samples are used (more than 10 individuals with a genome si
  
 
 ## Run the pipeline:
-The pipeline can be ran with and without a synteny species, choose the snakefile with the corresponding name (snakefile-synteny or snakefile-no-synteny).
- 
-    snakemake -s workflow/snakefile-{synteny/no-synteny} --configfile config/config.yml -k --cores {N} --use-conda --conda-frontend mamba -R all
-
+The pipeline can be run with and without a synteny species. Choose the snakefile with the corresponding name (snakefile-synteny or snakefile-no-synteny).
+    
 The first step of the pipeline is optional trimming of all samples, with fastqc and multiqc being run on the samples before and after trimming. To only run this part of the pipeline (if TRIM_SAMPLES in the config file is set to "TRUE"), run the pipeline like this: 
 
     snakemake -s workflow/snakefile-{synteny/no-synteny} --configfile config/config.yml -k --cores {N} --use-conda --conda-frontend mamba -R multiqc_stop --notemp
 
-If the multiqc report shows that the trimming was successful, run the pipeline again with the first command (-R all).
+If the multiqc report shows that the trimming was successful (or if trimming is not needed), run the pipeline again with this command:
+
+    snakemake -s workflow/snakefile-{synteny/no-synteny} --configfile config/config.yml -k --cores {N} --use-conda --conda-frontend mamba -R all
 
 
 If the pipeline is run on a server cluster (e.g. SLURM), a configuration file is needed, and the command to start the pipeline should be written like this: 
@@ -63,6 +63,11 @@ If the pipeline is run on a server cluster (e.g. SLURM), a configuration file is
  
 *-j* specifies the number of jobs that can be run simultaneously.  
 *-R* specifies which rule to re-run, in this case it is rule all which specifies all desired output files.
+ 
+
+
+
+
  
 If the reference genome used is constructed from one of the individuals in the analysis, this can introduce noise from reference bias in the results, especially if the organism has a very variable genome. This can be solved by creating a consensus genome. This can be done by running the pipeline like this:
  
