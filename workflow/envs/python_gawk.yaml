@@ -4,6 +4,10 @@ channels:
 dependencies:
   - gawk=5.1.0
   - python=3.9.4
-  - numpy=1.20.3
-  - pandas=1.2.4
-  - scipy=1.6.3
+#  - numpy=1.20.3
+#  - pandas=1.2.4
+#  - scipy=1.6.3
+  - pip:
+    - pandas=1.20.3
+    - numpy=0.24.2
+    - scipy=1.6.3
