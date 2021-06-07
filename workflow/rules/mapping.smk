@@ -1,4 +1,3 @@
-
 rule map_reads:
     input:
         reads= get_trimmed_reads if config['trim_reads'] else get_fastq_new,

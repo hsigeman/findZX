@@ -1,4 +1,3 @@
-
 if config['trim_reads']: 
     rule trim_reads_pe:
         input:

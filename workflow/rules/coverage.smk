@@ -24,6 +24,8 @@ rule gencov_bedtools:
         bed = outdir + "coverage/" + "genome_5kb_windows.out"
     output:
         outdir + "coverage/" + "gencov.nodup.nm.{ED}.out"
+    conda: 
+        "../envs/bedtools.yaml"
     shell:
         """
         bedtools multicov -bams {input.bam_hetero} {input.bam_homo} -bed {input.bed} -p -q 20 > {output}
@@ -38,6 +40,8 @@ rule normalize_cov_mean:
     params:
         hetero = expand("het:{u.sample}__{u.unit}", u=heterogametic.itertuples()),
         homo = expand("homo:{u.sample}__{u.unit}", u=homogametic.itertuples())
+    conda: 
+        "../envs/python_gawk.yaml"
     shell:
         """
         python3 code/normalize_genCov.py {input} no-synteny {params.hetero} {params.homo} > {output}

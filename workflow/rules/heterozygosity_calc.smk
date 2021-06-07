@@ -43,6 +43,8 @@ rule proportion_heterozygosity_window_2:
     params:
         hetero = expand("het:{u.sample}__{u.unit}", u=heterogametic.itertuples()),
         homo = expand("homo:{u.sample}__{u.unit}", u=homogametic.itertuples())
+    conda: 
+        "../envs/python_gawk.yaml"
     shell:
         """
         code/sum_heterozygosity_per_5kb.sh {input} > {output.het_sorted_window_mean}

@@ -7,6 +7,8 @@ min_version("5.18.0")
 
 
 ###### Config file and sample sheets #####
+
+
 configfile: "config/config.yml"
 
 
@@ -15,6 +17,8 @@ configfile: "config/config.yml"
 units = pd.read_table(config["units"], dtype=str).set_index(
     ["sample", "unit"], drop=False
 )
+
+
 units.index = units.index.set_levels(
     [i.astype(str) for i in units.index.levels]
 )  # enforce str in index
@@ -25,6 +29,8 @@ heterogametic = units[units["unit"] == "heterogametic"]
 
 
 ##### Wildcard constraints #####
+
+
 wildcard_constraints:
     sample="|".join(units["sample"]),
     unit="|".join(units["unit"]),
@@ -63,13 +69,13 @@ def get_trimmed_reads(wildcards):
     # single end sample
     return outdir + "trimmed/{sample}__{unit}.fastq.gz".format(**wildcards)
 
+
 def get_fastq_new(wildcards):
     """Get fastq files of given sample-unit."""
     fastqs = units.loc[(wildcards.sample, wildcards.unit), ["fq1", "fq2"]].dropna()
     if len(fastqs) == 2:
         return {fastqs.fq1, fastqs.fq2}
     return {fastqs.fq1}
-
 
 
 def get_read_group(wildcards):
@@ -94,6 +100,3 @@ def new_get_sample_bams(wildcards):
         unit=units.loc[wildcards.sample].unit,
         ED = EDIT_DIST
     )
-
-
-

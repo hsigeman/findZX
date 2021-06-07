@@ -13,6 +13,8 @@ rule matchScaffold2Chr:
         absBestMatchFilter = dir_path + "/" + outdir + "synteny_lastal/" + "bestMatch.list",
         windowsfile = "genome_windows.out",
         absLog = dir_path + "/" + outdir + "synteny_lastal/" + "bestMatch.status"
+    conda: 
+        "../envs/bedtools.yaml"
     shell:
         """
         cat {input.syns} | awk '{{print $10,$12,$13,$14,$16,$17,$1}}' | sed 's/ /\t/g' | bedtools intersect -a stdin -b {input.gencov} -wa -wb | awk '{{if($10-$9==\"5000\") print $8,$9,$10,$7,$1,$2,$3,$4,$5,$6}}' | sed 's/ /\t/g' | sed 's/\t/STARTCOORD/' | sed 's/\t/ENDCOORD/' > {output.windows}

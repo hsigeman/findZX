@@ -9,11 +9,13 @@ rule freebayes_prep:
         regions_filter = outdir + "variant_calling/" + ref_genome_name_simple + ".freebayes.regions.filter"
     params:
         MIN_SIZE_SCAFFOLD
+    conda: 
+        "../envs/python_gawk.yaml"
     shell:
         """
 	    cat {input.fai} | awk '$2>= {params} {{print $1}}' > {output.filter_fai}
         python3 code/split_ref_by_bai_datasize.py {input.samples} -r {input.fai} > {output.regions}
-        join {output.regions} {output.filter_fai} | sed 's/ /\t/g' | bedtools sort | sed 's/\t/:/' | sed 's/\t/-/' > {output.regions_filter}
+        join {output.regions} {output.filter_fai} | sed 's/ /\t/g' | sed 's/\t/:/' | sed 's/\t/-/' > {output.regions_filter}
         """
 
 

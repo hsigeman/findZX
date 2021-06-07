@@ -1,0 +1,6 @@
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - vcftools=0.1.16
+  - htslib==1.10
