@@ -32,6 +32,7 @@ dependencies:
   - r-plotly=4.9.3
   - python=3.9.5
   - pip=21.1.1
+  - gawk=5.1.0
   - pip: 
     - numpy
     - scipy
