@@ -38,6 +38,13 @@ dedup_dir="results/ref/" + ref_genome_name_simple + "/dedup/"
 ##### Target rules #####
 
 
+
+rule multiqc_stop:
+    input:
+        qc_dir + "fastqc/multiqc.untrimmed.html" if config['trim_reads'] else [],
+        qc_dir + "fastqc/multiqc.trimmed.html" if config['trim_reads'] else [],
+    
+    
 rule all:
     input:
         qc_dir + "fastqc/multiqc.untrimmed.html" if config['trim_reads'] else [],

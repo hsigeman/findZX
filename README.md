@@ -13,17 +13,24 @@ A Snakemake pipeline for detection of sex-linked regions using WGS data.
 
 ### Step 2: Create conda environment (Tested with conda version 4.10.1)
     cd XYZWfinder
+
+The software dependencies can be installed and run in two different ways. Either the user can create a minimal conda environment using the following code and run the snakemake pipeline with the option --use-conda: 
+
+    conda create -n snakemake_basic -c conda-forge python=3.9.4 snakemake-wrapper-utils=0.2.0 snakemake=6.4.0 mamba=0.13.0
+
+Alternatively, all software dependencies can be installed using the provided conda environment file: 
+
     conda env create -f environment.yml
+
 Once all dependencies are installed, activate the conda environment according to the instructions in the terminal. 
 
 ### Step 3: Run the example data to make sure that all software are installed (runtime ~2 minutes per command)
     snakemake -s workflow/snakefile-no-synteny --configfile config/config.yml --cores 1 -R all -k
     snakemake -s workflow/snakefile-synteny --configfile config/config.yml --cores 1 -R all -k
 
-## Usage: 
+## Create configuration files: 
 
-To run XYZWfinder on your own dataset, you need to modify or create new configuration files. Use the template configuration files used for running the test dataset (config/config.yml) and edit where approriate. The configuration file must include the location of a tabular file containing information about the samples to be analysed (for the example dataset: config/units.tsv).  
-
+To run XYZWfinder on your own dataset, you need to modify or create new configuration files. Use the template configuration files used for running the test dataset (config/config.yml) and edit where approriate. The configuration file must include the location of a tabular file containing information about the samples to be analysed (for the example dataset: config/units.tsv).
 
 ### Step 1: Modify config files
 Create configuration files with information about heterogamety of samples, and paths to files. Example config files based on a test dataset (located in .test/Example/) are here: 
@@ -38,10 +45,21 @@ The **cluster.json** file have to be edited if the pipeline will be ran on a clu
 If a large amount of samples are used (more than 10 individuals with a genome size of 1Gbp), or an organism with a very large genome, the times and number of cores specified might have to be changed. 
  
 
-## Usage
+## Run the pipeline:
 The pipeline can be ran with and without a synteny species, choose the snakefile with the corresponding name (snakefile-synteny or snakefile-no-synteny).
  
-    snakemake -s snakefile-{synteny/no-synteny} -j 15 -R all --configfile config.txt --cluster-config cluster.json --cluster " sbatch -A {cluster.account} -t {cluster.time} -n {cluster.n} "
+    snakemake -s workflow/snakefile-{synteny/no-synteny} --configfile config/config.yml -k --cores {N} --use-conda --conda-frontend mamba -R all
+
+The first step of the pipeline is optional trimming of all samples, with fastqc and multiqc being run on the samples before and after trimming. To only run this part of the pipeline (if TRIM_SAMPLES in the config file is set to "TRUE"), run the pipeline like this: 
+
+    snakemake -s workflow/snakefile-{synteny/no-synteny} --configfile config/config.yml -k --cores {N} --use-conda --conda-frontend mamba -R multiqc_stop --notemp
+
+If the multiqc report shows that the trimming was successful, run the pipeline again with the first command (-R all).
+
+
+If the pipeline is run on a server cluster (e.g. SLURM), a configuration file is needed, and the command to start the pipeline should be written like this: 
+
+    snakemake -s workflow/snakefile-{synteny/no-synteny} -j 15 -R all --configfile config/config.yml --cluster-config cluster.json --cluster " sbatch -A {cluster.account} -t {cluster.time} -n {cluster.n} "
  
 *-j* specifies the number of jobs that can be run simultaneously.  
 *-R* specifies which rule to re-run, in this case it is rule all which specifies all desired output files.

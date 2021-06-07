@@ -38,6 +38,12 @@ outdir="results/" + run_name + "/"
 ##### Target rules #####
 
 
+rule multiqc_stop:
+    input:
+        qc_dir + "fastqc/multiqc.untrimmed.html" if config['trim_reads'] else [],
+        qc_dir + "fastqc/multiqc.trimmed.html" if config['trim_reads'] else [],
+
+
 rule all:
     input:
         qc_dir + "fastqc/multiqc.untrimmed.html" if config['trim_reads'] else [],
