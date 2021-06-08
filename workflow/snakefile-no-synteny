@@ -1,5 +1,7 @@
 include: "rules/common.smk"
 
+#report: "report/workflow.rst" # Text
+
 dir_path = os.getcwd()
 
 threads_max=config['threads_max']
@@ -37,14 +39,16 @@ dedup_dir="results/ref/" + ref_genome_name_simple + "/dedup/"
 
 ##### Target rules #####
 
+    
 
 
-rule multiqc_stop:
-    input:
-        qc_dir + "fastqc/multiqc.untrimmed.html" if config['trim_reads'] else [],
-        qc_dir + "fastqc/multiqc.trimmed.html" if config['trim_reads'] else [],
-    
-    
+#if config['stop_after_trim'] & config['trim_reads']:
+if config['trim_reads']:
+    rule multiqc_stop:
+        input:
+            qc_dir + "fastqc/multiqc.untrimmed.html" if config['trim_reads'] else [],
+            qc_dir + "fastqc/multiqc.trimmed.html" if config['trim_reads'] else [],
+
 rule all:
     input:
         qc_dir + "fastqc/multiqc.untrimmed.html" if config['trim_reads'] else [],
@@ -55,7 +59,12 @@ rule all:
         expand(outdir + "output/no_synteny/plots/" + ".misc/" + "plotting.linear.{window}bp.done", window = window_sizes),
         outdir + "output/no_synteny/plots/" + ".misc/" + "plotting_chr.done",
         expand(outdir + "output/no_synteny/plots/" + ".misc/" + "plotting.{window}bp.done", window = window_sizes),
-        expand(outdir + "output/no_synteny/plots/" + ".misc/" + "plotting.{window}bp.done", window = window_sizes),
+        expand(outdir + "output/no_synteny/plots/" + ".misc/" + "plotting.{window}bp.done", window = window_sizes)
+
+
+
+
+
 
 ##### Modules #####
 
