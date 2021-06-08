@@ -14,7 +14,7 @@ A Snakemake pipeline for detection of sex-linked regions using WGS data.
 
 ### Step 2: Create conda environment (Tested with conda version 4.10.1)
 
-The software dependencies can be installed and run in two different ways. Either the user can create a minimal conda environment using the following code, and then launch the snakemake pipeline with the following additional options: --use-conda --conda-frontend mamba: 
+We recommend the user to create a minimal conda environment using the following code, and to launch the snakemake run with the following additional options: **"--use-conda --conda-frontend mamba"**. This downloads and installs separate conda environments for different parts of the pipeline.
 
     conda create -n snakemake_basic -c conda-forge python=3.9.4 snakemake-wrapper-utils=0.2.0 snakemake=6.4.0 mamba=0.13.0
 
