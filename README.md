@@ -34,14 +34,16 @@ To run XYZWfinder on your own dataset, you need to modify or create new configur
 
 
 Sample information: 
-| sample                                          | unit          | fq1                                                                                | fq2                                                                                |
-|-------------------------------------------------|---------------|------------------------------------------------------------------------------------|------------------------------------------------------------------------------------|
-| subset_SRR9655168_WGS_of_Alouatta_palliata_S173 | homogametic   | .test/Example/subset_SRR9655168_WGS_of_Alouatta_palliata_S173_forward_paired.fq.gz | .test/Example/subset_SRR9655168_WGS_of_Alouatta_palliata_S173_reverse_paired.fq.gz |
-| subset_SRR9655169_WGS_of_Alouatta_palliata_S14  | homogametic   | .test/Example/subset_SRR9655169_WGS_of_Alouatta_palliata_S145_forward_paired.fq.gz | .test/Example/subset_SRR9655169_WGS_of_Alouatta_palliata_S145_reverse_paired.fq.gz |
-| subset_SRR9655170_WGS_of_Alouatta_palliata_S608 | heterogametic | .test/Example/subset_SRR9655170_WGS_of_Alouatta_palliata_S608_forward_paired.fq.gz | .test/Example/subset_SRR9655170_WGS_of_Alouatta_palliata_S608_reverse_paired.fq.gz |
-| subset_SRR9655171_WGS_of_Alouatta_palliata_S618 | heterogametic | .test/Example/subset_SRR9655171_WGS_of_Alouatta_palliata_S618_forward_paired.fq.gz | .test/Example/subset_SRR9655171_WGS_of_Alouatta_palliata_S618_reverse_paired.fq.gz |
-
-
+\begin{table}[]
+\begin{tabular}{|l|l|l|l|}
+\hline
+sample             & unit          & fq1                                       & fq2                                       \\ \hline
+subset\_SRR9655168 & homogametic   & .test/Example/subset\_SRR9655168\_1.fq.gz & .test/Example/subset\_SRR9655168\_2.fq.gz \\ \hline
+subset\_SRR9655169 & homogametic   & .test/Example/subset\_SRR9655169\_1.fq.gz & .test/Example/subset\_SRR9655169\_2.fq.gz \\ \hline
+subset\_SRR9655170 & heterogametic & .test/Example/subset\_SRR9655170\_1.fq.gz & .test/Example/subset\_SRR9655170\_2.fq.gz \\ \hline
+subset\_SRR9655171 & heterogametic & .test/Example/subset\_SRR9655171\_1.fq.gz & .test/Example/subset\_SRR9655171\_2.fq.gz \\ \hline
+\end{tabular}
+\end{table}
 
 
 
