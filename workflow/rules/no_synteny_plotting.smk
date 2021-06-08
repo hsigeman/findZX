@@ -62,7 +62,7 @@ else:
             chromosomes_highlight = outdir + "output/no_synteny/" + "highlight_file.list",
         output:
             out_scatter = report(outdir + "output/no_synteny/plots/scatter.{bp}bp.pdf", category="3. Output plots", caption="../report/scatter_plots.rst",),
-            out_scatter_highlight = report(outdir + "output/no_synteny/plots/scatter.{bp}bp.highlight.pdf", category="3. Output plots", caption="../report/scatter_plots.rst"),
+            out_scatter_highlight = report(outdir + "output/no_synteny/plots/scatter.{bp}bp.highlight.pdf", category="3. Output plots", caption="../report/scatter_plots_highlight.rst"),
             out = touch(outdir + "output/no_synteny/plots/" + ".misc/" + "plotting.{bp}bp.done")
         params:
             chromosomes = CHROMOSOMES,
@@ -100,8 +100,8 @@ rule plotting_chr:
         cov = expand(outdir + "output/no_synteny/tables/" + "gencov.nodup.nm.{ED}.chr.out", ED = EDIT_DIST),
         snp = outdir + "output/no_synteny/tables/" + "diffHeterozygosity.chr.out"
     output:
-        out_scatter2D = report(outdir + "output/no_synteny/plots/chr_scatter2D.pdf", category="3. Output plots", caption="../report/scatter_plots.rst",),
-        out_scatter3D = report(outdir + "output/no_synteny/plots/chr_scatter3D.pdf", category="3. Output plots", caption="../report/scatter_plots.rst",),
+        out_scatter2D = report(outdir + "output/no_synteny/plots/chr_scatter2D.pdf", category="3. Output plots", caption="../report/scatter_2D.rst",),
+        out_scatter3D = report(outdir + "output/no_synteny/plots/chr_scatter3D.pdf", category="3. Output plots", caption="../report/scatter_3D.rst",),
         out = touch(outdir + "output/no_synteny/plots/" + ".misc/" + "plotting_chr.done")
     params:
         chromosomes = CHROMOSOMES,
