@@ -18,7 +18,7 @@ We recommend the user to create a minimal conda environment using the following 
 
     conda create -n snakemake_basic -c conda-forge python=3.9.4 snakemake-wrapper-utils=0.2.0 snakemake=6.4.0 mamba=0.13.0
 
-Alternatively, all software dependencies can be installed using the provided conda environment file, in which case **"--use-conda --conda-frontend mamba"** is omitted when launching the snakemake run: 
+Alternatively, all software dependencies can be installed using the provided conda environment file, in which case **"--use-conda --conda-frontend mamba"** should be omitted when launching the snakemake run: 
 
     conda env create -f environment.yml
 
