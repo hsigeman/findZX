@@ -23,23 +23,57 @@ rule confirm_sexing:
         """
 
 
-rule plotting:
-    input:
-        cov = expand(outdir + "output/synteny/" + synteny_abbr + "/tables/" + "gencov.nodup.nm.{ED}.{{bp}}bp.out", ED = EDIT_DIST),
-        snp = outdir + "output/synteny/" + synteny_abbr + "/tables/" + "diffHeterozygosity.{bp}bp.out"
-    output:
-        out_scatter = report(outdir + "output/synteny/" + synteny_abbr + "/plots/scatter.{bp}bp.pdf", category="3. Output plots", caption="../report/scatter_plots.rst"),
-        out = touch(outdir + "output/synteny/" + synteny_abbr + "/plots/.misc/" +  "plotting.{bp}bp.done")
-    params:
-        chromosomes = CHROMOSOMES,
-	    chromosomes_highlight = CHROMOSOMES_HIGHLIGHT,
-	    ED = expand("{ED}", ED = EDIT_DIST),
-    conda: 
-        "../envs/R.yaml"
-    shell:
+rule highlight_file:
+    params: 
+        highlight_chr=config['synteny_chr_highlight'] 
+    output: 
+        outdir + "output/synteny/" + synteny_abbr + "/highlight_file.list"
+    shell: 
         """
-        Rscript code/plot_windows.R {input.cov} {input.snp} {output.out_scatter} {params.chromosomes} {params.chromosomes_highlight} {params.ED} 
+        echo {params.highlight_chr} | tr " " "\n" > {output}
         """
+
+
+if not config['synteny_chr_highlight']: 
+    rule plotting:
+        input:
+            cov = expand(outdir + "output/synteny/" + synteny_abbr + "/tables/" + "gencov.nodup.nm.{ED}.{{bp}}bp.out", ED = EDIT_DIST),
+            snp = outdir + "output/synteny/" + synteny_abbr + "/tables/" + "diffHeterozygosity.{bp}bp.out",
+            chromosomes_highlight = outdir + "output/synteny/" + synteny_abbr + "/highlight_file.list",
+        output:
+            out_scatter = report(outdir + "output/synteny/" + synteny_abbr + "/plots/scatter.{bp}bp.pdf", category="3. Output plots", caption="../report/scatter_plots.rst"),
+            out_scatter_highlight = outdir + "output/synteny/" + synteny_abbr + "/plots/scatter.{bp}bp.highlight.pdf",
+            out = touch(outdir + "output/synteny/" + synteny_abbr + "/plots/.misc/" +  "plotting.{bp}bp.done")
+        params:
+            chromosomes = CHROMOSOMES,
+            ED = expand("{ED}", ED = EDIT_DIST),
+        conda: 
+            "../envs/R.yaml"
+        shell:
+            """
+            Rscript code/plot_windows.R {input.cov} {input.snp} {output.out_scatter} {params.chromosomes} {input.chromosomes_highlight} {params.ED} 
+            """
+
+else:
+    rule plotting:
+        input:
+            cov = expand(outdir + "output/synteny/" + synteny_abbr + "/tables/" + "gencov.nodup.nm.{ED}.{{bp}}bp.out", ED = EDIT_DIST),
+            snp = outdir + "output/synteny/" + synteny_abbr + "/tables/" + "diffHeterozygosity.{bp}bp.out",
+            chromosomes_highlight = outdir + "output/synteny/" + synteny_abbr + "/highlight_file.list",
+        output:
+            out_scatter = report(outdir + "output/synteny/" + synteny_abbr + "/plots/scatter.{bp}bp.pdf", category="3. Output plots", caption="../report/scatter_plots.rst"),
+            out_scatter_highlight = report(outdir + "output/synteny/" + synteny_abbr + "/plots/scatter.{bp}bp.highlight.pdf", category="3. Output plots", caption="../report/scatter_plots.rst"),
+            out = touch(outdir + "output/synteny/" + synteny_abbr + "/plots/.misc/" +  "plotting.{bp}bp.done")
+        params:
+            chromosomes = CHROMOSOMES,
+            ED = expand("{ED}", ED = EDIT_DIST),
+        conda: 
+            "../envs/R.yaml"
+        shell:
+            """
+            Rscript code/plot_windows.R {input.cov} {input.snp} {output.out_scatter} {params.chromosomes} {input.chromosomes_highlight} {params.ED} 
+            """
+
 
 
 rule plotting_linear:

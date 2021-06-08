@@ -15,15 +15,13 @@ ref_genome: ".test/Example/AloPal_v1_subset.fasta"
 chr_file: "None" # Replace with file consisting of chromosome names to include. Example: config/chromosomes.list" 
 
 # Optional: Specify chromosomes to highlight
-chr_highlight: "config/chromosomes_highlight.list"
-#    - "PVKV010001784.1"
-#    - "PVKV010001533.1"
+#chr_highlight: "config/chromosomes_highlight.list"
+chr_highlight:
+    - PVKV010001784.1 # Chromosomes to be highlighted. Remove if not wanted.
+    - PVKV010001533.1
 
 
 trim_reads: TRUE # Set to TRUE if you want to trim reads
-#stop_after_trim: TRUE
-
-
 
 
 ############# snakefile-synteny variables #############
@@ -35,8 +33,10 @@ synteny_ref: ".test/Example/Homo_sapiens.GRCh38_subset.fasta"
 synteny_abbr: "HS"
 
 # List of chromosomes in the synteny-species reference genome that should be plotted (and highlighted) in the end (optional) 
-synteny_chr_file: config/HS_chromosomes.list
-synteny_chr_highlight: config/HS_chromosomes_highlight.list
+synteny_chr_file: "None"
+synteny_chr_highlight:
+    - X:20513966-20718999
+    - 3:167499270-167708345
 
 
 ############# Other optional variables ##########
