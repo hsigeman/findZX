@@ -51,7 +51,6 @@ edit_distance:
 window_sizes:
     - 25000
     - 50000
-    - 75000
     - 100000
 
 

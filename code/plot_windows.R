@@ -383,6 +383,9 @@ if ( dim( cov_1_table )[1] == 0) {
   cov.select.SC <- subset(cov.select, cov.select$highlight_col!="Autosomes")
   cov.select <- rbind(cov.select.A, cov.select.SC)
   
+  x_range <- max(chr.stats$cov1.mean) - min(chr.stats$cov1.mean)
+  y_range <- max(chr.stats$hetDiff.mean) - min(chr.stats$hetDiff.mean)
+
   cov1_plot <- ggplot(chr.stats, aes(x = cov1.mean, 
                                      xmin = cov1.mean - cov1.sd,
                                      xmax = cov1.mean + cov1.sd,
@@ -393,8 +396,8 @@ if ( dim( cov_1_table )[1] == 0) {
                    shape = Chromosomes), size = 3) + 
     scale_color_manual(values = point_colors) + 
     scale_shape_manual(values = point_shapes) +
-    geom_errorbar(aes(color = Chromosomes), width = 0.2) + 
-    geom_errorbarh(aes(color = Chromosomes), width = 0.2) +
+    geom_errorbar(aes(color = Chromosomes), width = x_range/20) + 
+    geom_errorbarh(aes(color = Chromosomes), height = y_range/20) +
     labs(title = sprintf("%s mismatches", ED1), 
          x = "difference in normalized genome coverage",
          y = "difference in heterozygosity") + 
@@ -402,6 +405,7 @@ if ( dim( cov_1_table )[1] == 0) {
     theme(legend.position="none") + 
     theme(plot.title=element_text(family="Helvetica", size=12, hjust = 0.5) )
   
+  x_range <- max(chr.stats$cov2.mean) - min(chr.stats$cov2.mean)
   cov2_plot <- ggplot(chr.stats, aes(x = cov2.mean, 
                                      xmin = cov2.mean - cov2.sd,
                                      xmax = cov2.mean + cov2.sd,
@@ -412,8 +416,8 @@ if ( dim( cov_1_table )[1] == 0) {
                    shape = Chromosomes), size = 3) + 
     scale_color_manual(values = point_colors) + 
     scale_shape_manual(values = point_shapes) +
-    geom_errorbar(aes(color = Chromosomes), width = 0.2) + 
-    geom_errorbarh(aes(color = Chromosomes), width = 0.2) +
+    geom_errorbar(aes(color = Chromosomes), width = x_range/20) + 
+    geom_errorbarh(aes(color = Chromosomes), height = y_range/20) +
     labs(title = sprintf("%s mismatches", ED2),
          x = "difference in normalized genome coverage",
          y = "difference in heterozygosity") + 
@@ -421,6 +425,7 @@ if ( dim( cov_1_table )[1] == 0) {
     theme(legend.position="none") + 
     theme(plot.title=element_text(family="Helvetica", size=12, hjust = 0.5) )
   
+  x_range <- max(chr.stats$cov3.mean) - min(chr.stats$cov3.mean)
   cov3_plot <- ggplot(chr.stats, aes(x = cov3.mean, 
                                      xmin = cov3.mean - cov3.sd,
                                      xmax = cov3.mean + cov3.sd,
@@ -431,8 +436,8 @@ if ( dim( cov_1_table )[1] == 0) {
                    shape = Chromosomes), size = 3) + 
     scale_color_manual(values = point_colors) + 
     scale_shape_manual(values = point_shapes) +
-    geom_errorbar(aes(color = Chromosomes), width = 0.2) + 
-    geom_errorbarh(aes(color = Chromosomes), width = 0.2) +
+    geom_errorbar(aes(color = Chromosomes), width = x_range/20) + 
+    geom_errorbarh(aes(color = Chromosomes), height = y_range/20) +
     labs(title = sprintf("%s mismatches", ED3),
          x = "difference in normalized genome coverage",
          y = "difference in heterozygosity") + 
@@ -517,6 +522,9 @@ if ( dim( cov_1_table )[1] == 0) {
   #  Max <- tapply(cov.select$window, cov.select$Chromosomes,max)
     #Max
   #  chr.stats <- data.frame(chr.stats, max.per.group=rep(Max, table(chr.stats$Chromosomes)))
+    x_range <- max(chr.stats$cov1.mean) - min(chr.stats$cov1.mean)
+    y_range <- max(chr.stats$hetDiff.mean) - min(chr.stats$hetDiff.mean)
+
     chr.stats$highlight_col <- factor(chr.stats$highlight_col, levels = unique(chr.stats$highlight_col))
     cov1_plot <- ggplot(chr.stats, aes(x = cov1.mean, 
                                        xmin = cov1.mean - cov1.sd,
@@ -526,8 +534,8 @@ if ( dim( cov_1_table )[1] == 0) {
                                        ymax = hetDiff.mean + hetDiff.sd)) +
       scale_fill_manual(values = point_colors) +
       scale_color_manual(values = point_colors) +
-      geom_errorbar(aes(color = highlight_col), width = 0.2) + 
-      geom_errorbarh(aes(color = highlight_col), width = 0.2) +
+      geom_errorbar(aes(color = highlight_col), width = x_range/20) + 
+      geom_errorbarh(aes(color = highlight_col), height = y_range/20) +
       geom_point(aes(fill = highlight_col, size = window.max), pch = 21) + 
       labs(title = sprintf("%s mismatches", ED1), 
            x = "difference in normalized genome coverage",
@@ -536,6 +544,7 @@ if ( dim( cov_1_table )[1] == 0) {
       theme(legend.position="none") + 
       theme(plot.title=element_text(family="Helvetica", size=12, hjust = 0.5) )+ scale_size_continuous(range = c(2, 8))
     
+    x_range <- max(chr.stats$cov2.mean) - min(chr.stats$cov2.mean)
     cov2_plot <- ggplot(chr.stats, aes(x = cov2.mean, 
                                        xmin = cov2.mean - cov2.sd,
                                        xmax = cov2.mean + cov2.sd,
@@ -544,8 +553,8 @@ if ( dim( cov_1_table )[1] == 0) {
                                        ymax = hetDiff.mean + hetDiff.sd)) +
       scale_fill_manual(values = point_colors) +
       scale_color_manual(values = point_colors) +
-      geom_errorbar(aes(color = highlight_col), width = 0.2) + 
-      geom_errorbarh(aes(color = highlight_col), width = 0.2) +
+      geom_errorbar(aes(color = highlight_col), width = x_range/20) + 
+      geom_errorbarh(aes(color = highlight_col), height = y_range/20) +
       geom_point(aes(fill = highlight_col, size = window.max), pch = 21) + 
       labs(title = sprintf("%s mismatches", ED2),
            x = "difference in normalized genome coverage",
@@ -554,6 +563,8 @@ if ( dim( cov_1_table )[1] == 0) {
       theme(legend.position="none") + 
       theme(plot.title=element_text(family="Helvetica", size=12, hjust = 0.5) )+ scale_size_continuous(range = c(2, 8))
     
+
+    x_range <- max(chr.stats$cov3.mean) - min(chr.stats$cov3.mean)
     cov3_plot <- ggplot(chr.stats, aes(x = cov3.mean, 
                                        xmin = cov3.mean - cov3.sd,
                                        xmax = cov3.mean + cov3.sd,
@@ -562,8 +573,8 @@ if ( dim( cov_1_table )[1] == 0) {
                                        ymax = hetDiff.mean + hetDiff.sd)) +
       scale_fill_manual(values = point_colors) +
       scale_color_manual(values = point_colors) +
-      geom_errorbar(aes(color = highlight_col), width = 0.2) + 
-      geom_errorbarh(aes(color = highlight_col), width = 0.2) +
+      geom_errorbar(aes(color = highlight_col), width = x_range/20) + 
+      geom_errorbarh(aes(color = highlight_col), height = y_range/20) +
       geom_point(aes(fill = highlight_col, size = window.max), pch = 21) + 
       labs(title = sprintf("%s mismatches", ED3),
            x = "difference in normalized genome coverage",
