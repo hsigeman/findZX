@@ -10,9 +10,9 @@ A Snakemake pipeline for detection of sex-linked regions using WGS data.
 
 ### Step 1: Clone GitHub repository
     git clone https://github.com/hsigeman/XYZWfinder.git
+    cd XYZWfinder # Go to directory
 
 ### Step 2: Create conda environment (Tested with conda version 4.10.1)
-    cd XYZWfinder
 
 The software dependencies can be installed and run in two different ways. Either the user can create a minimal conda environment using the following code, and then launch the snakemake pipeline with the following additional options: --use-conda --conda-frontend mamba: 
 
