@@ -21,7 +21,7 @@ chr_highlight: "config/chromosomes_highlight.list"
 
 
 trim_reads: TRUE # Set to TRUE if you want to trim reads
-
+#stop_after_trim: TRUE
 
 
 

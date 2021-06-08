@@ -30,6 +30,7 @@ dependencies:
   - r-viridislite=0.4.0
   - r-gridGraphics=0.5_1
   - r-plotly=4.9.3
+  - r-ggpubr=0.4.0
   - python=3.9.5
   - pip=21.1.1
   - gawk=5.1.0

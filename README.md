@@ -14,7 +14,7 @@ A Snakemake pipeline for detection of sex-linked regions using WGS data.
 ### Step 2: Create conda environment (Tested with conda version 4.10.1)
     cd XYZWfinder
 
-The software dependencies can be installed and run in two different ways. Either the user can create a minimal conda environment using the following code and run the snakemake pipeline with the option --use-conda: 
+The software dependencies can be installed and run in two different ways. Either the user can create a minimal conda environment using the following code and run the snakemake pipeline with the option --use-conda (requires internet connection during the analysis): 
 
     conda create -n snakemake_basic -c conda-forge python=3.9.4 snakemake-wrapper-utils=0.2.0 snakemake=6.4.0 mamba=0.13.0
 
@@ -57,9 +57,9 @@ If the multiqc report shows that the trimming was successful (or if trimming is 
     snakemake -s workflow/snakefile-{synteny/no-synteny} --configfile config/config.yml -k --cores {N} --use-conda --conda-frontend mamba -R all
 
 
-If the pipeline is run on a server cluster (e.g. SLURM), a configuration file is needed, and the command to start the pipeline should be written like this: 
+If the pipeline is run on a server cluster (e.g. SLURM), a configuration file is needed (example cluster.yaml), and the command to start the pipeline should be written like this: 
 
-    snakemake -s workflow/snakefile-{synteny/no-synteny} -j 15 -R all --configfile config/config.yml --cluster-config cluster.json --cluster " sbatch -A {cluster.account} -t {cluster.time} -n {cluster.n} "
+    snakemake -s workflow/snakefile-{synteny/no-synteny} -j 15 -R all --configfile config/config.yml --cluster-config cluster.yaml --cluster " sbatch -A {cluster.account} -t {cluster.time} -n {cluster.n} "
  
 *-j* specifies the number of jobs that can be run simultaneously.  
 *-R* specifies which rule to re-run, in this case it is rule all which specifies all desired output files.
@@ -68,7 +68,7 @@ If the pipeline is run on a server cluster (e.g. SLURM), a configuration file is
 
 
 
- 
+
 If the reference genome used is constructed from one of the individuals in the analysis, this can introduce noise from reference bias in the results, especially if the organism has a very variable genome. This can be solved by creating a consensus genome. This can be done by running the pipeline like this:
  
     snakemake -s snakefile-{synteny/no-synteny} -j 15 reference/genome/directory/{name_of_reference}_nonRefAf_consensus.fasta --configfile config.txt --cluster-config cluster.json --cluster " sbatch -A {cluster.account} -t {cluster.time} -n {cluster.n} "

@@ -206,21 +206,21 @@ par(mfrow=c(1,3), mar=c(2,1,2,0), oma=c(0,0,0,0), xpd=TRUE)
 
 scatter3D(cov.select$length, cov.select$cov00, cov.select$hetDiff,
           colvar = cov.select$length, pch = 19, xlab = "Scaffold length", 
-          ylab = "difference in normalized genome coverage", main = "nm = 0",
+          ylab = "difference in normalized genome coverage", main = sprintf("%s mismatches", ED1),
           zlab = "difference in heterozygosity", bty = "b2",
           colkey = FALSE, col = viridis(length(cov.select$length), direction = -1),
           phi = 20, theta = 60)
 
 scatter3D(cov.select$length, cov.select$cov02, cov.select$hetDiff,
           colvar = cov.select$length, pch = 19, xlab = "Scaffold length", 
-          ylab = "difference in normalized genome coverage", main = "nm = 2",
+          ylab = "difference in normalized genome coverage", main = sprintf("%s mismatches", ED2),
           zlab = "difference in heterozygosity", bty = "b2",
           colkey = FALSE, col = viridis(length(cov.select$length), direction = -1),
           phi = 20, theta = 60)
 
 scatter3D(cov.select$length, cov.select$cov04, cov.select$hetDiff,
           colvar = cov.select$length, pch = 19, xlab = "Scaffold length", 
-          ylab = "difference in normalized genome coverage", main = "nm = 4",
+          ylab = "difference in normalized genome coverage", main = sprintf("%s mismatches", ED3),
           zlab = "difference in heterozygosity", bty = "b2",
           colkey = FALSE, col = viridis(length(cov.select$length), direction = -1),
           phi = 20, theta = 60)
