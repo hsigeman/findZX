@@ -34,17 +34,12 @@ To run XYZWfinder on your own dataset, you need to modify or create new configur
 
 
 Sample information: 
-\begin{table}[]
-\begin{tabular}{|l|l|l|l|}
-\hline
-sample             & unit          & fq1                                       & fq2                                       \\ \hline
-subset\_SRR9655168 & homogametic   & .test/Example/subset\_SRR9655168\_1.fq.gz & .test/Example/subset\_SRR9655168\_2.fq.gz \\ \hline
-subset\_SRR9655169 & homogametic   & .test/Example/subset\_SRR9655169\_1.fq.gz & .test/Example/subset\_SRR9655169\_2.fq.gz \\ \hline
-subset\_SRR9655170 & heterogametic & .test/Example/subset\_SRR9655170\_1.fq.gz & .test/Example/subset\_SRR9655170\_2.fq.gz \\ \hline
-subset\_SRR9655171 & heterogametic & .test/Example/subset\_SRR9655171\_1.fq.gz & .test/Example/subset\_SRR9655171\_2.fq.gz \\ \hline
-\end{tabular}
-\end{table}
-
+|       sample      |      unit     |                   fq1                   |                   fq2                   |
+|:-----------------:|:-------------:|:---------------------------------------:|:---------------------------------------:|
+| subset_SRR9655168 | homogametic   | .test/Example/subset_SRR9655168_1.fq.gz | .test/Example/subset_SRR9655168_2.fq.gz |
+| subset_SRR9655169 | homogametic   | .test/Example/subset_SRR9655169_1.fq.gz | .test/Example/subset_SRR9655169_2.fq.gz |
+| subset_SRR9655170 | heterogametic | .test/Example/subset_SRR9655170_1.fq.gz | .test/Example/subset_SRR9655170_2.fq.gz |
+| subset_SRR9655171 | heterogametic | .test/Example/subset_SRR9655171_1.fq.gz | .test/Example/subset_SRR9655171_2.fq.gz |
 
 
 
