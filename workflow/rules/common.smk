@@ -39,6 +39,7 @@ wildcard_constraints:
 ##### Helper functions #####
 
 
+# This function does not work with newer pandas versions. Update. 
 def get_fastq(wildcards):
     """Get fastq files of given sample-unit."""
     fastqs = units.loc[(wildcards.sample, wildcards.unit), ["fq1", "fq2"]].dropna()
