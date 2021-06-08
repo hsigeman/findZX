@@ -33,9 +33,9 @@ Once all dependencies are installed, activate the conda environment according to
 To run XYZWfinder on your own dataset, you need to modify or create new configuration files. Use the template configuration files used for running the test dataset (config/config.yml) and edit where approriate. The configuration file must include the location of a tabular file containing information about the samples to be analysed (for the example dataset: config/units.tsv).
 
 
-Sample information: 
-|       sample      |      unit     |                   fq1                   |                   fq2                   |
-|:-----------------:|:-------------:|:---------------------------------------:|:---------------------------------------:|
+**Sample information (config/units.tsv):** 
+| sample            | unit          | fq1                                     | fq2                                     |
+|-------------------|---------------|-----------------------------------------|-----------------------------------------|
 | subset_SRR9655168 | homogametic   | .test/Example/subset_SRR9655168_1.fq.gz | .test/Example/subset_SRR9655168_2.fq.gz |
 | subset_SRR9655169 | homogametic   | .test/Example/subset_SRR9655169_1.fq.gz | .test/Example/subset_SRR9655169_2.fq.gz |
 | subset_SRR9655170 | heterogametic | .test/Example/subset_SRR9655170_1.fq.gz | .test/Example/subset_SRR9655170_2.fq.gz |
