@@ -32,6 +32,20 @@ Once all dependencies are installed, activate the conda environment according to
 
 To run XYZWfinder on your own dataset, you need to modify or create new configuration files. Use the template configuration files used for running the test dataset (config/config.yml) and edit where approriate. The configuration file must include the location of a tabular file containing information about the samples to be analysed (for the example dataset: config/units.tsv).
 
+
+Sample information: 
+| sample                                          | unit          | fq1                                                                                | fq2                                                                                |
+|-------------------------------------------------|---------------|------------------------------------------------------------------------------------|------------------------------------------------------------------------------------|
+| subset_SRR9655168_WGS_of_Alouatta_palliata_S173 | homogametic   | .test/Example/subset_SRR9655168_WGS_of_Alouatta_palliata_S173_forward_paired.fq.gz | .test/Example/subset_SRR9655168_WGS_of_Alouatta_palliata_S173_reverse_paired.fq.gz |
+| subset_SRR9655169_WGS_of_Alouatta_palliata_S14  | homogametic   | .test/Example/subset_SRR9655169_WGS_of_Alouatta_palliata_S145_forward_paired.fq.gz | .test/Example/subset_SRR9655169_WGS_of_Alouatta_palliata_S145_reverse_paired.fq.gz |
+| subset_SRR9655170_WGS_of_Alouatta_palliata_S608 | heterogametic | .test/Example/subset_SRR9655170_WGS_of_Alouatta_palliata_S608_forward_paired.fq.gz | .test/Example/subset_SRR9655170_WGS_of_Alouatta_palliata_S608_reverse_paired.fq.gz |
+| subset_SRR9655171_WGS_of_Alouatta_palliata_S618 | heterogametic | .test/Example/subset_SRR9655171_WGS_of_Alouatta_palliata_S618_forward_paired.fq.gz | .test/Example/subset_SRR9655171_WGS_of_Alouatta_palliata_S618_reverse_paired.fq.gz |
+
+
+
+
+
+
 ### Step 1: Modify config files
 Create configuration files with information about heterogamety of samples, and paths to files. Example config files based on a test dataset (located in .test/Example/) are here: 
 - **config/config.yml** # Specify paths to reference genome etc. 
