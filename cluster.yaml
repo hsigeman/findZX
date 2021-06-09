@@ -44,9 +44,9 @@ fastqdump:
   n: 2
   time: 0-12:00:00
 get_fastq_pe:
-  n: 6
+  n: 12
   time: 0-12:00:00
 pigz:
-  n: 6
+  n: 12
   time: 04:00:00
 
