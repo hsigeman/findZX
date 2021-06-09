@@ -43,7 +43,7 @@ rule get_fastq_pe:
     shell:
         """
         mkdir -p tmp_{params.sample}
-        fasterq-dump --temp ./fasterq_tmp --threads {threads} --outdir data/fastq {params.sample}
+        fasterq-dump --temp tmp_{params.sample} --threads {threads} --outdir data/fastq {params.sample}
         rm -r tmp_{params.sample}
         """
 
