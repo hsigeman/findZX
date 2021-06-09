@@ -57,6 +57,6 @@ rule pigz:
     threads: 12  # defaults to 6
     shell: 
         """
-        cat {input.fq1} | pigz -p {threads} > {output.fq1} 
-        cat {input.fq2} | pigz -p {threads} > {output.fq2} 
+        pigz {input.fq1} -p {threads}
+        pigz {input.fq2} -p {threads} 
         """
