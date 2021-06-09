@@ -25,12 +25,12 @@ rule get_fastq_pe:
         temp("data/fastq/{accession}_2.fastq")
     params:
         # optional extra arguments
-        extra=""
+        sample={accession}
     threads: 6  # defaults to 6
     shell: 
         """
         mkdir -p fasterq_temp
-        fasterq-dump --temp fasterq_temp --threads {threads} --outdir data/fastq/ {accession}
+        fasterq-dump --temp fasterq_temp --threads {threads} --outdir data/fastq/ {params.sample}
         """
 
 
