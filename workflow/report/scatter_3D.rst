@@ -1,0 +1,1 @@
+3D scatter plots showing between-sex genome coverage and percentage of heterozygosity differences, and scaffold/chromosome length (bp). 

@@ -1,0 +1,1 @@
+Quality control statistics performed with FastQC, aggregated into an interactive report with MultiQC. This report is based on the trimmed fastq files.

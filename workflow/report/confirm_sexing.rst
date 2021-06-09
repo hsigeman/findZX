@@ -1,0 +1,1 @@
+These plot are based on per-individual coverage and heterozygosity values for all 5 kb windows, and can be used to confirm, or identify mistakes, in the sexing of invididuals.
