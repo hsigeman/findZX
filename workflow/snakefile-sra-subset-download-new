@@ -1,0 +1,33 @@
+
+dir_path = os.getcwd()
+
+##### Target rules #####
+
+import pandas as pd
+
+samples_df = pd.read_table('test_sra.list').set_index("sample", drop=False)
+sra_files = list(samples_df['sample'])
+
+
+rule all:
+    input:
+        expand("data/fastq/{accession}_1.fastq", accession=sra_files),
+        expand("data/fastq/{accession}_2.fastq", accession=sra_files),
+
+
+# Rules
+
+
+rule get_fastq_pe:
+    output:
+        # the wildcard name must be accession, pointing to an SRA number
+        "data/fastq/{accession}_1.fastq",
+        "data/fastq/{accession}_2.fastq"
+    params:
+        # optional extra arguments
+        extra=""
+    threads: 6  # defaults to 6
+    wrapper:
+        "v0.75.0/bio/sra-tools/fasterq-dump"
+
+
