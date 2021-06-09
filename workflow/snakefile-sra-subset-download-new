@@ -38,12 +38,12 @@ rule get_fastq_pe:
     params:
         # optional extra arguments
 #        extra="--temp ./tmp",
-#        sample={accession}
+        sample={accession}
     threads: 6  # defaults to 6
     shell:
         """
         mkdir -d fasterq_tmp
-        fasterq-dump --temp ./fasterq_tmp --threads {threads} --outdir data/fastq {snakemake.wildcards.accession}
+        fasterq-dump --temp ./fasterq_tmp --threads {threads} --outdir data/fastq {params.sample}
         """
 
 rule gzip: 
