@@ -11,8 +11,8 @@ sra_files = list(samples_df['sample'])
 
 rule all:
     input:
-        expand("data/fastq/{accession}_1.fastq", accession=sra_files),
-        expand("data/fastq/{accession}_2.fastq", accession=sra_files),
+        expand("data/fastq/{accession}_1.fastq.gz", accession=sra_files),
+        expand("data/fastq/{accession}_2.fastq.gz", accession=sra_files),
 
 
 # Rules
@@ -21,11 +21,25 @@ rule all:
 rule get_fastq_pe:
     output:
         # the wildcard name must be accession, pointing to an SRA number
-        "data/fastq/{accession}_1.fastq",
-        "data/fastq/{accession}_2.fastq"
+        temp("data/fastq/{accession}_1.fastq"),
+        temp("data/fastq/{accession}_2.fastq")
     params:
         # optional extra arguments
         extra=""
     threads: 6  # defaults to 6
     wrapper:
         "v0.75.0/bio/sra-tools/fasterq-dump"
+
+
+rule gzip: 
+    input: 
+        fq1="data/fastq/{accession}_1.fastq",
+        fq2="data/fastq/{accession}_2.fastq"
+    output: 
+        fq1="data/fastq/{accession}_1.fastq.gz",
+        fq2="data/fastq/{accession}_2.fastq.gz"
+    shell: 
+        """
+        gzip {input.fq1} -c > {output.fq1} 
+        gzip {input.fq2} -c > {output.fq2} 
+        """
