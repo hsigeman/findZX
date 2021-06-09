@@ -14,19 +14,19 @@ A Snakemake pipeline for detection of sex-linked regions using WGS data.
 
 ### Step 2: Create conda environment (Tested with conda version 4.10.1)
 
-We recommend the user to create a minimal conda environment using the following code, and to launch the snakemake run with the following additional options: **"--use-conda --conda-frontend mamba"** (see Step 3). This downloads and installs separate conda environments for different parts of the pipeline.
+We recommend the user to create a minimal conda environment using the following code, and to launch the snakemake run with the following additional option: **"--use-conda"** (see Step 3). This downloads and installs separate conda environments for different parts of the pipeline.
 
     conda create -n snakemake_basic -c conda-forge python=3.9.4 snakemake-wrapper-utils=0.2.0 snakemake=6.4.0 mamba=0.13.0
 
-Alternatively, all software dependencies can be installed using the provided conda environment file, in which case **"--use-conda --conda-frontend mamba"** should be omitted when launching the snakemake run: 
+Alternatively, all software dependencies can be installed using the provided conda environment file, in which case **"--use-conda"** should be omitted when launching the snakemake run: 
 
     conda env create -f environment.yml
 
 Once all dependencies are installed, activate the conda environment according to the instructions in the terminal. 
 
 ### Step 3: Run the example data to make sure that all software are installed (runtime ~2 minutes per command)
-    snakemake -s workflow/snakefile-no-synteny --configfile config/config.yml --cores 1 -R all -k --use-conda --conda-frontend mamba
-    snakemake -s workflow/snakefile-synteny --configfile config/config.yml --cores 1 -R all -k --use-conda --conda-frontend mamba
+    snakemake -s workflow/snakefile-no-synteny --configfile config/config.yml --cores 1 -R all -k --use-conda
+    snakemake -s workflow/snakefile-synteny --configfile config/config.yml --cores 1 -R all -k --use-conda
 
 ## Create configuration files: 
 
