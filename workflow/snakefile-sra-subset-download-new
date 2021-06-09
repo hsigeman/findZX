@@ -40,6 +40,6 @@ rule gzip:
         fq2="data/fastq/{accession}_2.fastq.gz"
     shell: 
         """
-        gzip {input.fq1} -c > {output.fq1} 
-        gzip {input.fq2} -c > {output.fq2} 
+        cat {input.fq1} | pigz > {output.fq1} 
+        cat {input.fq2} | pigz > {output.fq2} 
         """
