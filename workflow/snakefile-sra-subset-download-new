@@ -42,8 +42,9 @@ rule get_fastq_pe:
     threads: 6  # defaults to 6
     shell:
         """
-        mkdir -d fasterq_tmp
+        mkdir -p tmp_{params.sample}
         fasterq-dump --temp ./fasterq_tmp --threads {threads} --outdir data/fastq {params.sample}
+        rm -r tmp_{params.sample}
         """
 
 rule gzip: 
