@@ -27,8 +27,11 @@ rule get_fastq_pe:
         # optional extra arguments
         extra=""
     threads: 6  # defaults to 6
-    wrapper:
-        "v0.75.0/bio/sra-tools/fasterq-dump"
+    shell: 
+        """
+        mkdir -p fasterq_temp
+        fasterq-dump --temp fasterq_temp --threads {threads} --outdir data/fastq/ {accession}
+        """
 
 
 rule gzip: 
