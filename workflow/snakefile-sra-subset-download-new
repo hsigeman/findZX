@@ -25,13 +25,10 @@ rule get_fastq_pe:
         temp("data/fastq/{accession}_2.fastq")
     params:
         # optional extra arguments
-        sample={accession}
+        extra="--temp ./tmp"
     threads: 6  # defaults to 6
-    shell: 
-        """
-        mkdir -p fasterq_temp
-        fasterq-dump --temp fasterq_temp --threads {threads} --outdir data/fastq/ {params.sample}
-        """
+    wrapper:
+        "v0.75.0/bio/sra-tools/fasterq-dump"
 
 
 rule gzip: 
