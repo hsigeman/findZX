@@ -38,7 +38,7 @@ rule get_fastq_pe:
     params:
         # optional extra arguments
 #        extra="--temp ./tmp",
-        sample={accession}
+        sample="{accession}"
     threads: 6  # defaults to 6
     shell:
         """
