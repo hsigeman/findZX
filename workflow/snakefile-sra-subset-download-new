@@ -17,6 +17,18 @@ rule all:
 
 # Rules
 
+#rule get_fastq_pe:
+#    output:
+#        # the wildcard name must be accession, pointing to an SRA number
+#        temp("data/fastq/{accession}_1.fastq"),
+#        temp("data/fastq/{accession}_2.fastq")
+#    params:
+#        # optional extra arguments
+#        extra="--temp ./tmp"
+#    threads: 6  # defaults to 6
+#    wrapper:
+#        "v0.75.0/bio/sra-tools/fasterq-dump"
+
 
 rule get_fastq_pe:
     output:
@@ -26,10 +38,13 @@ rule get_fastq_pe:
     params:
         # optional extra arguments
         extra="--temp ./tmp"
+        sample={accession}
     threads: 6  # defaults to 6
-    wrapper:
-        "v0.75.0/bio/sra-tools/fasterq-dump"
-
+    shell:
+        """
+        mkdir -d fasterq_tmp
+        fasterq-dump --temp ./fasterq_tmp --threads {threads} --outdir data/fastq {snakemake.wildcards.accession}
+        """
 
 rule gzip: 
     input: 
