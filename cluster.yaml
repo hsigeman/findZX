@@ -43,3 +43,6 @@ prefetch:
 fastqdump:
   n: 2
   time: 0-12:00:00
+get_fastq_pe:
+  n: 6
+  time: 0-12:00:00
