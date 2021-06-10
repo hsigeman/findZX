@@ -1,5 +1,5 @@
 # Specify max number of cores
-threads_max: 2
+threads_max: 18
 
 
 # Path to sample information file
