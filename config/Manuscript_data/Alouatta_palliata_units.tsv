@@ -1,5 +1,5 @@
 sample	unit	fq1	fq2
-SRR9655168	homogametic	data/fastq/SRR9655168_1.fastq.gz	data/fastq/SRR9655168_2.fastq.gz	Alouatta_palliata
-SRR9655169	homogametic	data/fastq/SRR9655169_1.fastq.gz	data/fastq/SRR9655169_2.fastq.gz	Alouatta_palliata
-SRR9655170	heterogametic	data/fastq/SRR9655170_1.fastq.gz	data/fastq/SRR9655170_2.fastq.gz	Alouatta_palliata
-SRR9655171	heterogametic	data/fastq/SRR9655171_1.fastq.gz	data/fastq/SRR9655171_2.fastq.gz	Alouatta_palliata
+SRR9655168	homogametic	data/fastq/SRR9655168_1.fastq.gz	data/fastq/SRR9655168_2.fastq.gz
+SRR9655169	homogametic	data/fastq/SRR9655169_1.fastq.gz	data/fastq/SRR9655169_2.fastq.gz
+SRR9655170	heterogametic	data/fastq/SRR9655170_1.fastq.gz	data/fastq/SRR9655170_2.fastq.gz
+SRR9655171	heterogametic	data/fastq/SRR9655171_1.fastq.gz	data/fastq/SRR9655171_2.fastq.gz

@@ -1,4 +1,4 @@
 sample	unit	fq1	fq2
-ERR583467	heterogametic	data/fastq/ERR583467_1.fastq.gz	data/fastq/ERR583467_2.fastq.gz	Nothobranchius_furzeri
-ERR583468	heterogametic	data/fastq/ERR583468_1.fastq.gz	data/fastq/ERR583468_2.fastq.gz	Nothobranchius_furzeri
-ERR583470	homogametic	data/fastq/ERR583470_1.fastq.gz	data/fastq/ERR583470_2.fastq.gz	Nothobranchius_furzeri
+ERR583467	heterogametic	data/fastq/ERR583467_1.fastq.gz	data/fastq/ERR583467_2.fastq.gz
+ERR583468	heterogametic	data/fastq/ERR583468_1.fastq.gz	data/fastq/ERR583468_2.fastq.gz
+ERR583470	homogametic	data/fastq/ERR583470_1.fastq.gz	data/fastq/ERR583470_2.fastq.gz

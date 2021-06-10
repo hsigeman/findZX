@@ -1,3 +1,3 @@
 sample	unit	fq1	fq2
-SRR1738162	homogametic	data/fastq/SRR1738162_1.fastq.gz	data/fastq/SRR1738162_2.fastq.gz	Drosophila_miranda
-SRR1738163	heterogametic	data/fastq/SRR1738163_1.fastq.gz	data/fastq/SRR1738163_2.fastq.gz	Drosophila_miranda
+SRR1738162	homogametic	data/fastq/SRR1738162_1.fastq.gz	data/fastq/SRR1738162_2.fastq.gz
+SRR1738163	heterogametic	data/fastq/SRR1738163_1.fastq.gz	data/fastq/SRR1738163_2.fastq.gz
