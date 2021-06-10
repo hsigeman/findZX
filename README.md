@@ -1,11 +1,12 @@
 # XYZWfinder
 
-A Snakemake pipeline for detection of sex-linked regions using WGS data. 
+A Snakemake pipeline for detection of sex-linked regions using WGS data. The pipeline utilizes differences in genome coverage and heterozygosity between female and male samples, and generates plots and tables aimed at distinguishing sex-linked scaffolds/chromosomes from autosomal ones. 
 
-## Authors
-- Hanna Sigeman (hanna.sigeman@biol.lu.se)
-- Bella Sinclair (bella.sinclair@biol.lu.se)
- 
+The pipeline can be deployed in 2 different modes: 
+- **XYZWfinder** (./workflow/XYZWfinder), in which samples are aligned to a reference genome, genome coverage and heterozygosity statistics are calculated for each chromosome/scaffold as well as across genome windows of modifiable sizes. 
+- **XYZWfinder-synteny** (./workflow/XYZWfinder-synteny), in which the core of the pipeline is the same as XYZWfinder but also includes a genome coordinate lift-over step between the reference genome and a second genome from another species ("synteny-species reference genome"). If the pipeline is deployed using XYZWfinder-synteny, all plots and tables will be generated based on this genome coordinate lift-over analysis. 
+
+
 ## Install software and run XYZWfinder with example dataset:
 
 ### Step 1: Clone GitHub repository
@@ -93,3 +94,7 @@ The result is shown in figures in the *figures/* folder.
 
 # Reference
 Sigeman, H., Ponnikas, S. & Hansson, B. Whole-genome analysis across 10 songbird families within Sylvioidea reveals a novel autosome-sex chromosome fusion. Biol. Lett. 16, 20200082 (2020).
+
+## Authors
+- Hanna Sigeman (hanna.sigeman@biol.lu.se)
+- Bella Sinclair (bella.sinclair@biol.lu.se)
