@@ -58,7 +58,7 @@ rule all:
         expand(outdir + "output/synteny/" + synteny_abbr + "/plots/.misc/" + "plotting.{window}bp.done", window = window_sizes),
         expand(outdir + "output/synteny/" + synteny_abbr + "/plots/.misc/" + "plotting.{window}bp.done", window = window_sizes),
 
-
+        
 ##### Modules #####
 
 

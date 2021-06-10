@@ -38,7 +38,7 @@ rule multiqc_2:
         expand(qc_dir + "fastqc/{u.sample}__{u.unit}.trimmed_fastqc.zip",
             u=units.itertuples()),
     output:
-        report(qc_dir + "fastqc/multiqc.trimmed.html",             category="1. Quality control", caption="../report/multiqc_trimmed.rst",),
+        report(qc_dir + "fastqc/multiqc.trimmed.html", category="1. Quality control", caption="../report/multiqc_trimmed.rst",),
     log:
         logs_dir + "fastqc/multiqc.trimmed.log",
     wrapper:

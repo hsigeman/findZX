@@ -59,7 +59,7 @@ rule all:
         expand(outdir + "output/no_synteny/plots/" + ".misc/" + "plotting.linear.{window}bp.done", window = window_sizes),
         outdir + "output/no_synteny/plots/" + ".misc/" + "plotting_chr.done",
         expand(outdir + "output/no_synteny/plots/" + ".misc/" + "plotting.{window}bp.done", window = window_sizes),
-        expand(outdir + "output/no_synteny/plots/" + ".misc/" + "plotting.{window}bp.done", window = window_sizes)
+        expand(outdir + "output/no_synteny/plots/" + ".misc/" + "plotting.{window}bp.done", window = window_sizes),
 
 
 

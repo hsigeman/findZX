@@ -67,3 +67,15 @@ rule samtools_stats:
         logs_dir + "samtools_stats/{sample}__{unit}.{ED}.log",
     wrapper:
         "0.74.0/bio/samtools/stats"
+
+
+rule calc_cov:
+    input:
+        fai = ref_genome + ".fai",
+        stats = dedup_dir + "{sample}__{unit}.sorted.dedup.nm.{ED}.samtools.stats.txt",
+    output:
+        report(dedup_dir + "{sample}__{unit}.sorted.dedup.nm.{ED}_mean_coverage.txt", category = "Coverage")
+    shell:
+        "code/calc_cov.sh {input.stats} {input.fai} > {output}"
+
+
