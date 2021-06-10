@@ -1,0 +1,5 @@
+sample	unit	fq1	fq2
+SRR5034730	homogametic	./data/fastq/SRR5034730_1.fastq.gz	./data/fastq/SRR5034730_2.fastq.gz	Poecilia_reticulata
+SRR5034738	heterogametic	./data/fastq/SRR5034738_1.fastq.gz	./data/fastq/SRR5034738_2.fastq.gz	Poecilia_reticulata
+SRR5034743	homogametic	./data/fastq/SRR5034743_1.fastq.gz	./data/fastq/SRR5034743_2.fastq.gz	Poecilia_reticulata
+SRR5034745	heterogametic	./data/fastq/SRR5034745_1.fastq.gz	./data/fastq/SRR5034745_2.fastq.gz	Poecilia_reticulata

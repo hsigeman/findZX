@@ -1,0 +1,3 @@
+sample	unit	fq1	fq2
+SRR648711	heterogametic	./data/fastq/SRR648711_1.fastq.gz	./data/fastq/SRR648711_2.fastq.gz	Ornithorhynchus_anatinus
+SRR648716	homogametic	./data/fastq/SRR648716_1.fastq.gz	./data/fastq/SRR648716_2.fastq.gz	Ornithorhynchus_anatinus
