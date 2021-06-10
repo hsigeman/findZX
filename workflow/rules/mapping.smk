@@ -11,6 +11,7 @@ rule map_reads:
         extra=get_read_group,
         sort="samtools",
         sort_order="coordinate",
+        sort_extra="-@ " + str(threads_max),
     threads: threads_max
     wrapper:
         "0.74.0/bio/bwa/mem"

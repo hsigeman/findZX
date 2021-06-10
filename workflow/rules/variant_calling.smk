@@ -13,8 +13,8 @@ rule freebayes_prep:
         "../envs/python_gawk.yaml"
     shell:
         """
-	    cat {input.fai} | awk '$2>= {params} {{print $1}}' | bedtools sort > {output.filter_fai}
-        python3 code/split_ref_by_bai_datasize.py {input.samples} -r {input.fai} | bedtools sort > {output.regions}
+	    cat {input.fai} | awk '$2>= {params} {{print $1}}' | sort -k1,1 > {output.filter_fai}
+        python3 code/split_ref_by_bai_datasize.py {input.samples} -r {input.fai} | sed 's/ /\t/g' | bedtools sort > {output.regions}
         join {output.regions} {output.filter_fai} | sed 's/ /\t/g' | sed 's/\t/:/' | sed 's/\t/-/' > {output.regions_filter}
         """
 
