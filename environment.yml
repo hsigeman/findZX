@@ -33,6 +33,7 @@ dependencies:
   - python=3.9.5
   - pip=21.1.1
   - gawk=5.1.0
+  - imagemagick=7.0.11_14
   - pip: 
     - numpy
     - scipy

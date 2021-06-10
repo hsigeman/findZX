@@ -5,7 +5,8 @@ rule confirm_sexing:
         stats = expand(dedup_dir + "{u.sample}__{u.unit}.sorted.dedup.nm.{{ED}}.samtools.stats.txt", zip, u=units.itertuples())
     output:
         read_length = outdir + "output/no_synteny/plots/" + ".misc/" + "read_length.sorted.nodup.nm.{ED}.csv",
-        gencov_het = report(outdir + "output/no_synteny/plots/" + "confirm_sexing_indv.{ED}.pdf", category="2. Confirm sexing", caption="../report/confirm_sexing.rst")
+        gencov_het = outdir + "output/no_synteny/plots/" + "confirm_sexing_indv.{ED}.pdf", 
+        gencov_het_small = report(outdir + "output/no_synteny/plots/" + "confirm_sexing_indv.{ED}.small.pdf", category="2. Confirm sexing", caption="../report/confirm_sexing.rst")
     threads: 1
     params:
         map_dir = dedup_dir + "*.sorted.dedup.nm.{ED}.samtools.stats.txt",
@@ -20,6 +21,8 @@ rule confirm_sexing:
         python code/read_length.py <(for FILE in $(ls {params.map_dir}); do echo \"${{FILE##*/}}\"; grep \"average length\" $FILE; done) > {output.read_length}
 
         Rscript code/histogram_indv.R {input.gencov} {input.het} {output.read_length} {output.gencov_het} no-synteny {params.chromosomes} {params.hetero} {params.homo}
+        
+        convert -density 200 -compress jpeg -quality 20 {output.gencov_het} {output.gencov_het_small}
         """
 
 
