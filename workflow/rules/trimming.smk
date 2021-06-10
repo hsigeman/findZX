@@ -13,8 +13,8 @@ if config['trim_reads']:
             extra=lambda w, output: "-trimlog {}".format(output.trimlog),
         threads:
             10
-        log:
-            logs_dir + "trimmomatic/{sample}__{unit}.log",
+#        log:
+#            logs_dir + "trimmomatic/{sample}__{unit}.log",
         wrapper:
             "0.74.0/bio/trimmomatic/pe"
 
@@ -30,8 +30,8 @@ if config['trim_reads']:
             extra="",
         threads:
             10
-        log:
-            logs_dir + "trimmomatic/{sample}__{unit}.log",
+#        log:
+#            logs_dir + "trimmomatic/{sample}__{unit}.log",
         wrapper:
             "0.74.0/bio/trimmomatic/se"
 
