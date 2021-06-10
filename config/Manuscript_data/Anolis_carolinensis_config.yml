@@ -1,5 +1,5 @@
 # Specify max number of cores
-threads_max: 2
+threads_max: 18
 
 
 # Path to sample information file
@@ -9,7 +9,7 @@ units: config/Manuscript_data/Anolis_carolinensis_units.tsv
 run_name: "Anolis_carolinensis" 
 
 # Homogametic reference genome of the studied species (not .gz format)
-ref_genome: ".test/Example/AloPal_v1_subset.fasta" 
+ref_genome: "../data/external_raw/genome/AnoCar2.0.fasta" 
 
 # Optional: List of chromosomes that should be plotted (and highlighted) in the end (optional) 
 chr_file: "None" # Replace with file consisting of chromosome names to include. Example: config/chromosomes.list" 
@@ -17,8 +17,7 @@ chr_file: "None" # Replace with file consisting of chromosome names to include. 
 # Optional: Specify chromosomes to highlight
 #chr_highlight: "config/chromosomes_highlight.list"
 chr_highlight:
-    - PVKV010001784.1 # Chromosomes to be highlighted. Remove if not wanted.
-    - PVKV010001533.1
+    - LGb
 
 
 trim_reads: TRUE # Set to TRUE if you want to trim reads
@@ -27,16 +26,16 @@ trim_reads: TRUE # Set to TRUE if you want to trim reads
 ############# snakefile-synteny variables #############
 
 # If snakemake-synteny is used, specify the path to the synteny-species reference genome (not .gz format)
-synteny_ref: ".test/Example/Homo_sapiens.GRCh38_subset.fasta"
+synteny_ref: "None"
 
 # Synteny-species abbreviation (can be anything)
-synteny_abbr: "HS"
+synteny_abbr: "None"
 
 # List of chromosomes in the synteny-species reference genome that should be plotted (and highlighted) in the end (optional) 
 synteny_chr_file: "None"
 synteny_chr_highlight:
-    - X:20513966-20718999
-    - 3:167499270-167708345
+ #   - X:20513966-20718999
+ #   - 3:167499270-167708345
 
 
 ############# Other optional variables ##########
@@ -49,10 +48,9 @@ edit_distance:
     - all # Do not edit this one
 
 window_sizes:
-    - 25000
     - 50000
     - 100000
-
+    - 1000000
 
 # The Mimimum size of scaffolds in the reference genome to be considered. 
 minSizeScaffold: "10000"
