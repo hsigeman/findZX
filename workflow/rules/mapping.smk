@@ -25,9 +25,9 @@ rule mark_duplicates:
     log:
         logs_dir + "picard/dedup/{sample}__{unit}.log",
     params:
-        extra="REMOVE_DUPLICATES=true USE_JDK_DEFLATER=true USE_JDK_INFLATER=true"
+        extra="REMOVE_DUPLICATES=true USE_JDK_DEFLATER=true USE_JDK_INFLATER=true TMP_DIR=./"
     resources:
-        mem_mb=2048
+        mem_mb=4096
     wrapper:
         "0.74.0/bio/picard/markduplicates"
 

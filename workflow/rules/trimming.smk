@@ -7,7 +7,7 @@ if config['trim_reads']:
             r2=temp(outdir + "trimmed/{sample}__{unit}.2.fastq.gz"),
             r1_unpaired=temp(outdir + "trimmed/{sample}__{unit}.1.unpaired.fastq.gz"),
             r2_unpaired=temp(outdir + "trimmed/{sample}__{unit}.2.unpaired.fastq.gz"),
-            trimlog=outdir + "trimmed/{sample}__{unit}.trimlog.txt",
+            trimlog=temp(outdir + "trimmed/{sample}__{unit}.trimlog.txt"),
         params:
             **config["params"]["trimmomatic"]["pe"],
             extra=lambda w, output: "-trimlog {}".format(output.trimlog),
