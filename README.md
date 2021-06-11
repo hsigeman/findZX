@@ -76,9 +76,15 @@ It is also possible to render an interactive HTML report using this command:
 
 ***
 
-## Create configuration files: 
+## Using the XYZWfinder workflow 
 
-To run XYZWfinder on your own dataset, you need to modify or create new configuration files. Use the template configuration files used for running the test dataset (config/config.yml) and edit where approriate. The configuration file must include the location of a tabular file containing information about the samples to be analysed (for the example dataset: config/units.tsv).
+Once the software are installed (#installation) and verified (#test), you can run XYZWfinder on you own dataset. To do so, carefully follow the steps outlined below. 
+
+1. Prepare input data
+2. 
+
+
+you need to modify or create new configuration files. Use the template configuration files used for running the test dataset (config/config.yml) and edit where approriate. The configuration file must include the location of a tabular file containing information about the samples to be analysed (for the example dataset: config/units.tsv).
 
 
 **Sample information (config/units.tsv):** 
