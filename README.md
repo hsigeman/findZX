@@ -37,7 +37,7 @@ Enter this code to create a minimal conda environment (the name of the conda env
 
     conda create -n snakemake_basic -c conda-forge -c bioconda python=3.9.4 snakemake-wrapper-utils=0.2.0 snakemake=6.4.0 mamba=0.13.0
 
-When launching the snakemake run, add the option: **"--use-conda"** (see Step 3). This downloads and installs separate conda environments for different parts of the pipeline.
+When launching the snakemake run, add the option: **"--use-conda"** (see below). This downloads and installs separate conda environments for different parts of the pipeline.
 
 ##### Option 2: Install all software dependencies into a single conda environment
 
@@ -48,6 +48,10 @@ Use the provided conda environment file (environment.yml) to install all needed 
 If this option is used, omit **"--use-conda"** when launching the snakemake run.
 
 #### **Step 3**: Once all dependencies are installed, activate the conda environment according to the instructions in the terminal. 
+
+For example like this: 
+
+    conda activate snakemake_basic
 
 ***
 
