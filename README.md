@@ -12,38 +12,52 @@ The pipeline can be deployed in 2 different modes:
 
 
 # Table of Contents
-1. [Installation and running test dataset](#installation)
+1. [Installation](#installation)
+2. [Verify installation by running test dataset](#test)
 2. [Create configuration files](#example2)
 3. [Run the pipeline](#third-example)
 4. [Output](#fourth-examplehttpwwwfourthexamplecom)
 
     
 
+## Installation: <a name="installation"></a>
 
+**Step 1**: Obtain a copy of XYZWfinder by cloning this GitHub repository:
 
-## Installation and running test dataset: <a name="installation"></a>
-
-### Step 1: Clone this GitHub repository
     git clone https://github.com/hsigeman/XYZWfinder.git
     cd XYZWfinder # Go to directory
 
-### Step 2: Create conda environment (Tested with conda version 4.10.1)
+All dependencies needed to run this workflow can be installed automatically using **conda** (see website for installation guide: https://docs.conda.io/projects/conda/en/latest/user-guide/index.html). 
 
-We recommend the user to create a minimal conda environment using the following code, and to launch the snakemake run with the following additional option: **"--use-conda"** (see Step 3). This downloads and installs separate conda environments for different parts of the pipeline.
+**Step 2**: Once conda is installed, the needed software can be installed in either of two ways (Option 1 is recommended): 
+
+- Option 1: Create a minimal conda environment and install software automatically using the XYZWfinder workflow
+
+Enter this code to create a minimal conda environment (the name of the conda environment, here "snakemake_basic", can be replaced with another variable):
 
     conda create -n snakemake_basic -c conda-forge -c bioconda python=3.9.4 snakemake-wrapper-utils=0.2.0 snakemake=6.4.0 mamba=0.13.0
 
-Alternatively, all software dependencies can be installed using the provided conda environment file, in which case **"--use-conda"** should be omitted when launching the snakemake run: 
+When launching the snakemake run, add the option: **"--use-conda"** (see Step 3). This downloads and installs separate conda environments for different parts of the pipeline.
+
+- Option 2. Install all software dependencies into a single conda environment
+
+Use the provided conda environment file (environment.yml) to install all needed software: 
 
     conda env create -f environment.yml
 
-Once all dependencies are installed, activate the conda environment according to the instructions in the terminal. 
+If this option is used, omit **"--use-conda"** when launching the snakemake run.
 
-### Step 3: Run the example data to make sure that all software are installed (runtime ~2 minutes per command)
+**Step 3**: Once all dependencies are installed, activate the conda environment according to the instructions in the terminal. 
+
+
+## Run the example data to make sure that all software are installed (runtime ~2 minutes per command) <a name="test"></a>
     snakemake -s workflow/snakefile-no-synteny --configfile config/config.yml --cores 1 -R all -k --use-conda
     snakemake -s workflow/snakefile-synteny --configfile config/config.yml --cores 1 -R all -k --use-conda
 
 *-R* specifies which rule to re-run, in this case it is rule all which specifies all desired output files.
+
+
+
 
 ## Create configuration files: 
 
