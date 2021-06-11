@@ -31,7 +31,7 @@ All dependencies needed to run this workflow can be installed automatically usin
 
 **Step 2**: Once conda is installed, the needed software can be installed in either of two ways (Option 1 is recommended): 
 
-- Option 1: Create a minimal conda environment and install software automatically using the XYZWfinder workflow
+- Option 1: Create a minimal conda environment and install software automatically within the XYZWfinder workflow
 
 Enter this code to create a minimal conda environment (the name of the conda environment, here "snakemake_basic", can be replaced with another variable):
 
