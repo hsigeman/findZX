@@ -38,7 +38,7 @@ Enter this code to create a minimal conda environment:
     # The name of the environment (snakemake_basic) can be replaced with another variable
     conda create -n snakemake_basic -c conda-forge -c bioconda python=3.9.4 snakemake-wrapper-utils=0.2.0 snakemake=6.4.0 mamba=0.13.0
 
-When launching the snakemake run, add the option: **"--use-conda"** (see [below]<a name="test"></a>). This downloads and installs separate conda environments for different parts of the pipeline.
+When launching the snakemake run, add the option: **"--use-conda"** (see [below](#test)). This downloads and installs separate conda environments for different parts of the pipeline.
 
 ##### Option 2: Install all software dependencies into a single conda environment
 
