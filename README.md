@@ -12,7 +12,7 @@ The pipeline can be deployed in 2 different modes:
 
 
 # Table of Contents
-1. [Installation and running test dataset](#example)
+1. [Installation and running test dataset](#installation)
 2. [Create configuration files](#example2)
 3. [Run the pipeline](#third-example)
 4. [Output](#fourth-examplehttpwwwfourthexamplecom)
@@ -21,7 +21,7 @@ The pipeline can be deployed in 2 different modes:
 
 
 
-## Installation and running test dataset:
+## Installation and running test dataset: <a name="installation"></a>
 
 ### Step 1: Clone this GitHub repository
     git clone https://github.com/hsigeman/XYZWfinder.git
