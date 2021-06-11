@@ -29,6 +29,8 @@ Once all dependencies are installed, activate the conda environment according to
     snakemake -s workflow/snakefile-no-synteny --configfile config/config.yml --cores 1 -R all -k --use-conda
     snakemake -s workflow/snakefile-synteny --configfile config/config.yml --cores 1 -R all -k --use-conda
 
+*-R* specifies which rule to re-run, in this case it is rule all which specifies all desired output files.
+
 ## Create configuration files: 
 
 To run XYZWfinder on your own dataset, you need to modify or create new configuration files. Use the template configuration files used for running the test dataset (config/config.yml) and edit where approriate. The configuration file must include the location of a tabular file containing information about the samples to be analysed (for the example dataset: config/units.tsv).
@@ -50,8 +52,6 @@ Create configuration files with information about heterogamety of samples, and p
 - **config/units.tsv** # Sample information and paths to fastq files
 - **config/chromosomes.list** # Optional: List of scaffolds/chromosomes in the reference genome to include in the final plots (with snakefile-no-synteny)
 - **config/HS_chromosomes.list** # Optional: List of scaffolds/chromosomes in the synteny-species reference genome to include in the final plots (with snakefile-synteny)
-- **config/chromosomes_highlight.list** # Optional: List of scaffolds/chromosomes in the reference genome to be highlighted in the final plots (with snakefile-no-synteny)
-- **config/HS_chromosomes_highlight.list** # Optional: List of scaffolds/chromosomes in the synteny-species reference genome to be highlighted in the final plots (with snakefile-synteny)
 
 The **cluster.json** file have to be edited if the pipeline will be ran on a cluster. Specify the account name. 
 If a large amount of samples are used (more than 10 individuals with a genome size of 1Gbp), or an organism with a very large genome, the times and number of cores specified might have to be changed. 
@@ -74,8 +74,11 @@ If the pipeline is run on a server cluster (e.g. SLURM), a configuration file is
     snakemake -s workflow/snakefile-{synteny/no-synteny} -j 15 -R all --configfile config/config.yml --cluster-config cluster.yaml --cluster " sbatch -A {cluster.account} -t {cluster.time} -n {cluster.n} "
  
 *-j* specifies the number of jobs that can be run simultaneously.  
-*-R* specifies which rule to re-run, in this case it is rule all which specifies all desired output files.
- 
+
+Start the pipeline within a **tmux** session to ensure that the run is not stopped if you disconnect from the server (https://github.com/tmux/tmux/wiki):
+
+    tmux new -s <name_of_session>
+
 
 
 
