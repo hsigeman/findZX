@@ -52,10 +52,26 @@ If this option is used, omit **"--use-conda"** when launching the snakemake run.
 ***
 
 ## Run the example data to make sure that all software are installed (runtime ~2 minutes per command) <a name="test"></a>
+
+The GitHub repository contain a small test dataset (./test/Example) which can be run to verify the installation. The dataset is a small subset of paired-end WGS reads from 2 male (SRR9655170, SRR9655171) and 2 female (SRR9655168, SRR9655169) mantled howler monkeys, as well as selected scaffolds from the reference genome of this species (Genbank accession: GCA_004027835.1) and subsets of chromosomes from the human genome (Genbank accession:GCA_000001405.28).
+
+To run the workflow using only the mantled howler monkey reference genome, run this code: 
+
     snakemake -s workflow/snakefile-no-synteny --configfile config/config.yml --cores 1 -R all -k --use-conda
+
+To run the workflow with the "synteny option", run this code: 
+
     snakemake -s workflow/snakefile-synteny --configfile config/config.yml --cores 1 -R all -k --use-conda
 
 *-R* specifies which rule to re-run, in this case it is rule all which specifies all desired output files.
+
+If the workflow finishes without errors, result tables and plots will be produced here: 
+
+    results/AloPal_test/output/
+
+It is also possible to render an interactive HTML report using this command: 
+
+    snakemake -s workflow/snakefile-no-synteny --configfile config/config.yml --cores 1 -R all -k --use-conda --report report.html
 
 
 ***
