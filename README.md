@@ -33,8 +33,9 @@ All dependencies needed to run this workflow can be installed automatically usin
 
 ##### Option 1: Create a minimal conda environment and install software automatically within the XYZWfinder workflow (recommended)
 
-Enter this code to create a minimal conda environment (the name of the conda environment, here "snakemake_basic", can be replaced with another variable):
-
+Enter this code to create a minimal conda environment:
+ 
+    # The name of the environment (snakemake_basic) can be replaced with another variable
     conda create -n snakemake_basic -c conda-forge -c bioconda python=3.9.4 snakemake-wrapper-utils=0.2.0 snakemake=6.4.0 mamba=0.13.0
 
 When launching the snakemake run, add the option: **"--use-conda"** (see below). This downloads and installs separate conda environments for different parts of the pipeline.
@@ -57,7 +58,7 @@ For example like this:
 
 ## Run the example data to make sure that all software are installed (runtime ~2 minutes per command) <a name="test"></a>
 
-The GitHub repository contain a small test dataset (./test/Example) which can be run to verify the installation. The dataset is a small subset of paired-end WGS reads from 2 male (SRR9655170, SRR9655171) and 2 female (SRR9655168, SRR9655169) mantled howler monkeys, as well as selected scaffolds from the reference genome of this species (Genbank accession: GCA_004027835.1) and subsets of chromosomes from the human genome (Genbank accession:GCA_000001405.28).
+The GitHub repository contain a small test dataset (./test/Example) which can be run to verify the installation. The dataset is a small subset of paired-end WGS reads from 2 male (SRR9655170, SRR9655171) and 2 female (SRR9655168, SRR9655169) mantled howler monkeys, as well as selected scaffolds from the reference genome of this species (Genbank accession: GCA_004027835.1) and subsets of chromosomes from the human genome (Genbank accession: GCA_000001405.28).
 
 To run the workflow using only the mantled howler monkey reference genome, run this code: 
 
