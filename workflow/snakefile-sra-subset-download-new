@@ -8,7 +8,7 @@ import pandas as pd
 #samples_df = pd.read_table('data/meta/allSamples_sra_newPlatypus.list').set_index("sample", drop=False)
 #sra_files = list(samples_df['sample'])
 
-samples_df = pd.read_table('data/meta/guppyAcc.list').set_index("sample", drop=False)
+samples_df = pd.read_table('config/download.list').set_index("sample", drop=False)
 sra_files = list(samples_df['sample'])
 
 
