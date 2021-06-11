@@ -22,14 +22,14 @@ The pipeline can be deployed in 2 different modes:
 
 ## Installation: <a name="installation"></a>
 
-**Step 1**: Obtain a copy of XYZWfinder by cloning this GitHub repository:
+#### **Step 1**: Obtain a copy of XYZWfinder by cloning this GitHub repository:
 
     git clone https://github.com/hsigeman/XYZWfinder.git
     cd XYZWfinder # Go to directory
 
 All dependencies needed to run this workflow can be installed automatically using **conda** (see website for installation guide: https://docs.conda.io/projects/conda/en/latest/user-guide/index.html). 
 
-**Step 2**: Once conda is installed, the needed software can be installed in either of two ways (Option 1 is recommended): 
+#### **Step 2**: Once conda is installed, the needed software can be installed in either of two ways (Option 1 is recommended): 
 
 - Option 1: Create a minimal conda environment and install software automatically within the XYZWfinder workflow
 
@@ -47,7 +47,7 @@ Use the provided conda environment file (environment.yml) to install all needed 
 
 If this option is used, omit **"--use-conda"** when launching the snakemake run.
 
-**Step 3**: Once all dependencies are installed, activate the conda environment according to the instructions in the terminal. 
+#### **Step 3**: Once all dependencies are installed, activate the conda environment according to the instructions in the terminal. 
 
 ***
 
