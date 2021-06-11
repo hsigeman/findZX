@@ -31,7 +31,7 @@ All dependencies needed to run this workflow can be installed automatically usin
 
 #### **Step 2**: Once conda is installed, the needed software can be installed in either of two ways: 
 
-- i. Create a minimal conda environment and install software automatically within the XYZWfinder workflow (recommended)
+###### Option 1: Create a minimal conda environment and install software automatically within the XYZWfinder workflow (recommended)
 
 Enter this code to create a minimal conda environment (the name of the conda environment, here "snakemake_basic", can be replaced with another variable):
 
@@ -39,7 +39,7 @@ Enter this code to create a minimal conda environment (the name of the conda env
 
 When launching the snakemake run, add the option: **"--use-conda"** (see Step 3). This downloads and installs separate conda environments for different parts of the pipeline.
 
-- ii. Install all software dependencies into a single conda environment
+###### Option 2: Install all software dependencies into a single conda environment
 
 Use the provided conda environment file (environment.yml) to install all needed software: 
 
