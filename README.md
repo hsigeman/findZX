@@ -78,7 +78,7 @@ It is also possible to render an interactive HTML report using this command:
 
 ## Using the XYZWfinder workflow 
 
-Once the software are [installed] (#installation) and [verified] (#test), you can run XYZWfinder on you own dataset. To do so, carefully follow the steps outlined below. 
+Once the software are [installed](#installation) and [verified](#test), you can run XYZWfinder on you own dataset. To do so, carefully follow the steps outlined below. 
 
 1. Prepare input data
 2. 
