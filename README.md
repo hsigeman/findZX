@@ -9,7 +9,7 @@ The pipeline can be deployed in 2 different modes:
 - **XYZWfinder** (./workflow/XYZWfinder), in which samples are aligned to a reference genome, genome coverage and heterozygosity statistics are calculated for each chromosome/scaffold as well as across genome windows of modifiable sizes. 
 - **XYZWfinder-synteny** (./workflow/XYZWfinder-synteny), in which the core of the pipeline is the same as XYZWfinder but also includes a genome coordinate lift-over step between the reference genome and a second genome from another species ("synteny-species reference genome"). If the pipeline is deployed using XYZWfinder-synteny, all plots and tables will be generated based on this genome coordinate lift-over analysis. 
 
-
+***
 
 # Table of Contents
 1. [Installation](#installation)
@@ -18,7 +18,7 @@ The pipeline can be deployed in 2 different modes:
 3. [Run the pipeline](#third-example)
 4. [Output](#fourth-examplehttpwwwfourthexamplecom)
 
-    
+***    
 
 ## Installation: <a name="installation"></a>
 
@@ -49,6 +49,7 @@ If this option is used, omit **"--use-conda"** when launching the snakemake run.
 
 **Step 3**: Once all dependencies are installed, activate the conda environment according to the instructions in the terminal. 
 
+***
 
 ## Run the example data to make sure that all software are installed (runtime ~2 minutes per command) <a name="test"></a>
     snakemake -s workflow/snakefile-no-synteny --configfile config/config.yml --cores 1 -R all -k --use-conda
@@ -57,7 +58,7 @@ If this option is used, omit **"--use-conda"** when launching the snakemake run.
 *-R* specifies which rule to re-run, in this case it is rule all which specifies all desired output files.
 
 
-
+***
 
 ## Create configuration files: 
 
