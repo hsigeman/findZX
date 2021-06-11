@@ -14,7 +14,7 @@ The pipeline can be deployed in 2 different modes:
 # Table of Contents
 1. [Installation](#installation)
 2. [Verify installation by running test dataset](#test)
-2. [Create configuration files](#example2)
+2. [Using the XYZWfinder workflow](#usage)
 3. [Run the pipeline](#third-example)
 4. [Output](#fourth-examplehttpwwwfourthexamplecom)
 
@@ -76,7 +76,7 @@ It is also possible to render an interactive HTML report using this command:
 
 ***
 
-## Using the XYZWfinder workflow 
+## Using the XYZWfinder workflow <a name="usage"></a>
 
 Once the software are [installed](#installation) and [verified](#test), you can run XYZWfinder on you own dataset. To do so, carefully follow the steps outlined below. 
 
