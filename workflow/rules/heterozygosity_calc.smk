@@ -28,8 +28,8 @@ rule proportion_heterozygosity_window:
         "../envs/bedtools.yaml"
     shell:
         """
-        bedtools sort -i {input.windows} > {output.windows_sorted}
-        bedtools sort -i {input.het} > {output.het_sorted}
+        sort -k1,1 -k2,2 {input.windows} > {output.windows_sorted}
+        sort -k1,1 -k2,2 {input.het} > {output.het_sorted}
         bedtools intersect -a {input.windows} -b {output.het_sorted} -wa -wb -sorted | cut -f 1-3,7- > {output.het_sorted_window}
         """
 
