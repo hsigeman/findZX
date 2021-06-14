@@ -22,6 +22,7 @@ rule proportion_heterozygosity_window:
         windows = outdir + "coverage/" + "genome_5kb_windows.out"
     output:
         windows_sorted = temp(outdir + "variant_calling/" + "genome_5kb_windows.out"),
+        het_tmp_window = temp(outdir + "variant_calling/" + ref_genome_name_simple + ".heterozygosity.5kb.windows.tmp"),
         het_sorted_window = temp(outdir + "variant_calling/" + ref_genome_name_simple + ".heterozygosity.5kb.windows.bed")
     params: 
         split = outdir + "variant_calling/split_file_",
@@ -32,7 +33,8 @@ rule proportion_heterozygosity_window:
         """
         bedtools sort -i {input.windows} > {output.windows_sorted}
         split -l 100000 {input.het} {params.split}
-        ls {params.dir} | grep split_file | while read file ; do bedtools intersect -a {input.windows} -b {params.dir}/${{file}} -wa -wb | cut -f 1-3,7- ; done > {output.het_sorted_window}
+        ls {params.dir} | grep split_file | while read file ; do bedtools intersect -a {input.windows} -b {params.dir}/${{file}} -wa -wb | cut -f 1-3,7- ; done > {output.het_tmp_window} 
+        sort -k1,1 -k2,2 {output.het_tmp_window} > {output.het_sorted_window}
         rm {params.split}*
         """
 
