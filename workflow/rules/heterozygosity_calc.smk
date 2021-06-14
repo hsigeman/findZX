@@ -21,16 +21,19 @@ rule proportion_heterozygosity_window:
         het = outdir + "variant_calling/" + ref_genome_name_simple + ".heterozygosity.bed",
         windows = outdir + "coverage/" + "genome_5kb_windows.out"
     output:
-        het_sorted = temp(outdir + "variant_calling/" + ref_genome_name_simple + ".heterozygosity.sorted.bed"),
         windows_sorted = temp(outdir + "variant_calling/" + "genome_5kb_windows.out"),
         het_sorted_window = temp(outdir + "variant_calling/" + ref_genome_name_simple + ".heterozygosity.5kb.windows.bed")
+    params: 
+        split = outdir + "variant_calling/split_file_",
+        dir = outdir + "variant_calling"
     conda: 
         "../envs/bedtools.yaml"
     shell:
         """
         bedtools sort -i {input.windows} > {output.windows_sorted}
-        bedtools sort -i {input.het} > {output.het_sorted}
-        bedtools intersect -a {input.windows} -b {output.het_sorted} -wa -wb -sorted | cut -f 1-3,7- > {output.het_sorted_window}
+        split -l 100000 {input.het} {params.split}
+        ls {params.dir} | grep split_file | while read file ; do bedtools intersect -a {input.windows} -b {params.dir}/${{file}} -wa -wb | cut -f 1-3,7- ; done > {output.het_sorted_window}
+        rm {params.split}*
         """
 
 

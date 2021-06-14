@@ -38,7 +38,7 @@ Enter this code to create a minimal conda environment:
     # The name of the environment (snakemake_basic) can be replaced with another variable
     conda create -n snakemake_basic -c conda-forge -c bioconda python=3.9.4 snakemake-wrapper-utils=0.2.0 snakemake=6.4.0 mamba=0.13.0
 
-When launching the snakemake run, add the option: **"--use-conda"** (see [below](#test)). This downloads and installs separate conda environments for different parts of the pipeline.
+When launching the snakemake run, add the option: **"--use-conda"** (see [below](#test)). This enables snakemake to automatically download and install all needed software into separate conda environments for different parts of the pipeline.
 
 ##### Option 2: Install all software dependencies into a single conda environment
 
@@ -85,25 +85,19 @@ It is also possible to render an interactive HTML report using this command:
 
 Once the software are [installed](#installation) and [verified](#test), you can run XYZWfinder on you own dataset. To do so, carefully follow the steps outlined below. 
 
-1. Prepare input data
-2. 
+##### 1. Prepare input data 
 
+i. Download WGS data from male and female individuals of the target species
+ii. Download a reference genome from the expected homogametic sex of the target species (or construct one based on a WGS sample)
+iii. If a "synteny-species" is used, download the reference genome of this species
+iv. Create a tabular file (.tsv) with information about sample ID, heterogamety, and fastq.gz file paths (example: config/units.tsv)
 
-you need to modify or create new configuration files. Use the template configuration files used for running the test dataset (config/config.yml) and edit where approriate. The configuration file must include the location of a tabular file containing information about the samples to be analysed (for the example dataset: config/units.tsv).
+##### 2. Create a configuration file
 
-
-**Sample information (config/units.tsv):** 
-| sample            | unit          | fq1                                     | fq2                                     |
-|-------------------|---------------|-----------------------------------------|-----------------------------------------|
-| subset_SRR9655168 | homogametic   | .test/Example/subset_SRR9655168_1.fq.gz | .test/Example/subset_SRR9655168_2.fq.gz |
-| subset_SRR9655169 | homogametic   | .test/Example/subset_SRR9655169_1.fq.gz | .test/Example/subset_SRR9655169_2.fq.gz |
-| subset_SRR9655170 | heterogametic | .test/Example/subset_SRR9655170_1.fq.gz | .test/Example/subset_SRR9655170_2.fq.gz |
-| subset_SRR9655171 | heterogametic | .test/Example/subset_SRR9655171_1.fq.gz | .test/Example/subset_SRR9655171_2.fq.gz |
+Use the template configuration files used for running the test dataset (config/config.yml) and edit where approriate. The configuration file must include the location of the tabular file containing information about the samples to be analysed (config/units.tsv; see above).
 
 
 
-### Step 1: Modify config files
-Create configuration files with information about heterogamety of samples, and paths to files. Example config files based on a test dataset (located in .test/Example/) are here: 
 - **config/config.yml** # Specify paths to reference genome etc. 
 - **config/units.tsv** # Sample information and paths to fastq files
 - **config/chromosomes.list** # Optional: List of scaffolds/chromosomes in the reference genome to include in the final plots (with snakefile-no-synteny)
