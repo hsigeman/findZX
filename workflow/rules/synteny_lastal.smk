@@ -30,7 +30,7 @@ rule lastal_syns:
         "../envs/last.yaml"
     shell:
         """
-        lastal -P {threads} {params.db} {input.ref}  | last-split > {output}
+        parallel-fasta "lastal -P {threads} {params.db}  | last-split" < {input.ref} > {output}
         """
 
 

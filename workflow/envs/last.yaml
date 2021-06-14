@@ -3,3 +3,4 @@ channels:
   - bioconda
 dependencies:
   - last=1238
+  - parallel=20210422
