@@ -20,7 +20,7 @@ dependencies:
   - pigz=2.6
   - trimmomatic=0.39
   - fastx_toolkit=0.0.14
-  - sra-tools=2.11.0
+  - sra-tools=2.9.6
   - r-doby=4.6.6
   - r-data.table=1.14.0
   - r-ggplot2=3.3.3
