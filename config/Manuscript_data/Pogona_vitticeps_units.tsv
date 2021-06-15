@@ -6,4 +6,4 @@ ERR409939	homogametic	data/fastq/ERR409939_1.fastq.gz	data/fastq/ERR409939_2.fas
 ERR409943	homogametic	data/fastq/ERR409943_1.fastq.gz	data/fastq/ERR409943_2.fastq.gz
 ERR409944	homogametic	data/fastq/ERR409944_1.fastq.gz	data/fastq/ERR409944_2.fastq.gz
 ERR409945	homogametic	data/fastq/ERR409945_1.fastq.gz	data/fastq/ERR409945_2.fastq.gz
-ERR409920	heterogametic	data/fastq/ERR409920_1.fastq.gz	data/fastq/ERR409920_1.fastq.gz
+ERR409920	heterogametic	data/fastq/ERR409920_1.fastq.gz	data/fastq/ERR409920_2.fastq.gz
