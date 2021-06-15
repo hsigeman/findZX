@@ -3,7 +3,7 @@ threads_max: 14
 
 
 # Path to sample information file
-units: config/Manuscript_data/Pogona_vitticeps_RNA_small_config.yml
+units: config/Manuscript_data/Pogona_vitticeps_RNA_units_small.tsv
 
 # Name of analysis. The result files will be stored under "results/{run_name}"
 run_name: "Pogona_vitticeps_RNA" 
