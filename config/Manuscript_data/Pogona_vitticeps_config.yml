@@ -35,8 +35,8 @@ synteny_abbr: "PM"
 # List of chromosomes in the synteny-species reference genome that should be plotted (and highlighted) in the end (optional) 
 synteny_chr_file: "None"
 synteny_chr_highlight:
-    - Z
-    - 8
+    - NC_041319.1
+    - NC_041330.1
 
 
 ############# Other optional variables ##########
