@@ -2,8 +2,8 @@ num=range(1,999)
 
 rule confirm_sexing:
     input:
-        gencov = outdir + "synteny_lastal/" + "gencov.nodup.nm.{ED}.small.out",
-        het = outdir + "synteny_lastal/" + "heterozygosity.bestMatch.small",
+        gencov = outdir + "synteny_lastal/" + synteny_abbr + "/" + "gencov.nodup.nm.{ED}.small.out",
+        het = outdir + "synteny_lastal/" + synteny_abbr + "/" + "heterozygosity.bestMatch.small",
         stats = expand(dedup_dir + "{u.sample}__{u.unit}.sorted.dedup.nm.{{ED}}.samtools.stats.txt", zip, u=units.itertuples())
     output:
         read_length = outdir + "output/synteny/" + synteny_abbr + "/plots/.misc/" + "read_length.sorted.nodup.nm.{ED}.csv",

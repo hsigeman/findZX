@@ -22,7 +22,7 @@ rule lastal_syns:
         ref = ref_genome,
         db_ext = lastdb_dir + "lastdb_" + synteny_ref_name_simple + ".prj",
     output:
-        outdir + "synteny_lastal/" + synteny_abbr + "_align"
+        outdir + "synteny_lastal/" + synteny_abbr + "/" + synteny_abbr + "_align"
     params:
         db = lastdb_dir + "lastdb_" + synteny_ref_name_simple
     threads: threads_max
@@ -36,9 +36,9 @@ rule lastal_syns:
 
 rule maf_convert_syns:
     input:
-        outdir + "synteny_lastal/" + synteny_abbr + "_align"
+        outdir + "synteny_lastal/" + synteny_abbr + "/" + synteny_abbr + "_align"
     output:
-        outdir + "synteny_lastal/" + synteny_abbr + "_align_converted"
+        outdir + "synteny_lastal/" + synteny_abbr + "/" + synteny_abbr + "_align_converted"
     conda: 
         "../envs/last.yaml"
     shell:
