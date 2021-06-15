@@ -27,16 +27,16 @@ trim_reads: TRUE # Set to TRUE if you want to trim reads
 ############# snakefile-synteny variables #############
 
 # If snakemake-synteny is used, specify the path to the synteny-species reference genome (not .gz format)
-synteny_ref: "../../neosexchromosome/data/external_raw/Gallus_gallus.GRCg6a.dna.toplevel.fa"
+synteny_ref: "../../neosexchromosome/data/external_raw/GCF_004329235.1_PodMur_1.0_genomic.fna"
 
 # Synteny-species abbreviation (can be anything)
-synteny_abbr: "GG"
+synteny_abbr: "PM"
 
 # List of chromosomes in the synteny-species reference genome that should be plotted (and highlighted) in the end (optional) 
 synteny_chr_file: "None"
 synteny_chr_highlight:
-    - 17
-    - 23
+    - Z
+    - 8
 
 
 ############# Other optional variables ##########
