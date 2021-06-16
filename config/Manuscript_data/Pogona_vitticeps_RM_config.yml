@@ -33,7 +33,7 @@ synteny_ref: "../data/external_raw/genome/GCF_004329235.1_PodMur_1.0_genomic.fna
 synteny_abbr: "PM"
 
 # List of chromosomes in the synteny-species reference genome that should be plotted (and highlighted) in the end (optional) 
-synteny_chr_file: "None"
+synteny_chr_file: "config/Manuscript_data/wall_lizard_chr.lis"
 synteny_chr_highlight:
     - NC_041319.1
     - NC_041330.1
