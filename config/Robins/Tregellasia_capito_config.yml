@@ -9,7 +9,7 @@ units: config/Robins/Tregellasia_capito_units.tsv
 run_name: "Tregellasia_capito" 
 
 # Homogametic reference genome of the studied species (not .gz format)
-ref_genome: "../external_raw/genome/robins/Tregellasia_capito.fasta" 
+ref_genome: "../data/external_raw/genome/robins/Tregellasia_capito.fasta" 
 
 # Optional: List of chromosomes that should be plotted (and highlighted) in the end (optional) 
 chr_file: "None" # Replace with file consisting of chromosome names to include. Example: config/chromosomes.list" 
