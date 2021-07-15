@@ -34,8 +34,8 @@ synteny_abbr: "ZF"
 # List of chromosomes in the synteny-species reference genome that should be plotted (and highlighted) in the end (optional) 
 synteny_chr_file: "None"
 synteny_chr_highlight:
-    - 11
-
+    - 1A
+    - Z
 
 ############# Other optional variables ##########
 
