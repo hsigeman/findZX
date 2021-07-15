@@ -3,7 +3,7 @@ threads_max: 18
 
 
 # Path to sample information file
-units: config/Robins/Poecilodryas_cerviniventris_config.yml
+units: config/Robins/Poecilodryas_cerviniventris_units.tsv
 
 # Name of analysis. The result files will be stored under "results/{run_name}"
 run_name: "Poecilodryas_cerviniventris" 
