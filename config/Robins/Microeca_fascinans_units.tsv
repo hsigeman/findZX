@@ -1,0 +1,3 @@
+sample	unit	fq1	fq2
+Microeca_fascinans	homogametic	../data/external_raw/fastq/robins/B52004_R1_001.fastq.gz	../data/external_raw/fastq/robins/B52004_R2_001.fastq.gz
+Microeca_fascinans	heterogametic	../data/external_raw/fastq/robins/B51859_R1_001.fastq.gz	../data/external_raw/fastq/robins/B51859_R2_001.fastq.gz
