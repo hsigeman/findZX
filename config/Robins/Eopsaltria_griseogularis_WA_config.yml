@@ -1,0 +1,82 @@
+# Specify max number of cores
+threads_max: 18
+
+
+# Path to sample information file
+units: config/Robins/Eopsaltria_griseogularis_WA_units.tsv
+
+# Name of analysis. The result files will be stored under "results/{run_name}"
+run_name: "Eopsaltria_griseogularis_WA" 
+
+# Homogametic reference genome of the studied species (not .gz format)
+ref_genome: "../data/external_raw/genome/robins/Poecilodryas_placens.fasta" 
+
+# Optional: List of chromosomes that should be plotted (and highlighted) in the end (optional) 
+chr_file: "None" # Replace with file consisting of chromosome names to include. Example: config/chromosomes.list" 
+
+# Optional: Specify chromosomes to highlight
+#chr_highlight: "config/chromosomes_highlight.list"
+chr_highlight:
+#    - NW_015090842.1 # Chromosomes to be highlighted. Remove if not wanted.
+
+
+trim_reads: TRUE # Set to TRUE if you want to trim reads
+
+
+############# snakefile-synteny variables #############
+
+# If snakemake-synteny is used, specify the path to the synteny-species reference genome (not .gz format)
+synteny_ref: "../data/external_raw/genome/Taeniopygia_guttata.taeGut3.2.4.dna.toplevel_final.fasta"
+
+# Synteny-species abbreviation (can be anything)
+synteny_abbr: "ZF"
+
+# List of chromosomes in the synteny-species reference genome that should be plotted (and highlighted) in the end (optional) 
+synteny_chr_file: "None"
+synteny_chr_highlight:
+    - 1A
+    - Z
+
+############# Other optional variables ##########
+
+# The pipeline will produce genome coverage results based on three different mismatches criteria. 
+# The first two variables can be edited. 
+edit_distance:
+    - 0.0 # 0 mismatches allowed
+    - 0.2 # <=2 mismatches allowed
+    - all # Do not edit this one
+
+window_sizes:
+    - 50000
+    - 100000
+    - 1000000
+
+# The Mimimum size of scaffolds in the reference genome to be considered. 
+minSizeScaffold: "10000"
+
+
+# Software-specific settings. Modify if needed. 
+params:
+  picard:
+    MarkDuplicates: 
+        - "REMOVE_DUPLICATES=true"
+        - "USE_JDK_DEFLATER=true" 
+        - "USE_JDK_INFLATER=true"
+        - "-Xmx2g"
+  trimmomatic:
+    pe:
+      trimmer:
+        - "LEADING:3"
+        - "TRAILING:3"
+        - "SLIDINGWINDOW:4:15"
+        - "MINLEN:36"
+        - "ILLUMINACLIP:data/adapters/TruSeq3-PE.fa:2:30:10"
+    se:
+      trimmer:
+        - "LEADING:3"
+        - "TRAILING:3"
+        - "SLIDINGWINDOW:4:15"
+        - "MINLEN:36"
+        - "ILLUMINACLIP:data/adapters/TruSeq3-PE.fa:2:30:10"
+
+

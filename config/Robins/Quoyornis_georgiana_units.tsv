@@ -1,0 +1,3 @@
+sample	unit	fq1	fq2
+Quoyornis_georgiana	homogametic	../data/external_raw/fastq/robins/WYR31918_R1_001.fastq.gz	../data/external_raw/fastq/robins/WYR31918_R2_001.fastq.gz
+Quoyornis_georgiana	heterogametic	../data/external_raw/fastq/robins/WBR31892_R1_001.fastq.gz	../data/external_raw/fastq/robins/WBR31892_R2_001.fastq.gz
