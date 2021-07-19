@@ -9,7 +9,7 @@ units: config/Robins/Eopsaltria_griseogularis_WA_units.tsv
 run_name: "Eopsaltria_griseogularis_WA" 
 
 # Homogametic reference genome of the studied species (not .gz format)
-ref_genome: "../data/external_raw/genome/robins/Poecilodryas_placens.fasta" 
+ref_genome: "../data/external_raw/genome/robins/Eopsaltria_griseogularis_WA.fasta" 
 
 # Optional: List of chromosomes that should be plotted (and highlighted) in the end (optional) 
 chr_file: "None" # Replace with file consisting of chromosome names to include. Example: config/chromosomes.list" 
