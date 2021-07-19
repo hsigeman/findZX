@@ -6,7 +6,7 @@ threads_max: 18
 units: config/Robins/black_robins_units.tsv
 
 # Name of analysis. The result files will be stored under "results/{run_name}"
-run_name: "Black_robin_ownRef" 
+run_name: "Black_robin_EYRRef" 
 
 # Homogametic reference genome of the studied species (not .gz format)
 ref_genome: "../black_robin/Black_robin_sex_ID/VIC030_NPI.genome.scf.masked_HiC.upper.fasta" 
