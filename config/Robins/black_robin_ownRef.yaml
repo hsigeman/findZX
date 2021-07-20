@@ -29,7 +29,7 @@ trim_reads: FALSE # Set to TRUE if you want to trim reads
 #synteny_ref: "../data/external_raw/genome/Taeniopygia_guttata.taeGut3.2.4.dna.toplevel_final.fasta"
 #synteny_abbr: "ZF"
 
-synteny_ref: ../black_robin/Black_robin_sex_ID/VIC030_NPI.genome.scf.masked_HiC.upper.fasta"
+synteny_ref: "../black_robin/Black_robin_sex_ID/VIC030_NPI.genome.scf.masked_HiC.upper.fasta"
 # Synteny-species abbreviation (can be anything)
 synteny_abbr: "EYR"
 
