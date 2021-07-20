@@ -26,16 +26,16 @@ trim_reads: FALSE # Set to TRUE if you want to trim reads
 ############# snakefile-synteny variables #############
 
 # If snakemake-synteny is used, specify the path to the synteny-species reference genome (not .gz format)
-synteny_ref: "../data/external_raw/genome/Taeniopygia_guttata.taeGut3.2.4.dna.toplevel_final.fasta"
+#synteny_ref: "../data/external_raw/genome/Taeniopygia_guttata.taeGut3.2.4.dna.toplevel_final.fasta"
+#synteny_abbr: "ZF"
 
+synteny_ref: ../black_robin/Black_robin_sex_ID/VIC030_NPI.genome.scf.masked_HiC.upper.fasta"
 # Synteny-species abbreviation (can be anything)
-synteny_abbr: "ZF"
+synteny_abbr: "EYR"
 
 # List of chromosomes in the synteny-species reference genome that should be plotted (and highlighted) in the end (optional) 
 synteny_chr_file: "None"
 synteny_chr_highlight:
-    - 1A
-    - Z
 
 ############# Other optional variables ##########
 
