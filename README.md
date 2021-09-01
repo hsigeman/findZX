@@ -129,7 +129,7 @@ Start the pipeline within a **tmux** session to ensure that the run is not stopp
 
     tmux new -s <name_of_session>
 
-When using tmux to run the pipeline, make sure that the conda environment version of Python version is loaded (Python 3.6) with the following command: 
+When using tmux to run the pipeline, make sure that the conda environment version of Python is loaded (Python 3.6) with the following command: 
 
     python -V # Should give: "Python 3.6.13 :: Anaconda, Inc."
 
