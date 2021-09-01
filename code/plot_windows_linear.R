@@ -204,6 +204,15 @@ cov_1_table$homogametic <- as.numeric(cov_1_table$homogametic)
 
 colors <- c("heterogametic" = "dodgerblue", "homogametic" = "darkmagenta")
 
+text_size_colour = list(theme_bw(base_family="Courier", base_size = 12) + 
+    theme(axis.text.x= element_text(colour="black", size=12)) +
+    theme(axis.text.y= element_text(colour="black", size=12)) +
+    theme(axis.title.x = element_text(colour="black",size=14)) + 
+    theme(axis.title.y = element_text(colour="black",size=14)) + 
+    theme(plot.title=element_text(family="Courier", size=14, colour="black", hjust = 0.5)) +
+    theme(plot.margin= margin(1, 1, 3, 7, "mm")))
+
+
 # Prepare the dataset
 cov1 <- cov_1_table %>% 
   # Compute chromosome size
@@ -226,7 +235,7 @@ p.cov1 <- ggplot(cov1, aes(x=BPcum, y=diff)) +
   scale_x_continuous( label = axisdf$chr, breaks= axisdf$center ) +
   scale_y_continuous(expand = c(0, 0) ) +     # remove space between plot area and x axis
   coord_cartesian(ylim=c(0, 2)) +
-  ylab(sprintf("%s mismatches", ED1)) +
+  ylab(sprintf("genome coverage \n %s mismatches", ED1)) +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
   geom_point( aes(y = heterogametic, color="heterogametic"), alpha=0.5,size = 1 ) +
   geom_point( aes(y = homogametic, color="homogametic"), alpha=0.5,size = 1 ) +
@@ -234,17 +243,14 @@ p.cov1 <- ggplot(cov1, aes(x=BPcum, y=diff)) +
   geom_smooth( aes(y = homogametic, color="homogametic", group = chr), method = 'gam', span = 0.3) +
   scale_color_manual(values = colors) +
   # Custom the theme:
-  theme_bw() +
+  text_size_colour +
   theme( 
     legend.position="none",
-    panel.border = element_blank(),
+#    panel.border = element_blank(),
     axis.title.x = element_blank(),
     panel.grid.major.x = element_blank(),
     panel.grid.minor.x = element_blank(),
-    axis.text.x = element_text(vjust = 0.5, hjust=1)
-  )+ theme(axis.text = element_text(size = 12)) + 
-  theme(text=element_text(family="Helvetica"))+ theme(legend.title = element_blank()) + theme(legend.text = element_text(size=18, family="Helvetica")) + 
-  theme(legend.key.height= unit(2, 'cm'),legend.key.width= unit(4, 'cm')) +
+    axis.text.x = element_text(vjust = 0.5, hjust=1)) + 
   theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())
@@ -271,7 +277,7 @@ p.cov2 <- ggplot(cov2, aes(x=BPcum, y=diff)) +
   scale_x_continuous( label = axisdf$chr, breaks= axisdf$center ) +
   scale_y_continuous(expand = c(0, 0) ) +     # remove space between plot area and x axis
   coord_cartesian(ylim=c(0, 2)) + 
-  ylab(sprintf("%s mismatches", ED2)) +
+  ylab(sprintf("genome coverage \n %s mismatches", ED2)) +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
   geom_point( aes(y = heterogametic, color="heterogametic"), alpha=0.5,size = 1 ) +
   geom_point( aes(y = homogametic, color="homogametic"), alpha=0.5,size = 1 ) +
@@ -279,17 +285,14 @@ p.cov2 <- ggplot(cov2, aes(x=BPcum, y=diff)) +
   geom_smooth( aes(y = homogametic, color="homogametic", group = chr), method = 'gam', span = 0.3) +
   scale_color_manual(values = colors) +
   # Custom the theme:
-  theme_bw() +
+  text_size_colour +
   theme( 
     legend.position="none",
-    panel.border = element_blank(),
+#    panel.border = element_blank(),
     axis.title.x = element_blank(),
     panel.grid.major.x = element_blank(),
     panel.grid.minor.x = element_blank(),
-    axis.text.x = element_text(vjust = 0.5, hjust=1)
-  )  +   theme(axis.text = element_text(size = 12)) + 
-  theme(text=element_text(family="Helvetica"))+ theme(legend.title = element_blank()) + theme(legend.text = element_text(size=18, family="Helvetica")) + 
-  theme(legend.key.height= unit(2, 'cm'),legend.key.width= unit(4, 'cm'))+
+    axis.text.x = element_text(vjust = 0.5, hjust=1))  + 
   theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())
@@ -316,7 +319,7 @@ p.cov3 <- ggplot(cov3, aes(x=BPcum, y=diff)) +
   scale_x_continuous( label = axisdf$chr, breaks= axisdf$center ) +
   scale_y_continuous(expand = c(0, 0) ) +     # remove space between plot area and x axis
   coord_cartesian(ylim=c(0, 2)) +
-  ylab(sprintf("%s mismatches", ED3)) +
+  ylab(sprintf("genome coverage \n %s mismatches", ED3)) +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
   geom_point( aes(y = heterogametic, color="heterogametic"), alpha=0.5,size = 1 ) +
   geom_point( aes(y = homogametic, color="homogametic"), alpha=0.5,size = 1 ) +
@@ -324,17 +327,14 @@ p.cov3 <- ggplot(cov3, aes(x=BPcum, y=diff)) +
   geom_smooth( aes(y = homogametic, color="homogametic", group = chr), method = 'gam', span = 0.3) +
   scale_color_manual(values = colors) +
   # Custom the theme:
-  theme_bw() +
+  text_size_colour +
   theme( 
     legend.position="none",
-    panel.border = element_blank(),
+#    panel.border = element_blank(),
     axis.title.x = element_blank(),
     panel.grid.major.x = element_blank(),
     panel.grid.minor.x = element_blank(),
-    axis.text.x = element_text(vjust = 0.5, hjust=1)
-  )+ theme(axis.text = element_text(size = 12)) + 
-  theme(text=element_text(family="Helvetica"))+ theme(legend.title = element_blank()) + theme(legend.text = element_text(size=18, family="Helvetica")) + 
-  theme(legend.key.height= unit(2, 'cm'),legend.key.width= unit(4, 'cm'))
+    axis.text.x = element_text(vjust = 0.5, hjust=1)) 
 
 # Prepare the dataset
 snp <- snp_table %>% 
@@ -370,16 +370,16 @@ p.snp <- ggplot(snp, aes(x=BPcum, y=diff)) +
   geom_smooth( aes(y = homogametic, color="homogametic", group = chr), method = 'gam', span = 0.3) +
   scale_color_manual(values = colors) +
   # Custom the theme:
-  theme_bw() +
+  text_size_colour + 
   theme( 
     # legend.position="none",
-    panel.border = element_blank(),
+#    panel.border = element_blank(),
     axis.title.x = element_blank(),
     panel.grid.major.x = element_blank(),
     panel.grid.minor.x = element_blank(),
-    axis.text.x = element_text(vjust = 0.5, hjust=1)
-  ) + theme(axis.text = element_text(size = 12)) + 
-  theme(text=element_text(family="Helvetica")) + theme(legend.title = element_blank()) + theme(legend.text = element_text(size=14, family="Helvetica")) + 
+    axis.text.x = element_text(vjust = 0.5, hjust=1)) +
+  theme(legend.title = element_blank()) + 
+  theme(legend.text = element_text(colour="black", size=14)) +
   theme(legend.key.height= unit(1, 'cm'),legend.key.width= unit(1, 'cm'), legend.key=element_rect(fill='white'))+
   theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
@@ -391,18 +391,23 @@ p.snp <- ggplot(snp, aes(x=BPcum, y=diff)) +
 legend_b <- get_legend(p.snp + theme(legend.position = "bottom", legend.key=element_rect(fill='white')))
 
 
-c <- plot_grid(p.snp + theme(legend.position="none"), 
+title <- ggdraw() + draw_label("Sex-specific (A) heterozygosity and (B-D) genome coverage values", fontface='bold')
+
+
+c <- plot_grid(title,
+               p.snp + theme(legend.position="none"), 
                p.cov1 + theme(legend.position="none"), 
                p.cov2 + theme(legend.position="none"), 
                p.cov3 + theme(legend.position="none"), 
-               nrow = 4, 
-               labels = c("A","B","C", "D"))
+               nrow = 5, 
+               rel_heights = c(0.2, 1,1,1,1),            
+               labels = c(" ","A","B","C", "D"))
 
 
 d <- plot_grid(c, legend_b, ncol = 1, rel_heights = c(1, .1))
 
 #pdf(file=absolute_out, width = 15, height = 10)
-pdf(file=absolute_out, width = 14, height = 8)
+pdf(file=absolute_out, width = 14, height = 9)
 print(d)
 dev.off()
 
@@ -424,22 +429,21 @@ p.cov1 <- ggplot(cov1, aes(x=BPcum, y=diff, color = diff)) +
   scale_x_continuous( label = axisdf$chr, breaks= axisdf$center ) +
   scale_y_continuous(expand = c(0, 0) ) +     # remove space between plot area and x axis
   coord_cartesian(ylim=c(-1, 1)) +
-  ylab(sprintf("%s mismatches", ED1)) +
+  ylab(sprintf("genome coverage \n %s mismatches", ED1)) +
   labs(color = "95 % CI") +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
+  geom_rect(aes(xmin=-Inf, xmax = Inf, ymin=diff_genome_mean-diff_genome_sd*2, ymax=diff_genome_mean+diff_genome_sd*2), size = 0.01, color = "black", fill="grey80", alpha = 0.01) + 
   geom_point(alpha=0.8, size=1.5) +
   scale_color_gradientn(limits = c(-1,1), colours=c("blue", "grey40", "red"),breaks=b, labels=format(b)) + 
-  theme_bw() +
+  text_size_colour +
   theme( 
     # legend.position="none",
-    panel.border = element_blank(),
+ #   panel.border = element_blank(),
     axis.title.x = element_blank(),
     panel.grid.major.x = element_blank(),
     panel.grid.minor.x = element_blank(),
     axis.text.x = element_text(vjust = 0.5, hjust=1)
   ) + guides(fill = guide_colourbar(barwidth = 0.5, barheight = 10))+ 
-  theme(axis.text = element_text(size = 12)) + 
-  theme(text=element_text(family="Helvetica"))+
   theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())
@@ -452,22 +456,21 @@ p.cov2 <- ggplot(cov2, aes(x=BPcum, y=diff, color = diff)) +
   scale_x_continuous( label = axisdf$chr, breaks= axisdf$center ) +
   scale_y_continuous(expand = c(0, 0) ) +     # remove space between plot area and x axis
   coord_cartesian(ylim=c(-1, 1)) +
-  ylab(sprintf("%s mismatches", ED2)) +
+  ylab(sprintf("genome coverage \n %s mismatches", ED2)) +
   labs(color = "95 % CI") +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
+  geom_rect(aes(xmin=-Inf, xmax = Inf, ymin=diff_genome_mean-diff_genome_sd*2, ymax=diff_genome_mean+diff_genome_sd*2), size = 0.01, color = "black", fill="grey80", alpha = 0.01) + 
   geom_point(alpha=0.8, size=1.5) +
   scale_color_gradientn(limits = c(-1,1), colours=c("blue", "grey40", "red"),breaks=b, labels=format(b)) + 
-  theme_bw() +
+  text_size_colour +
   theme( 
     # legend.position="none",
-    panel.border = element_blank(),
+#    panel.border = element_blank(),
     axis.title.x = element_blank(),
     panel.grid.major.x = element_blank(),
     panel.grid.minor.x = element_blank(),
     axis.text.x = element_text(vjust = 0.5, hjust=1)) + 
   guides(fill = guide_colourbar(barwidth = 0.5, barheight = 10))+ 
-  theme(axis.text = element_text(size = 12)) + 
-  theme(text=element_text(family="Helvetica"))+
   theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())
@@ -479,22 +482,21 @@ p.cov3 <- ggplot(cov3, aes(x=BPcum, y=diff, color = diff)) +
   scale_x_continuous( label = axisdf$chr, breaks= axisdf$center ) +
   scale_y_continuous(expand = c(0, 0) ) +     # remove space between plot area and x axis
   coord_cartesian(ylim=c(-1, 1)) +
-  ylab(sprintf("%s mismatches", ED3)) +
+  ylab(sprintf("genome coverage \n %s mismatches", ED3)) +
   labs(color = "95 % CI") +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
+  geom_rect(aes(xmin=-Inf, xmax = Inf, ymin=diff_genome_mean-diff_genome_sd*2, ymax=diff_genome_mean+diff_genome_sd*2), size = 0.01, color = "black", fill="grey80", alpha = 0.01) + 
   geom_point(alpha=0.8, size=1.5) +
   scale_color_gradientn(limits = c(-1,1), colours=c("blue", "grey40", "red"),breaks=b, labels=format(b)) + 
-  theme_bw() +
+  text_size_colour +
   theme( 
     # legend.position="none",
-    panel.border = element_blank(),
+#    panel.border = element_blank(),
     axis.title.x = element_blank(),
     panel.grid.major.x = element_blank(),
     panel.grid.minor.x = element_blank(),
     axis.text.x = element_text(vjust = 0.5, hjust=1))+ 
-    guides(fill = guide_colourbar(barwidth = 0.5, barheight = 10))+ 
-    theme(axis.text = element_text(size = 12)) + 
-    theme(text=element_text(family="Helvetica"))
+    guides(fill = guide_colourbar(barwidth = 0.5, barheight = 10))
 
 
 
@@ -512,36 +514,38 @@ p.snp <- ggplot(snp, aes(x=BPcum, y=diff, color = diff)) +
   ylab("heterozygosity") +
   labs(color = "95 % CI") +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
+  geom_rect(aes(xmin=-Inf, xmax = Inf, ymin=diff_genome_mean-diff_genome_sd*2, ymax=diff_genome_mean+diff_genome_sd*2), size = 0.01, color = "black", fill="grey80", alpha = 0.01) + 
   geom_point(alpha=0.8, size=1.5) +
   scale_color_gradientn(limits = c(MinDiff,MaxDiff), colours=c("blue", "grey40", "red"),breaks=b, labels=format(b)) + 
-  theme_bw() +
+  text_size_colour +
   theme( 
     # legend.position="none",
-    panel.border = element_blank(),
+#    panel.border = element_blank(),
     axis.title.x = element_blank(),
     panel.grid.major.x = element_blank(),
     panel.grid.minor.x = element_blank(),
     axis.text.x = element_text(vjust = 0.5, hjust=1))+ 
     guides(fill = guide_colourbar(barwidth = 0.5, barheight = 10))+ 
-    theme(axis.text = element_text(size = 12)) + 
-    theme(text=element_text(family="Helvetica"))+
   theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())
 
 
-c <- plot_grid(p.snp, 
+title <- ggdraw() + draw_label("Sex-specific differences in (A) heterozygosity and (B-D) genome coverage", fontface='bold')
+c <- plot_grid(title,
+               p.snp, 
                p.cov1, 
                p.cov2, 
                p.cov3, 
-               nrow = 4, align = "v", 
-               labels = c("A","B","C", "D"))
+               nrow = 5, align = "v", 
+               rel_heights = c(0.2, 1,1,1,1),
+               labels = c(" ", "A","B","C", "D"))
 
 
 #c- ggarrange(p.snp, p.cov1, p.cov2, p.cov3, nrow = 4)
 #d <- plot_grid(c, legend_b, ncol = 1, rel_heights = c(1, .1))
 
-pdf(file=diff_out, width = 14, height = 8)
+pdf(file=diff_out, width = 14, height = 9)
 #pdf(file="test.pdf", width = 15, height = 9)
 print(c)
 dev.off()
