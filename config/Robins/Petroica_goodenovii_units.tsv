@@ -1,0 +1,3 @@
+sample	unit	fq1	fq2
+Petroica_goodenovii	homogametic	../data/external_raw/fastq/robins/B51969_R1.fastq.gz	../data/external_raw/fastq/robins/B51969_R2.fastq.gz
+Petroica_goodenovii	heterogametic	../data/external_raw/fastq/robins/B51968_R1.fastq.gz	../data/external_raw/fastq/robins/B51968_R2.fastq.gz

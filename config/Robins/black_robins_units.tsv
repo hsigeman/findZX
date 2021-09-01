@@ -1,0 +1,7 @@
+sample	unit	fq1	fq2
+BRM03	heterogametic	../black_robin/Black_robin_sex_ID/BRM03_01_L1_R1_trimmed.fastq.gz	../black_robin/Black_robin_sex_ID/BRM03_01_L1_R2_trimmed.fastq.gz
+BR75	heterogametic	../black_robin/Black_robin_sex_ID/BR75_01_L1_R1_trimmed.fastq.gz	../black_robin/Black_robin_sex_ID/BR75_01_L1_R2_trimmed.fastq.gz
+BR07	heterogametic	../black_robin/Black_robin_sex_ID/BR07_01_L1_R1_trimmed.fastq.gz	../black_robin/Black_robin_sex_ID/BR07_01_L1_R2_trimmed.fastq.gz
+BR17	homogametic	../black_robin/Black_robin_sex_ID/BR17_01_L1_R1_trimmed.fastq.gz	../black_robin/Black_robin_sex_ID/BR17_01_L1_R2_trimmed.fastq.gz
+BR35	homogametic	../black_robin/Black_robin_sex_ID/BR35_01_L1_R1_trimmed.fastq.gz	../black_robin/Black_robin_sex_ID/BR35_01_L1_R2_trimmed.fastq.gz
+BRM08	homogametic	../black_robin/Black_robin_sex_ID/BRM08_01_L1_R1_trimmed.fastq.gz	../black_robin/Black_robin_sex_ID/BRM08_01_L1_R2_trimmed.fastq.gz

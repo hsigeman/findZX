@@ -12,7 +12,7 @@ run_name: "Black_robin_ownRef"
 ref_genome: "../black_robin/Black_robin_sex_ID/CI_black_robin_CHR10X_headers_fixed.fasta" 
 
 # Optional: List of chromosomes that should be plotted (and highlighted) in the end (optional) 
-chr_file: "None" # Replace with file consisting of chromosome names to include. Example: config/chromosomes.list" 
+chr_file: "../data/meta/zfChr.txt" # Replace with file consisting of chromosome names to include. Example: config/chromosomes.list" 
 
 # Optional: Specify chromosomes to highlight
 #chr_highlight: "config/chromosomes_highlight.list"
@@ -26,16 +26,22 @@ trim_reads: FALSE # Set to TRUE if you want to trim reads
 ############# snakefile-synteny variables #############
 
 # If snakemake-synteny is used, specify the path to the synteny-species reference genome (not .gz format)
-#synteny_ref: "../data/external_raw/genome/Taeniopygia_guttata.taeGut3.2.4.dna.toplevel_final.fasta"
-#synteny_abbr: "ZF"
+synteny_ref: "../data/external_raw/genome/Taeniopygia_guttata.taeGut3.2.4.dna.toplevel_final.fasta"
+synteny_abbr: "ZF"
 
-synteny_ref: "../black_robin/Black_robin_sex_ID/VIC030_NPI.genome.scf.masked_HiC.upper.fasta"
+#synteny_ref: "../black_robin/Black_robin_sex_ID/VIC030_NPI.genome.scf.masked_HiC.upper.fasta"
 # Synteny-species abbreviation (can be anything)
-synteny_abbr: "EYR"
+#synteny_abbr: "EYR"
 
 # List of chromosomes in the synteny-species reference genome that should be plotted (and highlighted) in the end (optional) 
-synteny_chr_file: "None"
+synteny_chr_file: "../data/meta/zfChr.txt"
 synteny_chr_highlight:
+    - Z
+#    - Z_random
+    - 10
+#    - 10_random
+#     - HiC_scaffold_2
+#     - HiC_scaffold_30 
 
 ############# Other optional variables ##########
 
