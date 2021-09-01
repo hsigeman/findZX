@@ -1,3 +1,0 @@
-sample	unit	fq1	fq2
-Wallaby	homogametic	../data/external_raw/fastq/SRR958471_1.fastq.gz	../data/external_raw/fastq/SRR958471_2.fastq.gz
-Wallaby	heterogametic	../data/external_raw/fastq/SRR958470_1.fastq.gz	../data/external_raw/fastq/SRR958470_2.fastq.gz
