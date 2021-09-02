@@ -368,7 +368,7 @@ p.snp <- ggplot(snp, aes(x=BPcum, y=diff)) +
   scale_x_continuous( label = axisdf$chr, breaks= axisdf$center ) +
   scale_y_continuous(expand = c(0, 0) ) +     # remove space between plot area and x axis
   coord_cartesian(ylim=c(MinDiff, MaxDiff)) +
-  ylab("heterozygosity") +
+  ylab("heterozygosity \n ") +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
   geom_point( aes(y = heterogametic, color="heterogametic"), alpha=0.5,size = 1 ) +
   geom_point( aes(y = homogametic, color="homogametic"), alpha=0.5,size = 1 ) +
@@ -398,7 +398,6 @@ legend_b <- get_legend(p.snp + theme(legend.position = "bottom", legend.key=elem
 
 
 title <- ggdraw() + draw_label(sprintf("Genome-wide values (sexes plotted separately) across %s bp windows ", WINDOW), fontface='bold')
-
 
 
 c <- plot_grid(title,
@@ -466,6 +465,8 @@ ggsave(sprintf("%s.verticalXaxis.png", absolute_out_base2), plot = d, device = p
 
 
 ############### DIFF
+
+
 
 
 # Make the plot
@@ -548,6 +549,7 @@ p.cov3 <- ggplot(cov3, aes(x=BPcum, y=diff, color = diff)) +
 MaxDiff <- max(abs(snp$diff))
 MinDiff <- MaxDiff - MaxDiff*2
 
+
 b <- c(sd_snp_table$diff.m-(sd_snp_table$diff.s*2), sd_snp_table$diff.m, (sd_snp_table$diff.m+sd_snp_table$diff.s*2))
 # Make the plot
 p.snp <- ggplot(snp, aes(x=BPcum, y=diff, color = diff)) +
@@ -555,7 +557,7 @@ p.snp <- ggplot(snp, aes(x=BPcum, y=diff, color = diff)) +
   scale_x_continuous( label = axisdf$chr, breaks= axisdf$center ) +
 #  scale_y_continuous(expand = c(0, 0) ) +     # remove space between plot area and x axis
   coord_cartesian(ylim=c(MinDiff, MaxDiff)) +
-  ylab("heterozygosity") +
+  ylab("heterozygosity \n ") +
   labs(color = "95 % CI") +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
   geom_rect(aes(xmin=-Inf, xmax = Inf, ymin=diff_genome_mean-diff_genome_sd*2, ymax=diff_genome_mean+diff_genome_sd*2), size = 0.01, color = "black", fill="grey80", alpha = 0.01) + 
@@ -605,8 +607,6 @@ ggsave(sprintf("%s.png", diff_out_base2), plot = c, device = png(), width = 14, 
 
 
 p.cov3 <- p.cov3 + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
-
-
 
 
 c <- plot_grid(title,
