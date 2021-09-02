@@ -233,6 +233,8 @@ cov1 <- cov_1_table %>%
 # Prepare X axis
 axisdf <- cov1 %>% group_by(chr) %>% summarize(center=( max(BPcum) + min(BPcum) ) / 2 )
 
+maxX <- max(cov1$BPcum)
+
 # Make the plot
 p.cov1 <- ggplot(cov1, aes(x=BPcum, y=diff)) +
   # custom X axis:
@@ -241,6 +243,7 @@ p.cov1 <- ggplot(cov1, aes(x=BPcum, y=diff)) +
   coord_cartesian(ylim=c(0, 2)) +
   ylab(sprintf("genome coverage \n (%s mismatches)", ED1)) +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
+  geom_vline(aes(xintercept = maxX), lty = 2, size = 0.2) +
   geom_point( aes(y = heterogametic, color="heterogametic"), alpha=0.5,size = 1 ) +
   geom_point( aes(y = homogametic, color="homogametic"), alpha=0.5,size = 1 ) +
   geom_smooth( aes(y = heterogametic, color="heterogametic", group = chr), method = 'gam', span = 0.3) +
@@ -259,6 +262,7 @@ p.cov1 <- ggplot(cov1, aes(x=BPcum, y=diff)) +
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())
 
+
 # Prepare the dataset
 cov2 <- cov_2_table %>% 
   # Compute chromosome size
@@ -275,6 +279,8 @@ cov2 <- cov_2_table %>%
 # Prepare X axis
 axisdf <- cov2 %>% group_by(chr) %>% summarize(center=( max(BPcum) + min(BPcum) ) / 2 )
 
+maxX <- max(cov2$BPcum)
+
 # Make the plot
 p.cov2 <- ggplot(cov2, aes(x=BPcum, y=diff)) +
   # custom X axis:
@@ -283,6 +289,7 @@ p.cov2 <- ggplot(cov2, aes(x=BPcum, y=diff)) +
   coord_cartesian(ylim=c(0, 2)) + 
   ylab(sprintf("genome coverage \n (%s mismatches)", ED2)) +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
+  geom_vline(aes(xintercept = maxX), lty = 2, size = 0.2) +
   geom_point( aes(y = heterogametic, color="heterogametic"), alpha=0.5,size = 1 ) +
   geom_point( aes(y = homogametic, color="homogametic"), alpha=0.5,size = 1 ) +
   geom_smooth( aes(y = heterogametic, color="heterogametic", group = chr), method = 'gam', span = 0.3) +
@@ -301,6 +308,7 @@ p.cov2 <- ggplot(cov2, aes(x=BPcum, y=diff)) +
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())
 
+
 # Prepare the dataset
 cov3 <- cov_3_table %>% 
   # Compute chromosome size
@@ -317,6 +325,8 @@ cov3 <- cov_3_table %>%
 # Prepare X axis
 axisdf <- cov3 %>% group_by(chr) %>% summarize(center=( max(BPcum) + min(BPcum) ) / 2 )
 
+maxX <- max(cov3$BPcum)
+
 # Make the plot
 p.cov3 <- ggplot(cov3, aes(x=BPcum, y=diff)) +
   # custom X axis:
@@ -325,6 +335,7 @@ p.cov3 <- ggplot(cov3, aes(x=BPcum, y=diff)) +
   coord_cartesian(ylim=c(0, 2)) +
   ylab(sprintf("genome coverage \n (%s mismatches)", ED3)) +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
+  geom_vline(aes(xintercept = maxX), lty = 2, size = 0.2) +
   geom_point( aes(y = heterogametic, color="heterogametic"), alpha=0.5,size = 1 ) +
   geom_point( aes(y = homogametic, color="homogametic"), alpha=0.5,size = 1 ) +
   geom_smooth( aes(y = heterogametic, color="heterogametic", group = chr), method = 'gam', span = 0.3) +
@@ -362,6 +373,8 @@ axisdf <- snp %>% group_by(chr) %>% summarize(center=( max(BPcum) + min(BPcum) )
 MaxDiff <- max(abs(pmax(snp$homogametic, snp$heterogametic)))
 MinDiff <- MaxDiff - MaxDiff*2
 
+maxX <- max(snp$BPcum)
+
 # Make the plot
 p.snp <- ggplot(snp, aes(x=BPcum, y=diff)) +
   # custom X axis:
@@ -370,6 +383,7 @@ p.snp <- ggplot(snp, aes(x=BPcum, y=diff)) +
   coord_cartesian(ylim=c(MinDiff, MaxDiff)) +
   ylab("heterozygosity \n ") +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
+  geom_vline(aes(xintercept = maxX), lty = 2, size = 0.2) +
   geom_point( aes(y = heterogametic, color="heterogametic"), alpha=0.5,size = 1 ) +
   geom_point( aes(y = homogametic, color="homogametic"), alpha=0.5,size = 1 ) +
   geom_smooth( aes(y = heterogametic, color="heterogametic", group = chr), method = 'gam', span = 0.3) +
@@ -461,13 +475,10 @@ ggsave(sprintf("%s.verticalXaxis.png", absolute_out_base2), plot = d, device = p
 
 
 
-
-
-
 ############### DIFF
 
 
-
+maxX <- max(cov1$BPcum)
 
 # Make the plot
 b <- c(sd_cov_1_table$diff.m-(sd_cov_1_table$diff.s*2), sd_cov_1_table$diff.m, (sd_cov_1_table$diff.m+sd_cov_1_table$diff.s*2))
@@ -479,6 +490,7 @@ p.cov1 <- ggplot(cov1, aes(x=BPcum, y=diff, color = diff)) +
   ylab(sprintf("genome coverage \n (%s mismatches)", ED1)) +
   labs(color = "95 % CI") +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
+  geom_vline(aes(xintercept = maxX), lty = 2, size = 0.2) +
   geom_rect(aes(xmin=-Inf, xmax = Inf, ymin=diff_genome_mean-diff_genome_sd*2, ymax=diff_genome_mean+diff_genome_sd*2), size = 0.01, color = "black", fill="grey80", alpha = 0.01) + 
   geom_point(alpha=0.8, size=1.5) +
   scale_color_gradientn(limits = c(-1,1), colours=c("blue", "grey40", "red"),breaks=b, labels=format(b)) + 
@@ -495,7 +507,7 @@ p.cov1 <- ggplot(cov1, aes(x=BPcum, y=diff, color = diff)) +
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())
 
-
+maxX <- max(cov2$BPcum)
 # Make the plot
 b <- c(sd_cov_2_table$diff.m-(sd_cov_2_table$diff.s*2), sd_cov_2_table$diff.m, (sd_cov_2_table$diff.m+sd_cov_2_table$diff.s*2))
 p.cov2 <- ggplot(cov2, aes(x=BPcum, y=diff, color = diff)) +
@@ -506,6 +518,7 @@ p.cov2 <- ggplot(cov2, aes(x=BPcum, y=diff, color = diff)) +
   ylab(sprintf("genome coverage \n (%s mismatches)", ED2)) +
   labs(color = "95 % CI") +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
+  geom_vline(aes(xintercept = maxX), lty = 2, size = 0.2) +
   geom_rect(aes(xmin=-Inf, xmax = Inf, ymin=diff_genome_mean-diff_genome_sd*2, ymax=diff_genome_mean+diff_genome_sd*2), size = 0.01, color = "black", fill="grey80", alpha = 0.01) + 
   geom_point(alpha=0.8, size=1.5) +
   scale_color_gradientn(limits = c(-1,1), colours=c("blue", "grey40", "red"),breaks=b, labels=format(b)) + 
@@ -522,6 +535,7 @@ p.cov2 <- ggplot(cov2, aes(x=BPcum, y=diff, color = diff)) +
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())
 
+maxX <- max(cov3$BPcum)
 # Make the plot
 b <- c(sd_cov_3_table$diff.m-(sd_cov_3_table$diff.s*2), sd_cov_3_table$diff.m, (sd_cov_3_table$diff.m+sd_cov_3_table$diff.s*2))
 p.cov3 <- ggplot(cov3, aes(x=BPcum, y=diff, color = diff)) +
@@ -532,6 +546,7 @@ p.cov3 <- ggplot(cov3, aes(x=BPcum, y=diff, color = diff)) +
   ylab(sprintf("genome coverage \n (%s mismatches)", ED3)) +
   labs(color = "95 % CI") +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
+  geom_vline(aes(xintercept = maxX), lty = 2, size = 0.2) +
   geom_rect(aes(xmin=-Inf, xmax = Inf, ymin=diff_genome_mean-diff_genome_sd*2, ymax=diff_genome_mean+diff_genome_sd*2), size = 0.01, color = "black", fill="grey80", alpha = 0.01) + 
   geom_point(alpha=0.8, size=1.5) +
   scale_color_gradientn(limits = c(-1,1), colours=c("blue", "grey40", "red"),breaks=b, labels=format(b)) + 
@@ -548,8 +563,10 @@ p.cov3 <- ggplot(cov3, aes(x=BPcum, y=diff, color = diff)) +
 
 MaxDiff <- max(abs(snp$diff))
 MinDiff <- MaxDiff - MaxDiff*2
+MaxPos <- max(abs(snp$BPcum))
+MinPos <- min(abs(snp$BPcum))
 
-
+maxX <- max(snp$BPcum)
 b <- c(sd_snp_table$diff.m-(sd_snp_table$diff.s*2), sd_snp_table$diff.m, (sd_snp_table$diff.m+sd_snp_table$diff.s*2))
 # Make the plot
 p.snp <- ggplot(snp, aes(x=BPcum, y=diff, color = diff)) +
@@ -560,6 +577,7 @@ p.snp <- ggplot(snp, aes(x=BPcum, y=diff, color = diff)) +
   ylab("heterozygosity \n ") +
   labs(color = "95 % CI") +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
+  geom_vline(aes(xintercept = maxX), lty = 2, size = 0.2) +
   geom_rect(aes(xmin=-Inf, xmax = Inf, ymin=diff_genome_mean-diff_genome_sd*2, ymax=diff_genome_mean+diff_genome_sd*2), size = 0.01, color = "black", fill="grey80", alpha = 0.01) + 
   geom_point(alpha=0.8, size=1.5) +
   scale_color_gradientn(limits = c(MinDiff,MaxDiff), colours=c("blue", "grey40", "red"),breaks=b, labels=format(b)) + 
