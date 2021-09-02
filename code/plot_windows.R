@@ -482,6 +482,8 @@ text_size_colour = list(theme_bw(base_family="Courier", base_size = 12) +
         cov1_plot <- ggplot(cov.select, 
                         aes(x = cov1, 
                             y = hetDiff)) + 
+      geom_hline(yintercept = median.snp, linetype="dashed", size=0.2) +
+      geom_vline(xintercept = median.cov.1, linetype="dashed", size=0.2) +
       geom_point(aes(fill = highlight_col), pch = 21, size = 3) + 
       scale_fill_manual(values = point_colors) +
       theme(legend.key.size = unit(2, "mm")) +
@@ -500,7 +502,9 @@ text_size_colour = list(theme_bw(base_family="Courier", base_size = 12) +
     
     cov2_plot <- ggplot(cov.select, 
                         aes(x = cov2, 
-                            y = hetDiff)) + 
+                            y = hetDiff)) +
+      geom_hline(yintercept = median.snp, linetype="dashed", size=0.2) +
+      geom_vline(xintercept = median.cov.2, linetype="dashed", size=0.2) +                     
       geom_point(aes(fill = highlight_col), pch = 21, size = 3) + 
       scale_fill_manual(values = point_colors) +
       labs(title = sprintf("%s mismatches", ED2), 
@@ -512,6 +516,8 @@ text_size_colour = list(theme_bw(base_family="Courier", base_size = 12) +
     cov3_plot <- ggplot(cov.select, 
                         aes(x = cov3, 
                             y = hetDiff)) + 
+      geom_hline(yintercept = median.snp, linetype="dashed", size=0.2) +
+      geom_vline(xintercept = median.cov.3, linetype="dashed", size=0.2) +
       geom_point(aes(fill = highlight_col), pch = 21, size = 3) + 
       scale_fill_manual(values = point_colors) +
       labs(title = sprintf("%s mismatches", ED3), 
@@ -547,6 +553,8 @@ text_size_colour = list(theme_bw(base_family="Courier", base_size = 12) +
                                        y = hetDiff.mean, 
                                        ymin = hetDiff.mean - hetDiff.sd,
                                        ymax = hetDiff.mean + hetDiff.sd)) +
+      geom_hline(yintercept = median.snp, linetype="dashed", size=0.2) +
+      geom_vline(xintercept = median.cov.1, linetype="dashed", size=0.2) +
       scale_fill_manual(values = point_colors) +
       scale_color_manual(values = point_colors) +
       geom_errorbar(aes(color = highlight_col), width = x_range/20) + 
@@ -566,6 +574,8 @@ text_size_colour = list(theme_bw(base_family="Courier", base_size = 12) +
                                        y = hetDiff.mean, 
                                        ymin = hetDiff.mean - hetDiff.sd,
                                        ymax = hetDiff.mean + hetDiff.sd)) +
+      geom_hline(yintercept = median.snp, linetype="dashed", size=0.2) +
+      geom_vline(xintercept = median.cov.2, linetype="dashed", size=0.2) +
       scale_fill_manual(values = point_colors) +
       scale_color_manual(values = point_colors) +
       geom_errorbar(aes(color = highlight_col), width = x_range/20) + 
@@ -586,6 +596,8 @@ text_size_colour = list(theme_bw(base_family="Courier", base_size = 12) +
                                        y = hetDiff.mean, 
                                        ymin = hetDiff.mean - hetDiff.sd,
                                        ymax = hetDiff.mean + hetDiff.sd)) +
+      geom_hline(yintercept = median.snp, linetype="dashed", size=0.2) +
+      geom_vline(xintercept = median.cov.3, linetype="dashed", size=0.2) +
       scale_fill_manual(values = point_colors) +
       scale_color_manual(values = point_colors) +
       geom_errorbar(aes(color = highlight_col), width = x_range/20) + 

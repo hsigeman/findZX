@@ -522,7 +522,7 @@ p.cov2 <- ggplot(cov2, aes(x=BPcum, y=diff, color = diff)) +
 b <- c(sd_cov_3_table$diff.m-(sd_cov_3_table$diff.s*2), sd_cov_3_table$diff.m, (sd_cov_3_table$diff.m+sd_cov_3_table$diff.s*2))
 p.cov3 <- ggplot(cov3, aes(x=BPcum, y=diff, color = diff)) +
   # custom X axis:
-  scale_x_continuous( label = axisdf$chr, breaks= axisdf$center,guide = guide_axis(check.overlap = TRUE) ) +
+  scale_x_continuous(label = axisdf$chr, breaks= axisdf$center,guide = guide_axis(check.overlap = TRUE) ) +
   scale_y_continuous(expand = c(0, 0) ) +     # remove space between plot area and x axis
   coord_cartesian(ylim=c(-1, 1)) +
   ylab(sprintf("genome coverage \n %s mismatches", ED3)) +
@@ -540,8 +540,6 @@ p.cov3 <- ggplot(cov3, aes(x=BPcum, y=diff, color = diff)) +
     panel.grid.minor.x = element_blank(),
     axis.text.x = element_text(vjust = 0.5, hjust=1))+ 
     guides(fill = guide_colourbar(barwidth = 0.5, barheight = 10))
-
-
 
 
 MaxDiff <- max(abs(snp$diff))
@@ -608,10 +606,10 @@ p.cov3 <- p.cov3 + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hju
 
 
 c <- plot_grid(title,
-               p.snp + theme(legend.position="none"), 
-               p.cov1 + theme(legend.position="none"), 
-               p.cov2 + theme(legend.position="none"), 
-               p.cov3 + theme(legend.position="none"), 
+               p.snp, 
+               p.cov1, 
+               p.cov2, 
+               p.cov3, 
                nrow = 5, 
                rel_heights = c(0.2, 1,1,1,1),            
                labels = c(" ","A","B","C", "D"))
