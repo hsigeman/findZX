@@ -30,6 +30,10 @@ chr_file = args[6]
 
 sample_names = args[7:length(args)]
 
+data <- ggdraw() + draw_label(paste0("Data points from tables: \n", file_gencov, " \n ",
+   file_snp))
+
+
 ################################################################################
 ################################# READ FILES ###################################
 ################################################################################
@@ -234,8 +238,7 @@ pdf(outPdf, width = 20)
 
 for (i in 1:nr_samples) {
   
-  print(plist[[i]])
-  
+  print(plist[[i]]) 
 }
-
+print(data)
 dev.off()
