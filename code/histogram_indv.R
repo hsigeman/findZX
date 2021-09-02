@@ -119,7 +119,7 @@ for (i in 1:nr_samples) {
          y = "heterozygosity") + 
     text_size_colour +
     scale_fill_gradient(low="white",
-                        high="darkblue",
+                        high="blue",
                         trans="log10") 
   
   gl <- ggplot(data = cov_het, 
@@ -130,7 +130,7 @@ for (i in 1:nr_samples) {
          y = "scaffold length (bp)") + 
     text_size_colour +
     scale_fill_gradient(low="white",
-                        high="darkblue",
+                        high="blue",
                         trans="log10") 
   
   hl <- ggplot(data = cov_het, 
@@ -141,7 +141,7 @@ for (i in 1:nr_samples) {
          y = "scaffold length (bp)") + 
     text_size_colour +
     scale_fill_gradient(low="white",
-                        high="darkblue",
+                        high="blue",
                         trans="log10") 
 
 ############## HISTOGRAM GENOME COVERAGE WITH LINES FOR N1 AND N2 ##############
@@ -195,19 +195,20 @@ for (i in 1:nr_samples) {
   c <- ggplot(cov_het_subset, 
               aes(x=end, 
                   y=cov_het_subset[,x])) + 
-    geom_point(alpha=0.1, size=0.2) +
+    geom_bin2d(na.rm = TRUE) + 
+  #  geom_point(alpha=0.1, size=0.2) +
     geom_smooth(na.rm = TRUE, span = 0.3) + 
     facet_grid(. ~ chr, 
                scales = "free_x", 
                space = "free_x") +
     labs(y = "genome coverage", 
-         x = "position [5kbp window]") +
+         x = "Chromosome/scaffold position") +
     scale_x_continuous(limits = c(0, NA)) +
     theme(axis.text.x = element_blank()) +
     text_size_colour
   
     title <- ggdraw() +
-    draw_label(paste0("Confirm sexing plot \nSample: ", sample_names[i]),
+    draw_label(paste0("\"Confirm sexing\" plots based on 5kb window values \nSample: ", sample_names[i]),
     fontface = 'bold',
     x = 0,
     hjust = 0
