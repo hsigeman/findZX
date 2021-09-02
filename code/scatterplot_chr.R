@@ -201,9 +201,17 @@ title <- ggdraw() + draw_label("Sex differences (heterogametic-homogametic) per 
 
 pg <- plot_grid(title, pg, ncol = 1, rel_heights = c(0.1, 1))
 
+data <- ggdraw() + draw_label(paste0("Data points from tables: \n", file1, " \n ",
+   file2, " \n ", file3, " \n ", filesnp))
 
 
-ggsave(scatter2D_out, plot = pg, device = pdf(), width = 14, height = 8)
+  pdf(file=scatter2D_out, width = 14, height = 8)
+  print(pg)
+  print(data)
+  dev.off()
+  
+
+#ggsave(scatter2D_out, plot = pg, device = pdf(), width = 14, height = 8)
 
 ggsave(sprintf("%s.png", scatter2D_out_base), plot = pg, device = png(), width = 14, height = 8, dpi = 900)
 
@@ -236,5 +244,4 @@ scatter3D(cov.select$length, cov.select$cov04, cov.select$hetDiff,
           zlab = "difference in heterozygosity", bty = "b2",
           colkey = FALSE, col = viridis(length(cov.select$length), direction = -1),
           phi = 20, theta = 60)
-
 dev.off()

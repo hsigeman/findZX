@@ -187,6 +187,9 @@ snp_table$chr <- ordered(snp_table$chr,
 ############################### MANHATTAN PLOT #################################
 ################################################################################
 
+data <- ggdraw() + draw_label(paste0("Data points from tables: \n", file1, " \n ",
+   file2, " \n ", file3, " \n ", filesnp))
+
 # Filter data for n longest scaffolds, determined by args[11]
 if ( !file.exists(chr_file) & (len_chr > CHR_NR)) {
   nr_chr <- CHR_NR
@@ -429,11 +432,13 @@ d <- plot_grid(c, legend_b, ncol = 1, rel_heights = c(1, .1))
 #pdf(file=absolute_out, width = 15, height = 10)
 pdf(file=absolute_out, width = 14, height = 9)
 print(d)
+print(data)
 dev.off()
 
 
 png(file=absolute_out_base, width = 1200, height = 800)
 print(d)
+print(data)
 dev.off()
 
 absolute_out_base2 = gsub("\\.pdf", "", absolute_out)
@@ -463,6 +468,7 @@ absolute_out_base2 = gsub("\\.pdf", "", absolute_out)
 #pdf(file=absolute_out, width = 15, height = 10)
 pdf(file=sprintf("%s.verticalXaxis.pdf", absolute_out_base2), width = 14, height = 9)
 print(d)
+print(data)
 dev.off()
 
 
@@ -612,10 +618,12 @@ c <- plot_grid(title,
 pdf(file=diff_out, width = 14, height = 9)
 #pdf(file="test.pdf", width = 15, height = 9)
 print(c)
+print(data)
 dev.off()
 
 png(file=diff_out_base, width = 1100, height = 800)
 print(c)
+print(data)
 dev.off()
 
 
@@ -644,6 +652,7 @@ diff_out_base2 = gsub("\\.pdf", "", diff_out)
 #pdf(file=absolute_out, width = 15, height = 10)
 pdf(file=sprintf("%s.verticalXaxis.pdf", diff_out_base2), width = 14, height = 9)
 print(d)
+print(data)
 dev.off()
 
 

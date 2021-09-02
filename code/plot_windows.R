@@ -483,10 +483,14 @@ title <- ggdraw() + draw_label(sprintf("Mean sex differences (heterogametic-homo
 
     c <- plot_grid(title, c, nrow = 2, rel_heights = c(0.15, 1))
 
+  data <- ggdraw() + draw_label(paste0("Data points from tables: \n", file1, " \n ",
+   file2, " \n ", file3, " \n ", filesnp))
+
   pdf(file=scatter_out, width = 12, height = 4.5)
   print(p)
   print(c)
   print(l)
+  print(data)
   dev.off()
   
   
@@ -643,11 +647,21 @@ title <- ggdraw() + draw_label(sprintf("Mean sex differences (heterogametic-homo
 
     c <- plot_grid(title, c, nrow = 2, rel_heights = c(0.15, 1))
 
+
+  data <- ggdraw() + draw_label(paste0("Data points from tables: \n", file1, " \n ",
+   file2, " \n ", file3, " \n ", filesnp))
+  dataColour <- ggdraw() + draw_label(paste0("Data points color from: \n", highlight_file))
+  
+  data <- plot_grid(data, 
+                   dataColour, 
+                   ncol = 1)
+
     outname <- sprintf("%s.highlight.pdf", scatter_out_base)
     pdf(file=outname, width = 12, height = 4.5)
     print(p)
     print(c)
     print(l)
+    print(data)
     dev.off()  
     
   }
