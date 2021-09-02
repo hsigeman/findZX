@@ -29,7 +29,7 @@ highlight_file = args[7]
 ED1 = args[8]
 ED2 = args[9]
 ED3 = args[10]
-#minRange = args[11]
+WINDOW = args[11]
 
 #minRange = 800000
 #setwd("~/Dropbox (MEEL)/PhD/Subprojects/6 Sylvioidea neosc-scan/9 Sexchromoscanner/code/")
@@ -269,7 +269,9 @@ text_size_colour = list(theme_bw(base_family="Courier", base_size = 12) +
     theme(axis.text.y= element_text(colour="black", size=12)) +
     theme(axis.title.x = element_text(colour="black",size=15)) + 
     theme(axis.title.y = element_text(colour="black",size=15)) + 
-    theme(plot.title=element_text(family="Courier", size=15, colour="black", hjust = 0.5) ))
+    theme(plot.title=element_text(family="Courier", size=15, colour="black", hjust = 0.5) ) +
+    theme(panel.border = element_rect(colour = "black", fill=NA, size=0.5)) +
+    theme(plot.margin= margin(1, 1, 1, 1, "mm")))
 
   cov1_plot <- ggplot(cov.select, 
                       aes(x = cov1, 
@@ -283,7 +285,7 @@ text_size_colour = list(theme_bw(base_family="Courier", base_size = 12) +
     scale_shape_manual(values = point_shapes) +
     theme(legend.key.size = unit(2, "mm")) +
     labs(title = sprintf("%s mismatches", ED1), 
-        x = x_axis, 
+        x = " ", 
         y = y_axis) + 
     text_size_colour
   
@@ -303,7 +305,7 @@ text_size_colour = list(theme_bw(base_family="Courier", base_size = 12) +
     scale_shape_manual(values = point_shapes) +
     labs(title = sprintf("%s mismatches", ED2), 
          x = x_axis,
-         y = y_axis) + 
+         y = " ") + 
     text_size_colour +
     theme(legend.position="none")
 
@@ -318,18 +320,26 @@ text_size_colour = list(theme_bw(base_family="Courier", base_size = 12) +
     scale_color_manual(values = point_colors) + 
     scale_shape_manual(values = point_shapes) +
     labs(title = sprintf("%s mismatches", ED3), 
-         x = x_axis,
-         y = y_axis) + 
+         x = " ",
+         y = " ") + 
     text_size_colour +
     theme(legend.position="none")
 
-  p <- plot_grid(cov1_plot, 
-                 cov2_plot, 
-                 cov3_plot, 
-                 nrow = 1, 
-                 labels = c("A","B","C"))
-  
-  l <- plot_grid(legend)
+title <- ggdraw() + draw_label(sprintf("Sex differences (heterogametic-homogametic) per %s bp window", WINDOW), fontface='bold')
+
+
+    p <- plot_grid(cov1_plot, 
+                   cov2_plot, 
+                   cov3_plot, 
+                   nrow = 1, 
+                   labels = c("A","B","C"))
+
+    p <- plot_grid(title, p, nrow = 2, rel_heights = c(0.15, 1))
+
+    
+    l <- plot_grid(legend)
+    
+
   
   ################################################################################
   ################################ SCATTER PLOT ##################################
@@ -415,7 +425,7 @@ text_size_colour = list(theme_bw(base_family="Courier", base_size = 12) +
     geom_errorbar(aes(color = Chromosomes), width = x_range/20) + 
     geom_errorbarh(aes(color = Chromosomes), height = y_range/20) +
     labs(title = sprintf("%s mismatches", ED1), 
-         x = x_axis,
+         x = " ",
          y = y_axis) + 
     text_size_colour +
     theme(legend.position="none")
@@ -437,7 +447,7 @@ text_size_colour = list(theme_bw(base_family="Courier", base_size = 12) +
     geom_errorbarh(aes(color = Chromosomes), height = y_range/20) +
     labs(title = sprintf("%s mismatches", ED2),
          x = x_axis,
-         y = y_axis) + 
+         y = " ") + 
     text_size_colour +
     theme(legend.position="none")
   
@@ -457,19 +467,23 @@ text_size_colour = list(theme_bw(base_family="Courier", base_size = 12) +
     geom_errorbar(aes(color = Chromosomes), width = x_range/20) + 
     geom_errorbarh(aes(color = Chromosomes), height = y_range/20) +
     labs(title = sprintf("%s mismatches", ED3),
-         x = x_axis,
-         y = y_axis) + 
+         x = " ",
+         y = " ") + 
     text_size_colour +
     theme(legend.position="none")
   
-  c <- plot_grid(cov1_plot, 
-                 cov2_plot, 
-                 cov3_plot, 
-                 nrow = 1, 
-                 labels = c("A","B","C"))
-  
-  
-  pdf(file=scatter_out, width = 12, height = 4)
+title <- ggdraw() + draw_label(sprintf("Mean sex differences (heterogametic-homogametic) per chromosome/scaffold (across %s bp windows)", WINDOW), fontface='bold')
+
+
+    c <- plot_grid(cov1_plot, 
+                   cov2_plot, 
+                   cov3_plot, 
+                   nrow = 1, 
+                   labels = c("A","B","C"))
+
+    c <- plot_grid(title, c, nrow = 2, rel_heights = c(0.15, 1))
+
+  pdf(file=scatter_out, width = 12, height = 4.5)
   print(p)
   print(c)
   print(l)
@@ -488,7 +502,7 @@ text_size_colour = list(theme_bw(base_family="Courier", base_size = 12) +
       scale_fill_manual(values = point_colors) +
       theme(legend.key.size = unit(2, "mm")) +
       labs(title = sprintf("%s mismatches", ED1), 
-           x = x_axis,
+           x = " ",
            y = y_axis, fill="Chromosome type") + 
       theme_bw(base_family="Helvetica", base_size = 12) +
       text_size_colour
@@ -509,7 +523,7 @@ text_size_colour = list(theme_bw(base_family="Courier", base_size = 12) +
       scale_fill_manual(values = point_colors) +
       labs(title = sprintf("%s mismatches", ED2), 
            x = x_axis,
-           y = y_axis) + 
+           y = " ") + 
       text_size_colour +
       theme(legend.position="none")
     
@@ -521,16 +535,22 @@ text_size_colour = list(theme_bw(base_family="Courier", base_size = 12) +
       geom_point(aes(fill = highlight_col), pch = 21, size = 3) + 
       scale_fill_manual(values = point_colors) +
       labs(title = sprintf("%s mismatches", ED3), 
-           x = x_axis,
-           y = y_axis) + 
+           x = " ",
+           y = " ") + 
       text_size_colour +
       theme(legend.position="none")
-    
+ 
+title <- ggdraw() + draw_label(sprintf("Sex differences (heterogametic-homogametic) per %s bp window", WINDOW), fontface='bold')
+
+
     p <- plot_grid(cov1_plot, 
                    cov2_plot, 
                    cov3_plot, 
                    nrow = 1, 
                    labels = c("A","B","C"))
+
+    p <- plot_grid(title, p, nrow = 2, rel_heights = c(0.15, 1))
+
     
     l <- plot_grid(legend)
     
@@ -561,7 +581,7 @@ text_size_colour = list(theme_bw(base_family="Courier", base_size = 12) +
       geom_errorbarh(aes(color = highlight_col), height = y_range/20) +
       geom_point(aes(fill = highlight_col, size = window.max), pch = 21) + 
       labs(title = sprintf("%s mismatches", ED1), 
-           x = x_axis,
+           x = " ",
            y = y_axis) + 
       text_size_colour +
       theme(legend.position="none") + 
@@ -583,7 +603,7 @@ text_size_colour = list(theme_bw(base_family="Courier", base_size = 12) +
       geom_point(aes(fill = highlight_col, size = window.max), pch = 21) + 
       labs(title = sprintf("%s mismatches", ED2),
            x = x_axis,
-           y = y_axis) + 
+           y = " ") + 
       text_size_colour +
       theme(legend.position="none") + 
       scale_size_continuous(range = c(2, 8))
@@ -604,20 +624,27 @@ text_size_colour = list(theme_bw(base_family="Courier", base_size = 12) +
       geom_errorbarh(aes(color = highlight_col), height = y_range/20) +
       geom_point(aes(fill = highlight_col, size = window.max), pch = 21) + 
       labs(title = sprintf("%s mismatches", ED3),
-           x = x_axis,
-           y = y_axis) + 
+           x = " ",
+           y = " ") + 
       text_size_colour +
       theme(legend.position="none") + 
       scale_size_continuous(range = c(2, 8))
-    
+ 
+
+
+title <- ggdraw() + draw_label(sprintf("Mean sex differences (heterogametic-homogametic) per chromosome/scaffold (across %s bp windows)", WINDOW), fontface='bold')
+
+
     c <- plot_grid(cov1_plot, 
                    cov2_plot, 
                    cov3_plot, 
                    nrow = 1, 
                    labels = c("A","B","C"))
-    
+
+    c <- plot_grid(title, c, nrow = 2, rel_heights = c(0.15, 1))
+
     outname <- sprintf("%s.highlight.pdf", scatter_out_base)
-    pdf(file=outname, width = 12, height = 4)
+    pdf(file=outname, width = 12, height = 4.5)
     print(p)
     print(c)
     print(l)

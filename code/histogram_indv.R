@@ -92,6 +92,16 @@ if (file.exists(chr_file)) {
 ################################### PLOTTING ###################################
 ################################################################################
 
+text_size_colour = list(theme_bw(base_family="Courier", base_size = 12) + 
+    theme(axis.text.x= element_text(colour="black", size=12)) +
+    theme(axis.text.y= element_text(colour="black", size=12)) +
+    theme(axis.title.x = element_text(colour="black",size=14)) + 
+    theme(axis.title.y = element_text(colour="black",size=14)) + 
+    theme(axis.ticks = element_line(colour = "black", size = 0.5)) +
+    theme(panel.border = element_rect(colour = "black", fill=NA, size=0.5)) +
+    theme(plot.title=element_text(family="Courier", size=14, colour="black", hjust = 0.5) ))
+
+
 plist <- list()
 
 for (i in 1:nr_samples) {
@@ -107,48 +117,33 @@ for (i in 1:nr_samples) {
     geom_bin2d(na.rm = TRUE) + 
     labs(x = "genome coverage", 
          y = "heterozygosity") + 
-    theme_bw() +
+    text_size_colour +
     scale_fill_gradient(low="white",
                         high="darkblue",
-                        trans="log10") + 
-    theme(text=element_text(family="Helvetica"))+
-    theme(
-    axis.text.x = element_text(color="black"),
-    axis.ticks = element_line(color = "black")
-    )
+                        trans="log10") 
   
   gl <- ggplot(data = cov_het, 
                aes(x = cov_het[,x], 
                    y = length)) + 
     geom_bin2d(na.rm = TRUE) + 
     labs(x = "genome coverage", 
-         y = "scaffold length") + 
-    theme_bw() +
+         y = "scaffold length (bp)") + 
+    text_size_colour +
     scale_fill_gradient(low="white",
                         high="darkblue",
-                        trans="log10") +
-    theme(text=element_text(family="Helvetica"))+
-    theme(
-    axis.text.x = element_text(color="black"),
-    axis.ticks = element_line(color = "black")
-    )
+                        trans="log10") 
   
   hl <- ggplot(data = cov_het, 
                aes(x = cov_het[,y], 
                    y = length)) + 
     geom_bin2d(na.rm = TRUE) + 
     labs(x = "heterozygosity", 
-         y = "scaffold length") + 
-    theme_bw() +
+         y = "scaffold length (bp)") + 
+    text_size_colour +
     scale_fill_gradient(low="white",
                         high="darkblue",
-                        trans="log10") + 
-    theme(text=element_text(family="Helvetica"))+
-    theme(
-    axis.text.x = element_text(color="black"),
-    axis.ticks = element_line(color = "black")
-    )
-  
+                        trans="log10") 
+
 ############## HISTOGRAM GENOME COVERAGE WITH LINES FOR N1 AND N2 ##############
   
   g <- ggplot(cov_het, 
@@ -157,12 +152,7 @@ for (i in 1:nr_samples) {
                     na.rm = TRUE) + 
      labs(x="genome coverage", 
           y="Frequency") + 
-     theme_bw() +
-     theme(text=element_text(family="Helvetica"))+
-    theme(
-    axis.text.x = element_text(color="black"),
-    axis.ticks = element_line(color = "black")
-    )
+     text_size_colour 
   
   # Find the x value for the bin with the highest count
   hist_stats_hg <- ggplot_build(g)$data[[1]]
@@ -172,15 +162,10 @@ for (i in 1:nr_samples) {
   max_x <- hist_stats_hg$x[max_bin]
   halfMax_x <- max_x / 2
   
-  g <- g + geom_vline(xintercept = halfMax_x, 
-                      color = "blue") + 
-    geom_vline(xintercept = max_x, 
-               color = "red") + 
-    theme(text=element_text(family="Helvetica"))+
-    theme(
-    axis.text.x = element_text(color="black"),
-    axis.ticks = element_line(color = "black")
-    )
+  #g <- g + geom_vline(xintercept = halfMax_x, 
+  #                    color = "blue") + 
+  #  geom_vline(xintercept = max_x, 
+  #             color = "red")
   
 ########################### HISTOGRAM HETEROZYGOSITY ###########################
   
@@ -190,12 +175,7 @@ for (i in 1:nr_samples) {
                     na.rm = TRUE) + 
      labs(x="heterozygosity", 
           y="Frequency") + 
-     theme_bw() + 
-     theme(text=element_text(family="Helvetica"))+
-    theme(
-    axis.text.x = element_text(color="black"),
-    axis.ticks = element_line(color = "black")
-    )
+     text_size_colour
   
 ################################# CHROMOSOMES ##################################
   
@@ -224,27 +204,16 @@ for (i in 1:nr_samples) {
          x = "position [5kbp window]") +
     scale_x_continuous(limits = c(0, NA)) +
     theme(axis.text.x = element_blank()) +
-    theme_bw() +
-    theme(text=element_text(family="Helvetica"))+
-    theme(
-    axis.text.x = element_text(color="black"),
-    axis.ticks = element_line(color = "black")
-    )
+    text_size_colour
   
     title <- ggdraw() +
-    draw_label(
-    sample_names[i],
+    draw_label(paste0("Confirm sexing plot \nSample: ", sample_names[i]),
     fontface = 'bold',
     x = 0,
     hjust = 0
     ) +
     theme(
-    plot.margin = margin(0, 0, 0, 7)
-  ) + theme(text=element_text(family="Helvetica"))+
-    theme(
-    axis.text.x = element_text(color="black"),
-    axis.ticks = element_line(color = "black")
-    )
+    plot.margin = margin(0, 0, 0, 7))
  
 ##################################### ALL ######################################
   

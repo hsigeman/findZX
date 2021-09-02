@@ -32,6 +32,7 @@ ED1 = args[8]
 ED2 = args[9]
 ED3 = args[10]
 CHR_NR = args[11]
+WINDOW = args[12]
 
 #minRange = 800000
 #setwd("~/Dropbox (MEEL)/PhD/Subprojects/6 Sylvioidea neosc-scan/9 Sexchromoscanner/code/")
@@ -211,7 +212,9 @@ text_size_colour = list(theme_bw(base_family="Courier", base_size = 12) +
     theme(axis.title.x = element_text(colour="black",size=14)) + 
     theme(axis.title.y = element_text(colour="black",size=14)) + 
     theme(plot.title=element_text(family="Courier", size=14, colour="black", hjust = 0.5)) +
-    theme(plot.margin= margin(1, 1, 3, 7, "mm")))
+    theme(plot.margin= margin(1, 1, 3, 7, "mm")) +
+    theme(panel.border = element_rect(colour = "black", fill=NA, size=0.5)))
+
 
 
 # Prepare the dataset
@@ -236,7 +239,7 @@ p.cov1 <- ggplot(cov1, aes(x=BPcum, y=diff)) +
   scale_x_continuous( label = axisdf$chr, breaks= axisdf$center ) +
   scale_y_continuous(expand = c(0, 0) ) +     # remove space between plot area and x axis
   coord_cartesian(ylim=c(0, 2)) +
-  ylab(sprintf("genome coverage \n %s mismatches", ED1)) +
+  ylab(sprintf("genome coverage \n (%s mismatches)", ED1)) +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
   geom_point( aes(y = heterogametic, color="heterogametic"), alpha=0.5,size = 1 ) +
   geom_point( aes(y = homogametic, color="homogametic"), alpha=0.5,size = 1 ) +
@@ -278,7 +281,7 @@ p.cov2 <- ggplot(cov2, aes(x=BPcum, y=diff)) +
   scale_x_continuous( label = axisdf$chr, breaks= axisdf$center ) +
   scale_y_continuous(expand = c(0, 0) ) +     # remove space between plot area and x axis
   coord_cartesian(ylim=c(0, 2)) + 
-  ylab(sprintf("genome coverage \n %s mismatches", ED2)) +
+  ylab(sprintf("genome coverage \n (%s mismatches)", ED2)) +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
   geom_point( aes(y = heterogametic, color="heterogametic"), alpha=0.5,size = 1 ) +
   geom_point( aes(y = homogametic, color="homogametic"), alpha=0.5,size = 1 ) +
@@ -320,7 +323,7 @@ p.cov3 <- ggplot(cov3, aes(x=BPcum, y=diff)) +
   scale_x_continuous( label = axisdf$chr, breaks= axisdf$center,guide = guide_axis(check.overlap = TRUE) ) +
   scale_y_continuous(expand = c(0, 0) ) +     # remove space between plot area and x axis
   coord_cartesian(ylim=c(0, 2)) +
-  ylab(sprintf("genome coverage \n %s mismatches", ED3)) +
+  ylab(sprintf("genome coverage \n (%s mismatches)", ED3)) +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
   geom_point( aes(y = heterogametic, color="heterogametic"), alpha=0.5,size = 1 ) +
   geom_point( aes(y = homogametic, color="homogametic"), alpha=0.5,size = 1 ) +
@@ -394,7 +397,7 @@ p.snp <- ggplot(snp, aes(x=BPcum, y=diff)) +
 legend_b <- get_legend(p.snp + theme(legend.position = "bottom", legend.key=element_rect(fill='white')))
 
 
-title <- ggdraw() + draw_label("Sex-specific (A) heterozygosity and (B-D) genome coverage values", fontface='bold')
+title <- ggdraw() + draw_label(sprintf("Genome-wide values (sexes plotted separately) across %s bp windows ", WINDOW), fontface='bold')
 
 
 
@@ -472,7 +475,7 @@ p.cov1 <- ggplot(cov1, aes(x=BPcum, y=diff, color = diff)) +
   scale_x_continuous( label = axisdf$chr, breaks= axisdf$center ) +
   scale_y_continuous(expand = c(0, 0) ) +     # remove space between plot area and x axis
   coord_cartesian(ylim=c(-1, 1)) +
-  ylab(sprintf("genome coverage \n %s mismatches", ED1)) +
+  ylab(sprintf("genome coverage \n (%s mismatches)", ED1)) +
   labs(color = "95 % CI") +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
   geom_rect(aes(xmin=-Inf, xmax = Inf, ymin=diff_genome_mean-diff_genome_sd*2, ymax=diff_genome_mean+diff_genome_sd*2), size = 0.01, color = "black", fill="grey80", alpha = 0.01) + 
@@ -499,7 +502,7 @@ p.cov2 <- ggplot(cov2, aes(x=BPcum, y=diff, color = diff)) +
   scale_x_continuous( label = axisdf$chr, breaks= axisdf$center ) +
   scale_y_continuous(expand = c(0, 0) ) +     # remove space between plot area and x axis
   coord_cartesian(ylim=c(-1, 1)) +
-  ylab(sprintf("genome coverage \n %s mismatches", ED2)) +
+  ylab(sprintf("genome coverage \n (%s mismatches)", ED2)) +
   labs(color = "95 % CI") +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
   geom_rect(aes(xmin=-Inf, xmax = Inf, ymin=diff_genome_mean-diff_genome_sd*2, ymax=diff_genome_mean+diff_genome_sd*2), size = 0.01, color = "black", fill="grey80", alpha = 0.01) + 
@@ -525,7 +528,7 @@ p.cov3 <- ggplot(cov3, aes(x=BPcum, y=diff, color = diff)) +
   scale_x_continuous(label = axisdf$chr, breaks= axisdf$center,guide = guide_axis(check.overlap = TRUE) ) +
   scale_y_continuous(expand = c(0, 0) ) +     # remove space between plot area and x axis
   coord_cartesian(ylim=c(-1, 1)) +
-  ylab(sprintf("genome coverage \n %s mismatches", ED3)) +
+  ylab(sprintf("genome coverage \n (%s mismatches)", ED3)) +
   labs(color = "95 % CI") +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
   geom_rect(aes(xmin=-Inf, xmax = Inf, ymin=diff_genome_mean-diff_genome_sd*2, ymax=diff_genome_mean+diff_genome_sd*2), size = 0.01, color = "black", fill="grey80", alpha = 0.01) + 
@@ -571,7 +574,8 @@ p.snp <- ggplot(snp, aes(x=BPcum, y=diff, color = diff)) +
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())
 
-title <- ggdraw() + draw_label("Sex-specific differences in (A) heterozygosity and (B-D) genome coverage", fontface='bold')
+title <- ggdraw() + draw_label(sprintf("Genome-wide sex differences (heterogametic-homogametic) \n across %s bp windows", WINDOW), fontface='bold')
+
 c <- plot_grid(title,
                p.snp, 
                p.cov1, 

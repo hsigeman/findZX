@@ -52,11 +52,12 @@ if not config['synteny_chr_highlight']:
         params:
             chromosomes = CHROMOSOMES,
             ED = expand("{ED}", ED = EDIT_DIST),
+            window = "{bp}"
         conda: 
             "../envs/R.yaml"
         shell:
             """
-            Rscript code/plot_windows.R {input.cov} {input.snp} {output.out_scatter} {params.chromosomes} {input.chromosomes_highlight} {params.ED} 
+            Rscript code/plot_windows.R {input.cov} {input.snp} {output.out_scatter} {params.chromosomes} {input.chromosomes_highlight} {params.ED} {params.window} 
             """
 
 else:
@@ -72,11 +73,12 @@ else:
         params:
             chromosomes = CHROMOSOMES,
             ED = expand("{ED}", ED = EDIT_DIST),
+            window = "{bp}"
         conda: 
             "../envs/R.yaml"
         shell:
             """
-            Rscript code/plot_windows.R {input.cov} {input.snp} {output.out_scatter} {params.chromosomes} {input.chromosomes_highlight} {params.ED} 
+            Rscript code/plot_windows.R {input.cov} {input.snp} {output.out_scatter} {params.chromosomes} {input.chromosomes_highlight} {params.ED} {params.window}
             """
 
 

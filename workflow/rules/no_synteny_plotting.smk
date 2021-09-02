@@ -50,11 +50,12 @@ if not config['chr_highlight']:
         params:
             chromosomes = CHROMOSOMES,
 	        ED = expand("{ED}", ED = EDIT_DIST),
+            window = "{bp}"
         conda: 
             "../envs/R.yaml"
         shell:
             """
-            Rscript code/plot_windows.R {input.cov} {input.snp} {output.out_scatter} {params.chromosomes} {input.chromosomes_highlight} {params.ED} 
+            Rscript code/plot_windows.R {input.cov} {input.snp} {output.out_scatter} {params.chromosomes} {input.chromosomes_highlight} {params.ED} {params.window}
             """
 
 else: 
@@ -70,11 +71,12 @@ else:
         params:
             chromosomes = CHROMOSOMES,
             ED = expand("{ED}", ED = EDIT_DIST),
+            window = "{bp}"
         conda: 
             "../envs/R.yaml"
         shell:
             """
-            Rscript code/plot_windows.R {input.cov} {input.snp} {output.out_scatter} {params.chromosomes} {input.chromosomes_highlight} {params.ED} 
+            Rscript code/plot_windows.R {input.cov} {input.snp} {output.out_scatter} {params.chromosomes} {input.chromosomes_highlight} {params.ED} {params.window}
             """
 
 
@@ -89,12 +91,13 @@ rule plotting_linear:
     params:
         chromosomes = CHROMOSOMES,
 	    ED = expand("{ED}", ED = EDIT_DIST),
-	    nr_chromosomes = 50
+	    nr_chromosomes = 50,
+        window = "{bp}"
     conda: 
         "../envs/R.yaml"
     shell:
         """
-        Rscript code/plot_windows_linear.R {input.cov} {input.snp} {output.absolute_out} {output.diff_out} {params.chromosomes} {params.ED} {params.nr_chromosomes}
+        Rscript code/plot_windows_linear.R {input.cov} {input.snp} {output.absolute_out} {output.diff_out} {params.chromosomes} {params.ED} {params.nr_chromosomes} {params.window}
         """
 
 

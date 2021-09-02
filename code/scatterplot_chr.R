@@ -103,43 +103,52 @@ colnames(cov.select) <- c("Chromosome", "cov00", "cov02", "cov04", "length", "he
 ############################# SCATTER PLOT LENGTH ##############################
 ################################################################################
 
+x_axis <- expression(Delta*~genome~coverage)
+y_axis <- expression(Delta*~heterozygosity)
+
+text_size_colour = list(theme_bw(base_family="Courier", base_size = 12) + 
+    theme(axis.text.x= element_text(colour="black", size=12)) +
+    theme(axis.text.y= element_text(colour="black", size=12)) +
+    theme(axis.title.x = element_text(colour="black",size=15)) + 
+    theme(axis.title.y = element_text(colour="black",size=15)) + 
+    theme(plot.title=element_text(family="Courier", size=15, colour="black", hjust = 0.5)) +
+    theme(panel.border = element_rect(colour = "black", fill=NA, size=0.5)) +
+    theme(plot.margin= margin(1, 1, 1, 1, "mm")))
+
 cov.select <- cov.select[order(abs(cov.select$length)),]
 
-l0 <- ggplot(cov.select, aes(x = cov00, y = hetDiff, size=length/1000000)) + 
-  labs(title = sprintf("%s mismatches", ED1), x = "", y = "difference in heterozygosity") + 
-  theme_bw() + 
-  geom_point(aes(color = length/1000000), alpha = 0.5) +
+l0 <- ggplot(cov.select, aes(x = round(cov00, digits = 2), y = round(hetDiff, digits = 2), size=round(length/1000000, digits = 2))) + 
+  labs(title = sprintf("%s mismatches", ED1), x = "", y = y_axis) + 
+  geom_hline(yintercept = median.snp, linetype="dashed", size=0.2) +
+  geom_vline(xintercept = median.cov.00, linetype="dashed", size=0.2) +
+  geom_point(aes(color = round(length/1000000, digits = 2)), alpha = 0.5) +
+  text_size_colour +
   theme(legend.position="none") +
-  theme(plot.title = element_text(hjust = 0.5)) +
-  scale_color_gradient(low="gray90", high="blue")  +
-  theme(axis.text = element_text(size = 10)) + 
-  theme(text=element_text(family="Helvetica"))
+  scale_color_gradient(low="gray90", high="blue") 
 
-l2 <- ggplot(cov.select, aes(x = cov02, y = hetDiff, size=length/1000000)) + 
+l2 <- ggplot(cov.select, aes(x = round(cov02, digits = 2), y = round(hetDiff, digits = 2), size=round(length/1000000, digits = 2))) + 
   #labs(title = sprintf("%s mismatches", ED2), x = "difference in normalized genome coverage", y = "") + 
   labs(title = sprintf("%s mismatches", ED2), x = " ", y = "") + 
-  theme_bw() + 
-  geom_point(aes(color = length/1000000), alpha = 0.5) + 
+  geom_hline(yintercept = median.snp, linetype="dashed", size=0.2) +
+  geom_vline(xintercept = median.cov.02, linetype="dashed", size=0.2) +
+  geom_point(aes(color = round(length/1000000, digits = 2)), alpha = 0.5) + 
+  text_size_colour +
   theme(legend.position="none") +
-  theme(plot.title = element_text(hjust = 0.5)) +
-  scale_color_gradient(low="gray90", high="blue") +
-  theme(axis.text = element_text(size = 10)) + 
-  theme(text=element_text(family="Helvetica"))
+  scale_color_gradient(low="gray90", high="blue") 
 
-l4 <- ggplot(cov.select, aes(x = cov04, y = hetDiff, size=length/1000000)) + 
+l4 <- ggplot(cov.select, aes(x = round(cov04, digits = 2), y = round(hetDiff, digits = 2), size=round(length/1000000, digits = 2))) + 
   labs(title = sprintf("%s mismatches", ED3), x = "", size = "scaffold length (Mb)", color = "scaffold length (Mb)", y = "") + 
-  theme_bw() + 
-  geom_point(aes(color = length/1000000), alpha = 0.5) + 
-  theme(plot.title = element_text(hjust = 0.5)) +
-  scale_color_gradient(low="gray90", high="blue")  +
-  theme(axis.text = element_text(size = 10)) + 
-  theme(text=element_text(family="Helvetica"))
+  geom_hline(yintercept = median.snp, linetype="dashed", size=0.2) +
+  geom_vline(xintercept = median.cov.04, linetype="dashed", size=0.2) + 
+  geom_point(aes(color = round(length/1000000, digits = 2)), alpha = 0.5) + 
+  text_size_colour +
+  scale_color_gradient(low="gray90", high="blue") 
 
 legend <- get_legend(l4)
 
 l4 <- l4 + theme(legend.position="none")
 
-l <- plot_grid(l0, l2, l4, legend, ncol = 4, rel_widths = c(3,3,3,1))
+l <- plot_grid(l0, l2, l4, legend, ncol = 4, rel_widths = c(3,3,3,2))
 
 
 ################################################################################
@@ -151,37 +160,34 @@ cov.select <- cov.select[order(abs(cov.select$hetDiff)),]
 
 mid <- 0
 
-hl0 <- ggplot(cov.select, aes(y = length/1000000, x = cov00)) + 
+hl0 <- ggplot(cov.select, aes(y = round(length/1000000, digits = 2), x = cov00)) + 
   labs(title = "", y = "scaffold length (Mb)", x = "") + 
-  theme_bw() + 
+  geom_vline(xintercept = median.cov.00, linetype="dashed", size=0.2) + 
   geom_point(aes(color = hetDiff)) + 
   scale_color_gradient2(midpoint = mid, mid = "lightgrey",low="blue", high="red") + 
-  theme(legend.position="none") +
-  theme(axis.text = element_text(size = 10)) +
-  theme(text=element_text(family="Helvetica"))
+  text_size_colour +
+  theme(legend.position="none")
 
-hl2 <- ggplot(cov.select, aes(y = length/1000000, x = cov02)) + 
-  labs(title = "", y = "", x = "difference in normalized genome coverage") + 
-  theme_bw() + 
+hl2 <- ggplot(cov.select, aes(y = round(length/1000000, digits = 2), x = cov02)) + 
+  labs(title = "", y = "", x = x_axis) + 
+  geom_vline(xintercept = median.cov.02, linetype="dashed", size=0.2) + 
   geom_point(aes(color = hetDiff)) + 
   scale_color_gradient2(midpoint = mid, mid = "lightgrey",low="blue", high="red") + 
-  theme(legend.position="none") + 
-  theme(axis.text = element_text(size = 10)) +
-  theme(text=element_text(family="Helvetica"))
+  text_size_colour +
+  theme(legend.position="none")
 
-hl4 <- ggplot(cov.select, aes(y = length/1000000, x = cov04)) + 
+hl4 <- ggplot(cov.select, aes(y = round(length/1000000, digits = 2), x = cov04)) + 
   labs(title = "", x = "", color = "heterozygosity", y = "") + 
-  theme_bw() + 
+  geom_vline(xintercept = median.cov.04, linetype="dashed", size=0.2) + 
   geom_point(aes(color = hetDiff)) + 
   scale_color_gradient2(midpoint = mid, mid = "lightgrey",low="blue", high="red") + 
-  theme(axis.text = element_text(size = 10)) +
-  theme(text=element_text(family="Helvetica"))
+  text_size_colour
 
 legend <- get_legend(hl4)
 
 hl4 <- hl4 + theme(legend.position="none")
 
-hl <- plot_grid(hl0, hl2, hl4, legend, ncol = 4, rel_widths = c(3,3,3,1))
+hl <- plot_grid(hl0, hl2, hl4, legend, ncol = 4, rel_widths = c(3,3,3,2))
 
 ################################################################################
 
@@ -190,6 +196,12 @@ hl <- plot_grid(hl0, hl2, hl4, legend, ncol = 4, rel_widths = c(3,3,3,1))
 #ggsave(scatter2D_out, plot = pg, device = pdf(), width = 14, height = 14)
 
 pg <- plot_grid(l,hl, ncol = 1, labels = 'AUTO')
+title <- ggdraw() + draw_label("Sex differences (heterogametic-homogametic) per chromosome/scaffold", fontface='bold')
+
+
+pg <- plot_grid(title, pg, ncol = 1, rel_heights = c(0.1, 1))
+
+
 
 ggsave(scatter2D_out, plot = pg, device = pdf(), width = 14, height = 8)
 
