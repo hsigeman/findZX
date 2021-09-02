@@ -394,6 +394,8 @@ legend_b <- get_legend(p.snp + theme(legend.position = "bottom", legend.key=elem
 title <- ggdraw() + draw_label("Sex-specific (A) heterozygosity and (B-D) genome coverage values", fontface='bold')
 
 
+p.cov3 <- p.cov3 + scale_x_discrete(guide = guide_axis(n.dodge = 4))
+
 c <- plot_grid(title,
                p.snp + theme(legend.position="none"), 
                p.cov1 + theme(legend.position="none"), 
@@ -418,6 +420,45 @@ dev.off()
 
 absolute_out_base2 = gsub("\\.pdf", "", absolute_out)
 ggsave(sprintf("%s.png", absolute_out_base2), plot = d, device = png(), width = 14, height = 10, dpi = 900)
+
+
+
+p.cov3 <- p.cov3 + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+
+
+
+
+c <- plot_grid(title,
+               p.snp + theme(legend.position="none"), 
+               p.cov1 + theme(legend.position="none"), 
+               p.cov2 + theme(legend.position="none"), 
+               p.cov3 + theme(legend.position="none"), 
+               nrow = 5, 
+               rel_heights = c(0.2, 1,1,1,1),            
+               labels = c(" ","A","B","C", "D"))
+
+
+d <- plot_grid(c, legend_b, ncol = 1, rel_heights = c(1, .1))
+
+absolute_out_base2 = gsub("\\.pdf", "", absolute_out)
+
+#pdf(file=absolute_out, width = 15, height = 10)
+pdf(file=sprintf("%s.verticalXaxis.pdf", absolute_out_base2), width = 14, height = 9)
+print(d)
+dev.off()
+
+
+#png(file=absolute_out_base, width = 1200, height = 800)
+#print(d)
+#dev.off()
+
+absolute_out_base2 = gsub("\\.pdf", "", absolute_out)
+ggsave(sprintf("%s.verticalXaxis.png", absolute_out_base2), plot = d, device = png(), width = 14, height = 10, dpi = 900)
+
+
+
+
+
 
 ############### DIFF
 
@@ -530,6 +571,7 @@ p.snp <- ggplot(snp, aes(x=BPcum, y=diff, color = diff)) +
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())
 
+p.cov3 <- p.cov3 + scale_x_discrete(guide = guide_axis(n.dodge = 4))
 
 title <- ggdraw() + draw_label("Sex-specific differences in (A) heterozygosity and (B-D) genome coverage", fontface='bold')
 c <- plot_grid(title,
@@ -557,5 +599,39 @@ dev.off()
 
 diff_out_base2 = gsub("\\.pdf", "", diff_out)
 ggsave(sprintf("%s.png", diff_out_base2), plot = c, device = png(), width = 14, height = 10, dpi = 900)
+
+
+
+p.cov3 <- p.cov3 + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+
+
+
+
+c <- plot_grid(title,
+               p.snp + theme(legend.position="none"), 
+               p.cov1 + theme(legend.position="none"), 
+               p.cov2 + theme(legend.position="none"), 
+               p.cov3 + theme(legend.position="none"), 
+               nrow = 5, 
+               rel_heights = c(0.2, 1,1,1,1),            
+               labels = c(" ","A","B","C", "D"))
+
+
+d <- plot_grid(c, legend_b, ncol = 1, rel_heights = c(1, .1))
+
+diff_out_base2 = gsub("\\.pdf", "", diff_out)
+
+#pdf(file=absolute_out, width = 15, height = 10)
+pdf(file=sprintf("%s.verticalXaxis.pdf", diff_out_base2), width = 14, height = 9)
+print(d)
+dev.off()
+
+
+#png(file=absolute_out_base, width = 1200, height = 800)
+#print(d)
+#dev.off()
+
+diff_out_base2 = gsub("\\.pdf", "", diff_out)
+ggsave(sprintf("%s.verticalXaxis.png", diff_out_base2), plot = d, device = png(), width = 14, height = 10, dpi = 900)
 
 
