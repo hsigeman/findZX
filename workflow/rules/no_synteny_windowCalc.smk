@@ -30,9 +30,9 @@ rule calculate_heterozygosity_window:
 
 rule calculate_ratio_chr:
     input:
-        outdir + "coverage/" + "gencov.nodup.nm.{ED}.norm.sexAverage.out"
+        outdir + "coverage/" + "gencov.mismatch.{ED}.norm.sexAverage.out"
     output:
-        outdir + "output/no_synteny/tables/" + "gencov.nodup.nm.{ED}.chr.out"
+        outdir + "output/no_synteny/tables/" + "gencov.mismatch.{ED}.chr.out"
     threads: 1
     conda: 
         "../envs/R.yaml"
@@ -44,9 +44,9 @@ rule calculate_ratio_chr:
 
 rule calculate_ratio_window:
     input:
-        outdir + "coverage/" + "gencov.nodup.nm.{ED}.norm.sexAverage.out"
+        outdir + "coverage/" + "gencov.mismatch.{ED}.norm.sexAverage.out"
     output:
-        outdir + "output/no_synteny/tables/" + "gencov.nodup.nm.{ED}.{window}bp.out"
+        outdir + "output/no_synteny/tables/" + "gencov.mismatch.{ED}.{window}bp.out"
     threads: 1
     params:
         window="{window}"

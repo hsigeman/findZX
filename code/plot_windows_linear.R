@@ -55,6 +55,9 @@ WINDOW = args[12]
 ED1 = gsub("\\.", "-", ED1)
 ED2 = gsub("\\.", "-", ED2)
 ED3 = gsub("\\.", "-", ED3)
+ED1 = gsub("$", " mismatches", ED1)
+ED2 = gsub("$", " mismatches", ED2)
+
 
 ED1 = gsub("0-0", "0", ED1)
 ED1 = gsub("0-", "<= ", ED1)
@@ -144,14 +147,14 @@ outlier.cov_3_table <- subset(cov_3_table, c(cov_3_table$diff > (cov_3_table$dif
 outlier.snp_table <- subset(snp_table, c(snp_table$diff > (snp_table$diff_genome_mean + snp_table$diff_genome_sd*2) | snp_table$diff < (snp_table$diff_genome_mean - snp_table$diff_genome_sd*2)))
 
 # Write outlier windows to tables
-outname <- sprintf("%s.outlier.out", file1_base)
-write.table(outlier.cov_1_table, file = outname, sep = "\t", quote = FALSE, row.names = F)
-outname <- sprintf("%s.outlier.out", file2_base)
-write.table(outlier.cov_2_table, file = outname, sep = "\t", quote = FALSE, row.names = F)
-outname <- sprintf("%s.outlier.out", file3_base)
-write.table(outlier.cov_3_table, file = outname, sep = "\t", quote = FALSE, row.names = F)
-outname <- sprintf("%s.outlier.out", filesnp_base)
-write.table(outlier.snp_table, file = outname, sep = "\t", quote = FALSE, row.names = F)
+outname1 <- sprintf("%s.outlier.out", file1_base)
+write.table(outlier.cov_1_table, file = outname1, sep = "\t", quote = FALSE, row.names = F)
+outname2 <- sprintf("%s.outlier.out", file2_base)
+write.table(outlier.cov_2_table, file = outname2, sep = "\t", quote = FALSE, row.names = F)
+outname3 <- sprintf("%s.outlier.out", file3_base)
+write.table(outlier.cov_3_table, file = outname3, sep = "\t", quote = FALSE, row.names = F)
+outname4 <- sprintf("%s.outlier.out", filesnp_base)
+write.table(outlier.snp_table, file = outname4, sep = "\t", quote = FALSE, row.names = F)
 
 
 ################################################################################
@@ -187,10 +190,12 @@ snp_table$chr <- ordered(snp_table$chr,
 ############################### MANHATTAN PLOT #################################
 ################################################################################
 
-data <- ggdraw() + draw_label(paste0("Data points from tables: \n", file1, " \n ",
-   file2, " \n ", file3, " \n ", filesnp), hjust = 0.5)
-data2 <- ggdraw() + draw_label(paste0("Chromosomes/scaffolds are ordered from longest to shortest (", CHR_NR, " longest chromosomes/scaffolds), \n unless a list of chromosomes/scaffolds is provided in the config file. \n If a list is provided, the chromosomes/scaffolds are ordered according to this list. \n Chromosome file: ", chr_file))
-data <- plot_grid(data2, data, ncol = 1, rel_heights = c(1, 1))
+data2 <- ggdraw() + draw_label(paste0("Data points from tables: \n", file1, " \n ", file2, " \n ", file3, " \n ", filesnp), hjust = 0.5)
+data1 <- ggdraw() + draw_label(paste0("Chromosomes/scaffolds are ordered from longest to shortest (", CHR_NR, " longest chromosomes/scaffolds), \n unless a list of chromosomes/scaffolds is provided in the config file. \n If a list is provided, the chromosomes/scaffolds are ordered according to this list. \n Chromosome file: ", chr_file))
+data3 <- ggdraw() + draw_label(paste0("Data points outside the 95% CI are in these tables: \n", outname1, "\n", outname2, "\n", outname3, "\n", outname4)) 
+
+data <- plot_grid(data1, data2, data3, ncol = 1, rel_heights = c(1, 1, 1))
+data2 <- plot_grid(data1, data2, ncol = 1, rel_heights = c(1, 1))
 
 
 
@@ -250,7 +255,7 @@ p.cov1 <- ggplot(cov1, aes(x=BPcum, y=diff)) +
   scale_x_continuous( label = axisdf$chr, breaks= axisdf$center ) +
   scale_y_continuous(expand = c(0, 0) ) +     # remove space between plot area and x axis
   coord_cartesian(ylim=c(0, 2)) +
-  ylab(sprintf("genome coverage \n (%s mismatches)", ED1)) +
+  ylab(sprintf("genome coverage \n (%s)", ED1)) +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
   geom_vline(aes(xintercept = maxX), lty = 2, size = 0.2) +
   geom_point( aes(y = heterogametic, color="heterogametic"), alpha=0.5,size = 1 ) +
@@ -296,7 +301,7 @@ p.cov2 <- ggplot(cov2, aes(x=BPcum, y=diff)) +
   scale_x_continuous( label = axisdf$chr, breaks= axisdf$center ) +
   scale_y_continuous(expand = c(0, 0) ) +     # remove space between plot area and x axis
   coord_cartesian(ylim=c(0, 2)) + 
-  ylab(sprintf("genome coverage \n (%s mismatches)", ED2)) +
+  ylab(sprintf("genome coverage \n (%s)", ED2)) +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
   geom_vline(aes(xintercept = maxX), lty = 2, size = 0.2) +
   geom_point( aes(y = heterogametic, color="heterogametic"), alpha=0.5,size = 1 ) +
@@ -342,7 +347,7 @@ p.cov3 <- ggplot(cov3, aes(x=BPcum, y=diff)) +
   scale_x_continuous( label = axisdf$chr, breaks= axisdf$center,guide = guide_axis(check.overlap = TRUE) ) +
   scale_y_continuous(expand = c(0, 0) ) +     # remove space between plot area and x axis
   coord_cartesian(ylim=c(0, 2)) +
-  ylab(sprintf("genome coverage \n (%s mismatches)", ED3)) +
+  ylab(sprintf("genome coverage \n (%s)", ED3)) +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
   geom_vline(aes(xintercept = maxX), lty = 2, size = 0.2) +
   geom_point( aes(y = heterogametic, color="heterogametic"), alpha=0.5,size = 1 ) +
@@ -438,13 +443,12 @@ d <- plot_grid(c, legend_b, ncol = 1, rel_heights = c(1, .1))
 #pdf(file=absolute_out, width = 15, height = 10)
 pdf(file=absolute_out, width = 14, height = 9)
 print(d)
-print(data)
+print(data2)
 dev.off()
 
 
 png(file=absolute_out_base, width = 1200, height = 800)
 print(d)
-print(data)
 dev.off()
 
 absolute_out_base2 = gsub("\\.pdf", "", absolute_out)
@@ -474,7 +478,7 @@ absolute_out_base2 = gsub("\\.pdf", "", absolute_out)
 #pdf(file=absolute_out, width = 15, height = 10)
 pdf(file=sprintf("%s.verticalXaxis.pdf", absolute_out_base2), width = 14, height = 9)
 print(d)
-print(data)
+print(data2)
 dev.off()
 
 
@@ -499,7 +503,7 @@ p.cov1 <- ggplot(cov1, aes(x=BPcum, y=diff, color = diff)) +
   scale_x_continuous( label = axisdf$chr, breaks= axisdf$center ) +
   scale_y_continuous(expand = c(0, 0) ) +     # remove space between plot area and x axis
   coord_cartesian(ylim=c(-1, 1)) +
-  ylab(sprintf("genome coverage \n (%s mismatches)", ED1)) +
+  ylab(sprintf("genome coverage \n (%s)", ED1)) +
   labs(color = "95 % CI") +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
   geom_vline(aes(xintercept = maxX), lty = 2, size = 0.2) +
@@ -527,7 +531,7 @@ p.cov2 <- ggplot(cov2, aes(x=BPcum, y=diff, color = diff)) +
   scale_x_continuous( label = axisdf$chr, breaks= axisdf$center ) +
   scale_y_continuous(expand = c(0, 0) ) +     # remove space between plot area and x axis
   coord_cartesian(ylim=c(-1, 1)) +
-  ylab(sprintf("genome coverage \n (%s mismatches)", ED2)) +
+  ylab(sprintf("genome coverage \n (%s)", ED2)) +
   labs(color = "95 % CI") +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
   geom_vline(aes(xintercept = maxX), lty = 2, size = 0.2) +
@@ -555,7 +559,7 @@ p.cov3 <- ggplot(cov3, aes(x=BPcum, y=diff, color = diff)) +
   scale_x_continuous(label = axisdf$chr, breaks= axisdf$center,guide = guide_axis(check.overlap = TRUE) ) +
   scale_y_continuous(expand = c(0, 0) ) +     # remove space between plot area and x axis
   coord_cartesian(ylim=c(-1, 1)) +
-  ylab(sprintf("genome coverage \n (%s mismatches)", ED3)) +
+  ylab(sprintf("genome coverage \n (%s)", ED3)) +
   labs(color = "95 % CI") +
   geom_vline(aes(xintercept = tot), lty = 2, size = 0.2) +
   geom_vline(aes(xintercept = maxX), lty = 2, size = 0.2) +

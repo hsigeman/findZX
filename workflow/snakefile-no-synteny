@@ -53,7 +53,7 @@ rule all:
     input:
         qc_dir + "fastqc/multiqc.untrimmed.html" if config['trim_reads'] else [],
         qc_dir + "fastqc/multiqc.trimmed.html" if config['trim_reads'] else [],
-        expand(outdir + "output/no_synteny/plots/" + "4_confirmSexing.samplesSeparately.mismatch.{ED}.pdf", ED = EDIT_DIST),
+        expand(outdir + "output/no_synteny/plots/" + "5_confirmSexing.samplesSeparately.mismatch.{ED}.pdf", ED = EDIT_DIST),
         outdir + "output/no_synteny/plots/" + ".misc/" + "plotting_chr.done",
         expand(outdir + "output/no_synteny/plots/" + ".misc/" + "plotting.linear.{window}bp.done", window = window_sizes),
         expand(outdir + "output/no_synteny/plots/" + ".misc/" + "plotting.linear.{window}bp.done", window = window_sizes),

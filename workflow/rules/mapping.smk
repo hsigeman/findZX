@@ -21,7 +21,7 @@ rule mark_duplicates:
     input:
         map_dir + "{sample}__{unit}.sorted.bam",
     output:
-        bam=dedup_dir + "{sample}__{unit}.sorted.dedup.nm.all.bam",
+        bam=dedup_dir + "{sample}__{unit}.sorted.dedup.mismatch.unfiltered.bam",
         metrics=qc_dir + "dedup/{sample}__{unit}.metrics.txt",
     log:
         logs_dir + "picard/dedup/{sample}__{unit}.log",
@@ -35,9 +35,9 @@ rule mark_duplicates:
 
 rule bamtools_filter:
     input:
-        dedup_dir + "{sample}__{unit}.sorted.dedup.nm.all.bam",
+        dedup_dir + "{sample}__{unit}.sorted.dedup.mismatch.unfiltered.bam",
     output:
-        dedup_dir + "{sample}__{unit}.sorted.dedup.nm.0.{ED, [0-9]+}.bam", 
+        dedup_dir + "{sample}__{unit}.sorted.dedup.mismatch.0.{ED, [0-9]+}.bam", 
     params:
         tags = ["NM:<={ED}"]
     log:
@@ -48,9 +48,9 @@ rule bamtools_filter:
 
 rule samtools_index:
     input:
-        dedup_dir + "{sample}__{unit}.sorted.dedup.nm.{ED}.bam", 
+        dedup_dir + "{sample}__{unit}.sorted.dedup.mismatch.{ED}.bam", 
     output:
-        dedup_dir + "{sample}__{unit}.sorted.dedup.nm.{ED}.bam.bai", 
+        dedup_dir + "{sample}__{unit}.sorted.dedup.mismatch.{ED}.bam.bai", 
     log:
         logs_dir + "samtools/{sample}-{unit}.{ED}.log",
     wrapper:
@@ -59,9 +59,9 @@ rule samtools_index:
 
 rule samtools_stats:
     input:
-        dedup_dir + "{sample}__{unit}.sorted.dedup.nm.{ED}.bam",
+        dedup_dir + "{sample}__{unit}.sorted.dedup.mismatch.{ED}.bam",
     output:
-        dedup_dir + "{sample}__{unit}.sorted.dedup.nm.{ED}.samtools.stats.txt",
+        dedup_dir + "{sample}__{unit}.sorted.dedup.mismatch.{ED}.samtools.stats.txt",
     params:
         extra="",                       # Optional: extra arguments.
     log:
@@ -73,9 +73,9 @@ rule samtools_stats:
 rule calc_cov:
     input:
         fai = ref_genome + ".fai",
-        stats = dedup_dir + "{sample}__{unit}.sorted.dedup.nm.{ED}.samtools.stats.txt",
+        stats = dedup_dir + "{sample}__{unit}.sorted.dedup.mismatch.{ED}.samtools.stats.txt",
     output:
-        report(dedup_dir + "{sample}__{unit}.sorted.dedup.nm.{ED}_mean_coverage.txt", category = "Coverage")
+        report(dedup_dir + "{sample}__{unit}.sorted.dedup.mismatch.{ED}_mean_coverage.txt", category = "Coverage")
     shell:
         "code/calc_cov.sh {input.stats} {input.fai} > {output}"
 

@@ -60,13 +60,13 @@ rule matchScaffold2Chr_snp:
 rule matchScaffold2Chr_cov:
     input:
         bestMatch = outdir + "synteny_lastal/" + synteny_abbr + "/" + "bestMatch.list",
-        cov = outdir + "coverage/" + "gencov.nodup.nm.{ED}.out",
-        cov_sexAverage = outdir + "coverage/" + "gencov.nodup.nm.{ED}.norm.sexAverage.out"
+        cov = outdir + "coverage/" + "gencov.mismatch.{ED}.out",
+        cov_sexAverage = outdir + "coverage/" + "gencov.mismatch.{ED}.norm.sexAverage.out"
     output:
-        bestMatch = outdir + "synteny_lastal/" + synteny_abbr + "/" + "gencov.nodup.nm.{ED}.out",
-        bestMatch_small = outdir + "synteny_lastal/" + synteny_abbr + "/" + "gencov.nodup.nm.{ED}.small.out",
-        bestMatch_sexAverage = outdir + "synteny_lastal/" + synteny_abbr + "/" + "gencov.nodup.nm.{ED}.norm.sexAverage.out",
-        bestMatch_small_sexAverage = outdir + "synteny_lastal/" + synteny_abbr + "/" + "gencov.nodup.nm.{ED}.norm.sexAverage.small.out"
+        bestMatch = outdir + "synteny_lastal/" + synteny_abbr + "/" + "gencov.mismatch.{ED}.out",
+        bestMatch_small = outdir + "synteny_lastal/" + synteny_abbr + "/" + "gencov.mismatch.{ED}.small.out",
+        bestMatch_sexAverage = outdir + "synteny_lastal/" + synteny_abbr + "/" + "gencov.mismatch.{ED}.norm.sexAverage.out",
+        bestMatch_small_sexAverage = outdir + "synteny_lastal/" + synteny_abbr + "/" + "gencov.mismatch.{ED}.norm.sexAverage.small.out"
     params:
         hetero = expand("het:{u.sample}__{u.unit}", u=heterogametic.itertuples()),
         homo = expand("homo:{u.sample}__{u.unit}", u=homogametic.itertuples())

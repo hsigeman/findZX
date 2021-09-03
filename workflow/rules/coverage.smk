@@ -17,13 +17,13 @@ rule gencov_prepare_fasta:
 
 rule gencov_bedtools:
     input:
-        bam_hetero = expand(dedup_dir + "{u.sample}__{u.unit}.sorted.dedup.nm.{{ED}}.bam", zip, u=heterogametic.itertuples()),
-        bam_homo = expand(dedup_dir + "{u.sample}__{u.unit}.sorted.dedup.nm.{{ED}}.bam", zip, u=homogametic.itertuples()),
-        bai_hetero = expand(dedup_dir + "{u.sample}__{u.unit}.sorted.dedup.nm.{{ED}}.bam.bai", zip, u=heterogametic.itertuples()),
-        bai_homo = expand(dedup_dir + "{u.sample}__{u.unit}.sorted.dedup.nm.{{ED}}.bam.bai", zip, u=homogametic.itertuples()),
+        bam_hetero = expand(dedup_dir + "{u.sample}__{u.unit}.sorted.dedup.mismatch.{{ED}}.bam", zip, u=heterogametic.itertuples()),
+        bam_homo = expand(dedup_dir + "{u.sample}__{u.unit}.sorted.dedup.mismatch.{{ED}}.bam", zip, u=homogametic.itertuples()),
+        bai_hetero = expand(dedup_dir + "{u.sample}__{u.unit}.sorted.dedup.mismatch.{{ED}}.bam.bai", zip, u=heterogametic.itertuples()),
+        bai_homo = expand(dedup_dir + "{u.sample}__{u.unit}.sorted.dedup.mismatch.{{ED}}.bam.bai", zip, u=homogametic.itertuples()),
         bed = outdir + "coverage/" + "genome_5kb_windows.out"
     output:
-        outdir + "coverage/" + "gencov.nodup.nm.{ED}.out"
+        outdir + "coverage/" + "gencov.mismatch.{ED}.out"
     conda: 
         "../envs/bedtools.yaml"
     shell:
@@ -34,9 +34,9 @@ rule gencov_bedtools:
 
 rule normalize_cov_mean:
     input:
-        outdir + "coverage/" + "gencov.nodup.nm.{ED}.out"
+        outdir + "coverage/" + "gencov.mismatch.{ED}.out"
     output:
-        outdir + "coverage/" + "gencov.nodup.nm.{ED}.norm.sexAverage.out"
+        outdir + "coverage/" + "gencov.mismatch.{ED}.norm.sexAverage.out"
     params:
         hetero = expand("het:{u.sample}__{u.unit}", u=heterogametic.itertuples()),
         homo = expand("homo:{u.sample}__{u.unit}", u=homogametic.itertuples())

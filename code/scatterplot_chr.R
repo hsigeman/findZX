@@ -36,6 +36,8 @@ ED3 = args[9]
 ED1 = gsub("\\.", "-", ED1)
 ED2 = gsub("\\.", "-", ED2)
 ED3 = gsub("\\.", "-", ED3)
+ED1 = gsub("$", " mismatches", ED1)
+ED2 = gsub("$", " mismatches", ED2)
 
 ED1 = gsub("0-0", "0", ED1)
 ED1 = gsub("0-", "<= ", ED1)
@@ -106,6 +108,8 @@ colnames(cov.select) <- c("Chromosome", "cov00", "cov02", "cov04", "length", "he
 x_axis <- expression(Delta*~genome~coverage)
 y_axis <- expression(Delta*~heterozygosity)
 
+scaleFUN <- function(x) sprintf("%.2f", x)
+
 text_size_colour = list(theme_bw(base_family="Courier", base_size = 12) + 
     theme(axis.text.x= element_text(colour="black", size=12)) +
     theme(axis.text.y= element_text(colour="black", size=12)) +
@@ -119,34 +123,44 @@ text_size_colour = list(theme_bw(base_family="Courier", base_size = 12) +
           panel.grid.minor = element_line(size = 0.15, linetype = 'solid',
                                 colour = "lightgrey")))
 
+
+
 cov.select <- cov.select[order(abs(cov.select$length)),]
 
-l0 <- ggplot(cov.select, aes(x = round(cov00, digits = 2), y = round(hetDiff, digits = 2), size=round(length/1000000, digits = 2))) + 
-  labs(title = sprintf("%s mismatches", ED1), x = "", y = y_axis) + 
-  geom_hline(yintercept = median.snp, linetype="dashed", size=0.2) +
+
+
+l0 <- ggplot(cov.select, aes(x = cov00, y = hetDiff, size=length/1000000)) + 
+  labs(title = sprintf("%s", ED1), x = "", y = y_axis) + 
+  geom_hline(yintercept = round(median.snp, digits=2), linetype="dashed", size=0.2) +
   geom_vline(xintercept = median.cov.00, linetype="dashed", size=0.2) +
   geom_point(aes(color = round(length/1000000, digits = 2)), alpha = 0.5) +
   text_size_colour +
   theme(legend.position="none") +
-  scale_color_gradient(low="gray90", high="blue") 
+  scale_color_gradient(low="gray90", high="blue") +
+  scale_y_continuous(labels = scales::number_format(accuracy = 0.01)) +
+  scale_x_continuous(labels = scales::number_format(accuracy = 0.01))
 
-l2 <- ggplot(cov.select, aes(x = round(cov02, digits = 2), y = round(hetDiff, digits = 2), size=round(length/1000000, digits = 2))) + 
+l2 <- ggplot(cov.select, aes(x = cov02, y = hetDiff, size=length/1000000)) + 
   #labs(title = sprintf("%s mismatches", ED2), x = "difference in normalized genome coverage", y = "") + 
-  labs(title = sprintf("%s mismatches", ED2), x = " ", y = "") + 
+  labs(title = sprintf("%s", ED2), x = " ", y = "") + 
   geom_hline(yintercept = median.snp, linetype="dashed", size=0.2) +
   geom_vline(xintercept = median.cov.02, linetype="dashed", size=0.2) +
   geom_point(aes(color = round(length/1000000, digits = 2)), alpha = 0.5) + 
   text_size_colour +
   theme(legend.position="none") +
-  scale_color_gradient(low="gray90", high="blue") 
+  scale_color_gradient(low="gray90", high="blue") +
+  scale_y_continuous(labels = scales::number_format(accuracy = 0.01)) +
+  scale_x_continuous(labels = scales::number_format(accuracy = 0.01))
 
-l4 <- ggplot(cov.select, aes(x = round(cov04, digits = 2), y = round(hetDiff, digits = 2), size=round(length/1000000, digits = 2))) + 
-  labs(title = sprintf("%s mismatches", ED3), x = "", size = "scaffold length (Mb)", color = "scaffold length (Mb)", y = "") + 
+l4 <- ggplot(cov.select, aes(x = cov04, y = hetDiff, size=length/1000000)) + 
+  labs(title = sprintf("%s", ED3), x = "", size = "scaffold length (Mb)", color = "scaffold length (Mb)", y = "") + 
   geom_hline(yintercept = median.snp, linetype="dashed", size=0.2) +
   geom_vline(xintercept = median.cov.04, linetype="dashed", size=0.2) + 
   geom_point(aes(color = round(length/1000000, digits = 2)), alpha = 0.5) + 
   text_size_colour +
-  scale_color_gradient(low="gray90", high="blue") 
+  scale_color_gradient(low="gray90", high="blue") +
+  scale_y_continuous(labels = scales::number_format(accuracy = 0.01)) +
+  scale_x_continuous(labels = scales::number_format(accuracy = 0.01))
 
 legend <- get_legend(l4)
 
@@ -164,28 +178,34 @@ cov.select <- cov.select[order(abs(cov.select$hetDiff)),]
 
 mid <- 0
 
-hl0 <- ggplot(cov.select, aes(y = round(length/1000000, digits = 2), x = cov00)) + 
+hl0 <- ggplot(cov.select, aes(y = length/1000000, x = cov00)) + 
   labs(title = "", y = "scaffold length (Mb)", x = "") + 
   geom_vline(xintercept = median.cov.00, linetype="dashed", size=0.2) + 
   geom_point(aes(color = hetDiff)) + 
   scale_color_gradient2(midpoint = mid, mid = "lightgrey",low="blue", high="red") + 
   text_size_colour +
-  theme(legend.position="none")
+  theme(legend.position="none") +
+  scale_y_continuous(labels = scales::number_format(accuracy = 0.01)) +
+  scale_x_continuous(labels = scales::number_format(accuracy = 0.01))
 
-hl2 <- ggplot(cov.select, aes(y = round(length/1000000, digits = 2), x = cov02)) + 
+hl2 <- ggplot(cov.select, aes(y = length/1000000, x = cov02)) + 
   labs(title = "", y = "", x = x_axis) + 
   geom_vline(xintercept = median.cov.02, linetype="dashed", size=0.2) + 
   geom_point(aes(color = hetDiff)) + 
   scale_color_gradient2(midpoint = mid, mid = "lightgrey",low="blue", high="red") + 
   text_size_colour +
-  theme(legend.position="none")
+  theme(legend.position="none") +
+  scale_y_continuous(labels = scales::number_format(accuracy = 0.01)) +
+  scale_x_continuous(labels = scales::number_format(accuracy = 0.01))
 
-hl4 <- ggplot(cov.select, aes(y = round(length/1000000, digits = 2), x = cov04)) + 
+hl4 <- ggplot(cov.select, aes(y = length/1000000, x = cov04)) + 
   labs(title = "", x = "", color = "heterozygosity", y = "") + 
   geom_vline(xintercept = median.cov.04, linetype="dashed", size=0.2) + 
   geom_point(aes(color = hetDiff)) + 
   scale_color_gradient2(midpoint = mid, mid = "lightgrey",low="blue", high="red") + 
-  text_size_colour
+  text_size_colour +
+  scale_y_continuous(labels = scales::number_format(accuracy = 0.01)) +
+  scale_x_continuous(labels = scales::number_format(accuracy = 0.01))
 
 legend <- get_legend(hl4)
 

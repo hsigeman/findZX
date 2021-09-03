@@ -1,8 +1,8 @@
 rule freebayes_prep:
     input:
         fai = ref_genome + ".fai",
-        samples = expand(dedup_dir + "{u.sample}__{u.unit}.sorted.dedup.nm.all.bam", u=units.itertuples()),
-	samples_bai = expand(dedup_dir + "{u.sample}__{u.unit}.sorted.dedup.nm.all.bam.bai", u=units.itertuples()),
+        samples = expand(dedup_dir + "{u.sample}__{u.unit}.sorted.dedup.mismatch.unfiltered.bam", u=units.itertuples()),
+	samples_bai = expand(dedup_dir + "{u.sample}__{u.unit}.sorted.dedup.mismatch.unfiltered.bam.bai", u=units.itertuples()),
     output:
         filter_fai = outdir + "variant_calling/" + ref_genome_name_simple + ".filter." + MIN_SIZE_SCAFFOLD + ".list",
         regions = outdir + "variant_calling/" + ref_genome_name_simple + ".freebayes.regions",
@@ -22,8 +22,8 @@ rule freebayes_prep:
 rule freebayes:
     input:
         ref = ref_genome,
-        samples = expand(dedup_dir + "{u.sample}__{u.unit}.sorted.dedup.nm.all.bam", u=units.itertuples()),
-        indexes=expand(dedup_dir + "{u.sample}__{u.unit}.sorted.dedup.nm.all.bam.bai", u=units.itertuples()),
+        samples = expand(dedup_dir + "{u.sample}__{u.unit}.sorted.dedup.mismatch.unfiltered.bam", u=units.itertuples()),
+        indexes=expand(dedup_dir + "{u.sample}__{u.unit}.sorted.dedup.mismatch.unfiltered.bam.bai", u=units.itertuples()),
         regions_filter=outdir + "variant_calling/" + ref_genome_name_simple + ".freebayes.regions.filter"
     output:
         vcf = temp(outdir + "variant_calling/" + ref_genome_name_simple + ".vcf"),

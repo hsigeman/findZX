@@ -50,6 +50,9 @@ WINDOW = args[11]
 ED1 = gsub("\\.", "-", ED1)
 ED2 = gsub("\\.", "-", ED2)
 ED3 = gsub("\\.", "-", ED3)
+ED1 = gsub("$", " mismatches", ED1)
+ED2 = gsub("$", " mismatches", ED2)
+
 
 ED1 = gsub("0-0", "0", ED1)
 ED1 = gsub("0-", "<= ", ED1)
@@ -290,7 +293,7 @@ text_size_colour = list(theme_bw(base_family="Courier", base_size = 12) +
     scale_color_manual(values = point_colors) +
     scale_shape_manual(values = point_shapes) +
     theme(legend.key.size = unit(2, "mm")) +
-    labs(title = sprintf("%s mismatches", ED1), 
+    labs(title = sprintf("%s", ED1), 
         x = " ", 
         y = y_axis) + 
     text_size_colour
@@ -309,7 +312,7 @@ text_size_colour = list(theme_bw(base_family="Courier", base_size = 12) +
                    shape = Chromosomes), size = 3) + 
     scale_color_manual(values = point_colors) + 
     scale_shape_manual(values = point_shapes) +
-    labs(title = sprintf("%s mismatches", ED2), 
+    labs(title = sprintf("%s", ED2), 
          x = x_axis,
          y = " ") + 
     text_size_colour +
@@ -325,7 +328,7 @@ text_size_colour = list(theme_bw(base_family="Courier", base_size = 12) +
                    shape = Chromosomes), size = 3) + 
     scale_color_manual(values = point_colors) + 
     scale_shape_manual(values = point_shapes) +
-    labs(title = sprintf("%s mismatches", ED3), 
+    labs(title = sprintf("%s", ED3), 
          x = " ",
          y = " ") + 
     text_size_colour +
@@ -430,7 +433,7 @@ title <- ggdraw() + draw_label(sprintf("Sex differences (heterogametic-homogamet
     scale_shape_manual(values = point_shapes) +
     geom_errorbar(aes(color = Chromosomes), width = x_range/20) + 
     geom_errorbarh(aes(color = Chromosomes), height = y_range/20) +
-    labs(title = sprintf("%s mismatches", ED1), 
+    labs(title = sprintf("%s", ED1), 
          x = " ",
          y = y_axis) + 
     text_size_colour +
@@ -451,7 +454,7 @@ title <- ggdraw() + draw_label(sprintf("Sex differences (heterogametic-homogamet
     scale_shape_manual(values = point_shapes) +
     geom_errorbar(aes(color = Chromosomes), width = x_range/20) + 
     geom_errorbarh(aes(color = Chromosomes), height = y_range/20) +
-    labs(title = sprintf("%s mismatches", ED2),
+    labs(title = sprintf("%s", ED2),
          x = x_axis,
          y = " ") + 
     text_size_colour +
@@ -472,7 +475,7 @@ title <- ggdraw() + draw_label(sprintf("Sex differences (heterogametic-homogamet
     scale_shape_manual(values = point_shapes) +
     geom_errorbar(aes(color = Chromosomes), width = x_range/20) + 
     geom_errorbarh(aes(color = Chromosomes), height = y_range/20) +
-    labs(title = sprintf("%s mismatches", ED3),
+    labs(title = sprintf("%s", ED3),
          x = " ",
          y = " ") + 
     text_size_colour +
@@ -489,8 +492,12 @@ title <- ggdraw() + draw_label(sprintf("Mean sex differences (heterogametic-homo
 
     c <- plot_grid(title, c, nrow = 2, rel_heights = c(0.15, 1))
 
-  data <- ggdraw() + draw_label(paste0("Data points from tables: \n", file1, " \n ",
+  data <- ggdraw() + draw_label(paste0("Dashed lines are median values across all windows"))
+
+  data2 <- ggdraw() + draw_label(paste0("Data points from tables: \n", file1, " \n ",
    file2, " \n ", file3, " \n ", filesnp))
+
+  data <- plot_grid(data, data2, nrow = 2, rel_heights = c(1, 1))
 
   pdf(file=scatter_out, width = 12, height = 4.5)
   print(p)
@@ -511,7 +518,7 @@ title <- ggdraw() + draw_label(sprintf("Mean sex differences (heterogametic-homo
       geom_point(aes(fill = highlight_col), pch = 21, size = 3) + 
       scale_fill_manual(values = point_colors) +
       theme(legend.key.size = unit(2, "mm")) +
-      labs(title = sprintf("%s mismatches", ED1), 
+      labs(title = sprintf("%s", ED1), 
            x = " ",
            y = y_axis, fill="Chromosome type") + 
       text_size_colour
@@ -530,7 +537,7 @@ title <- ggdraw() + draw_label(sprintf("Mean sex differences (heterogametic-homo
       geom_vline(xintercept = median.cov.2, linetype="dashed", size=0.2) +                     
       geom_point(aes(fill = highlight_col), pch = 21, size = 3) + 
       scale_fill_manual(values = point_colors) +
-      labs(title = sprintf("%s mismatches", ED2), 
+      labs(title = sprintf("%s", ED2), 
            x = x_axis,
            y = " ") + 
       text_size_colour +
@@ -543,7 +550,7 @@ title <- ggdraw() + draw_label(sprintf("Mean sex differences (heterogametic-homo
       geom_vline(xintercept = median.cov.3, linetype="dashed", size=0.2) +
       geom_point(aes(fill = highlight_col), pch = 21, size = 3) + 
       scale_fill_manual(values = point_colors) +
-      labs(title = sprintf("%s mismatches", ED3), 
+      labs(title = sprintf("%s", ED3), 
            x = " ",
            y = " ") + 
       text_size_colour +
@@ -589,7 +596,7 @@ title <- ggdraw() + draw_label(sprintf("Sex differences (heterogametic-homogamet
       geom_errorbar(aes(color = highlight_col), width = x_range/20) + 
       geom_errorbarh(aes(color = highlight_col), height = y_range/20) +
       geom_point(aes(fill = highlight_col, size = window.max), pch = 21) + 
-      labs(title = sprintf("%s mismatches", ED1), 
+      labs(title = sprintf("%s", ED1), 
            x = " ",
            y = y_axis) + 
       text_size_colour +
@@ -610,7 +617,7 @@ title <- ggdraw() + draw_label(sprintf("Sex differences (heterogametic-homogamet
       geom_errorbar(aes(color = highlight_col), width = x_range/20) + 
       geom_errorbarh(aes(color = highlight_col), height = y_range/20) +
       geom_point(aes(fill = highlight_col, size = window.max), pch = 21) + 
-      labs(title = sprintf("%s mismatches", ED2),
+      labs(title = sprintf("%s", ED2),
            x = x_axis,
            y = " ") + 
       text_size_colour +
@@ -632,7 +639,7 @@ title <- ggdraw() + draw_label(sprintf("Sex differences (heterogametic-homogamet
       geom_errorbar(aes(color = highlight_col), width = x_range/20) + 
       geom_errorbarh(aes(color = highlight_col), height = y_range/20) +
       geom_point(aes(fill = highlight_col, size = window.max), pch = 21) + 
-      labs(title = sprintf("%s mismatches", ED3),
+      labs(title = sprintf("%s", ED3),
            x = " ",
            y = " ") + 
       text_size_colour +
@@ -653,11 +660,13 @@ title <- ggdraw() + draw_label(sprintf("Mean sex differences (heterogametic-homo
     c <- plot_grid(title, c, nrow = 2, rel_heights = c(0.15, 1))
 
 
-  data <- ggdraw() + draw_label(paste0("Data points from tables: \n", file1, " \n ",
+  data <- ggdraw() + draw_label(paste0("Dashed lines are median values across all windows"))
+  data2 <- ggdraw() + draw_label(paste0("Data points from tables: \n", file1, " \n ",
    file2, " \n ", file3, " \n ", filesnp))
   dataColour <- ggdraw() + draw_label(paste0("Data points color from: \n", highlight_file))
   
   data <- plot_grid(data, 
+                    data2,
                    dataColour, 
                    ncol = 1)
 

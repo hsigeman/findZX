@@ -45,7 +45,7 @@ synteny_chr_highlight:
 edit_distance:
     - 0.0 # 0 mismatches allowed
     - 0.2 # <=2 mismatches allowed
-    - all # Do not edit this one
+    - unfiltered # Do not edit this one
 
 window_sizes:
     - 50000
