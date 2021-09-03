@@ -23,11 +23,11 @@ file2 = args[2]
 file3 = args[3]
 filesnp = args[4]
 scatter2D_out = args[5]
-scatter3D_out = args[6]
-chr_file = args[7]
-ED1 = args[8]
-ED2 = args[9]
-ED3 = args[10]
+#scatter3D_out = args[6]
+chr_file = args[6]
+ED1 = args[7]
+ED2 = args[8]
+ED3 = args[9]
 
 ################################################################################
 ################################# READ FILES ###################################
@@ -113,7 +113,11 @@ text_size_colour = list(theme_bw(base_family="Courier", base_size = 12) +
     theme(axis.title.y = element_text(colour="black",size=15)) + 
     theme(plot.title=element_text(family="Courier", size=15, colour="black", hjust = 0.5)) +
     theme(panel.border = element_rect(colour = "black", fill=NA, size=0.5)) +
-    theme(plot.margin= margin(1, 1, 1, 1, "mm")))
+    theme(plot.margin= margin(1, 1, 1, 1, "mm")) +
+    theme(panel.grid.major = element_line(size = 0.15, linetype = 'solid',
+                                colour = "lightgrey"), 
+          panel.grid.minor = element_line(size = 0.15, linetype = 'solid',
+                                colour = "lightgrey")))
 
 cov.select <- cov.select[order(abs(cov.select$length)),]
 
@@ -220,28 +224,28 @@ ggsave(sprintf("%s.png", scatter2D_out_base), plot = pg, device = png(), width =
 ############################### SCATTER PLOT 3D ################################
 ################################################################################
 
-pdf(file=scatter3D_out, width = 14, height = 8)
+#pdf(file=scatter3D_out, width = 14, height = 8)
 
-par(mfrow=c(1,3), mar=c(2,1,2,0), oma=c(0,0,0,0), xpd=TRUE)
+#par(mfrow=c(1,3), mar=c(2,1,2,0), oma=c(0,0,0,0), xpd=TRUE)
 
-scatter3D(cov.select$length, cov.select$cov00, cov.select$hetDiff,
-          colvar = cov.select$length, pch = 19, xlab = "Scaffold length", 
-          ylab = "difference in normalized genome coverage", main = sprintf("%s mismatches", ED1),
-          zlab = "difference in heterozygosity", bty = "b2",
-          colkey = FALSE, col = viridis(length(cov.select$length), direction = -1),
-          phi = 20, theta = 60)
+#scatter3D(cov.select$length, cov.select$cov00, cov.select$hetDiff,
+#          colvar = cov.select$length, pch = 19, xlab = "Scaffold length", 
+#          ylab = "difference in normalized genome coverage", main = sprintf("%s mismatches", ED1),
+#          zlab = "difference in heterozygosity", bty = "b2",
+#          colkey = FALSE, col = viridis(length(cov.select$length), direction = -1),
+#          phi = 20, theta = 60)
 
-scatter3D(cov.select$length, cov.select$cov02, cov.select$hetDiff,
-          colvar = cov.select$length, pch = 19, xlab = "Scaffold length", 
-          ylab = "difference in normalized genome coverage", main = sprintf("%s mismatches", ED2),
-          zlab = "difference in heterozygosity", bty = "b2",
-          colkey = FALSE, col = viridis(length(cov.select$length), direction = -1),
-          phi = 20, theta = 60)
+#scatter3D(cov.select$length, cov.select$cov02, cov.select$hetDiff,
+#          colvar = cov.select$length, pch = 19, xlab = "Scaffold length", 
+#          ylab = "difference in normalized genome coverage", main = sprintf("%s mismatches", ED2),
+#          zlab = "difference in heterozygosity", bty = "b2",
+#          colkey = FALSE, col = viridis(length(cov.select$length), direction = -1),
+#          phi = 20, theta = 60)
 
-scatter3D(cov.select$length, cov.select$cov04, cov.select$hetDiff,
-          colvar = cov.select$length, pch = 19, xlab = "Scaffold length", 
-          ylab = "difference in normalized genome coverage", main = sprintf("%s mismatches", ED3),
-          zlab = "difference in heterozygosity", bty = "b2",
-          colkey = FALSE, col = viridis(length(cov.select$length), direction = -1),
-          phi = 20, theta = 60)
-dev.off()
+#scatter3D(cov.select$length, cov.select$cov04, cov.select$hetDiff,
+#          colvar = cov.select$length, pch = 19, xlab = "Scaffold length", 
+#          ylab = "difference in normalized genome coverage", main = sprintf("%s mismatches", ED3),
+#          zlab = "difference in heterozygosity", bty = "b2",
+#          colkey = FALSE, col = viridis(length(cov.select$length), direction = -1),
+#          phi = 20, theta = 60)
+#dev.off()

@@ -271,7 +271,13 @@ text_size_colour = list(theme_bw(base_family="Courier", base_size = 12) +
     theme(axis.title.y = element_text(colour="black",size=15)) + 
     theme(plot.title=element_text(family="Courier", size=15, colour="black", hjust = 0.5) ) +
     theme(panel.border = element_rect(colour = "black", fill=NA, size=0.5)) +
-    theme(plot.margin= margin(1, 1, 1, 1, "mm")))
+    theme(plot.margin= margin(1, 1, 1, 1, "mm")) +
+    theme(panel.grid.major = element_line(size = 0.15, linetype = 'solid',
+                                colour = "lightgrey"), 
+          panel.grid.minor = element_line(size = 0.15, linetype = 'solid',
+                                colour = "lightgrey")))
+
+
 
   cov1_plot <- ggplot(cov.select, 
                       aes(x = cov1, 
@@ -479,7 +485,7 @@ title <- ggdraw() + draw_label(sprintf("Mean sex differences (heterogametic-homo
                    cov2_plot, 
                    cov3_plot, 
                    nrow = 1, 
-                   labels = c("A","B","C"))
+                   labels = c("D","E","F"))
 
     c <- plot_grid(title, c, nrow = 2, rel_heights = c(0.15, 1))
 
@@ -508,7 +514,6 @@ title <- ggdraw() + draw_label(sprintf("Mean sex differences (heterogametic-homo
       labs(title = sprintf("%s mismatches", ED1), 
            x = " ",
            y = y_axis, fill="Chromosome type") + 
-      theme_bw(base_family="Helvetica", base_size = 12) +
       text_size_colour
     
     legend <- get_legend(cov1_plot)
@@ -643,7 +648,7 @@ title <- ggdraw() + draw_label(sprintf("Mean sex differences (heterogametic-homo
                    cov2_plot, 
                    cov3_plot, 
                    nrow = 1, 
-                   labels = c("A","B","C"))
+                   labels = c("D","E","F"))
 
     c <- plot_grid(title, c, nrow = 2, rel_heights = c(0.15, 1))
 

@@ -216,9 +216,11 @@ text_size_colour = list(theme_bw(base_family="Courier", base_size = 12) +
     theme(axis.title.y = element_text(colour="black",size=14)) + 
     theme(plot.title=element_text(family="Courier", size=14, colour="black", hjust = 0.5)) +
     theme(plot.margin= margin(1, 1, 3, 7, "mm")) +
-    theme(panel.border = element_rect(colour = "black", fill=NA, size=0.5)))
-
-
+    theme(panel.border = element_rect(colour = "black", fill=NA, size=0.5)) +
+    theme(panel.grid.major = element_line(size = 0.15, linetype = 'solid',
+                                colour = "lightgrey"), 
+          panel.grid.minor = element_line(size = 0.15, linetype = 'solid',
+                                colour = "lightgrey")))
 
 # Prepare the dataset
 cov1 <- cov_1_table %>% 

@@ -3,6 +3,7 @@ library(data.table)
 library(ggplot2)
 library(cowplot)
 require(scales)
+library(ggExtra)
 
 # Reads in a bed-file with coverage values and a file with heterozygosity for 
 # each site for each sample, values for each sample are in separate columns.
@@ -103,7 +104,11 @@ text_size_colour = list(theme_bw(base_family="Courier", base_size = 12) +
     theme(axis.title.y = element_text(colour="black",size=14)) + 
     theme(axis.ticks = element_line(colour = "black", size = 0.5)) +
     theme(panel.border = element_rect(colour = "black", fill=NA, size=0.5)) +
-    theme(plot.title=element_text(family="Courier", size=14, colour="black", hjust = 0.5) ))
+    theme(plot.title=element_text(family="Courier", size=14, colour="black", hjust = 0.5)) +
+    theme(panel.grid.major = element_line(size = 0.15, linetype = 'solid',
+                                colour = "lightgrey"), 
+          panel.grid.minor = element_line(size = 0.15, linetype = 'solid',
+                                colour = "lightgrey")))
 
 
 plist <- list()
@@ -123,37 +128,45 @@ for (i in 1:nr_samples) {
          y = "heterozygosity") + 
     text_size_colour +
     scale_fill_gradient(low="white",
-                        high="blue",
-                        trans="log10") 
+                        high="black",
+                        trans="log10") + 
+    theme(legend.position = "bottom")
   
+  gh <- ggMarginal(gh, type="histogram", color="black", fill="blue")
+
   gl <- ggplot(data = cov_het, 
                aes(x = cov_het[,x], 
-                   y = length)) + 
+                   y = length/1000000)) + 
     geom_bin2d(na.rm = TRUE) + 
     labs(x = "genome coverage", 
-         y = "scaffold length (bp)") + 
+         y = "scaffold length (Mb)") + 
     text_size_colour +
     scale_fill_gradient(low="white",
-                        high="blue",
-                        trans="log10") 
+                        high="black",
+                        trans="log10") + 
+    theme(legend.position = "bottom")
   
+  gl <- ggMarginal(gl, type="histogram", color="black", fill="blue")
   hl <- ggplot(data = cov_het, 
                aes(x = cov_het[,y], 
-                   y = length)) + 
+                   y = length/1000000)) + 
     geom_bin2d(na.rm = TRUE) + 
     labs(x = "heterozygosity", 
-         y = "scaffold length (bp)") + 
+         y = "scaffold length (Mb)") + 
     text_size_colour +
     scale_fill_gradient(low="white",
-                        high="blue",
-                        trans="log10") 
+                        high="black",
+                        trans="log10")  + 
+    theme(legend.position = "bottom")
+
+  hl <- ggMarginal(hl, type="histogram", color="black", fill="blue") 
 
 ############## HISTOGRAM GENOME COVERAGE WITH LINES FOR N1 AND N2 ##############
   
   g <- ggplot(cov_het, 
               aes(x = cov_het[,x])) + 
      geom_histogram(bins = 50, 
-                    na.rm = TRUE) + 
+                    na.rm = TRUE, color="black", size=0.1, fill="blue") + 
      labs(x="genome coverage", 
           y="Frequency") + 
      text_size_colour 
@@ -176,7 +189,7 @@ for (i in 1:nr_samples) {
   h <- ggplot(cov_het, 
               aes(x = cov_het[,y])) + 
      geom_histogram(bins = 50, 
-                    na.rm = TRUE) + 
+                    na.rm = TRUE, color="black", size=0.1, fill="blue") + 
      labs(x="heterozygosity", 
           y="Frequency") + 
      text_size_colour
@@ -197,7 +210,7 @@ for (i in 1:nr_samples) {
   cov_het_subset$chr <- factor(cov_het_subset$chr, levels = top_chr)
   
   c <- ggplot(cov_het_subset, 
-              aes(x=end, 
+              aes(x=end/1000000, 
                   y=cov_het_subset[,x])) + 
     geom_bin2d(na.rm = TRUE) + 
   #  geom_point(alpha=0.1, size=0.2) +
@@ -206,13 +219,13 @@ for (i in 1:nr_samples) {
                scales = "free_x", 
                space = "free_x") +
     labs(y = "genome coverage", 
-         x = "Chromosome/scaffold position") +
+         x = "Chromosome/scaffold position (Mb)") +
     scale_x_continuous(limits = c(0, NA)) +
     theme(axis.text.x = element_blank()) +
     text_size_colour
   
     title <- ggdraw() +
-    draw_label(paste0("\"Confirm sexing\" plots based on 5kb window values \nSample: ", sample_names[i]),
+    draw_label(paste0("\"Confirm sexing\" plots based on 5kb window values \t \t \t Sample: ", sample_names[i]),
     fontface = 'bold',
     x = 0,
     hjust = 0
@@ -223,9 +236,10 @@ for (i in 1:nr_samples) {
 ##################################### ALL ######################################
   
   pg <- plot_grid(g,h, gh, gl, hl, 
-                  ncol = 5)
+                  ncol = 5,
+                  labels = c("A","B","C","D","E"))
   
-  p <- plot_grid(pg, c, ncol = 1)
+  p <- plot_grid(pg, c, ncol = 1, labels = c(" ","F"))
   
   p2 <- plot_grid(title, p, ncol = 1, rel_heights = c(0.1, 1))
   
@@ -234,7 +248,7 @@ for (i in 1:nr_samples) {
 }
 
 
-pdf(outPdf, width = 20)
+pdf(outPdf, width = 20, height = 10)
 
 for (i in 1:nr_samples) {
   

@@ -15,3 +15,4 @@ dependencies:
   - r-tcltk2=1.2_11
   - imagemagick=7.0.11_14
   - r-tidyverse=1.2.1
+  - r-ggextra=0.8

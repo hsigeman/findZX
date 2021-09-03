@@ -31,6 +31,7 @@ dependencies:
   - r-gridGraphics=0.5_1
   - r-plotly=4.9.3
   - r-tidyverse=1.2.1
+  - r-ggextra=0.8
   - python=3.9.5
   - pip=21.1.1
   - gawk=5.1.0
