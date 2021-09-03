@@ -188,7 +188,11 @@ snp_table$chr <- ordered(snp_table$chr,
 ################################################################################
 
 data <- ggdraw() + draw_label(paste0("Data points from tables: \n", file1, " \n ",
-   file2, " \n ", file3, " \n ", filesnp))
+   file2, " \n ", file3, " \n ", filesnp), hjust = 0.5)
+data2 <- ggdraw() + draw_label(paste0("Chromosomes/scaffolds are ordered from longest to shortest (", CHR_NR, " longest chromosomes/scaffolds), \n unless a list of chromosomes/scaffolds is provided in the config file. \n If a list is provided, the chromosomes/scaffolds are ordered according to this list. \n Chromosome file: ", chr_file))
+data <- plot_grid(data2, data, ncol = 1, rel_heights = c(1, 1))
+
+
 
 # Filter data for n longest scaffolds, determined by args[11]
 if ( !file.exists(chr_file) & (len_chr > CHR_NR)) {
@@ -643,7 +647,7 @@ c <- plot_grid(title,
                p.cov2, 
                p.cov3, 
                nrow = 5, 
-               rel_heights = c(0.2, 1,1,1,1),            
+               rel_heights = c(0.2, 1,1,1,2),            
                labels = c(" ","A","B","C", "D"))
 
 
