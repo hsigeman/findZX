@@ -16,3 +16,4 @@ dependencies:
   - imagemagick=7.0.11_14
   - r-tidyverse=1.2.1
   - r-ggextra=0.8
+  - r-ggpubr=0.4.0

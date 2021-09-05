@@ -42,7 +42,7 @@ rule highlight_file:
 if not config['synteny_chr_highlight']: 
     rule plotting:
         input:
-            cov = expand(outdir + "output/synteny/" + synteny_abbr + "/tables/" + "gencov.mismatch.{ED}.{{bp}}bp.out", ED = EDIT_DIST),
+            cov = expand(outdir + "output/synteny/" + synteny_abbr + "/tables/" + "diffGenomeCoverage.mismatch.{ED}.{{bp}}bp.out", ED = EDIT_DIST),
             snp = outdir + "output/synteny/" + synteny_abbr + "/tables/" + "diffHeterozygosity.{bp}bp.out",
             chromosomes_highlight = outdir + "output/synteny/" + synteny_abbr + "/highlight_file.list",
         output:
@@ -63,7 +63,7 @@ if not config['synteny_chr_highlight']:
 else:
     rule plotting:
         input:
-            cov = expand(outdir + "output/synteny/" + synteny_abbr + "/tables/" + "gencov.mismatch.{ED}.{{bp}}bp.out", ED = EDIT_DIST),
+            cov = expand(outdir + "output/synteny/" + synteny_abbr + "/tables/" + "diffGenomeCoverage.mismatch.{ED}.{{bp}}bp.out", ED = EDIT_DIST),
             snp = outdir + "output/synteny/" + synteny_abbr + "/tables/" + "diffHeterozygosity.{bp}bp.out",
             chromosomes_highlight = outdir + "output/synteny/" + synteny_abbr + "/highlight_file.list",
         output:
@@ -85,7 +85,7 @@ else:
 
 rule plotting_linear:
     input:
-        cov = expand(outdir + "output/synteny/" + synteny_abbr + "/tables/" + "gencov.mismatch.{ED}.{{bp}}bp.out", ED = EDIT_DIST),
+        cov = expand(outdir + "output/synteny/" + synteny_abbr + "/tables/" + "diffGenomeCoverage.mismatch.{ED}.{{bp}}bp.out", ED = EDIT_DIST),
         snp = outdir + "output/synteny/" + synteny_abbr + "/tables/" + "diffHeterozygosity.{bp}bp.out"
     output:
         absolute_out = report(outdir + "output/synteny/" + synteny_abbr + "/plots/2_sexesSeparate.genomeWide.{bp}bp.window.pdf", category="3. Output plots",),
@@ -106,7 +106,7 @@ rule plotting_linear:
 
 rule plotting_chr:
     input:
-        cov = expand(outdir + "output/synteny/" + synteny_abbr + "/tables/" + "gencov.mismatch.{ED}.chr.out", ED = EDIT_DIST),
+        cov = expand(outdir + "output/synteny/" + synteny_abbr + "/tables/" + "diffGenomeCoverage.mismatch.{ED}.chr.out", ED = EDIT_DIST),
         snp = outdir + "output/synteny/" + synteny_abbr + "/tables/" + "diffHeterozygosity.chr.out"
     output:
         out_scatter2D = report(outdir + "output/synteny/" + synteny_abbr + "/plots/3_sexDifferences.chromosome.pdf", category="3. Output plots", caption="../report/scatter_2D.rst",),

@@ -32,7 +32,7 @@ rule calculate_ratio_chr:
     input:
         outdir + "coverage/" + "gencov.mismatch.{ED}.norm.sexAverage.out"
     output:
-        outdir + "output/no_synteny/tables/" + "gencov.mismatch.{ED}.chr.out"
+        outdir + "output/no_synteny/tables/" + "diffGenomeCoverage.mismatch.{ED}.chr.out"
     threads: 1
     conda: 
         "../envs/R.yaml"
@@ -46,7 +46,7 @@ rule calculate_ratio_window:
     input:
         outdir + "coverage/" + "gencov.mismatch.{ED}.norm.sexAverage.out"
     output:
-        outdir + "output/no_synteny/tables/" + "gencov.mismatch.{ED}.{window}bp.out"
+        outdir + "output/no_synteny/tables/" + "diffGenomeCoverage.mismatch.{ED}.{window}bp.out"
     threads: 1
     params:
         window="{window}"

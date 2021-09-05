@@ -32,7 +32,7 @@ rule calculate_ratio_chr:
     input:
         outdir + "synteny_lastal/" + synteny_abbr + "/" + "gencov.mismatch.{ED}.norm.sexAverage.small.out",
     output:
-        outdir + "output/synteny/" + synteny_abbr + "/tables/" + "gencov.mismatch.{ED}.chr.out"
+        outdir + "output/synteny/" + synteny_abbr + "/tables/" + "diffGenomeCoverage.mismatch.{ED}.chr.out"
     threads: 1
     conda: 
         "../envs/R.yaml"
@@ -46,7 +46,7 @@ rule calculate_ratio_window:
     input:
         outdir + "synteny_lastal/" + synteny_abbr + "/" + "gencov.mismatch.{ED}.norm.sexAverage.small.out",
     output:
-        outdir + "output/synteny/" + synteny_abbr + "/tables/" + "gencov.mismatch.{ED}.{window}bp.out"
+        outdir + "output/synteny/" + synteny_abbr + "/tables/" + "diffGenomeCoverage.mismatch.{ED}.{window}bp.out"
     threads: 1
     conda: 
         "../envs/R.yaml"

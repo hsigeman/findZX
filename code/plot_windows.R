@@ -280,6 +280,17 @@ text_size_colour = list(theme_bw(base_family="Courier", base_size = 12) +
           panel.grid.minor = element_line(size = 0.15, linetype = 'solid',
                                 colour = "lightgrey")))
 
+theme_title <- function(...) {
+  theme_gray(base_family = "Courier") + 
+    theme(plot.title = element_text(face = "bold"))
+}
+title_theme <- calc_element("plot.title", theme_title())
+
+theme_description <- function(...) {
+  theme_gray(base_family = "Courier") + 
+    theme(plot.title = element_text(face = "plain",size = 12, hjust = 0))
+}
+theme_description <- calc_element("plot.title", theme_description())
 
 
   cov1_plot <- ggplot(cov.select, 
@@ -334,7 +345,11 @@ text_size_colour = list(theme_bw(base_family="Courier", base_size = 12) +
     text_size_colour +
     theme(legend.position="none")
 
-title <- ggdraw() + draw_label(sprintf("Sex differences (heterogametic-homogametic) per %s bp window", WINDOW), fontface='bold')
+title <- ggdraw() + draw_label(sprintf("Sex differences (heterogametic-homogametic) per %s bp window", WINDOW), 
+    fontfamily = title_theme$family,
+    fontface = title_theme$face,
+    size = title_theme$size
+  )
 
 
     p <- plot_grid(cov1_plot, 
@@ -481,7 +496,10 @@ title <- ggdraw() + draw_label(sprintf("Sex differences (heterogametic-homogamet
     text_size_colour +
     theme(legend.position="none")
   
-title <- ggdraw() + draw_label(sprintf("Mean sex differences (heterogametic-homogametic) per chromosome/scaffold (across %s bp windows)", WINDOW), fontface='bold')
+title <- ggdraw() + draw_label(sprintf("Mean sex differences (heterogametic-homogametic) per chromosome/scaffold (across %s bp windows)", WINDOW),     
+    fontfamily = title_theme$family,
+    fontface = title_theme$face,
+    size = title_theme$size)
 
 
     c <- plot_grid(cov1_plot, 
@@ -492,10 +510,16 @@ title <- ggdraw() + draw_label(sprintf("Mean sex differences (heterogametic-homo
 
     c <- plot_grid(title, c, nrow = 2, rel_heights = c(0.15, 1))
 
-  data <- ggdraw() + draw_label(paste0("Dashed lines are median values across all windows"))
+  data <- ggdraw() + draw_label(paste0("Dashed lines are median values across all windows"),     
+    fontfamily = theme_description$family,
+    fontface = theme_description$face,
+    size = theme_description$size)
 
   data2 <- ggdraw() + draw_label(paste0("Data points from tables: \n", file1, " \n ",
-   file2, " \n ", file3, " \n ", filesnp))
+   file2, " \n ", file3, " \n ", filesnp),     
+    fontfamily = theme_description$family,
+    fontface = theme_description$face,
+    size = theme_description$size)
 
   data <- plot_grid(data, data2, nrow = 2, rel_heights = c(1, 1))
 
@@ -556,8 +580,10 @@ title <- ggdraw() + draw_label(sprintf("Mean sex differences (heterogametic-homo
       text_size_colour +
       theme(legend.position="none")
  
-title <- ggdraw() + draw_label(sprintf("Sex differences (heterogametic-homogametic) per %s bp window", WINDOW), fontface='bold')
-
+title <- ggdraw() + draw_label(sprintf("Sex differences (heterogametic-homogametic) per %s bp window", WINDOW),     
+    fontfamily = title_theme$family,
+    fontface = title_theme$face,
+    size = title_theme$size)
 
     p <- plot_grid(cov1_plot, 
                    cov2_plot, 
@@ -648,8 +674,10 @@ title <- ggdraw() + draw_label(sprintf("Sex differences (heterogametic-homogamet
  
 
 
-title <- ggdraw() + draw_label(sprintf("Mean sex differences (heterogametic-homogametic) per chromosome/scaffold (across %s bp windows)", WINDOW), fontface='bold')
-
+title <- ggdraw() + draw_label(sprintf("Mean sex differences (heterogametic-homogametic) per chromosome/scaffold (across %s bp windows)", WINDOW),     
+    fontfamily = title_theme$family,
+    fontface = title_theme$face,
+    size = title_theme$size)
 
     c <- plot_grid(cov1_plot, 
                    cov2_plot, 
@@ -660,10 +688,20 @@ title <- ggdraw() + draw_label(sprintf("Mean sex differences (heterogametic-homo
     c <- plot_grid(title, c, nrow = 2, rel_heights = c(0.15, 1))
 
 
-  data <- ggdraw() + draw_label(paste0("Dashed lines are median values across all windows"))
+  data <- ggdraw() + draw_label(paste0("Dashed lines are median values across all windows"),     
+    fontfamily = theme_description$family,
+    fontface = theme_description$face,
+    size = theme_description$size)
+
   data2 <- ggdraw() + draw_label(paste0("Data points from tables: \n", file1, " \n ",
-   file2, " \n ", file3, " \n ", filesnp))
-  dataColour <- ggdraw() + draw_label(paste0("Data points color from: \n", highlight_file))
+   file2, " \n ", file3, " \n ", filesnp),     
+    fontfamily = theme_description$family,
+    fontface = theme_description$face,
+    size = theme_description$size)
+  dataColour <- ggdraw() + draw_label(paste0("Data points color from: \n", highlight_file),     
+    fontfamily = theme_description$family,
+    fontface = theme_description$face,
+    size = theme_description$size)
   
   data <- plot_grid(data, 
                     data2,
