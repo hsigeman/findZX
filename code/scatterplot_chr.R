@@ -5,6 +5,7 @@ library(ggplot2)
 require(scales)
 library(cowplot)
 library(viridisLite)
+library(ggpubr)
 
 # Reads in files ending with '.chr.out' produced by calculate_gencov_windows.R 
 # and calculate_heterozygosityDiff_windows.R
@@ -162,11 +163,11 @@ l4 <- ggplot(cov.select, aes(x = cov04, y = hetDiff, size=length/1000000)) +
   scale_y_continuous(labels = scales::number_format(accuracy = 0.01)) +
   scale_x_continuous(labels = scales::number_format(accuracy = 0.01))
 
-legend <- get_legend(l4)
+legend_l <- get_legend(l4)
 
 l4 <- l4 + theme(legend.position="none")
 
-l <- plot_grid(l0, l2, l4, legend, ncol = 4, rel_widths = c(3,3,3,2))
+#l <- plot_grid(l0, l2, l4, legend_l, ncol = 4, rel_widths = c(3,3,3,2))
 
 
 ################################################################################
@@ -207,23 +208,32 @@ hl4 <- ggplot(cov.select, aes(y = length/1000000, x = cov04)) +
   scale_y_continuous(labels = scales::number_format(accuracy = 0.01)) +
   scale_x_continuous(labels = scales::number_format(accuracy = 0.01))
 
-legend <- get_legend(hl4)
+legend_hl <- get_legend(hl4)
 
 hl4 <- hl4 + theme(legend.position="none")
 
-hl <- plot_grid(hl0, hl2, hl4, legend, ncol = 4, rel_widths = c(3,3,3,2))
+#hl <- ggarrange(hl0, hl2, hl4, ncol = 3, align="hv")
+#hl <- plot_grid(hl, legend_hl, ncol = 2, rel_widths = c(9,2))
+
+pg <- ggarrange(l0, l2, l4, hl0, hl2, hl4, ncol = 3, nrow= 2, align="hv",
+  labels =c("A", "B", "C", "D","E", "F"))
+
+pg_legend <- plot_grid(legend_l, legend_hl, ncol = 1)
+
+pg <- plot_grid(pg, pg_legend, ncol = 2, rel_widths = c(1, 0.25))
+
 
 ################################################################################
 
-#pg <- plot_grid(l,c,hl, ncol = 1, labels = 'AUTO')
+#pg <- plot_grid(pg,c,hl, ncol = 1, labels = 'AUTO')
 
 #ggsave(scatter2D_out, plot = pg, device = pdf(), width = 14, height = 14)
 
-pg <- plot_grid(l,hl, ncol = 1, labels = 'AUTO')
+#pg <- plot_grid(l,hl, ncol = 1, labels = 'AUTO')
 title <- ggdraw() + draw_label("Sex differences (heterogametic-homogametic) per chromosome/scaffold", fontface='bold')
 
 
-pg <- plot_grid(title, pg, ncol = 1, rel_heights = c(0.1, 1))
+pg <- plot_grid(title, pg, ncol = 1, rel_heights = c(0.1, 1.5))
 
 data <- ggdraw() + draw_label(paste0("Data points from tables: \n", file1, " \n ",
    file2, " \n ", file3, " \n ", filesnp))
