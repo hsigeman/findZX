@@ -213,6 +213,9 @@ for (i in 1:nr_samples) {
               aes(x=end/1000000, 
                   y=cov_het_subset[,x])) + 
     geom_bin2d(na.rm = TRUE) + 
+    scale_fill_gradient(low="white",
+                        high="black",
+                        trans="log10") + 
   #  geom_point(alpha=0.1, size=0.2) +
     geom_smooth(na.rm = TRUE, span = 0.3) + 
     facet_grid(. ~ chr, 

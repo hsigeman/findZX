@@ -101,3 +101,10 @@ def new_get_sample_bams(wildcards):
         unit=units.loc[wildcards.sample].unit,
         ED = EDIT_DIST
     )
+
+def forward_read(wildcards):
+    """Get all aligned reads of given sample."""
+    forward = units.loc[(wildcards.sample, wildcards.unit), ["fq1"]].dropna()
+def reverse_read(wildcards):
+    """Get all aligned reads of given sample."""
+    forward = units.loc[(wildcards.sample, wildcards.unit), ["fq2"]].dropna()

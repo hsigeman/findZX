@@ -121,3 +121,14 @@ rule plotting_chr:
         """
         Rscript code/scatterplot_chr.R {input.cov} {input.snp} {output.out_scatter2D} {params.chromosomes} {params.ED}
         """
+
+
+rule table_readme:
+    input:
+        "config/output_table_README.md"
+    output:
+        outdir + "output/synteny/" + synteny_abbr + "/tables/" + "output_table_README.md"
+    shell:
+        """
+        cp {input} {output}
+        """
