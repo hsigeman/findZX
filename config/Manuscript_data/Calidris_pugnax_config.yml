@@ -32,7 +32,7 @@ synteny_ref: "../../neosexchromosome/data/external_raw/Gallus_gallus.GRCg6a.dna.
 synteny_abbr: "GG"
 
 # List of chromosomes in the synteny-species reference genome that should be plotted (and highlighted) in the end (optional) 
-synteny_chr_file: "None"
+synteny_chr_file: "config/Manuscript_data/CH_chromosomes.list"
 synteny_chr_highlight:
     - 11
 

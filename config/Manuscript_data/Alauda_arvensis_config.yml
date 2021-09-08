@@ -33,7 +33,7 @@ synteny_ref: "../data/external_raw/genome/Taeniopygia_guttata.taeGut3.2.4.dna.to
 synteny_abbr: "HS"
 
 # List of chromosomes in the synteny-species reference genome that should be plotted (and highlighted) in the end (optional) 
-synteny_chr_file: "None"
+synteny_chr_file: "config/Manuscript_data/ZF_chromosomes.list"
 synteny_chr_highlight:
     - Z
     - 3
