@@ -3,11 +3,9 @@
 **A snakemake-based pipeline for identifying sex chromosomes using WGS paired-end data from males and females**
 
 Use this flowchart to find out if you should use XYZWfinder: 
-<p align="center"><img width="80%" src="figures/readme_flowchart.jpg"></p>
+<p align="center"><img width="50%" src="figures/readme_flowchart.jpg"></p>
 
 ***
-
-
 
 
 ## Table of contents
