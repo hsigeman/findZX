@@ -206,6 +206,15 @@ cov_2_table <- merge(cov_2_table, ok_ranges, by =c("chr", "range"))
 cov_3_table <- merge(cov_3_table, ok_ranges, by =c("chr", "range"))
 snp_table <- merge(snp_table, ok_ranges, by =c("chr", "range"))
 
+cov_1_table$chr <- ordered(cov_1_table$chr, 
+                           levels = chromosome)
+cov_2_table$chr <- ordered(cov_2_table$chr, 
+                           levels = chromosome)
+cov_3_table$chr <- ordered(cov_3_table$chr, 
+                           levels = chromosome)
+snp_table$chr <- ordered(snp_table$chr, 
+                         levels = chromosome)
+
 ################################################################################
 ############################### MANHATTAN PLOT #################################
 ################################################################################
