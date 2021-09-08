@@ -14,7 +14,9 @@ Use this flowchart to find out if you should use XYZWfinder:
 3. [Example usage (test dataset)](#test)
 4. [Using the XYZWfinder workflow](#usage)
 5. [Run the pipeline](#third-example)
-6. [Output](#fourth-examplehttpwwwfourthexamplecom)
+6. [Known issues](#issues)
+7. Making a reference genome
+8. [Output](#fourth-examplehttpwwwfourthexamplecom)
 
 
 ## Introduction <a name="introduction"></a>
@@ -22,7 +24,8 @@ Sex chromosomes have evolved numerous times across the tree of life, as revealed
 
 XYZWfinder is an automated Snakemake-based computational pipeline, designed to detect and visualize sex chromosomes through differences in genome coverage and heterozygosity between males and females. It is user-friendly and scalable to suit different computational platforms, and works with any number of male and female samples. 
 
-The pipeline can be deployed using two different scripts (see below for details). With the basic script (**XYZWfinder-no-synteny**), samples are aligned to a reference genome (which can be generated from the WGS data, if no reference genome for the study species is available), followed by calculations of sex-specific genome coverage and heterozygosity statistics for each chromosome/scaffold in the reference genome, as well as across genome windows of modifiable sizes (e.g. 100 kb and 1 Mb windows). The other script (**XYZWfinder-synteny**) includes an additional step: a genome coordinate lift-over to a reference genome of another species. This allows users to inspect sex-linked regions over larger contiguous chromosome regions, while also providing between-species synteny information.
+The pipeline can be deployed using two different scripts (see below for details). With the basic script (**XYZWfinder-no-synteny**), WGS reads from samples are trimmed and aligned to a reference genome (which can be generated from the WGS data if no reference genome for the study species is available). This is followed by calculations of sex-specific genome coverage and heterozygosity statistics for each chromosome/scaffold in the reference genome, as well as across genome windows of modifiable sizes (e.g. 100 kb and 1 Mb windows). The other script (**XYZWfinder-synteny**) includes an additional step: a genome coordinate lift-over to a reference genome of another species. This allows users to inspect sex-linked regions over larger contiguous chromosome regions, while also providing between-species synteny information.
+
 
 ***    
 
@@ -95,6 +98,7 @@ To run **XYZWfinder-synteny** (where the data will be lifted-over to genome posi
 
     snakemake -s workflow/snakefile-synteny --configfile config/config.yml --cores 1 -R all -k --use-conda
 
+#### Output format
 
 The output is stored under results/AloPal_test:
 
@@ -128,6 +132,30 @@ tree -d results/AloPal_test/
 └── variant_calling 
 ```
 
+#### Stop XYZWfinder after trimming to inspect the trimming results
+
+In this example, we ran the entire pipeline from start to finish in one go. When working on a new dataset, however, it is a good idea to inspect the success of the trimming before continuing. XYZWfinder can do that. To start over again, delete the directory with the results from the test dataset:
+
+    rm -r results/AloPal_test
+
+Then, rerun only the trimming step using this command: 
+
+    snakemake -s workflow/snakefile-{synteny/no-synteny} --configfile config/config.yml -k --cores 1 --use-conda -R multiqc_stop --notemp
+
+*-R multiqc_stop* tells snakemake to stop the pipeline after trimming and quality control
+
+*--notemp* this flag prevents deletion of intermediate files that would otherwise have been deleted (to save space)
+
+Once the pipeline has finished, open the following files to inspect if the trimming was successful: 
+
+    results/AloPal_test/qc/fastqc/multiqc.untrimmed_data
+    results/AloPal_test/qc/fastqc/multiqc.trimmed_data
+
+If it was not, the trimming settings can be changed in the configuration file (config/config.yaml). If it was, start the pipeline again using the normal command (as above): 
+
+    snakemake -s workflow/snakefile-{synteny/no-synteny} --configfile config/config.yml --cores 1 -R all -k --use-conda
+
+### Output plots and HTML report
 All output plots are multi-page PDF files, where the last page also contain a figure legend and paths to tables used to generate each plot. 
 
 To render an interactive HTML report for all output plots (with longer descriptions of each plot), use this command: 
@@ -192,9 +220,6 @@ Start the pipeline within a **tmux** session to ensure that the run is not stopp
 
     tmux new -s <name_of_session>
 
-When using tmux to run the pipeline, make sure that the conda environment version of Python is loaded (Python 3.6) with the following command: 
-
-    python -V # Should give: "Python 3.9.4"
 
 
 
@@ -203,7 +228,15 @@ If the reference genome used is constructed from one of the individuals in the a
     snakemake -s snakefile-{synteny/no-synteny} -j 15 reference/genome/directory/{name_of_reference}_nonRefAf_consensus.fasta --configfile config.txt --cluster-config cluster.json --cluster " sbatch -A {cluster.account} -t {cluster.time} -n {cluster.n} "
  
 This will produce a consensus genome in the same directory as the reference genome, named the same as the reference genome with *'_nonRefAf_consensus'* added before the *'.fasta'* sufix. The whole pipeline can then be re-run with the new consensus genome. Remember to change the config-file to specify this new reference genome and re-run the pipeline as above. The consensus genome can be created before running the whole pipeline, or after. If it is run before, no flagstat-files will be created since they are only specified in the rule all and here we only specify to create the consensus genome, not the files in rule all.
- 
+
+
+## Known issues <a name="issues"></a>
+
+When using tmux to run the pipeline, make sure that the conda environment version of Python is loaded (Python 3.9.4) with the following command: 
+
+    python -V # Should give: "Python 3.9.4"
+
+
  
 ## Output
 The result is shown in figures in the *figures/* folder.   
