@@ -1,6 +1,6 @@
 # XYZWfinder
 
-**A snakemake-based pipeline for identifying sex chromosomes using WGS paired-end data from males and females**
+**A snakemake-based pipeline for identifying sex chromosomes using whole-genome sequencing (WGS) paired-end data from males and females**
 
 Use this flowchart to find out if you should use XYZWfinder: 
 <p align="center"><img width="50%" src="figures/readme_flowchart.jpg"></p>
@@ -72,24 +72,29 @@ If this option is used, omit **"--use-conda"** when launching XYZWfinder.
 
 ## Example usage (test dataset) <a name="test"></a>
 
-Next, we will use the XYZWfinder pipeline to analyse a small test dataset (located in ./test/Example). This is (a) to make sure that all programs are correctly installed, but also (b) to show how to use the program. 
+Next, we will use the XYZWfinder pipeline to analyse a small test dataset. This is (a) to make sure that all programs are correctly installed, but also (b) to show how to use the program. 
 
-The test dataset consists of subsets of the following files: 
+With the test dataset, we will identify sex-linked regions in the [mantled howler monkey](https://en.wikipedia.org/wiki/Mantled_howler), using small subsets of the following files (all located in ./test/Example): 
 
-- WGS reads (subset) from 2 female ([SRR9655168](https://www.ncbi.nlm.nih.gov/sra/SRR9655168), [SRR9655169](https://www.ncbi.nlm.nih.gov/sra/SRR9655169)) and 2 male ([SRR9655170](https://www.ncbi.nlm.nih.gov/sra/SRR9655170), [SRR9655171](https://www.ncbi.nlm.nih.gov/sra/SRR9655171)) mantled howler monkeys
+- WGS reads from 2 female ([SRR9655168](https://www.ncbi.nlm.nih.gov/sra/SRR9655168), [SRR9655169](https://www.ncbi.nlm.nih.gov/sra/SRR9655169)) and 2 male ([SRR9655170](https://www.ncbi.nlm.nih.gov/sra/SRR9655170), [SRR9655171](https://www.ncbi.nlm.nih.gov/sra/SRR9655171)) mantled howler monkeys
 - [Mantled howler monkey reference genome](https://www.ncbi.nlm.nih.gov/assembly/GCA_004027835.1/) (AloPal_v1_subset.fasta)
 - [Human reference genome](https://www.ncbi.nlm.nih.gov/assembly/GCF_000001405.39) (Homo_sapiens.GRCh38_subset.fasta)
 
-To run XYZWfinder (using only the mantled howler monkey reference genome), run this code: 
+To run **XYZWfinder** (using only the mantled howler monkey reference genome), run this code: 
 
     snakemake -s workflow/snakefile-no-synteny --configfile config/config.yml --cores 1 -R all -k --use-conda
 
-To run XYZWfinder-synteny (where the data will be lifted-over to genome positions in the human reference genome), run this code: 
+*-R* specifies which rule to re-run, in this case it is rule all which specifies all desired output files.
+
+*-k* specifies that other jobs should continue even if one job fails. Can be omitted. 
+
+*--configfile* specifies the configuration file where data paths and settings are listed
+
+
+To run **XYZWfinder-synteny** (where the data will be lifted-over to genome positions in the human reference genome), run this code: 
 
     snakemake -s workflow/snakefile-synteny --configfile config/config.yml --cores 1 -R all -k --use-conda
 
-*-R* specifies which rule to re-run, in this case it is rule all which specifies all desired output files.
-*-k* specifies that other jobs should continue even if one job fails. Can be omitted. 
 
 The output is stored under results/AloPal_test:
 
@@ -106,7 +111,7 @@ tree -d results/AloPal_test/
 │   ├── samtools
 │   └── samtools_stats
 ├── output # <-- This directory is where all the final output is stored
-│   ├── no_synteny # <-- Results using the XYZWfinder-no-synteny option
+│   ├── no_synteny # <-- Results using the XYZWfinder option
 │   │   ├── plots
 │   │   └── tables
 │   └── synteny # <-- Results using the XYZWfinder-synteny option
@@ -123,11 +128,15 @@ tree -d results/AloPal_test/
 └── variant_calling 
 ```
 
-It is also possible to render an interactive HTML report using this command: 
+All output plots are multi-page PDF files, where the last page also contain a figure legend and paths to tables used to generate each plot. 
+
+To render an interactive HTML report for all output plots (with longer descriptions of each plot), use this command: 
 
     snakemake -s workflow/snakefile-no-synteny --configfile config/config.yml --cores 1 -R all -k --use-conda --report report.html
+    snakemake -s workflow/snakefile-synteny --configfile config/config.yml --cores 1 -R all -k --use-conda --report report_synteny.html
 
-Open the file "report.html" to check out the report.
+Open the files "report.html" and "report_synteny.html" to check out the reports. 
+
 
 ***
 
@@ -135,17 +144,21 @@ Open the file "report.html" to check out the report.
 
 Once the software are [installed](#installation) and [verified](#test), you can run XYZWfinder on you own dataset. To do so, carefully follow the steps outlined below. 
 
+The directory **config/Manuscript_data** contain configuration files used to analyse data from the nine species in our [preprint](ADD LINK LATER). 
+
 ##### 1. Prepare input data 
 
 i. Download WGS data from male and female individuals of the target species
+
 ii. Download a reference genome from the expected homogametic sex of the target species (or construct one based on a WGS sample)
+
 iii. If a "synteny-species" is used, download the reference genome of this species
+
 iv. Create a tabular file (.tsv) with information about sample ID, heterogamety, and fastq.gz file paths (example: config/units.tsv)
 
 ##### 2. Create a configuration file
 
 Use the template configuration files used for running the test dataset (config/config.yml) and edit where approriate. The configuration file must include the location of the tabular file containing information about the samples to be analysed (config/units.tsv; see above).
-
 
 
 - **config/config.yml** # Specify paths to reference genome etc. 
