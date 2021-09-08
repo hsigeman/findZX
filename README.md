@@ -1,111 +1,135 @@
 # XYZWfinder
 
-### A snakemake pipeline for detection of sex-linked genome regions using WGS paired-end data. 
+**A snakemake-based pipeline for identifying sex chromosomes using WGS paired-end data from males and females**
 
-
-
-***
-***
-
-
-**Needed input files:**
-
-XYZWfinder requires the following input files: 
-
-- WGS paired-end data from at least one sample of each sex (but can handle any number of samples).
-
-- A reference genome from the same species, generated from a homogametic individual. If no such reference genome is available, construct one from the paired-end data before starting the pipeline.
-
-**What does XYZWfinder do?**
-
-In essence, XYZWfinder does the following things (for details see our bioRxiv preprint at xxxxx): 
-
-1. The paired-end data from both sexes is aligned to the reference genome
-
-2. Genome coverage and proportion of heterozygosity per sex is calculated across 5 kb windows in the reference genome
-
-3. The genome coverage and heterozygosity values are summarized across different (modifiable) genome window sizes, and per chromosome/scaffold. Output in the form of tables and plots. 
- 
-**How to run XYZWfinder**
-
-XYZWfinder can be deployed in 2 different modes: 
-
-- **XYZWfinder** (./workflow/XYZWfinder), in which samples are aligned to a reference genome, followed by calculation of genome coverage and heterozygosity statistics for each chromosome/scaffold as well as across genome windows of modifiable sizes. 
-
-- **XYZWfinder-synteny** (./workflow/XYZWfinder-synteny), in which the core of the pipeline is the same as XYZWfinder but also includes a genome coordinate lift-over step between the reference genome and a second genome from another species ("synteny-species reference genome"). If the pipeline is deployed using XYZWfinder-synteny, all plots and tables will be generated based on this genome coordinate lift-over analysis. 
-
-Details on how to install and run the pipeline is found below. 
-
+Use this flowchart to find out if you should use XYZWfinder: 
+<p align="center"><img width="80%" src="figures/readme_flowchart.jpg"></p>
 
 ***
 
-# Table of Contents
-1. [Installation](#installation)
-2. [Verify installation by running test dataset](#test)
-2. [Using the XYZWfinder workflow](#usage)
-3. [Run the pipeline](#third-example)
-4. [Output](#fourth-examplehttpwwwfourthexamplecom)
+
+
+
+## Table of contents
+1. [Introduction](#introduction)
+2. [Installation](#installation)
+3. [Example usage (test dataset)](#test)
+4. [Using the XYZWfinder workflow](#usage)
+5. [Run the pipeline](#third-example)
+6. [Output](#fourth-examplehttpwwwfourthexamplecom)
+
+
+## Introduction <a name="introduction"></a>
+Sex chromosomes have evolved numerous times across the tree of life, as revealed by recent genomic studies of non-model organisms. However, much of the sex chromosome diversity remains undiscovered. Identifying sex chromosomes in more species is crucial for improving our understanding of why and how they evolve, and to avoid misinterpreting genomic patterns caused by undetected sex chromosome variation. 
+
+XYZWfinder is an automated Snakemake-based computational pipeline, designed to detect and visualize sex chromosomes through differences in genome coverage and heterozygosity between males and females. It is user-friendly and scalable to suit different computational platforms, and works with any number of male and female samples. 
+
+The pipeline can be deployed using two different scripts (see below for details). With the basic script (**XYZWfinder-no-synteny**), samples are aligned to a reference genome (which can be generated from the WGS data, if no reference genome for the study species is available), followed by calculations of sex-specific genome coverage and heterozygosity statistics for each chromosome/scaffold in the reference genome, as well as across genome windows of modifiable sizes (e.g. 100 kb and 1 Mb windows). The other script (**XYZWfinder-synteny**) includes an additional step: a genome coordinate lift-over to a reference genome of another species. This allows users to inspect sex-linked regions over larger contiguous chromosome regions, while also providing between-species synteny information.
 
 ***    
 
-## Installation: <a name="installation"></a>
+## Installation <a name="installation"></a>
 
-#### **Step 1**: Obtain a copy of XYZWfinder by cloning this GitHub repository:
+XYZWfinder works on Linux and macOS systems, and contains a configuration file which can be used to run the pipeline on a SLURM system. The only prerequisite (except for XYZWfinder itself) is that [conda](https://docs.conda.io/en/latest/) (or anaconda/mamba) is installed on the system. Once installed (see  installation guide [here](https://docs.conda.io/projects/conda/en/latest/user-guide/index.html)), conda will download all other dependencies automatically. 
+
+### Obtain a copy of XYZWfinder by cloning this GitHub repository:
 
     git clone https://github.com/hsigeman/XYZWfinder.git
     cd XYZWfinder # Go to directory
 
-All dependencies needed to run this workflow can be installed automatically using **conda** (see website for installation guide: https://docs.conda.io/projects/conda/en/latest/user-guide/index.html). 
+### Use conda to install the needed software. There are two ways to do this: 
 
-#### **Step 2**: Once conda is installed, the needed software can be installed in either of two ways: 
-
-##### Option 1: Create a minimal conda environment and install software automatically within the XYZWfinder workflow (recommended)
+#### Option 1 (recommended): Create a minimal conda environment and install software automatically through XYZWfinder
 
 Enter this code to create a minimal conda environment:
  
-    # The name of the environment (snakemake_basic) can be replaced with another variable
-    conda create -n snakemake_basic -c conda-forge -c bioconda python=3.9.4 snakemake-wrapper-utils=0.2.0 snakemake=6.4.0 mamba=0.13.0
+    conda create -n snakemake_basic -c conda-forge -c bioconda python=3.9.4 snakemake-wrapper-utils=0.2.0 snakemake=6.4.0
 
-When launching the snakemake run, add the option: **"--use-conda"** (see [below](#test)). This enables snakemake to automatically download and install all needed software into separate conda environments for different parts of the pipeline.
+*-n* specifies the name of the conda environment (snakemake_basic). This can be changed to another string.
 
-##### Option 2: Install all software dependencies into a single conda environment
+*-c* specifies the needed conda channels
 
-Use the provided conda environment file (environment.yml) to install all needed software: 
+*python* specifies the python version (need to be >3.9)
 
-    conda env create -f environment.yml
+*snakemake-wrapper-utils* installs tools needed to use [Snakemake wrappers](https://snakemake-wrappers.readthedocs.io/en/stable/)
 
-If this option is used, omit **"--use-conda"** when launching the snakemake run.
+*snakemake* installs snakemake (tested on version 6.4.0)
 
-#### **Step 3**: Once all dependencies are installed, activate the conda environment according to the instructions in the terminal. 
+If this installation option is used, add the flag **"--use-conda"** when launching XYZWfinder. All needed software will then be automatically downloaded and installed into separate conda environments for different parts of the pipeline (thus minimizing the risks of conflicts between software).
 
-For example like this: 
+Then activate the environment: 
 
     conda activate snakemake_basic
 
+#### Option 2: Install all software dependencies into a single conda environment
+
+The provided conda environment file (environment.yml) can also be used to install all needed software directly: 
+
+    conda env create -f environment.yml # This will create a conda environment called XYZWfinder
+    conda activate XYZWfinder # Activate the conda environment
+
+If this option is used, omit **"--use-conda"** when launching XYZWfinder.
+
 ***
 
-## Run the example data to make sure that all software are installed (runtime ~2 minutes per command) <a name="test"></a>
+## Example usage (test dataset) <a name="test"></a>
 
-The GitHub repository contain a small test dataset (./test/Example) which can be run to verify the installation. The dataset is a small subset of paired-end WGS reads from 2 male (SRR9655170, SRR9655171) and 2 female (SRR9655168, SRR9655169) mantled howler monkeys, as well as selected scaffolds from the reference genome of this species (Genbank accession: GCA_004027835.1) and subsets of chromosomes from the human genome (Genbank accession: GCA_000001405.28).
+Next, we will use the XYZWfinder pipeline to analyse a small test dataset (located in ./test/Example). This is (a) to make sure that all programs are correctly installed, but also (b) to show how to use the program. 
 
-To run the workflow using only the mantled howler monkey reference genome, run this code: 
+The test dataset consists of subsets of the following files: 
+
+- WGS reads (subset) from 2 female ([SRR9655168](https://www.ncbi.nlm.nih.gov/sra/SRR9655168), [SRR9655169](https://www.ncbi.nlm.nih.gov/sra/SRR9655169)) and 2 male ([SRR9655170](https://www.ncbi.nlm.nih.gov/sra/SRR9655170), [SRR9655171](https://www.ncbi.nlm.nih.gov/sra/SRR9655171)) mantled howler monkeys
+- [Mantled howler monkey reference genome](https://www.ncbi.nlm.nih.gov/assembly/GCA_004027835.1/) (AloPal_v1_subset.fasta)
+- [Human reference genome](https://www.ncbi.nlm.nih.gov/assembly/GCF_000001405.39) (Homo_sapiens.GRCh38_subset.fasta)
+
+To run XYZWfinder (using only the mantled howler monkey reference genome), run this code: 
 
     snakemake -s workflow/snakefile-no-synteny --configfile config/config.yml --cores 1 -R all -k --use-conda
 
-To run the workflow with the "synteny option", run this code: 
+To run XYZWfinder-synteny (where the data will be lifted-over to genome positions in the human reference genome), run this code: 
 
     snakemake -s workflow/snakefile-synteny --configfile config/config.yml --cores 1 -R all -k --use-conda
 
 *-R* specifies which rule to re-run, in this case it is rule all which specifies all desired output files.
+*-k* specifies that other jobs should continue even if one job fails. Can be omitted. 
 
-If the workflow finishes without errors, result tables and plots will be produced here: 
+The output is stored under results/AloPal_test:
 
-    results/AloPal_test/output/
+```
+tree -d results/AloPal_test/
+├── coverage 
+├── logs 
+│   ├── bamtools
+│   ├── bwa_mem
+│   ├── fastqc
+│   ├── freebayes
+│   ├── picard
+│   │   └── dedup
+│   ├── samtools
+│   └── samtools_stats
+├── output # <-- This directory is where all the final output is stored
+│   ├── no_synteny # <-- Results using the XYZWfinder-no-synteny option
+│   │   ├── plots
+│   │   └── tables
+│   └── synteny # <-- Results using the XYZWfinder-synteny option
+│       └── HS # ("HS" stands for Homo sapiens; see config.yaml file)
+│           ├── plots
+│           └── tables
+├── qc # Quality control output
+│   ├── dedup
+│   └── fastqc
+│       ├── multiqc.trimmed_data
+│       └── multiqc.untrimmed_data
+├── synteny_lastal 
+│   └── HS
+└── variant_calling 
+```
 
 It is also possible to render an interactive HTML report using this command: 
 
     snakemake -s workflow/snakefile-no-synteny --configfile config/config.yml --cores 1 -R all -k --use-conda --report report.html
 
+Open the file "report.html" to check out the report.
 
 ***
 
