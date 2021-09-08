@@ -1,11 +1,40 @@
 # XYZWfinder
 
-A Snakemake pipeline for detection of sex-linked regions using WGS data. The pipeline utilizes differences in genome coverage and heterozygosity between female and male samples, and generates plots and tables aimed at distinguishing sex-linked scaffolds/chromosomes from autosomal ones. 
+XYZWfinder is a snakemake pipeline for detection of sex-linked genome regions using WGS paired-end data. 
+
+![alt text](https://github.com/hsigeman/XYZWfinder/blob/dev/figures/Final_Figure_5.pdf?raw=true)
+***
+***
 
 
-The pipeline can be deployed in 2 different modes: 
-- **XYZWfinder** (./workflow/XYZWfinder), in which samples are aligned to a reference genome, genome coverage and heterozygosity statistics are calculated for each chromosome/scaffold as well as across genome windows of modifiable sizes. 
+**Needed input files:**
+
+XYZWfinder requires the following input files: 
+
+- WGS paired-end data from at least one sample of each sex (but can handle any number of samples).
+
+- A reference genome from the same species, generated from a homogametic individual. If no such reference genome is available, construct one from the paired-end data before starting the pipeline.
+
+**What does XYZWfinder do?**
+
+In essence, XYZWfinder does the following things (for details see our bioRxiv preprint at xxxxx): 
+
+1. The paired-end data from both sexes is aligned to the reference genome
+
+2. Genome coverage and proportion of heterozygosity per sex is calculated across 5 kb windows in the reference genome
+
+3. The genome coverage and heterozygosity values are summarized across different (modifiable) genome window sizes, and per chromosome/scaffold. Output in the form of tables and plots. 
+ 
+**How to run XYZWfinder**
+
+XYZWfinder can be deployed in 2 different modes: 
+
+- **XYZWfinder** (./workflow/XYZWfinder), in which samples are aligned to a reference genome, followed by calculation of genome coverage and heterozygosity statistics for each chromosome/scaffold as well as across genome windows of modifiable sizes. 
+
 - **XYZWfinder-synteny** (./workflow/XYZWfinder-synteny), in which the core of the pipeline is the same as XYZWfinder but also includes a genome coordinate lift-over step between the reference genome and a second genome from another species ("synteny-species reference genome"). If the pipeline is deployed using XYZWfinder-synteny, all plots and tables will be generated based on this genome coordinate lift-over analysis. 
+
+Details on how to install and run the pipeline is found below. 
+
 
 ***
 
