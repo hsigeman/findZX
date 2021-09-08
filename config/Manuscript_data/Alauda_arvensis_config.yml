@@ -30,7 +30,7 @@ trim_reads: TRUE # Set to TRUE if you want to trim reads
 synteny_ref: "../data/external_raw/genome/Taeniopygia_guttata.taeGut3.2.4.dna.toplevel_final.fasta"
 
 # Synteny-species abbreviation (can be anything)
-synteny_abbr: "HS"
+synteny_abbr: "ZF"
 
 # List of chromosomes in the synteny-species reference genome that should be plotted (and highlighted) in the end (optional) 
 synteny_chr_file: "config/Manuscript_data/ZF_chromosomes.list"
@@ -39,6 +39,21 @@ synteny_chr_highlight:
     - 3
     - 4A
     - 5
+
+
+# If snakemake-synteny is used, specify the path to the synteny-species reference genome (not .gz format)
+#synteny_ref: "../data/external_raw/genome/Gallus_gallus.GRCg6a.dna.toplevel.noW.fa"
+
+# Synteny-species abbreviation (can be anything)
+#synteny_abbr: "GG"
+
+# List of chromosomes in the synteny-species reference genome that should be plotted (and highlighted) in the end (optional) 
+#synteny_chr_file: "config/Manuscript_data/CH_chromosomes.list"
+#synteny_chr_highlight:
+#    - Z
+#    - 3
+#    - 5
+
 
 
 ############# Other optional variables ##########

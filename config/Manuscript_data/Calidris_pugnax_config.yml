@@ -26,7 +26,7 @@ trim_reads: TRUE # Set to TRUE if you want to trim reads
 ############# snakefile-synteny variables #############
 
 # If snakemake-synteny is used, specify the path to the synteny-species reference genome (not .gz format)
-synteny_ref: "../../neosexchromosome/data/external_raw/Gallus_gallus.GRCg6a.dna.toplevel.fa"
+synteny_ref: "../data/external_raw/genome/Gallus_gallus.GRCg6a.dna.toplevel.noW.fa"
 
 # Synteny-species abbreviation (can be anything)
 synteny_abbr: "GG"
