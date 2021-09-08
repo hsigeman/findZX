@@ -16,7 +16,6 @@ rule lastdb:
         touch {output}
         """
 
-
 rule lastal_syns:
     input:
         ref = ref_genome,

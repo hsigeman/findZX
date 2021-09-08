@@ -21,8 +21,11 @@ mark_duplicates:
   time: 1-00:00:00
 gencov_bedtools:
   time: 2-00:00:00
+lastdb:
+  n: 18
+  time: 04:00:00
 lastal_syns:
-  n: 16
+  n: 18
   time: 0-10:00:00
 bamtools_filter:
   time: 04:00:00
