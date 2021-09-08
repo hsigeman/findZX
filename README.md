@@ -2,7 +2,7 @@
 
 XYZWfinder is a snakemake pipeline for detection of sex-linked genome regions using WGS paired-end data. 
 
-<img src="./figures/Fig5.png" alt="drawing" width="200"/>
+<img src="./figures/Fig5.png" alt="drawing" width="600"/>
 
 ***
 ***
