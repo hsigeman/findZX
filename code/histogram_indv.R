@@ -88,6 +88,7 @@ if (file.exists(chr_file)) {
 #  chromosome <- read.csv(chr_file, header = FALSE, sep = ",")
 #  chromosome <- as.factor(chromosome)
   chromosome <- read.delim(chr_file, header = FALSE)
+  chromosome$V1 <- trimws(chromosome$V1, which = c("both", "left", "right"), whitespace = "[ \t\r\n]")
   chromosome <- as.factor(chromosome$V1)
   cov_het <- cov_het[cov_het$chr %in% chromosome, ]
   

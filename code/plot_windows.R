@@ -114,6 +114,7 @@ if ( dim( cov_1_table )[1] == 0) {
     #                       header = FALSE, 
     #                       sep = ",")
     chromosome <- read.delim(chr_file, header = FALSE)
+    chromosome$V1 <- trimws(chromosome$V1, which = c("both", "left", "right"), whitespace = "[ \t\r\n]")
     chromosome <- chromosome$V1
     cov_1_table <- cov_1_table[ cov_1_table$chr %in% chromosome, ]
     
