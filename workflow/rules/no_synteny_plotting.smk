@@ -33,7 +33,7 @@ rule highlight_file:
         outdir + "output/no_synteny/" + "highlight_file.list"
     shell: 
         """
-        echo {params.highlight_chr} | tr " " "\n" > {output}
+        awk 1 {params.highlight_chr} > {output}
         """
 
 
