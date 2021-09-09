@@ -57,6 +57,7 @@ if (file.exists(chr_file)) {
 #  chromosome <- read.csv(chr_file, header = FALSE, sep = ",")
 #  chromosome <- as.factor(chromosome)
   chromosome <- read.delim(chr_file, header = FALSE)
+  chromosome$V1 <- trimws(chromosome$V1, which = c("both", "left", "right"), whitespace = "[ \t\r\n]")
   chromosome <- chromosome$V1 
   cov_00_table <- cov_00_table[cov_00_table$chr %in% chromosome, ]
   cov_02_table <- cov_02_table[cov_02_table$chr %in% chromosome, ]
