@@ -1,30 +1,63 @@
-# Specify max number of cores
-threads_max: 2
+####################################################
+####################################################
+####           XYZWfinder config file           ####
+####################################################
+####################################################
 
 
-# Path to sample information file
-units: config/units.tsv
+####################################################
+# ALWAYS MODIFY/CHECK THESE VARIABLES:
+####################################################
 
-# Name of analysis. The result files will be stored under "results/{run_name}"
+# Name of analysis. The result files will be stored under "results/{run_name}":
 run_name: "AloPal_test" 
 
-# Homogametic reference genome of the studied species (not .gz format)
+########################
+# Execution parameters
+########################
+
+# Specify max number of cores
+threads_max: 2
+mem_max: 8000 
+
+########################
+# Data paths - study species
+########################
+
+# Path to sample information file (sample ID's, sex and fastq files):
+units: "config/units.tsv" 
+
+# Path to homogametic reference genome (not .gz format):
 ref_genome: ".test/Example/AloPal_v1_subset.fasta" 
 
-# Optional: List of chromosomes that should be plotted (and highlighted) in the end (optional) 
-chr_file: "None" # Replace with file consisting of chromosome names to include. Example: config/chromosomes.list" 
+########################
+# Plotting settings - XYZWfinder (without synteny)
+########################
 
-# Optional: Specify chromosomes to highlight
-#chr_highlight: "config/chromosomes_highlight.list"
+# Want to plot only some chromosomes/scaffolds? If so, provide a path to a list of these chromosomes/scaffolds (Example: "config/chromosomes.list"). To plot all chromosomes/scaffolds, leave as "None".
+chr_file: "None"
+
+# Want to highlight some chromosomes/scaffolds in plots? Specify these chromosomes here. Leave empty if not.
 chr_highlight:
-    - PVKV010001784.1 # Chromosomes to be highlighted. Remove if not wanted.
+    - PVKV010001784.1
     - PVKV010001533.1
 
+# Choose three genome window sizes for plotting (good standard settings are: 50000, 100000, 1000000)
+window_sizes:
+    - 25000
+    - 50000
+    - 100000
 
-trim_reads: TRUE # Set to TRUE if you want to trim reads
+########################
+# Quality control
+########################
 
+# Want to trim the fastq files? If so, set trim_reads to TRUE (else FALSE)
+trim_reads: TRUE # Trimming settings are below
 
-############# snakefile-synteny variables #############
+########################
+# Plotting settings - XYZWfinder-synteny (if another reference genome is used for plotting)
+########################
 
 # If snakemake-synteny is used, specify the path to the synteny-species reference genome (not .gz format)
 synteny_ref: ".test/Example/Homo_sapiens.GRCh38_subset.fasta"
@@ -32,33 +65,37 @@ synteny_ref: ".test/Example/Homo_sapiens.GRCh38_subset.fasta"
 # Synteny-species abbreviation (can be anything)
 synteny_abbr: "HS"
 
-# List of chromosomes in the synteny-species reference genome that should be plotted (and highlighted) in the end (optional) 
+# Want to plot only some chromosomes/scaffolds? If so, provide a path to a list of these chromosomes/scaffolds (Example: "config/chromosomes.list"). To plot all chromosomes/scaffolds, leave as "None".
 synteny_chr_file: "None"
+
+# Want to highlight some chromosomes/scaffolds in plots? Specify these chromosomes here. Leave empty if not.
 synteny_chr_highlight:
     - X:20513966-20718999
     - 3:167499270-167708345
 
 
-############# Other optional variables ##########
+########################################################
+# OTHER SETTINGS. DO NOT NEED TO MODIFY THESE VARIABLES:
+########################################################
+
+########################
+# XYZWfinder-specific settings. Modify if needed.
+########################
 
 # The pipeline will produce genome coverage results based on three different mismatches criteria. 
-# The first two variables can be edited. 
+# The first two variables can be edited, leave "unfiltered" as it is. 
 edit_distance:
-    - 0.0 # 0 mismatches allowed
-    - 0.2 # <=2 mismatches allowed
-    - unfiltered # Do not edit this one
+    - 0.0 # "0.0" = 0 mismatches allowed
+    - 0.2 # "0.2" = <=2 mismatches allowed
+    - unfiltered # "unfiltered" = Do not edit this one
 
-window_sizes:
-    - 25000
-    - 50000
-    - 100000
-
-
-# The Mimimum size of scaffolds in the reference genome to be considered. 
+# The mimimum size of scaffolds in the reference genome to be considered. 
 minSizeScaffold: "10000"
 
-
-# Software-specific settings. Modify if needed. 
+########################
+# External software-specific settings. Modify if needed.
+########################
+  
 params:
   picard:
     MarkDuplicates: 
@@ -81,5 +118,3 @@ params:
         - "SLIDINGWINDOW:4:15"
         - "MINLEN:36"
         - "ILLUMINACLIP:data/adapters/TruSeq3-PE.fa:2:30:10"
-
-

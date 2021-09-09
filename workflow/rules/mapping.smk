@@ -28,7 +28,7 @@ rule mark_duplicates:
     params:
         extra="REMOVE_DUPLICATES=true USE_JDK_DEFLATER=true USE_JDK_INFLATER=true TMP_DIR=" + dedup_dir + "/"
     resources:
-        mem_mb=4096
+        mem_mb=mem_max
     wrapper:
         "0.74.0/bio/picard/markduplicates"
 

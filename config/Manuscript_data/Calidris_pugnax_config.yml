@@ -1,6 +1,6 @@
 # Specify max number of cores
 threads_max: 18
-
+mem_max: 16000 
 
 # Path to sample information file
 units: config/Manuscript_data/Calidris_pugnax_units.tsv

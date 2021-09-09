@@ -5,6 +5,7 @@ include: "rules/common.smk"
 dir_path = os.getcwd()
 
 threads_max=config['threads_max']
+mem_max=config['mem_max']
 run_name=config['run_name']
 ref_genome=config['ref_genome']
 synteny_ref=config['synteny_ref']

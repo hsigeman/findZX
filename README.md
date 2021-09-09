@@ -5,15 +5,16 @@
 Use this flowchart to find out if you should use XYZWfinder: 
 <p align="center"><img width="50%" src="figures/readme_flowchart.jpg"></p>
 
+
 ***
 
 
 ## Table of contents
 1. [Introduction](#introduction)
 2. [Installation](#installation)
-3. [Example usage (test dataset)](#test)
-4. [Using the XYZWfinder workflow](#usage)
-5. [Run the pipeline](#third-example)
+3. [Basic usage - Example using a test dataset](#test)
+4. [Basic usage - Configure XYZWfinder to your own dataset](#usage)
+5. [Run the pipeline on a SLURM system](#server)
 6. [Known issues](#issues)
 7. Making a reference genome
 8. [Output](#fourth-examplehttpwwwfourthexamplecom)
@@ -31,7 +32,7 @@ The pipeline can be deployed using two different scripts (see below for details)
 
 ## Installation <a name="installation"></a>
 
-XYZWfinder works on Linux and macOS systems, and contains a configuration file which can be used to run the pipeline on a SLURM system. The only prerequisite (except for XYZWfinder itself) is that [conda](https://docs.conda.io/en/latest/) (or anaconda/mamba) is installed on the system. Once installed (see  installation guide [here](https://docs.conda.io/projects/conda/en/latest/user-guide/index.html)), conda will download all other dependencies automatically. 
+XYZWfinder works on Linux and macOS systems, and contains a configuration file which can be used to [run the pipeline on a SLURM system](#server). The only prerequisite (except for XYZWfinder itself) is that [conda](https://docs.conda.io/en/latest/) (or anaconda/mamba) is installed on the system. Once installed (see  installation guide [here](https://docs.conda.io/projects/conda/en/latest/user-guide/index.html)), conda will download all other dependencies automatically. 
 
 ### Obtain a copy of XYZWfinder by cloning this GitHub repository:
 
@@ -73,15 +74,23 @@ If this option is used, omit **"--use-conda"** when launching XYZWfinder.
 
 ***
 
-## Example usage (test dataset) <a name="test"></a>
+## Basic usage - Example using a test dataset <a name="test"></a>
 
 Next, we will use the XYZWfinder pipeline to analyse a small test dataset. This is (a) to make sure that all programs are correctly installed, but also (b) to show how to use the program. 
+
+
+### Data
 
 With the test dataset, we will identify sex-linked regions in the [mantled howler monkey](https://en.wikipedia.org/wiki/Mantled_howler), using small subsets of the following files (all located in ./test/Example): 
 
 - WGS reads from 2 female ([SRR9655168](https://www.ncbi.nlm.nih.gov/sra/SRR9655168), [SRR9655169](https://www.ncbi.nlm.nih.gov/sra/SRR9655169)) and 2 male ([SRR9655170](https://www.ncbi.nlm.nih.gov/sra/SRR9655170), [SRR9655171](https://www.ncbi.nlm.nih.gov/sra/SRR9655171)) mantled howler monkeys
 - [Mantled howler monkey reference genome](https://www.ncbi.nlm.nih.gov/assembly/GCA_004027835.1/) (AloPal_v1_subset.fasta)
 - [Human reference genome](https://www.ncbi.nlm.nih.gov/assembly/GCF_000001405.39) (Homo_sapiens.GRCh38_subset.fasta)
+
+
+### Run analyses
+
+#### XYZWfinder
 
 To run **XYZWfinder** (using only the mantled howler monkey reference genome), run this code: 
 
@@ -91,16 +100,193 @@ To run **XYZWfinder** (using only the mantled howler monkey reference genome), r
 
 *-k* specifies that other jobs should continue even if one job fails. Can be omitted. 
 
-*--configfile* specifies the configuration file where data paths and settings are listed
+*--configfile* specifies the [configuration file](#test_config) where data paths and settings are listed
 
+#### XYZWfinder-synteny
 
 To run **XYZWfinder-synteny** (where the data will be lifted-over to genome positions in the human reference genome), run this code: 
 
     snakemake -s workflow/snakefile-synteny --configfile config/config.yml --cores 1 -R all -k --use-conda
 
-#### Output format
 
-The output is stored under results/AloPal_test:
+Did the analyses finish without errors? If so, great! If not, let us know in the Issues section of the GitHub page and we will look into it. 
+
+
+### Configuration file <a name="test_config"></a>
+
+Next, we will look at the configuration file that is needed for XYZWfinder to run (in this example we are using **config/config.yml**). The configuration file contain information about what data and settings we want to use for our analysis. 
+
+**Here are the most important variables in the configuration file:** 
+
+- *run_name: "AloPal_test"*     # Specify an output directory where XYZWfinder will store the output
+
+- *units: config/units.tsv* # Specify the path to a ["unit file"](#units), containing information about the samples used for analysis
+
+- *ref_genome: ".test/Example/AloPal_v1_subset.fasta"*      # Path to the monkey reference genome
+
+- *synteny_ref: ".test/Example/Homo_sapiens.GRCh38_subset.fasta"*       # Path to the human reference genome (only used by XYZWfinder-synteny)
+
+- *synteny_abbr: "HS"*      # An abbreviation for Homo sapiens (useful in case you want to use several different synteny species; only used by XYZWfinder-synteny)
+ 
+<details>
+<summary>Click here to see the entire configuration file (config/config.yml)</summary>
+<p>
+
+```bash
+####################################################
+####################################################
+####           XYZWfinder config file           ####
+####################################################
+####################################################
+
+
+####################################################
+# ALWAYS MODIFY/CHECK THESE VARIABLES:
+####################################################
+
+# Name of analysis. The result files will be stored under "results/{run_name}":
+run_name: "AloPal_test" 
+
+########################
+# Execution parameters
+########################
+
+# Specify max number of cores
+threads_max: 2
+
+########################
+# Data paths - study species
+########################
+
+# Path to sample information file (sample ID's, sex and fastq files):
+units: "config/units.tsv" 
+
+# Path to homogametic reference genome (not .gz format):
+ref_genome: ".test/Example/AloPal_v1_subset.fasta" 
+
+########################
+# Plotting settings - XYZWfinder (without synteny)
+########################
+
+# Want to plot only some chromosomes/scaffolds? If so, provide a path to a list of these chromosomes/scaffolds (Example: "config/chromosomes.list"). To plot all chromosomes/scaffolds, leave as "None".
+chr_file: "None"
+
+# Want to highlight some chromosomes/scaffolds in plots? Specify these chromosomes here. Leave empty if not.
+chr_highlight:
+    - PVKV010001784.1
+    - PVKV010001533.1
+
+# Choose three genome window sizes for plotting (good standard settings are: 50000, 100000, 1000000)
+window_sizes:
+    - 25000
+    - 50000
+    - 100000
+
+########################
+# Quality control
+########################
+
+# Want to trim the fastq files? If so, set trim_reads to TRUE (else FALSE)
+trim_reads: TRUE # Trimming settings are below
+
+########################
+# Plotting settings - XYZWfinder-synteny (if another reference genome is used for plotting)
+########################
+
+# If snakemake-synteny is used, specify the path to the synteny-species reference genome (not .gz format)
+synteny_ref: ".test/Example/Homo_sapiens.GRCh38_subset.fasta"
+
+# Synteny-species abbreviation (can be anything)
+synteny_abbr: "HS"
+
+# Want to plot only some chromosomes/scaffolds? If so, provide a path to a list of these chromosomes/scaffolds (Example: "config/chromosomes.list"). To plot all chromosomes/scaffolds, leave as "None".
+synteny_chr_file: "None"
+
+# Want to highlight some chromosomes/scaffolds in plots? Specify these chromosomes here. Leave empty if not.
+synteny_chr_highlight:
+    - X:20513966-20718999
+    - 3:167499270-167708345
+
+
+########################################################
+# OTHER SETTINGS. DO NOT NEED TO MODIFY THESE VARIABLES:
+########################################################
+
+########################
+# XYZWfinder-specific settings. Modify if needed.
+########################
+
+# The pipeline will produce genome coverage results based on three different mismatches criteria. 
+# The first two variables can be edited, leave "unfiltered" as it is. 
+edit_distance:
+    - 0.0 # "0.0" = 0 mismatches allowed
+    - 0.2 # "0.2" = <=2 mismatches allowed
+    - unfiltered # "unfiltered" = Do not edit this one
+
+# The mimimum size of scaffolds in the reference genome to be considered. 
+minSizeScaffold: "10000"
+
+########################
+# External software-specific settings. Modify if needed.
+########################
+  
+params:
+  picard:
+    MarkDuplicates: 
+        - "REMOVE_DUPLICATES=true"
+        - "USE_JDK_DEFLATER=true" 
+        - "USE_JDK_INFLATER=true"
+        - "-Xmx2g"
+  trimmomatic:
+    pe:
+      trimmer:
+        - "LEADING:3"
+        - "TRAILING:3"
+        - "SLIDINGWINDOW:4:15"
+        - "MINLEN:36"
+        - "ILLUMINACLIP:data/adapters/TruSeq3-PE.fa:2:30:10"
+    se:
+      trimmer:
+        - "LEADING:3"
+        - "TRAILING:3"
+        - "SLIDINGWINDOW:4:15"
+        - "MINLEN:36"
+        - "ILLUMINACLIP:data/adapters/TruSeq3-PE.fa:2:30:10"
+```
+
+</p>
+</details> 
+
+
+<details>
+<summary>Click here to see what the "unit file" (config/units.tsv) <a name="units"></a></summary>
+<p>
+
+| sample                | unit              | fq1                                       | fq2                                       |
+|-------------------    |---------------    |-----------------------------------------  |-----------------------------------------  |
+| subset_SRR9655168     | homogametic       | .test/Example/subset_SRR9655168_1.fq.gz   | .test/Example/subset_SRR9655168_2.fq.gz   |
+| subset_SRR9655169     | homogametic       | .test/Example/subset_SRR9655169_1.fq.gz   | .test/Example/subset_SRR9655169_2.fq.gz   |
+| subset_SRR9655170     | heterogametic     | .test/Example/subset_SRR9655170_1.fq.gz   | .test/Example/subset_SRR9655170_2.fq.gz   |
+| subset_SRR9655171     | heterogametic     | .test/Example/subset_SRR9655171_1.fq.gz   | .test/Example/subset_SRR9655171_2.fq.gz   |
+
+</p>
+</details> 
+
+### Output
+
+The output is stored under results/AloPal_test ("AloPal_test" comes from the [configuration file](#test_config)). This directory contain both intermediate files (such as BAM files and VCF files) and the final output files (tables and plots). 
+
+When running XYZWfinder, the final output files can be found here: 
+    
+    ls results/AloPal_test/output/no-synteny/
+
+When running XYZWfinder-synteny, the final output files can be found here: 
+    
+    ls results/AloPal_test/output/synteny/
+
+<details>
+<summary>Click to see output file structure</summary>
+<p>
 
 ```
 tree -d results/AloPal_test/
@@ -132,13 +318,28 @@ tree -d results/AloPal_test/
 └── variant_calling 
 ```
 
-#### Stop XYZWfinder after trimming to inspect the trimming results
+</p>
+</details> 
+
+#### Output plots and HTML report
+All output plots are multi-page PDF files, where the last page also contain a figure legend and paths to tables used to generate each plot. 
+
+To render an interactive HTML report for all output plots (with longer descriptions of each plot), use this command: 
+
+    snakemake -s workflow/snakefile-no-synteny --configfile config/config.yml --cores 1 -R all -k --use-conda --report report.html
+    snakemake -s workflow/snakefile-synteny --configfile config/config.yml --cores 1 -R all -k --use-conda --report report_synteny.html
+
+Open the files "report.html" and "report_synteny.html" to check out the reports. 
+
+For more information about the results, check out our bioRxiv preprint (ADD LINK). 
+
+### Stop XYZWfinder after trimming to inspect the trimming results
 
 In this example, we ran the entire pipeline from start to finish in one go. When working on a new dataset, however, it is a good idea to inspect the success of the trimming before continuing. XYZWfinder can do that. To start over again, delete the directory with the results from the test dataset:
 
     rm -r results/AloPal_test
 
-Then, rerun only the trimming step using this command: 
+Then, rerun only the trimming and quality control steps using this command: 
 
     snakemake -s workflow/snakefile-{synteny/no-synteny} --configfile config/config.yml -k --cores 1 --use-conda -R multiqc_stop --notemp
 
@@ -155,24 +356,14 @@ If it was not, the trimming settings can be changed in the configuration file (c
 
     snakemake -s workflow/snakefile-{synteny/no-synteny} --configfile config/config.yml --cores 1 -R all -k --use-conda
 
-### Output plots and HTML report
-All output plots are multi-page PDF files, where the last page also contain a figure legend and paths to tables used to generate each plot. 
-
-To render an interactive HTML report for all output plots (with longer descriptions of each plot), use this command: 
-
-    snakemake -s workflow/snakefile-no-synteny --configfile config/config.yml --cores 1 -R all -k --use-conda --report report.html
-    snakemake -s workflow/snakefile-synteny --configfile config/config.yml --cores 1 -R all -k --use-conda --report report_synteny.html
-
-Open the files "report.html" and "report_synteny.html" to check out the reports. 
-
 
 ***
 
-## Using the XYZWfinder workflow <a name="usage"></a>
+## Basic usage - Configure XYZWfinder to your own dataset <a name="usage"></a>
 
-Once the software are [installed](#installation) and [verified](#test), you can run XYZWfinder on you own dataset. To do so, carefully follow the steps outlined below. 
+If you haven't already done so, please take a look at the [previous section](#test) where all steps required to run XYZWfinder is explained. There, you can also take a look at the format of the [configuration file](#test_config) and [unit file](#units) needed for XYZWfinder to run. 
 
-The directory **config/Manuscript_data** contain configuration files used to analyse data from the nine species in our [preprint](ADD LINK LATER). 
+If you want to see additional examples of configuration files, the directory **config/Manuscript_data** contain configuration files used to analyse data from the nine species in our [preprint](ADD LINK LATER). 
 
 ##### 1. Prepare input data 
 
@@ -194,11 +385,7 @@ Use the template configuration files used for running the test dataset (config/c
 - **config/chromosomes.list** # Optional: List of scaffolds/chromosomes in the reference genome to include in the final plots (with snakefile-no-synteny)
 - **config/HS_chromosomes.list** # Optional: List of scaffolds/chromosomes in the synteny-species reference genome to include in the final plots (with snakefile-synteny)
 
-The **cluster.json** file have to be edited if the pipeline will be ran on a cluster. Specify the account name. 
-If a large amount of samples are used (more than 10 individuals with a genome size of 1Gbp), or an organism with a very large genome, the times and number of cores specified might have to be changed. 
- 
 
-## Run the pipeline:
 The pipeline can be run with and without a synteny species. Choose the snakefile with the corresponding name (snakefile-synteny or snakefile-no-synteny).
     
 The first step of the pipeline is optional trimming of all samples, with fastqc and multiqc being run on the samples before and after trimming. To only run this part of the pipeline (if TRIM_SAMPLES in the config file is set to "TRUE"), run the pipeline like this: 
@@ -210,32 +397,41 @@ If the multiqc report shows that the trimming was successful (or if trimming is 
     snakemake -s workflow/snakefile-{synteny/no-synteny} --configfile config/config.yml -k --cores {N} --use-conda --conda-frontend mamba -R all
 
 
+## Run the pipeline on a SLURM system <a name="server"></a>
+
 If the pipeline is run on a server cluster (e.g. SLURM), a configuration file is needed (example cluster.yaml), and the command to start the pipeline should be written like this: 
 
     snakemake -s workflow/snakefile-{synteny/no-synteny} -j 15 -R all --configfile config/config.yml --cluster-config cluster.yaml --cluster " sbatch -A {cluster.account} -t {cluster.time} -n {cluster.n} "
  
 *-j* specifies the number of jobs that can be run simultaneously.  
 
+The **cluster.json** file have to be edited if the pipeline will be ran on a cluster. Most importantly, specify the account name. 
+
+If a large amount of samples are used (more than 10 individuals with a genome size of 1Gbp), or an organism with a very large genome, the times and number of cores specified might have to be changed. 
+
 Start the pipeline within a **tmux** session to ensure that the run is not stopped if you disconnect from the server (https://github.com/tmux/tmux/wiki):
 
     tmux new -s <name_of_session>
 
 
-
-
-If the reference genome used is constructed from one of the individuals in the analysis, this can introduce noise from reference bias in the results, especially if the organism has a very variable genome. This can be solved by creating a consensus genome. This can be done by running the pipeline like this:
- 
-    snakemake -s snakefile-{synteny/no-synteny} -j 15 reference/genome/directory/{name_of_reference}_nonRefAf_consensus.fasta --configfile config.txt --cluster-config cluster.json --cluster " sbatch -A {cluster.account} -t {cluster.time} -n {cluster.n} "
- 
-This will produce a consensus genome in the same directory as the reference genome, named the same as the reference genome with *'_nonRefAf_consensus'* added before the *'.fasta'* sufix. The whole pipeline can then be re-run with the new consensus genome. Remember to change the config-file to specify this new reference genome and re-run the pipeline as above. The consensus genome can be created before running the whole pipeline, or after. If it is run before, no flagstat-files will be created since they are only specified in the rule all and here we only specify to create the consensus genome, not the files in rule all.
-
-
 ## Known issues <a name="issues"></a>
 
+#### Python issues when using tmux?
 When using tmux to run the pipeline, make sure that the conda environment version of Python is loaded (Python 3.9.4) with the following command: 
 
     python -V # Should give: "Python 3.9.4"
 
+If not, try to deactivate and activate the conda environment again. 
+
+
+#### Noisy output plots?
+
+If the reference genome used is constructed from one of the individuals in the analysis, this can introduce noise from reference bias in the results, especially if the organism has a very high heterozygosity. This can be solved by creating a consensus genome, incorporating variants from both samples. This can be done by running the pipeline like this:
+ 
+
+    snakemake -s snakefile-{synteny/no-synteny} -j 15 -R modify_genome --configfile config.yml --cluster-config cluster.json --cluster " sbatch -A {cluster.account} -t {cluster.time} -n {cluster.n} "
+ 
+This will produce a consensus genome in the same directory as the reference genome, named the same as the reference genome with *'_nonRefAf_consensus'* added before the *'.fasta'* sufix. The whole pipeline can then be re-run with the new consensus genome. Remember to change the config-file to specify this new reference genome and re-run the pipeline as above. The consensus genome can be created before running the whole pipeline, or after. 
 
  
 ## Output
