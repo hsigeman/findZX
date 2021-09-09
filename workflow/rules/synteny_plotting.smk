@@ -35,7 +35,7 @@ rule highlight_file:
         outdir + "output/synteny/" + synteny_abbr + "/highlight_file.list"
     shell: 
         """
-        awk 1 {params.highlight_chr} > {output}
+        echo {params.highlight_chr} | tr " " "\n" > {output}
         """
 
 
