@@ -1,4 +1,4 @@
-name : XYZWfinder
+name : findZX
 channels:
   - conda-forge
   - bioconda

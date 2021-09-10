@@ -1,8 +1,8 @@
-# XYZWfinder
+# findZX
 
 **A snakemake-based pipeline for identifying sex chromosomes using whole-genome sequencing (WGS) paired-end data from males and females**
 
-Use this flowchart to find out if you should use XYZWfinder: 
+Use this flowchart to find out if you should use findZX: 
 <p align="center"><img width="50%" src="figures/readme_flowchart.jpg"></p>
 
 
@@ -13,7 +13,7 @@ Use this flowchart to find out if you should use XYZWfinder:
 1. [Introduction](#introduction)
 2. [Installation](#installation)
 3. [Basic usage - Example using a test dataset](#test)
-4. [Basic usage - Configure XYZWfinder to your own dataset](#usage)
+4. [Basic usage - Configure findZX to your own dataset](#usage)
 5. [Run the pipeline on a SLURM system](#server)
 6. [Known issues](#issues)
 7. Making a reference genome
@@ -23,25 +23,25 @@ Use this flowchart to find out if you should use XYZWfinder:
 ## Introduction <a name="introduction"></a>
 Sex chromosomes have evolved numerous times across the tree of life, as revealed by recent genomic studies of non-model organisms. However, much of the sex chromosome diversity remains undiscovered. Identifying sex chromosomes in more species is crucial for improving our understanding of why and how they evolve, and to avoid misinterpreting genomic patterns caused by undetected sex chromosome variation. 
 
-XYZWfinder is an automated Snakemake-based computational pipeline, designed to detect and visualize sex chromosomes through differences in genome coverage and heterozygosity between males and females. It is user-friendly and scalable to suit different computational platforms, and works with any number of male and female samples. 
+FindZX is an automated Snakemake-based computational pipeline, designed to detect and visualize sex chromosomes through differences in genome coverage and heterozygosity between males and females. It is user-friendly and scalable to suit different computational platforms, and works with any number of male and female samples. 
 
-The pipeline can be deployed using two different scripts (see below for details). With the basic script (**XYZWfinder-no-synteny**), WGS reads from samples are trimmed and aligned to a reference genome (which can be generated from the WGS data if no reference genome for the study species is available). This is followed by calculations of sex-specific genome coverage and heterozygosity statistics for each chromosome/scaffold in the reference genome, as well as across genome windows of modifiable sizes (e.g. 100 kb and 1 Mb windows). The other script (**XYZWfinder-synteny**) includes an additional step: a genome coordinate lift-over to a reference genome of another species. This allows users to inspect sex-linked regions over larger contiguous chromosome regions, while also providing between-species synteny information.
+The pipeline can be deployed using two different scripts (see below for details). With the basic script (**findZX**), WGS reads from samples are trimmed and aligned to a reference genome (which can be generated from the WGS data if no reference genome for the study species is available). This is followed by calculations of sex-specific genome coverage and heterozygosity statistics for each chromosome/scaffold in the reference genome, as well as across genome windows of modifiable sizes (e.g. 100 kb and 1 Mb windows). The other script (**findZX-synteny**) includes an additional step: a genome coordinate lift-over to a reference genome of another species. This allows users to inspect sex-linked regions over larger contiguous chromosome regions, while also providing between-species synteny information.
 
 
 ***    
 
 ## Installation <a name="installation"></a>
 
-XYZWfinder works on Linux and macOS systems, and contains a configuration file which can be used to [run the pipeline on a SLURM system](#server). The only prerequisite (except for XYZWfinder itself) is that [conda](https://docs.conda.io/en/latest/) (or anaconda/mamba) is installed on the system. Once installed (see  installation guide [here](https://docs.conda.io/projects/conda/en/latest/user-guide/index.html)), conda will download all other dependencies automatically. 
+FindZX works on Linux and macOS systems, and contains a configuration file which can be used to [run the pipeline on a SLURM system](#server). The only prerequisite (except for findZX itself) is that [conda](https://docs.conda.io/en/latest/) (or anaconda/mamba) is installed on the system. Once installed (see  installation guide [here](https://docs.conda.io/projects/conda/en/latest/user-guide/index.html)), conda will download all other dependencies automatically. 
 
-### Obtain a copy of XYZWfinder by cloning this GitHub repository:
+### Obtain a copy of findZX by cloning this GitHub repository:
 
-    git clone https://github.com/hsigeman/XYZWfinder.git
-    cd XYZWfinder # Go to directory
+    git clone https://github.com/hsigeman/findZX.git
+    cd findZX # Go to directory
 
 ### Use conda to install the needed software. There are two ways to do this: 
 
-#### Option 1 (recommended): Create a minimal conda environment and install software automatically through XYZWfinder
+#### Option 1 (recommended): Create a minimal conda environment and install software automatically through findZX
 
 Enter this code to create a minimal conda environment:
  
@@ -57,7 +57,7 @@ Enter this code to create a minimal conda environment:
 
 *snakemake* installs snakemake (tested on version 6.4.0)
 
-If this installation option is used, add the flag **"--use-conda"** when launching XYZWfinder. All needed software will then be automatically downloaded and installed into separate conda environments for different parts of the pipeline (thus minimizing the risks of conflicts between software).
+If this installation option is used, add the flag **"--use-conda"** when launching findZX. All needed software will then be automatically downloaded and installed into separate conda environments for different parts of the pipeline (thus minimizing the risks of conflicts between software).
 
 Then activate the environment: 
 
@@ -67,16 +67,16 @@ Then activate the environment:
 
 The provided conda environment file (environment.yml) can also be used to install all needed software directly: 
 
-    conda env create -f environment.yml # This will create a conda environment called XYZWfinder
-    conda activate XYZWfinder # Activate the conda environment
+    conda env create -f environment.yml # This will create a conda environment called findZX
+    conda activate findZX # Activate the conda environment
 
-If this option is used, omit **"--use-conda"** when launching XYZWfinder.
+If this option is used, omit **"--use-conda"** when launching findZX.
 
 ***
 
 ## Basic usage - Example using a test dataset <a name="test"></a>
 
-Next, we will use the XYZWfinder pipeline to analyse a small test dataset. This is (a) to make sure that all programs are correctly installed, but also (b) to show how to use the program. 
+Next, we will use the findZX pipeline to analyse a small test dataset. This is (a) to make sure that all programs are correctly installed, but also (b) to show how to use the program. 
 
 
 ### Data
@@ -90,11 +90,11 @@ With the test dataset, we will identify sex-linked regions in the [mantled howle
 
 ### Run analyses
 
-#### XYZWfinder
+#### findZX
 
-To run **XYZWfinder** (using only the mantled howler monkey reference genome), run this code: 
+To run **findZX** (using only the mantled howler monkey reference genome), run this code: 
 
-    snakemake -s workflow/snakefile-no-synteny --configfile config/config.yml --cores 1 -R all -k --use-conda
+    snakemake -s workflow/findZX --configfile config/config.yml --cores 1 -R all -k --use-conda
 
 *-R* specifies which rule to re-run, in this case it is rule all which specifies all desired output files.
 
@@ -102,11 +102,11 @@ To run **XYZWfinder** (using only the mantled howler monkey reference genome), r
 
 *--configfile* specifies the [configuration file](#test_config) where data paths and settings are listed
 
-#### XYZWfinder-synteny
+#### findZX-synteny
 
-To run **XYZWfinder-synteny** (where the data will be lifted-over to genome positions in the human reference genome), run this code: 
+To run **findZX-synteny** (where the data will be lifted-over to genome positions in the human reference genome), run this code: 
 
-    snakemake -s workflow/snakefile-synteny --configfile config/config.yml --cores 1 -R all -k --use-conda
+    snakemake -s workflow/findZX-synteny --configfile config/config.yml --cores 1 -R all -k --use-conda
 
 
 Did the analyses finish without errors? If so, great! If not, let us know in the Issues section of the GitHub page and we will look into it. 
@@ -114,19 +114,19 @@ Did the analyses finish without errors? If so, great! If not, let us know in the
 
 ### Configuration file <a name="test_config"></a>
 
-Next, we will look at the configuration file that is needed for XYZWfinder to run (in this example we are using **config/config.yml**). The configuration file contain information about what data and settings we want to use for our analysis. 
+Next, we will look at the configuration file that is needed for findZX to run (in this example we are using **config/config.yml**). The configuration file contain information about what data and settings we want to use for our analysis. 
 
 **Here are the most important variables in the configuration file:** 
 
-- *run_name: "AloPal_test"*     # Specify an output directory where XYZWfinder will store the output
+- *run_name: "AloPal_test"*     # Specify an output directory where findZX will store the output
 
 - *units: config/units.tsv* # Specify the path to a ["unit file"](#units), containing information about the samples used for analysis
 
 - *ref_genome: ".test/Example/AloPal_v1_subset.fasta"*      # Path to the monkey reference genome
 
-- *synteny_ref: ".test/Example/Homo_sapiens.GRCh38_subset.fasta"*       # Path to the human reference genome (only used by XYZWfinder-synteny)
+- *synteny_ref: ".test/Example/Homo_sapiens.GRCh38_subset.fasta"*       # Path to the human reference genome (only used by findZX-synteny)
 
-- *synteny_abbr: "HS"*      # An abbreviation for Homo sapiens (useful in case you want to use several different synteny species; only used by XYZWfinder-synteny)
+- *synteny_abbr: "HS"*      # An abbreviation for Homo sapiens (useful in case you want to use several different synteny species; only used by findZX-synteny)
  
 <details>
 <summary>Click here to see the entire configuration file (config/config.yml)</summary>
@@ -135,7 +135,7 @@ Next, we will look at the configuration file that is needed for XYZWfinder to ru
 ```bash
 ####################################################
 ####################################################
-####           XYZWfinder config file           ####
+####             findZX config file             ####
 ####################################################
 ####################################################
 
@@ -165,7 +165,7 @@ units: "config/units.tsv"
 ref_genome: ".test/Example/AloPal_v1_subset.fasta" 
 
 ########################
-# Plotting settings - XYZWfinder (without synteny)
+# Plotting settings - findZX (without synteny)
 ########################
 
 # Want to plot only some chromosomes/scaffolds? If so, provide a path to a list of these chromosomes/scaffolds (Example: "config/chromosomes.list"). To plot all chromosomes/scaffolds, leave as "None".
@@ -190,7 +190,7 @@ window_sizes:
 trim_reads: TRUE # Trimming settings are below
 
 ########################
-# Plotting settings - XYZWfinder-synteny (if another reference genome is used for plotting)
+# Plotting settings - findZX-synteny (if another reference genome is used for plotting)
 ########################
 
 # If snakemake-synteny is used, specify the path to the synteny-species reference genome (not .gz format)
@@ -213,7 +213,7 @@ synteny_chr_highlight:
 ########################################################
 
 ########################
-# XYZWfinder-specific settings. Modify if needed.
+# findZX-specific settings. Modify if needed.
 ########################
 
 # The pipeline will produce genome coverage results based on three different mismatches criteria. 
@@ -276,11 +276,11 @@ params:
 
 The output is stored under results/AloPal_test ("AloPal_test" comes from the [configuration file](#test_config)). This directory contain both intermediate files (such as BAM files and VCF files) and the final output files (tables and plots). 
 
-When running XYZWfinder, the final output files can be found here: 
+When running findZX, the final output files can be found here: 
     
     ls results/AloPal_test/output/no-synteny/
 
-When running XYZWfinder-synteny, the final output files can be found here: 
+When running findZX-synteny, the final output files can be found here: 
     
     ls results/AloPal_test/output/synteny/
 
@@ -301,10 +301,10 @@ tree -d results/AloPal_test/
 │   ├── samtools
 │   └── samtools_stats
 ├── output # <-- This directory is where all the final output is stored
-│   ├── no_synteny # <-- Results using the XYZWfinder option
+│   ├── no_synteny # <-- Results using the findZX option
 │   │   ├── plots
 │   │   └── tables
-│   └── synteny # <-- Results using the XYZWfinder-synteny option
+│   └── synteny # <-- Results using the findZX-synteny option
 │       └── HS # ("HS" stands for Homo sapiens; see config.yaml file)
 │           ├── plots
 │           └── tables
@@ -326,22 +326,22 @@ All output plots are multi-page PDF files, where the last page also contain a fi
 
 To render an interactive HTML report for all output plots (with longer descriptions of each plot), use this command: 
 
-    snakemake -s workflow/snakefile-no-synteny --configfile config/config.yml --cores 1 -R all -k --use-conda --report report.html
-    snakemake -s workflow/snakefile-synteny --configfile config/config.yml --cores 1 -R all -k --use-conda --report report_synteny.html
+    snakemake -s workflow/findZX --configfile config/config.yml --cores 1 -R all -k --use-conda --report report.html
+    snakemake -s workflow/findZX-synteny --configfile config/config.yml --cores 1 -R all -k --use-conda --report report_synteny.html
 
 Open the files "report.html" and "report_synteny.html" to check out the reports. 
 
 For more information about the results, check out our bioRxiv preprint (ADD LINK). 
 
-### Stop XYZWfinder after trimming to inspect the trimming results
+### Stop findZX after trimming to inspect the trimming results
 
-In this example, we ran the entire pipeline from start to finish in one go. When working on a new dataset, however, it is a good idea to inspect the success of the trimming before continuing. XYZWfinder can do that. To start over again, delete the directory with the results from the test dataset:
+In this example, we ran the entire pipeline from start to finish in one go. When working on a new dataset, however, it is a good idea to inspect the success of the trimming before continuing. FindZX can do that. To start over again, delete the directory with the results from the test dataset:
 
     rm -r results/AloPal_test
 
 Then, rerun only the trimming and quality control steps using this command: 
 
-    snakemake -s workflow/snakefile-{synteny/no-synteny} --configfile config/config.yml -k --cores 1 --use-conda -R multiqc_stop --notemp
+    snakemake -s workflow/findZX{-synteny} --configfile config/config.yml -k --cores 1 --use-conda -R multiqc_stop --notemp
 
 *-R multiqc_stop* tells snakemake to stop the pipeline after trimming and quality control
 
@@ -354,14 +354,14 @@ Once the pipeline has finished, open the following files to inspect if the trimm
 
 If it was not, the trimming settings can be changed in the configuration file (config/config.yaml). If it was, start the pipeline again using the normal command (as above): 
 
-    snakemake -s workflow/snakefile-{synteny/no-synteny} --configfile config/config.yml --cores 1 -R all -k --use-conda
+    snakemake -s workflow/findZX{-synteny} --configfile config/config.yml --cores 1 -R all -k --use-conda
 
 
 ***
 
-## Basic usage - Configure XYZWfinder to your own dataset <a name="usage"></a>
+## Basic usage - Configure findZX to your own dataset <a name="usage"></a>
 
-If you haven't already done so, please take a look at the [previous section](#test) where all steps required to run XYZWfinder is explained. There, you can also take a look at the format of the [configuration file](#test_config) and [unit file](#units) needed for XYZWfinder to run. 
+If you haven't already done so, please take a look at the [previous section](#test) where all steps required to run findZX is explained. There, you can also take a look at the format of the [configuration file](#test_config) and [unit file](#units) needed for findZX to run. 
 
 If you want to see additional examples of configuration files, the directory **config/Manuscript_data** contain configuration files used to analyse data from the nine species in our [preprint](ADD LINK LATER). 
 
