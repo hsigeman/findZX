@@ -390,18 +390,18 @@ The pipeline can be run with and without a synteny species. Choose the snakefile
     
 The first step of the pipeline is optional trimming of all samples, with fastqc and multiqc being run on the samples before and after trimming. To only run this part of the pipeline (if TRIM_SAMPLES in the config file is set to "TRUE"), run the pipeline like this: 
 
-    snakemake -s workflow/snakefile-{synteny/no-synteny} --configfile config/config.yml -k --cores {N} --use-conda --conda-frontend mamba -R multiqc_stop --notemp
+    snakemake -s workflow/findZX{-synteny} --configfile config/config.yml -k --cores {N} --use-conda -R multiqc_stop --notemp
 
 If the multiqc report shows that the trimming was successful (or if trimming is not needed), run the pipeline again with this command:
 
-    snakemake -s workflow/snakefile-{synteny/no-synteny} --configfile config/config.yml -k --cores {N} --use-conda --conda-frontend mamba -R all
+    snakemake -s workflow/findZX{-synteny} --configfile config/config.yml -k --cores {N} --use-conda -R all
 
 
 ## Run the pipeline on a SLURM system <a name="server"></a>
 
 If the pipeline is run on a server cluster (e.g. SLURM), a configuration file is needed (example cluster.yaml), and the command to start the pipeline should be written like this: 
 
-    snakemake -s workflow/snakefile-{synteny/no-synteny} -j 15 -R all --configfile config/config.yml --cluster-config cluster.yaml --cluster " sbatch -A {cluster.account} -t {cluster.time} -n {cluster.n} "
+    snakemake -s workflow/findZX{-synteny} -j 15 -R all --configfile config/config.yml --cluster-config cluster.yaml --cluster " sbatch -A {cluster.account} -t {cluster.time} -n {cluster.n} "
  
 *-j* specifies the number of jobs that can be run simultaneously.  
 
@@ -429,7 +429,7 @@ If not, try to deactivate and activate the conda environment again.
 If the reference genome used is constructed from one of the individuals in the analysis, this can introduce noise from reference bias in the results, especially if the organism has a very high heterozygosity. This can be solved by creating a consensus genome, incorporating variants from both samples. This can be done by running the pipeline like this:
  
 
-    snakemake -s snakefile-{synteny/no-synteny} -j 15 -R modify_genome --configfile config.yml --cluster-config cluster.json --cluster " sbatch -A {cluster.account} -t {cluster.time} -n {cluster.n} "
+    snakemake -s workflow/findZX{-synteny} -j 15 -R modify_genome --configfile config.yml --cluster-config cluster.json --cluster " sbatch -A {cluster.account} -t {cluster.time} -n {cluster.n} "
  
 This will produce a consensus genome in the same directory as the reference genome, named the same as the reference genome with *'_nonRefAf_consensus'* added before the *'.fasta'* sufix. The whole pipeline can then be re-run with the new consensus genome. Remember to change the config-file to specify this new reference genome and re-run the pipeline as above. The consensus genome can be created before running the whole pipeline, or after. 
 
