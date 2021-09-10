@@ -12,7 +12,7 @@ run_name: "Nothobranchius_furzeri"
 ref_genome: "../data/external_raw/genome/Nothobranchius_furzeri.fasta" 
 
 # Optional: List of chromosomes that should be plotted (and highlighted) in the end (optional) 
-chr_file: "None" # Replace with file consisting of chromosome names to include. Example: config/chromosomes.list" 
+chr_file: "config/Manuscript_data/Nothobranchius_furzeri_chromosomes.list" # Replace with file consisting of chromosome names to include. Example: config/chromosomes.list" 
 
 # Optional: Specify chromosomes to highlight
 #chr_highlight: "config/chromosomes_highlight.list"
