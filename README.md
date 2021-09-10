@@ -16,8 +16,7 @@ Use this flowchart to find out if you should use findZX:
 4. [Basic usage - Configure findZX to your own dataset](#usage)
 5. [Run the pipeline on a SLURM system](#server)
 6. [Known issues](#issues)
-7. Making a reference genome
-8. [Output](#fourth-examplehttpwwwfourthexamplecom)
+7. [Constructing a de novo reference genome](#denovo)
 
 
 ## Introduction <a name="introduction"></a>
@@ -433,13 +432,13 @@ If the reference genome used is constructed from one of the individuals in the a
  
 This will produce a consensus genome in the same directory as the reference genome, named the same as the reference genome with *'_nonRefAf_consensus'* added before the *'.fasta'* sufix. The whole pipeline can then be re-run with the new consensus genome. Remember to change the config-file to specify this new reference genome and re-run the pipeline as above. The consensus genome can be created before running the whole pipeline, or after. 
 
- 
-## Output
-The result is shown in figures in the *figures/* folder.   
- 
 
-# Reference
-Sigeman, H., Ponnikas, S. & Hansson, B. Whole-genome analysis across 10 songbird families within Sylvioidea reveals a novel autosome-sex chromosome fusion. Biol. Lett. 16, 20200082 (2020).
+## Constructing a de novo reference genome  <a name="denovo"></a>
+
+If there is no reference genome availiable for the studied species, you can construct one from the WGS data of one of the homogametic samples. An example of how this can be done is the following (using [SPADES](#https://github.com/ablab/spades)): 
+
+    spades.py -k 21,33,55,77,99,127 --pe1-1 <F_trimmed.fq.gz> --pe1-2 <R_trimmed.fq.gz> -o spades_output -t 16 -m 256
+
 
 ## Authors
 - Hanna Sigeman (hanna.sigeman@biol.lu.se)
