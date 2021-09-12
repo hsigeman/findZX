@@ -377,20 +377,20 @@ To run findZX with your own data, simply create a configuration file and a tabul
 
 #### Needed input data
 
-i. WGS data from at least 1 individual of each sex
+- WGS data from at least 1 individual of each sex
 
-ii. A reference genome from the homogametic sex of the same species (if no such reference genome is available, you can [construct one](#denovo) from the homogametic sample)
+- A reference genome from the homogametic sex of the same species (if no such reference genome is available, you can [construct one](#denovo) from the homogametic sample)
 
-iii. If you want to run findZX-synteny: a reference genome of the species that will be used for genome coordinate lift-over.
+- If you want to run findZX-synteny: a reference genome of the species that will be used for genome coordinate lift-over.
 
-##### Creating a configuration and unit file
+#### Creating a configuration and unit file
 
 Use the template configuration files used for running the test dataset (config/config.yml) and edit where approriate. The configuration file must include the location of the tabular unit file containing information about the samples to be analysed (config/units.tsv; see above).
 
 - **config/config.yml** # Specify paths to reference genome etc. 
-- **config/units.tsv** # Sample information and paths to fastq files
+- **config/units.tsv** # Sample information and paths to fastq files. Each sample needs to be categorized as either "homogametic" or "heterogametic". 
 
-##### Additional (optional) files and settings 
+#### Additional (optional) files and settings 
 
 The configuration file contain some additional options which can be used to control the format of the output plots:
 
