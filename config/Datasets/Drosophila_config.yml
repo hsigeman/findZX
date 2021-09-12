@@ -12,8 +12,11 @@ run_name: "DroMir_test"
 ref_genome: "data/genome/GCA_000269505.2_DroMir_2.2.fasta" 
 
 # List of chromosomes that should be plotted (and highlighted) in the end (optional) 
-chr_file: config/dummy.chromosomes.list
-chr_highlight: config/dummy.chromosomes_highlight.list
+chr_file: "None"
+chr_highlight:
+    - CM001517.2 # Chromosomes to be highlighted. Remove if not wanted.
+    - CM001519.2
+    - CM001516.2
 trim_reads: TRUE # Set to TRUE if you want to trim reads
 #sra_download: TRUE # Set to TRUE if you want to trim reads
 
@@ -38,14 +41,11 @@ synteny_chr_highlight: config/HS_chromosomes_highlight.list
 edit_distance:
     - 0.0 # 0 mismatches allowed
     - 0.2 # <=2 mismatches allowed
-    - all # Do not edit this one
+    - unfiltered # Do not edit this one
 
 window_sizes:
-    - 25000
-    - 50000
-    - 75000
     - 100000
-
+    - 1000000
 
 # The Mimimum size of scaffolds in the reference genome to be considered. 
 minSizeScaffold: "10000"
