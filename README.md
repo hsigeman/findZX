@@ -79,7 +79,7 @@ If this option is used, omit **"--use-conda"** when launching findZX.
 
 In this section we will analyse a small test dataset using findZX. This is (a) to make sure that all programs are correctly installed, but also (b) to show how to use the program. These analyses should be quick (~2 minutes), but the first time you run them it will take a bit longer due to software installations. 
 
-FindZX is a pipeline based on [snakemake](https://snakemake.readthedocs.io/en/stable/), where each analysis step is written as a separate "rule". By specifying what input data we want to use, and what "rules" we want to run, snakemake will automatically create the desired output. 
+FindZX is a pipeline based on [snakemake](https://snakemake.readthedocs.io/en/stable/), where each analysis step is written as a separate "rule". By specifying what input data we want to use, and what "rules" we want to run, snakemake will automatically create the desired output. If you delete a file and run findZX again, only the rules needed to re-create that missing file as well as the downstream output files will be executed. 
 
 ### Data
 
