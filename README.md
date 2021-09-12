@@ -33,6 +33,8 @@ The pipeline can be deployed using two different scripts (see below for details)
 
 FindZX works on Linux and macOS systems, and contains a configuration file which can be used to [run the pipeline on a SLURM system](#server). The only prerequisite (except for findZX itself) is that [conda](https://docs.conda.io/en/latest/) (or anaconda/mamba) is installed on the system. Once installed (see  installation guide [here](https://docs.conda.io/projects/conda/en/latest/user-guide/index.html)), conda will download all other dependencies automatically. 
 
+Follow the steps below to download findZX and install the needed dependencies. We strongly recommend users to go through the tutorial in the next section ([Basic usage - Example using a test dataset](#test)), to verify the installation and for learning how to use findZX. 
+
 ### Obtain a copy of findZX by cloning this GitHub repository:
 
     git clone https://github.com/hsigeman/findZX.git
@@ -426,8 +428,8 @@ If not, try to deactivate and activate the conda environment again.
 
 #### Noisy output plots?
 
-If the reference genome used is constructed from one of the individuals in the analysis, this can introduce noise from reference bias in the results, especially if the organism has a very high heterozygosity. This can be solved by creating a consensus genome, incorporating variants from both samples. This can be done by running the pipeline like this:
- 
+When only using one sample of each sex, combined with a reference genome constructed from one of these samples, the genome coverage results for heavily resticted number of mismatches may be suboptimal. Especially if the organism has a very high heterozygosity. This can be solved by creating a consensus genome, incorporating variants from both samples. This can be done by running the pipeline like this:
+
 
     snakemake -s workflow/findZX{-synteny} -j 15 -R modify_genome --configfile config.yml --cluster-config cluster.json --cluster " sbatch -A {cluster.account} -t {cluster.time} -n {cluster.n} "
  
