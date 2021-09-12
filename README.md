@@ -387,6 +387,8 @@ To run findZX with your own data, simply create a configuration file and a tabul
 
 Use the template configuration files used for running the test dataset (config/config.yml) and edit where approriate. The configuration file must include the location of the tabular unit file containing information about the samples to be analysed (config/units.tsv; see above).
 
+Examples (these files can be located anywhere and have other names):
+
 - **config/config.yml** # Specify paths to reference genome etc. 
 - **config/units.tsv** # Sample information and paths to fastq files. Each sample needs to be categorized as either "homogametic" or "heterogametic". 
 
