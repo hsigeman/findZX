@@ -122,7 +122,7 @@ Next, we will look at the configuration file that is needed for findZX to run (i
 
 - *run_name: "AloPal_test"*     # Specify an output directory where findZX will store the output
 
-- *units: config/units.tsv* # Specify the path to a ["unit file"](#units), containing information about the samples used for analysis
+- *units: config/units.tsv* # Specify the path to a tabular (tab-separated) ["unit file"](#units), containing information about the samples used for analysis
 
 - *ref_genome: ".test/Example/AloPal_v1_subset.fasta"*      # Path to the monkey reference genome
 
@@ -156,6 +156,9 @@ run_name: "AloPal_test"
 # Specify max number of cores
 threads_max: 2
 
+# Specify max memory
+mem_max: 8000 
+
 ########################
 # Data paths - study species
 ########################
@@ -178,7 +181,7 @@ chr_highlight:
     - PVKV010001784.1
     - PVKV010001533.1
 
-# Choose three genome window sizes for plotting (good standard settings are: 50000, 100000, 1000000)
+# Choose genome window sizes for plotting (recommended settings to start are: 50000, 100000, 1000000). You can choose any number of window sizes. FindZX will throw an error if no scaffold/chromosome is larger than a chosen window size. 
 window_sizes:
     - 25000
     - 50000
@@ -188,8 +191,8 @@ window_sizes:
 # Quality control
 ########################
 
-# Want to trim the fastq files? If so, set trim_reads to TRUE (else FALSE)
-trim_reads: TRUE # Trimming settings are below
+# Want to trim the fastq files? If so, set trim_reads to TRUE (else FALSE). Trimming settings are below
+trim_reads: TRUE 
 
 ########################
 # Plotting settings - findZX-synteny (if another reference genome is used for plotting)
@@ -341,13 +344,13 @@ In this example, we ran the entire pipeline from start to finish in one go. When
 
     rm -r results/AloPal_test
 
-Then, rerun only the trimming and quality control steps using this command: 
+Then, rerun only the trimming and quality control steps using this command (choose findZX or findZX-synteny): 
 
     snakemake -s workflow/findZX{-synteny} --configfile config/config.yml -k --cores 1 --use-conda -R multiqc_stop --notemp
 
 *-R multiqc_stop* tells snakemake to stop the pipeline after trimming and quality control
 
-*--notemp* this flag prevents deletion of intermediate files that would otherwise have been deleted (to save space)
+*--notemp* this flag prevents deletion of intermediate files that would otherwise have been deleted (to save space). The trimmed fastq files are among these files that would otherwise have been deleted. 
 
 Once the pipeline has finished, open the following files to inspect if the trimming was successful: 
 
@@ -365,38 +368,44 @@ If it was not, the trimming settings can be changed in the configuration file (c
 
 If you haven't already done so, please take a look at the [previous section](#test) where all steps required to run findZX is explained. There, you can also take a look at the format of the [configuration file](#test_config) and [unit file](#units) needed for findZX to run. 
 
-If you want to see additional examples of configuration files, the directory **config/Manuscript_data** contain configuration files used to analyse data from the nine species in our [preprint](ADD LINK LATER). 
+Additional examples of configuration and unit files are found in **config/Manuscript_data**. This directory contain all configuration files used to analyse data from the nine species from our [preprint](ADD LINK). 
 
-##### 1. Prepare input data 
+To run findZX with your own data, simply create a configuration file and a tabular unit file (see examples [above](#test)). Then start the pipeline with the following command: 
 
-i. Download WGS data from male and female individuals of the target species
+    snakemake -s workflow/findZX{-synteny} --configfile <yourConfigFile.yml> --cores 1 -R all -k --use-conda
 
-ii. Download a reference genome from the expected homogametic sex of the target species (or construct one based on a WGS sample)
 
-iii. If a "synteny-species" is used, download the reference genome of this species
+#### Needed input data
 
-iv. Create a tabular file (.tsv) with information about sample ID, heterogamety, and fastq.gz file paths (example: config/units.tsv)
+i. WGS data from at least 1 individual of each sex
 
-##### 2. Create a configuration file
+ii. A reference genome from the homogametic sex of the same species (if no such reference genome is available, you can [construct one](#denovo) from the homogametic sample)
 
-Use the template configuration files used for running the test dataset (config/config.yml) and edit where approriate. The configuration file must include the location of the tabular file containing information about the samples to be analysed (config/units.tsv; see above).
+iii. If you want to run findZX-synteny: a reference genome of the species that will be used for genome coordinate lift-over.
 
+##### Creating a configuration and unit file
+
+Use the template configuration files used for running the test dataset (config/config.yml) and edit where approriate. The configuration file must include the location of the tabular unit file containing information about the samples to be analysed (config/units.tsv; see above).
 
 - **config/config.yml** # Specify paths to reference genome etc. 
 - **config/units.tsv** # Sample information and paths to fastq files
-- **config/chromosomes.list** # Optional: List of scaffolds/chromosomes in the reference genome to include in the final plots (with snakefile-no-synteny)
-- **config/HS_chromosomes.list** # Optional: List of scaffolds/chromosomes in the synteny-species reference genome to include in the final plots (with snakefile-synteny)
+
+##### Additional (optional) files and settings 
+
+The configuration file contain some additional options which can be used to control the format of the output plots:
+
+- *chr_file: "None"*     # Want to plot only some chromosomes/scaffolds? If so, provide a path to a list of these chromosomes/scaffolds
+
+- *chr_highlight:*  # Want to highlight some chromosomes/scaffolds in plots? Specify these chromosomes below this line in the configuration file. Leave empty if not.
+
+- *window_sizes:*   # List the sizes of genome windows that should be used for binning the data
+
+- *synteny_chr_file:*   # Same as "chr_file" but for chromosomes/scaffolds in the "synteny"-reference genome
+
+- *synteny_chr_highlight:*  # Same as "chr_highlight" but for chromosomes/scaffolds in the "synteny"-reference genome
 
 
-The pipeline can be run with and without a synteny species. Choose the snakefile with the corresponding name (snakefile-synteny or snakefile-no-synteny).
-    
-The first step of the pipeline is optional trimming of all samples, with fastqc and multiqc being run on the samples before and after trimming. To only run this part of the pipeline (if TRIM_SAMPLES in the config file is set to "TRUE"), run the pipeline like this: 
-
-    snakemake -s workflow/findZX{-synteny} --configfile config/config.yml -k --cores {N} --use-conda -R multiqc_stop --notemp
-
-If the multiqc report shows that the trimming was successful (or if trimming is not needed), run the pipeline again with this command:
-
-    snakemake -s workflow/findZX{-synteny} --configfile config/config.yml -k --cores {N} --use-conda -R all
+FindZX will generate genome coverage statistics based on BAM-files that are filtered for different numbers of allowed mismatches between reads and the reference genome. Restricting the number of mismatches often lead to enhanced differences in genome coverage on the sex chromosomes but not autosomes. However, the optimal setting will vary for different species and sex chromosome systems. FindZX will generate genome coverage values for three different settings, which can be controlled with the *"edit_distance"* setting. Defaults (which will work for most species) are (i) 0 mismatches allowed, (ii) <=2 mismatches allowed and (iii) unfiltered. 
 
 
 ## Run the pipeline on a SLURM system <a name="server"></a>
