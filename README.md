@@ -2,10 +2,6 @@
 
 **A snakemake-based pipeline for identifying sex chromosomes using whole-genome sequencing (WGS) paired-end data from males and females**
 
-Use this flowchart to find out if you should use findZX: 
-<p align="center"><img width="50%" src="figures/readme_flowchart.jpg"></p>
-
-
 ***
 
 
@@ -25,6 +21,9 @@ Sex chromosomes have evolved numerous times across the tree of life, as revealed
 FindZX is an automated Snakemake-based computational pipeline, designed to detect and visualize sex chromosomes through differences in genome coverage and heterozygosity between males and females. It is user-friendly and scalable to suit different computational platforms, and works with any number of male and female samples. 
 
 The pipeline can be deployed using two different scripts (see below for details). With the basic script (**findZX**), WGS reads from samples are trimmed and aligned to a reference genome (which can be generated from the WGS data if no reference genome for the study species is available). This is followed by calculations of sex-specific genome coverage and heterozygosity statistics for each chromosome/scaffold in the reference genome, as well as across genome windows of modifiable sizes (e.g. 100 kb and 1 Mb windows). The other script (**findZX-synteny**) includes an additional step: a genome coordinate lift-over to a reference genome of another species. This allows users to inspect sex-linked regions over larger contiguous chromosome regions, while also providing between-species synteny information.
+
+Use this flowchart to find out if you should use findZX: 
+<p align="center"><img width="50%" src="figures/readme_flowchart.jpg"></p>
 
 
 ***    
