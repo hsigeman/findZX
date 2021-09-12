@@ -77,12 +77,13 @@ If this option is used, omit **"--use-conda"** when launching findZX.
 
 ## Basic usage - Example using a test dataset <a name="test"></a>
 
-Next, we will use the findZX pipeline to analyse a small test dataset. This is (a) to make sure that all programs are correctly installed, but also (b) to show how to use the program. 
+In this section we will analyse a small test dataset using findZX. This is (a) to make sure that all programs are correctly installed, but also (b) to show how to use the program. 
 
+FindZX is a pipeline based on [snakemake](https://snakemake.readthedocs.io/en/stable/), where each analysis step is written as a separate "rule". By specifying what input data we want to use, and what "rules" we want to run, snakemake will automatically create the desired output. 
 
 ### Data
 
-With the test dataset, we will identify sex-linked regions in the [mantled howler monkey](https://en.wikipedia.org/wiki/Mantled_howler), using small subsets of the following files (all located in ./test/Example): 
+We will identify sex-linked regions in the [mantled howler monkey](https://en.wikipedia.org/wiki/Mantled_howler) using small subsets of the following files (all located in ./test/Example): 
 
 - WGS reads from 2 female ([SRR9655168](https://www.ncbi.nlm.nih.gov/sra/SRR9655168), [SRR9655169](https://www.ncbi.nlm.nih.gov/sra/SRR9655169)) and 2 male ([SRR9655170](https://www.ncbi.nlm.nih.gov/sra/SRR9655170), [SRR9655171](https://www.ncbi.nlm.nih.gov/sra/SRR9655171)) mantled howler monkeys
 - [Mantled howler monkey reference genome](https://www.ncbi.nlm.nih.gov/assembly/GCA_004027835.1/) (AloPal_v1_subset.fasta)
@@ -97,7 +98,7 @@ To run **findZX** (using only the mantled howler monkey reference genome), run t
 
     snakemake -s workflow/findZX --configfile config/config.yml --cores 1 -R all -k --use-conda
 
-*-R* specifies which rule to re-run, in this case it is rule all which specifies all desired output files.
+*-R* specifies which rule to run, in this case it is rule "all" which specifies all desired output files.
 
 *-k* specifies that other jobs should continue even if one job fails. Can be omitted. 
 
