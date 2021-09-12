@@ -368,11 +368,11 @@ If it was not, the trimming settings can be changed in the configuration file (c
 
 If you haven't already done so, please take a look at the [previous section](#test) where all steps required to run findZX is explained. There, you can also take a look at the format of the [configuration file](#test_config) and [unit file](#units) needed for findZX to run. 
 
-Additional examples of configuration and unit files are found in **config/Manuscript_data**. This directory contain all configuration files used to analyse data from the nine species from our [preprint](ADD LINK). 
+Additional examples of configuration and unit files are found in **config/Manuscript_data**. This directory contain all configuration and unit files used to analyse data from the nine species from our [preprint](ADD LINK). 
 
 To run findZX with your own data, simply create a configuration file and a tabular unit file (see examples [above](#test)). Then start the pipeline with the following command: 
 
-    snakemake -s workflow/findZX{-synteny} --configfile <yourConfigFile.yml> --cores 1 -R all -k --use-conda
+    snakemake -s workflow/findZX{-synteny} --configfile <yourConfigFile.yml> --cores <nr_of_cores> -R all -k --use-conda
 
 
 #### Needed input data
@@ -394,7 +394,7 @@ Use the template configuration files used for running the test dataset (config/c
 
 The configuration file contain some additional options which can be used to control the format of the output plots:
 
-- *chr_file: "None"*     # Want to plot only some chromosomes/scaffolds? If so, provide a path to a list of these chromosomes/scaffolds
+- *chr_file: "None"*     # Want to plot only some chromosomes/scaffolds? If so, provide a path to a file listing these chromosomes/scaffolds here.
 
 - *chr_highlight:*  # Want to highlight some chromosomes/scaffolds in plots? Specify these chromosomes below this line in the configuration file. Leave empty if not.
 
@@ -420,10 +420,9 @@ The **cluster.json** file have to be edited if the pipeline will be ran on a clu
 
 If a large amount of samples are used (more than 10 individuals with a genome size of 1Gbp), or an organism with a very large genome, the times and number of cores specified might have to be changed. 
 
-Start the pipeline within a **tmux** session to ensure that the run is not stopped if you disconnect from the server (https://github.com/tmux/tmux/wiki):
+Start the pipeline within a [tmux](#https://github.com/tmux/tmux/wiki) session to ensure that the run is not stopped if you disconnect from the server:
 
     tmux new -s <name_of_session>
-
 
 
 ## Known issues <a name="issues"></a>
