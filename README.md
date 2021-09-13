@@ -30,9 +30,13 @@ Use this flowchart to find out if you should use findZX:
 
 ## Installation <a name="installation"></a>
 
-FindZX works on Linux and macOS systems, and contains a configuration file which can be used to [run the pipeline on a SLURM system](#server). The only prerequisite (except for findZX itself) is that [conda](https://docs.conda.io/en/latest/) (or anaconda/mamba) is installed on the system. Once installed (see  installation guide [here](https://docs.conda.io/projects/conda/en/latest/user-guide/index.html)), conda will download all other dependencies automatically. 
+FindZX works on Linux and macOS systems, and contains a configuration file which can be used to [run the pipeline on a SLURM system](#server). There are only two prerequisites (except for findZX itself): that Java Development Kit (JDK) and [conda](https://docs.conda.io/en/latest/) are installed on the system. Conda (see installation guide [here](https://docs.conda.io/projects/conda/en/latest/user-guide/index.html)) will then download and install all other dependencies automatically. 
 
 Follow the steps below to download findZX and install the needed dependencies. We strongly recommend users to go through the tutorial in the next section ([Basic usage - Example using a test dataset](#test)), to verify the installation and for learning how to use findZX. 
+
+
+### Check if JDK is installed
+    java -version # Should give "OpenJDK" or similar
 
 ### Obtain a copy of findZX by cloning this GitHub repository:
 
@@ -45,17 +49,19 @@ Follow the steps below to download findZX and install the needed dependencies. W
 
 Enter this code to create a minimal conda environment:
  
-    conda create -n snakemake_basic -c conda-forge -c bioconda python=3.9.4 snakemake-wrapper-utils=0.2.0 snakemake=6.4.0
+    conda create -n snakemake_basic -c conda-forge -c bioconda python=3.9.4 snakemake-wrapper-utils=0.2.0 snakemake=6.4.0 mamba=0.15.3
 
 *-n* specifies the name of the conda environment (snakemake_basic). This can be changed to another string.
 
 *-c* specifies the needed conda channels
 
-*python* specifies the python version (need to be >3.9)
+*python=3.9.4* specifies the python version (need to be >3.9)
 
-*snakemake-wrapper-utils* installs tools needed to use [Snakemake wrappers](https://snakemake-wrappers.readthedocs.io/en/stable/)
+*snakemake-wrapper-utils=0.2.0* installs tools needed to use [Snakemake wrappers](https://snakemake-wrappers.readthedocs.io/en/stable/)
 
-*snakemake* installs snakemake (tested on version 6.4.0)
+*snakemake=6.4.0* installs snakemake
+
+*mamba=0.15.3* installs mamba
 
 If this installation option is used, add the flag **"--use-conda"** when launching findZX. All needed software will then be automatically downloaded and installed into separate conda environments for different parts of the pipeline (thus minimizing the risks of conflicts between software).
 
