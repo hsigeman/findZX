@@ -1,3 +1,0 @@
-sample	unit	fq1	fq2
-Melanodryas_cucullata	homogametic	../data/external_raw/fastq/robins/B53037_S648_L002_R1_001.fastq.gz	../data/external_raw/fastq/robins/B53037_S648_L002_R2_001.fastq.gz
-Melanodryas_cucullata	heterogametic	../data/external_raw/fastq/robins/B49143_R1_001.fastq.gz	../data/external_raw/fastq/robins/B49143_R2_001.fastq.gz

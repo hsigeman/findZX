@@ -1,3 +1,0 @@
-sample	unit	fq1	fq2
-Eopsaltria_griseogularis_WA	homogametic	../data/external_raw/fastq/robins/B29167_R1_001.fastq.gz	../data/external_raw/fastq/robins/B29167_R2_001.fastq.gz
-Eopsaltria_griseogularis_WA	heterogametic	../data/external_raw/fastq/robins/B29153_R1_001.fastq.gz	../data/external_raw/fastq/robins/B29153_R2_001.fastq.gz

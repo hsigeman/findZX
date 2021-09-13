@@ -1,3 +1,0 @@
-sample	unit	fq1	fq2
-Poecilodryas_cerviniventris	homogametic	../data/external_raw/fastq/robins/B54743_R1_001.fastq.gz	../data/external_raw/fastq/robins/B54743_R2_001.fastq.gz
-Poecilodryas_cerviniventris	heterogametic	../data/external_raw/fastq/robins/B54746_R1_001.fastq.gz	../data/external_raw/fastq/robins/B54746_R2_001.fastq.gz
