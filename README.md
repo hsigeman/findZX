@@ -82,7 +82,7 @@ FindZX is a pipeline based on [snakemake](https://snakemake.readthedocs.io/en/st
 
 ### Data
 
-In this example, we will identify sex-linked regions in the [mantled howler monkey](https://en.wikipedia.org/wiki/Mantled_howler) using small subsets of the following files (all located in ./test/Example): 
+In this example, we will identify sex-linked regions in the [mantled howler monkey](https://en.wikipedia.org/wiki/Mantled_howler) using small subsets of the following files (all located in ./.test/Example): 
 
 - WGS reads from 2 female ([SRR9655168](https://www.ncbi.nlm.nih.gov/sra/SRR9655168), [SRR9655169](https://www.ncbi.nlm.nih.gov/sra/SRR9655169)) and 2 male ([SRR9655170](https://www.ncbi.nlm.nih.gov/sra/SRR9655170), [SRR9655171](https://www.ncbi.nlm.nih.gov/sra/SRR9655171)) mantled howler monkeys
 - [Mantled howler monkey reference genome](https://www.ncbi.nlm.nih.gov/assembly/GCA_004027835.1/) (AloPal_v1_subset.fasta)
@@ -100,7 +100,7 @@ Before starting analyses, make sure that you have activated the conda environmen
 
 To run **findZX** (using only the mantled howler monkey reference genome), run this code: 
 
-    snakemake -s workflow/findZX --configfile config/config.yml --cores 1 -R all -k --use-conda
+    snakemake -s workflow/findZX --configfile config/config.yml --cores 1 -R all --use-conda -k 
 
 
 *--configfile* specifies the [configuration file](#test_config) where data paths and settings are listed
