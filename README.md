@@ -91,6 +91,11 @@ In this example, we will identify sex-linked regions in the [mantled howler monk
 
 ### Run analyses
 
+Before starting analyses, make sure that you have activated the conda environment. Also, make sure that the correct python version is active: 
+
+    conda activate snakemake_basic
+    python -V # Should give Python 3.9.4
+
 #### findZX
 
 To run **findZX** (using only the mantled howler monkey reference genome), run this code: 
