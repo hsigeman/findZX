@@ -97,11 +97,15 @@ To run **findZX** (using only the mantled howler monkey reference genome), run t
 
     snakemake -s workflow/findZX --configfile config/config.yml --cores 1 -R all -k --use-conda
 
+*--cores* specifies the maximum number of threads snakemake is allowed to use. For the test dataset, 1 core is enough. For analyses of larger datasets you will want to modify this setting according to your computer specifications. 
+
 *-R* specifies which rule to run, in this case it is rule "all" which tells snakemake to generate all findZX output files.
 
 *-k* specifies that other jobs should continue even if one job fails. Can be omitted. 
 
 *--configfile* specifies the [configuration file](#test_config) where data paths and settings are listed
+
+*--use-conda* tells snakemake to install the needed software for each rule in separate conda environments (see [above](#installation))
 
 #### findZX-synteny
 
