@@ -44,7 +44,7 @@ rule proportion_heterozygosity_window_2:
         outdir + "variant_calling/" + ref_genome_name_simple + ".heterozygosity.5kb.windows.bed"
     output:
         het_sorted_window_mean = outdir + "variant_calling/" + ref_genome_name_simple + ".heterozygosity.5kb.windows.NR.bed",
-	    het_sexAverage = outdir + "variant_calling/" + ref_genome_name_simple + ".heterozygosity.sexAverage.NR.bed"
+        het_sexAverage = outdir + "variant_calling/" + ref_genome_name_simple + ".heterozygosity.sexAverage.NR.bed"
     params:
         hetero = expand("het:{u.sample}__{u.unit}", u=heterogametic.itertuples()),
         homo = expand("homo:{u.sample}__{u.unit}", u=homogametic.itertuples())
@@ -55,4 +55,4 @@ rule proportion_heterozygosity_window_2:
         code/sum_heterozygosity_per_5kb.sh {input} > {output.het_sorted_window_mean}
 	    
         python3 code/mean_heterozygosity_per_sex.py {output.het_sorted_window_mean} no-synteny {params.hetero} {params.homo} > {output.het_sexAverage}
-	    """
+        """
