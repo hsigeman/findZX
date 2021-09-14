@@ -30,13 +30,10 @@ Use this flowchart to find out if you should use findZX:
 
 ## Installation <a name="installation"></a>
 
-FindZX works on Linux and macOS systems, and contains a configuration file which can be used to [run the pipeline on a SLURM system](#server). There are only two prerequisites (except for findZX itself): that Java Development Kit (JDK) and [conda](https://docs.conda.io/en/latest/) are installed on the system. Conda (see installation guide [here](https://docs.conda.io/projects/conda/en/latest/user-guide/index.html)) will then download and install all other dependencies automatically. 
+FindZX works on Linux and macOS systems, and contains a configuration file which can be used to [run the pipeline on a SLURM system](#server). There is only one prerequisite (except for findZX itself): that [conda](https://docs.conda.io/en/latest/) is installed on the system. Conda (see installation guide [here](https://docs.conda.io/projects/conda/en/latest/user-guide/index.html)) will then download and install all other dependencies automatically. 
 
 Follow the steps below to download findZX and install the needed dependencies. We strongly recommend users to go through the tutorial in the next section ([Basic usage - Example using a test dataset](#test)), to verify the installation and for learning how to use findZX. 
 
-
-### Check if JDK is installed
-    java -version # Should give "OpenJDK" or similar
 
 ### Obtain a copy of findZX by cloning this GitHub repository:
 
