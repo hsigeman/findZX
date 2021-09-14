@@ -9,7 +9,7 @@ min_version("5.18.0")
 ###### Config file and sample sheets #####
 
 
-configfile: "config/config.yml"
+#configfile: "config/config.yml"
 
 
 #samples = pd.read_table(config["samples"]).set_index("sample", drop=False)
