@@ -454,7 +454,7 @@ If not, try to deactivate and activate the conda environment again.
 When only using one sample of each sex, combined with a reference genome constructed from one of these samples, the genome coverage results for heavily resticted number of mismatches may be suboptimal. Especially if the organism has a very high heterozygosity. This can be solved by creating a consensus genome, incorporating variants from both samples. This can be done by running the pipeline like this:
 
 
-    snakemake -s workflow/findZX{-synteny} -j 15 -R modify_genome --configfile config.yml --cluster-config cluster.json --cluster " sbatch -A {cluster.account} -t {cluster.time} -n {cluster.n} "
+    snakemake -s workflow/findZX{-synteny} -j 15 -R modify_genome --configfile config.yml --use-conda -k
  
 This will produce a consensus genome in the same directory as the reference genome, named the same as the reference genome with *'_nonRefAf_consensus'* added before the *'.fasta'* sufix. The whole pipeline can then be re-run with the new consensus genome. Remember to change the config-file to specify this new reference genome and re-run the pipeline as above. The consensus genome can be created before running the whole pipeline, or after. 
 
