@@ -456,7 +456,7 @@ When only using one sample of each sex, combined with a reference genome constru
 
     snakemake -s workflow/findZX{-synteny} -j 15 -R modify_genome --configfile config.yml --use-conda -k
  
-This will produce a consensus genome in the same directory as the reference genome, named the same as the reference genome with *'_nonRefAf_consensus'* added before the *'.fasta'* sufix. The whole pipeline can then be re-run with the new consensus genome. Remember to change the config-file to specify this new reference genome and re-run the pipeline as above. The consensus genome can be created before running the whole pipeline, or after. 
+This will produce a consensus genome (results/RUN_NAME/consensus_genome/), named the same as the reference genome with *'_nonRefAf_consensus'* added before the *'.fasta'* sufix. The whole pipeline can then be re-run with the new consensus genome. Remember to change the config-file to specify this new reference genome, as well as give it a new run name (to not overwrite the old analysis) and re-run the pipeline as above. The consensus genome can be created before running the whole pipeline, or after. 
 
 
 ## Constructing a de novo reference genome  <a name="denovo"></a>
