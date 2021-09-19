@@ -25,7 +25,7 @@ rule samtools_view:
     log:
         logs_dir + "samtools_view/{sample}__{unit}.log",
     params:
-        extra="-bf 0x2" # optional params string
+        extra="-bf 0x2 -F 260 -q 20" # optional params string
     wrapper:
         "0.78.0/bio/samtools/view"
 
