@@ -81,7 +81,7 @@ def get_fastq_new(wildcards):
 
 def get_read_group(wildcards):
     """Denote sample name and platform in read group."""
-    return r"-R '@RG\tID:{sample}__{unit}\tSM:{sample}__{unit}'".format(**wildcards)
+    return r"-M -R '@RG\tID:{sample}__{unit}\tSM:{sample}__{unit}'".format(**wildcards)
 
 
 def get_sample_bams(wildcards):
