@@ -3,7 +3,7 @@ rule map_reads:
         reads= get_trimmed_reads if config['trim_reads'] else get_fastq_new,
         idx=rules.bwa_index.output,
     output:
-        temp(map_dir + "{sample}__{unit}.sorted.bam"),
+        temp(map_dir + "{sample}__{unit}.sorted.tmp.bam"),
     log:
         logs_dir + "bwa_mem/{sample}__{unit}.log",
     params:
@@ -15,6 +15,19 @@ rule map_reads:
     threads: threads_max
     wrapper:
         "0.74.0/bio/bwa/mem"
+
+
+rule samtools_view:
+    input:
+        map_dir + "{sample}__{unit}.sorted.tmp.bam",
+    output:
+        temp(map_dir + "{sample}__{unit}.sorted.bam"),
+    log:
+        logs_dir + "samtools_view/{sample}__{unit}.log",
+    params:
+        extra="-bf 0x2" # optional params string
+    wrapper:
+        "0.78.0/bio/samtools/view"
 
 
 rule mark_duplicates:
