@@ -481,12 +481,12 @@ print(data2)
 dev.off()
 
 
-png(file=absolute_out_base, width = 1200, height = 800)
-print(d)
-dev.off()
+#png(file=absolute_out_base, width = 1200, height = 800)
+#print(d)
+#dev.off()
 
-absolute_out_base2 = gsub("\\.pdf", "", absolute_out)
-ggsave(sprintf("%s.png", absolute_out_base2), plot = d, device = png(), width = 14, height = 10, dpi = 900)
+#absolute_out_base2 = gsub("\\.pdf", "", absolute_out)
+#ggsave(sprintf("%s.png", absolute_out_base2), plot = d, device = png(), width = 14, height = 10, dpi = 900)
 
 
 
@@ -512,8 +512,8 @@ dev.off()
 #print(d)
 #dev.off()
 
-absolute_out_base2 = gsub("\\.pdf", "", absolute_out)
-ggsave(sprintf("%s.verticalXaxis.png", absolute_out_base2), plot = d, device = png(), width = 14, height = 12, dpi = 900)
+#absolute_out_base2 = gsub("\\.pdf", "", absolute_out)
+#ggsave(sprintf("%s.verticalXaxis.png", absolute_out_base2), plot = d, device = png(), width = 14, height = 12, dpi = 900)
 
 
 
@@ -651,14 +651,14 @@ print(c)
 print(data)
 dev.off()
 
-png(file=diff_out_base, width = 1100, height = 800)
-print(c)
-print(data)
-dev.off()
+#png(file=diff_out_base, width = 1100, height = 800)
+#print(c)
+#print(data)
+#dev.off()
 
 
-diff_out_base2 = gsub("\\.pdf", "", diff_out)
-ggsave(sprintf("%s.png", diff_out_base2), plot = c, device = png(), width = 14, height = 10, dpi = 900)
+#diff_out_base2 = gsub("\\.pdf", "", diff_out)
+#ggsave(sprintf("%s.png", diff_out_base2), plot = c, device = png(), width = 14, height = 10, dpi = 900)
 
 
 
@@ -684,7 +684,7 @@ dev.off()
 #print(d)
 #dev.off()
 
-diff_out_base2 = gsub("\\.pdf", "", diff_out)
-ggsave(sprintf("%s.verticalXaxis.png", diff_out_base2), plot = d, device = png(), width = 14, height = 12, dpi = 900)
+#diff_out_base2 = gsub("\\.pdf", "", diff_out)
+#ggsave(sprintf("%s.verticalXaxis.png", diff_out_base2), plot = d, device = png(), width = 14, height = 12, dpi = 900)
 
 
