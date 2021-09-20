@@ -40,7 +40,7 @@ Follow the steps below to download findZX and install the needed dependencies. W
     git clone https://github.com/hsigeman/findZX.git
     cd findZX # Go to directory
 
-### Use conda to install the needed software. There are two ways to do this: 
+### Use conda to install the needed software. There are two ways to do this:
 
 #### Option 1 (recommended): Create a minimal conda environment and install software automatically through findZX
 
@@ -404,7 +404,7 @@ Examples (these files can be located anywhere and have other names):
 - **config/config.yml** # Specify paths to reference genome etc. 
 - **config/units.tsv** # Sample information and paths to fastq files. Each sample needs to be categorized as either "homogametic" or "heterogametic". 
 
-#### Additional (optional) files and settings 
+#### Additional (optional) files and settings
 
 The configuration file contain some additional options which can be used to control the format of the output plots:
 
@@ -457,6 +457,17 @@ When only using one sample of each sex, combined with a reference genome constru
     snakemake -s workflow/findZX{-synteny} -j 15 -R modify_genome --configfile config.yml --use-conda -k
  
 This will produce a consensus genome (in this directory: results/RUN_NAME/consensus_genome/), named the same as the reference genome with *'_nonRefAf_consensus'* added before the *'.fasta'* sufix. The whole pipeline can then be re-run with the new consensus genome. Remember to change the config-file to specify this new reference genome, as well as give it a new run name (to not overwrite the old analysis) and re-run the pipeline as above. The consensus genome can be created before running the whole pipeline, or after. 
+
+
+#### Very long scaffolds (>512 Mb) in the reference genome
+
+Indexing of the BAM files (using samtools index) may fail if scaffolds exceed a certain size (over 512 Mb). If you have scaffold longer than this, you can split them before starting the pipeline. Like this: 
+
+    bedtools makewindows -g reference.fasta -w 500000000 > reference.500000000.bed
+    bedtools getfasta -fi reference.fasta -bed reference.500000000.bed -fo reference.split.fasta 
+
+
+
 
 
 ## Constructing a de novo reference genome  <a name="denovo"></a>
