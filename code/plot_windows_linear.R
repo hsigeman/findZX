@@ -522,8 +522,12 @@ dev.off()
 
 maxX <- max(cov1$BPcum)
 
+
+
 # Make the plot
 b <- c(sd_cov_1_table$diff.m-(sd_cov_1_table$diff.s*2), sd_cov_1_table$diff.m, (sd_cov_1_table$diff.m+sd_cov_1_table$diff.s*2))
+b <- round(b,2)
+
 p.cov1 <- ggplot(cov1, aes(x=BPcum, y=diff, color = diff)) +
   # custom X axis:
   scale_x_continuous( label = axisdf$chr, breaks= axisdf$center ) +
@@ -552,6 +556,8 @@ p.cov1 <- ggplot(cov1, aes(x=BPcum, y=diff, color = diff)) +
 maxX <- max(cov2$BPcum)
 # Make the plot
 b <- c(sd_cov_2_table$diff.m-(sd_cov_2_table$diff.s*2), sd_cov_2_table$diff.m, (sd_cov_2_table$diff.m+sd_cov_2_table$diff.s*2))
+b <- round(b,2)
+
 p.cov2 <- ggplot(cov2, aes(x=BPcum, y=diff, color = diff)) +
   # custom X axis:
   scale_x_continuous( label = axisdf$chr, breaks= axisdf$center ) +
@@ -580,6 +586,8 @@ p.cov2 <- ggplot(cov2, aes(x=BPcum, y=diff, color = diff)) +
 maxX <- max(cov3$BPcum)
 # Make the plot
 b <- c(sd_cov_3_table$diff.m-(sd_cov_3_table$diff.s*2), sd_cov_3_table$diff.m, (sd_cov_3_table$diff.m+sd_cov_3_table$diff.s*2))
+b <- round(b,2)
+
 p.cov3 <- ggplot(cov3, aes(x=BPcum, y=diff, color = diff)) +
   # custom X axis:
   scale_x_continuous(label = axisdf$chr, breaks= axisdf$center,guide = guide_axis(check.overlap = TRUE) ) +
@@ -610,6 +618,8 @@ MinPos <- min(abs(snp$BPcum))
 
 maxX <- max(snp$BPcum)
 b <- c(sd_snp_table$diff.m-(sd_snp_table$diff.s*2), sd_snp_table$diff.m, (sd_snp_table$diff.m+sd_snp_table$diff.s*2))
+b <- round(b,2)
+
 # Make the plot
 p.snp <- ggplot(snp, aes(x=BPcum, y=diff, color = diff)) +
   # custom X axis:
