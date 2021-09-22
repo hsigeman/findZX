@@ -7,7 +7,13 @@ __default__:
 trim_reads_pe:
   n: 12
   time: 08:00:00
+trim_reads_pe_2:
+  n: 12
+  time: 08:00:00
 subsample:
+  n: 4
+  time: 0-12:00:00
+subsample_2:
   n: 4
   time: 0-12:00:00
 bwa_index:

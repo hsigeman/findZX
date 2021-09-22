@@ -20,7 +20,7 @@ if config['trim_reads']:
 
 
 if config['trim_and_subsample']: 
-    rule trim_reads_pe:
+    rule trim_reads_pe_2:
         input:
             unpack(get_fastq),
         output:
@@ -58,7 +58,7 @@ if config['trim_and_subsample']:
             """ 
 
 if config['subsample_only']: 
-    rule subsample:
+    rule subsample_2:
         input:
             fq1=get_fastq_r1,
             fq2=get_fastq_r2
