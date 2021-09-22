@@ -23,7 +23,7 @@ chr_highlight:
 
 trim_reads: TRUE # Set to TRUE if you want to trim reads
 # Set to TRUE (else FALSE) if you want to both trim and subsample reads:
-trim_and_subsample: TRUE
+trim_and_subsample: FALSE
 
 # Set to TRUE (else FALSE) if you want to subsample but not trim reads:
 subsample_only: FALSE
