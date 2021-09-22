@@ -1,6 +1,6 @@
 rule map_reads:
     input:
-        reads= get_trimmed_reads if config['trim_reads'] else get_fastq_new,
+        reads= get_trimmed_reads if config['trim_reads'] | config['trim_and_subsample'] | config['subsample_only'] else get_fastq_new,
         idx=rules.bwa_index.output,
     output:
         temp(map_dir + "{sample}__{unit}.sorted.tmp.bam"),

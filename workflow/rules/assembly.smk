@@ -1,7 +1,7 @@
 rule pear_merge:
     input:
-        read1=forward_read,
-        read2=reverse_read
+        read1=get_fastq_r1,
+        read2=get_fastq_r2
     output:
         assembled="pear/reads_pear_assembled.fq.gz",
         discarded="pear/reads_pear_discarded.fq.gz",

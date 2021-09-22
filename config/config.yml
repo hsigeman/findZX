@@ -49,11 +49,29 @@ window_sizes:
     - 100000
 
 ########################
-# Quality control
+# Quality control and trimming
 ########################
 
-# Want to trim the fastq files? If so, set trim_reads to TRUE (else FALSE)
-trim_reads: TRUE # Trimming settings are below
+# These settings control trimming and subsampling of reads. If you don't want trimming or subsampling, set both to FALSE.
+# If you only want trimming (see trimming settings below), set trim_reads to TRUE
+# If you want trimming AND subsampling of reads, set trim_and_subsample to TRUE, and choose the number of bases you want as output.
+# Note that findZX will throw an error if both trim_reads and trim_and_subsample are set to TRUE
+
+
+# Set to TRUE (else FALSE) if you want to trim files (but not subsample):
+trim_reads: FALSE 
+
+# Set to TRUE (else FALSE) if you want to both trim and subsample reads:
+trim_and_subsample: TRUE
+
+# Set to TRUE (else FALSE) if you want to subsample but not trim reads:
+subsample_only: FALSE
+
+# If you want to subsample, select the number of bases you want from both fq files combined
+subsample_basepairs: 1888226
+
+# How do you know what setting to use? Use this script: 
+# ./code/subsampling_cov_calv.sh <REF.fasta> <WANTED_COV> 
 
 ########################
 # Plotting settings - XYZWfinder-synteny (if another reference genome is used for plotting)
@@ -105,13 +123,6 @@ params:
         - "-Xmx2g"
   trimmomatic:
     pe:
-      trimmer:
-        - "LEADING:3"
-        - "TRAILING:3"
-        - "SLIDINGWINDOW:4:15"
-        - "MINLEN:36"
-        - "ILLUMINACLIP:data/adapters/TruSeq3-PE.fa:2:30:10"
-    se:
       trimmer:
         - "LEADING:3"
         - "TRAILING:3"

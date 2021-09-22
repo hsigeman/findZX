@@ -36,6 +36,8 @@ wildcard_constraints:
     unit="|".join(units["unit"]),
 
 
+
+
 ##### Helper functions #####
 
 
@@ -51,7 +53,6 @@ def get_fastq(wildcards):
 def get_contigs():
     with checkpoints.genome_faidx.get().output[0].open() as fai:
         return pd.read_table(fai, header=None, usecols=[0], squeeze=True, dtype=str)
-
 
 def is_single_end(sample, unit):
     """Return True if sample-unit is single end."""
@@ -102,9 +103,8 @@ def new_get_sample_bams(wildcards):
         ED = EDIT_DIST
     )
 
-def forward_read(wildcards):
-    """Get all aligned reads of given sample."""
-    forward = units.loc[(wildcards.sample, wildcards.unit), ["fq1"]].dropna()
-def reverse_read(wildcards):
-    """Get all aligned reads of given sample."""
-    forward = units.loc[(wildcards.sample, wildcards.unit), ["fq2"]].dropna()
+def get_fastq_r1(wildcards):
+    return units.loc[(wildcards.sample, wildcards.unit), ["fq1"]].dropna().values.flatten()
+
+def get_fastq_r2(wildcards):
+    return units.loc[(wildcards.sample, wildcards.unit), ["fq2"]].dropna().values.flatten()
