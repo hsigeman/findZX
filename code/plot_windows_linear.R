@@ -160,6 +160,26 @@ write.table(outlier.snp_table, file = outname4, sep = "\t", quote = FALSE, row.n
 
 
 ################################################################################
+############################# FILTER MISSING ROWS ##############################
+################################################################################
+
+cov1_range <- cov_1_table[c(1,2)]
+cov2_range <- cov_2_table[c(1,2)]
+cov3_range <- cov_3_table[c(1,2)]
+snp_range <- snp_table[c(1,2)]
+
+
+ok_ranges <- merge(cov1_range, cov2_range, by =c("chr", "range"))
+ok_ranges <- merge(ok_ranges, cov3_range, by =c("chr", "range"))
+ok_ranges <- merge(ok_ranges, snp_range, by =c("chr", "range"))
+
+cov_1_table <- merge(cov_1_table, ok_ranges, by =c("chr", "range"))
+cov_2_table <- merge(cov_2_table, ok_ranges, by =c("chr", "range"))
+cov_3_table <- merge(cov_3_table, ok_ranges, by =c("chr", "range"))
+snp_table <- merge(snp_table, ok_ranges, by =c("chr", "range"))
+
+
+################################################################################
 ############################# ORDER CHROMOSOMES ################################
 ################################################################################
 
@@ -188,33 +208,7 @@ snp_table$chr <- ordered(snp_table$chr,
                          levels = chromosome)
 
 
-################################################################################
-############################# FILTER MISSING ROWS ##############################
-################################################################################
 
-cov1_range <- cov_1_table[c(1,2)]
-cov2_range <- cov_2_table[c(1,2)]
-cov3_range <- cov_3_table[c(1,2)]
-snp_range <- snp_table[c(1,2)]
-
-
-ok_ranges <- merge(cov1_range, cov2_range, by =c("chr", "range"))
-ok_ranges <- merge(ok_ranges, cov3_range, by =c("chr", "range"))
-ok_ranges <- merge(ok_ranges, snp_range, by =c("chr", "range"))
-
-cov_1_table <- merge(cov_1_table, ok_ranges, by =c("chr", "range"))
-cov_2_table <- merge(cov_2_table, ok_ranges, by =c("chr", "range"))
-cov_3_table <- merge(cov_3_table, ok_ranges, by =c("chr", "range"))
-snp_table <- merge(snp_table, ok_ranges, by =c("chr", "range"))
-
-cov_1_table$chr <- ordered(cov_1_table$chr, 
-                           levels = chromosome)
-cov_2_table$chr <- ordered(cov_2_table$chr, 
-                           levels = chromosome)
-cov_3_table$chr <- ordered(cov_3_table$chr, 
-                           levels = chromosome)
-snp_table$chr <- ordered(snp_table$chr, 
-                         levels = chromosome)
 
 ################################################################################
 ############################### MANHATTAN PLOT #################################
