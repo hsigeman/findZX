@@ -261,6 +261,21 @@ text_size_colour = list(theme_bw(base_family="Courier", base_size = 12) +
           panel.grid.minor = element_line(size = 0.15, linetype = 'solid',
                                 colour = "lightgrey")))
 
+
+theme_title <- function(...) {
+  theme_gray(base_family = "Courier") + 
+    theme(plot.title = element_text(face = "bold"))
+}
+title_theme <- calc_element("plot.title", theme_title())
+
+theme_description <- function(...) {
+  theme_gray(base_family = "Courier") + 
+    theme(plot.title = element_text(face = "plain",size = 12, hjust = 0))
+}
+theme_description <- calc_element("plot.title", theme_description())
+
+
+
 # Prepare the dataset
 cov1 <- cov_1_table %>% 
   # Compute chromosome size
@@ -457,7 +472,11 @@ legend_b <- get_legend(p.snp + theme(legend.position = "bottom", legend.key=elem
 p.snp <- p.snp +  theme( 
   legend.position="none")
 
-title <- ggdraw() + draw_label(sprintf("Genome-wide values (sexes plotted separately) across %s bp windows ", WINDOW), fontface='bold')
+title <- ggdraw() + draw_label(sprintf("Genome-wide values (sexes plotted separately) across %s bp windows ", WINDOW), 
+    fontfamily = title_theme$family,
+    fontface = title_theme$face,
+    size = title_theme$size
+  )
 
 c <- ggarrange(p.snp, p.cov1, p.cov2, p.cov3, ncol=1, align = "hv",  labels = c("A","B","C", "D"), heights = c(1,1,1,1))
 c <- plot_grid(title, c, ncol = 1, rel_heights = c(.1, 1))
@@ -646,7 +665,11 @@ p.snp <- ggplot(snp, aes(x=BPcum, y=diff, color = diff)) +
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())
 
-title <- ggdraw() + draw_label(sprintf("Genome-wide sex differences (heterogametic-homogametic) \n across %s bp windows", WINDOW), fontface='bold')
+title <- ggdraw() + draw_label(sprintf("Genome-wide sex differences (heterogametic-homogametic) \n across %s bp windows", WINDOW), 
+    fontfamily = title_theme$family,
+    fontface = title_theme$face,
+    size = title_theme$size
+  )
 
 c <- ggarrange(p.snp, p.cov1, p.cov2, p.cov3, ncol=1, align = "hv",  labels = c("A","B","C", "D"), heights = c(1,1,1,1))
 c <- plot_grid(title, c, ncol = 1, rel_heights = c(.1, 1))

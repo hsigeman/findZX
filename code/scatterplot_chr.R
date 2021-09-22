@@ -125,6 +125,18 @@ text_size_colour = list(theme_bw(base_family="Courier", base_size = 12) +
           panel.grid.minor = element_line(size = 0.15, linetype = 'solid',
                                 colour = "lightgrey")))
 
+theme_title <- function(...) {
+  theme_gray(base_family = "Courier") + 
+    theme(plot.title = element_text(face = "bold"))
+}
+title_theme <- calc_element("plot.title", theme_title())
+
+theme_description <- function(...) {
+  theme_gray(base_family = "Courier") + 
+    theme(plot.title = element_text(face = "plain",size = 12, hjust = 0))
+}
+theme_description <- calc_element("plot.title", theme_description())
+
 
 
 cov.select <- cov.select[order(abs(cov.select$length)),]
@@ -231,7 +243,11 @@ pg <- plot_grid(pg, pg_legend, ncol = 2, rel_widths = c(1, 0.25))
 #ggsave(scatter2D_out, plot = pg, device = pdf(), width = 14, height = 14)
 
 #pg <- plot_grid(l,hl, ncol = 1, labels = 'AUTO')
-title <- ggdraw() + draw_label("Sex differences (heterogametic-homogametic) per chromosome/scaffold", fontface='bold')
+title <- ggdraw() + draw_label("Sex differences (heterogametic-homogametic) per chromosome/scaffold", 
+    fontfamily = title_theme$family,
+    fontface = title_theme$face,
+    size = title_theme$size
+  )
 
 
 pg <- plot_grid(title, pg, ncol = 1, rel_heights = c(0.1, 1.5))

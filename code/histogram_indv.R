@@ -111,6 +111,21 @@ text_size_colour = list(theme_bw(base_family="Courier", base_size = 12) +
           panel.grid.minor = element_line(size = 0.15, linetype = 'solid',
                                 colour = "lightgrey")))
 
+theme_title <- function(...) {
+  theme_gray(base_family = "Courier") + 
+    theme(plot.title = element_text(face = "bold"))
+}
+title_theme <- calc_element("plot.title", theme_title())
+
+theme_description <- function(...) {
+  theme_gray(base_family = "Courier") + 
+    theme(plot.title = element_text(face = "plain",size = 12, hjust = 0))
+}
+theme_description <- calc_element("plot.title", theme_description())
+
+
+
+
 
 plist <- list()
 
@@ -230,7 +245,9 @@ for (i in 1:nr_samples) {
   
     title <- ggdraw() +
     draw_label(paste0("\"Confirm sexing\" plots based on 5kb window values \t \t \t Sample: ", sample_names[i]),
-    fontface = 'bold',
+    fontfamily = title_theme$family,
+    fontface = title_theme$face,
+    size = title_theme$size,
     x = 0,
     hjust = 0
     ) +
