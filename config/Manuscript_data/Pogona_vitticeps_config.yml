@@ -27,17 +27,28 @@ trim_reads: TRUE # Set to TRUE if you want to trim reads
 ############# snakefile-synteny variables #############
 
 # If snakemake-synteny is used, specify the path to the synteny-species reference genome (not .gz format)
-synteny_ref: "../data/external_raw/genome/GCF_004329235.1_PodMur_1.0_genomic.fna"
+#synteny_ref: "../data/external_raw/genome/GCF_004329235.1_PodMur_1.0_genomic.fna"
 
 # Synteny-species abbreviation (can be anything)
-synteny_abbr: "PM"
+#synteny_abbr: "PM"
 
 # List of chromosomes in the synteny-species reference genome that should be plotted (and highlighted) in the end (optional) 
-synteny_chr_file: "config/Manuscript_data/Podarcis_muralis_chromosomes.list"
-synteny_chr_highlight:
-    - NC_041319.1
-    - NC_041330.1
+#synteny_chr_file: "config/Manuscript_data/Podarcis_muralis_chromosomes.list"
+#synteny_chr_highlight:
+#    - NC_041319.1
+#    - NC_041330.1
 
+# If snakemake-synteny is used, specify the path to the synteny-species reference genome (not .gz format)
+synteny_ref: "../../neosexchromosome/data/external_raw/Gallus_gallus.GRCg6a.dna.toplevel.fa"
+
+# Synteny-species abbreviation (can be anything)
+synteny_abbr: "GG"
+
+# List of chromosomes in the synteny-species reference genome that should be plotted (and highlighted) in the end (optional) 
+synteny_chr_file: "config/Manuscript_data/CH_chromosomes.list"
+synteny_chr_highlight:
+    - 17
+    - 23
 
 ############# Other optional variables ##########
 

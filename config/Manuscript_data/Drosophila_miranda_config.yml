@@ -25,6 +25,17 @@ chr_highlight: # Chromosomes to be highlighted. Remove if not wanted.
 
 trim_reads: TRUE # Set to TRUE if you want to trim reads
 
+# Set to TRUE (else FALSE) if you want to both trim and subsample reads:
+trim_and_subsample: FALSE
+
+# Set to TRUE (else FALSE) if you want to subsample but not trim reads:
+subsample_only: FALSE
+
+# If you want to subsample, select the number of bases you want from both fq files combined
+subsample_basepairs: 1888226
+
+# How do you know what setting to use? Use this script: 
+# ./code/subsampling_cov_calv.sh <REF.fasta> <WANTED_COV> 
 
 ############# snakefile-synteny variables #############
 
