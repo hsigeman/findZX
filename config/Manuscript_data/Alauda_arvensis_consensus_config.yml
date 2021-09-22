@@ -1,6 +1,6 @@
 # Specify max number of cores
 threads_max: 18
-
+mem_max: 16000 
 
 # Path to sample information file
 units: config/Manuscript_data/Alauda_arvensis_units.tsv
@@ -22,6 +22,19 @@ chr_highlight:
 
 
 trim_reads: TRUE # Set to TRUE if you want to trim reads
+
+# Set to TRUE (else FALSE) if you want to both trim and subsample reads:
+trim_and_subsample: FALSE
+
+# Set to TRUE (else FALSE) if you want to subsample but not trim reads:
+subsample_only: FALSE
+
+# If you want to subsample, select the number of bases you want from both fq files combined
+subsample_basepairs: 15360127635 # 5x cov 
+
+# How do you know what setting to use? Use this script: 
+# ./code/subsampling_cov_calv.sh <REF.fasta> <WANTED_COV> 
+
 
 
 ############# snakefile-synteny variables #############

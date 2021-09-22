@@ -2,7 +2,8 @@ rule lastdb:
     input:
         synteny_ref
     output:
-        lastdb_dir + "lastdb_" + synteny_ref_name_simple + ".prj"
+#        lastdb_dir + "lastdb_" + synteny_ref_name_simple + ".prj",
+        log = lastdb_dir + "lastdb_" + synteny_ref_name_simple + ".log",
     params:
         db_name= "lastdb_" + synteny_ref_name_simple,
         synteny_dir = lastdb_dir
@@ -12,14 +13,16 @@ rule lastdb:
     shell:
         """
         lastdb -cR11 -P {threads} {params.db_name} {input}
-        mv {params.db_name}.* {params.synteny_dir}
-        touch {output}
+        mv {params.db_name}* {params.synteny_dir}
+#        touch {output}
+        echo "DONE" > {output.log}
         """
 
 rule lastal_syns:
     input:
         ref = ref_genome,
-        db_ext = lastdb_dir + "lastdb_" + synteny_ref_name_simple + ".prj",
+        log = lastdb_dir + "lastdb_" + synteny_ref_name_simple + ".log",
+#        db_ext = lastdb_dir + "lastdb_" + synteny_ref_name_simple + ".prj",
     output:
         outdir + "synteny_lastal/" + synteny_abbr + "/" + synteny_abbr + "_align"
     params:
