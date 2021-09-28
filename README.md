@@ -463,10 +463,10 @@ This will produce a consensus genome (in this directory: results/RUN_NAME/consen
 
 Indexing of the BAM files (using samtools index) may fail if scaffolds exceed a certain size (over 512 Mb). If you have scaffold longer than this, you can split them before starting the pipeline. Like this: 
 
-    bedtools makewindows -g reference.fasta -w 500000000 > reference.500000000.bed
-    bedtools getfasta -fi reference.fasta -bed reference.500000000.bed -fo reference.split.fasta 
-
-
+``` 
+bedtools makewindows -g reference.fasta -w 500000000 > reference.500000000.bed
+bedtools getfasta -fi reference.fasta -bed reference.500000000.bed | sed 's/:/_/g' | sed 's/-/_/g' > reference.split.fasta 
+```
 
 
 
