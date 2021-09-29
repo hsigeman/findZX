@@ -41,7 +41,7 @@ rule calculate_ratio_chr:
     conda: 
         "../envs/R.yaml"
     message: 
-        "Calculating genome coverage sex differences. Maximum mismatch: {wildcards.ED}. Per chromosome."
+        "Calculating genome coverage sex differences. Mismatch setting: {wildcards.ED}. Per chromosome."
     shell:
         """
         Rscript code/calculate_chr.R {input} {output}
@@ -59,7 +59,7 @@ rule calculate_ratio_window:
     conda: 
         "../envs/R.yaml"
     message: 
-        "Calculating genome coverage sex differences. Maximum mismatch: {wildcards.ED}. Window size: {wildcards.window}"
+        "Calculating genome coverage sex differences. Mismatch setting: {wildcards.ED}. Window size: {wildcards.window}"
     shell:
         """
         Rscript code/calculate_windows_userSpec.R {input} {output} {params}
