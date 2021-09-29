@@ -6,6 +6,8 @@ rule fastqc:
         zip=qc_dir + "fastqc/{sample}__{unit}.untrimmed_fastqc.zip"
     log:
         logs_dir + "fastqc/{sample}__{unit}.untrimmed.log",
+    message:
+        "Running FastQC on the untrimmed fastq file. Sample: {wildcards.sample}"
     wrapper:
         "0.74.0/bio/fastqc"
 
@@ -17,6 +19,8 @@ rule multiqc:
         report(qc_dir + "fastqc/multiqc.untrimmed.html", category="1. Quality control", caption="../report/multiqc_untrimmed.rst",),
     log:
         logs_dir + "fastqc/multiqc.log",
+    message:
+        "Running MultiQC on the untrimmed fastq files"
     wrapper:
         "0.74.0/bio/multiqc"
 
@@ -29,6 +33,8 @@ rule fastqc_2:
         zip=qc_dir + "fastqc/{sample}__{unit}.trimmed_fastqc.zip"
     log:
         logs_dir + "fastqc/{sample}__{unit}.trimmed.log",
+    message:
+        "Running FastQC on the trimmed fastq file. Sample: {wildcards.sample}"
     wrapper:
         "0.74.0/bio/fastqc"
 
@@ -41,5 +47,7 @@ rule multiqc_2:
         report(qc_dir + "fastqc/multiqc.trimmed.html", category="1. Quality control", caption="../report/multiqc_trimmed.rst",),
     log:
         logs_dir + "fastqc/multiqc.trimmed.log",
+    message:
+        "Running MultiQC on the untrimmed fastq files"
     wrapper:
         "0.74.0/bio/multiqc"

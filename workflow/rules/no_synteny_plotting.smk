@@ -15,11 +15,15 @@ rule confirm_sexing:
     threads: 1
     conda: 
         "../envs/R.yaml"
+    log:
+        logs_dir + "plotting/confirm_sexing.mismatch.{ED}.log"
+    message:
+        "Plotting results 5_confirmSexing"
     shell:
         """
         python code/read_length.py <(for FILE in $(ls {params.map_dir}); do echo \"${{FILE##*/}}\"; grep \"average length\" $FILE; done) > {output.read_length}
 
-        Rscript code/histogram_indv.R {input.gencov} {input.het} {output.read_length} {output.gencov_het} no-synteny {params.chromosomes} {params.hetero} {params.homo}
+        Rscript code/histogram_indv.R {input.gencov} {input.het} {output.read_length} {output.gencov_het} no-synteny {params.chromosomes} {params.hetero} {params.homo} 2> {log}
         """
 
 
@@ -50,9 +54,13 @@ if not config['chr_highlight']:
             window = "{bp}"
         conda: 
             "../envs/R.yaml"
+        log:
+            logs_dir + "plotting/4_sexDifferences.mismatch.{bp}.log"
+        message:
+            "Plotting results 4_sexDifferences"
         shell:
             """
-            Rscript code/plot_windows.R {input.cov} {input.snp} {output.out_scatter} {params.chromosomes} {input.chromosomes_highlight} {params.ED} {params.window}
+            Rscript code/plot_windows.R {input.cov} {input.snp} {output.out_scatter} {params.chromosomes} {input.chromosomes_highlight} {params.ED} {params.window} 2> {log}
             """
 
 else: 
@@ -71,9 +79,13 @@ else:
             window = "{bp}"
         conda: 
             "../envs/R.yaml"
+        log:
+            logs_dir + "plotting/4_sexDifferences.mismatch.{bp}.log"
+        message:
+            "Plotting results 4_sexDifferences"
         shell:
             """
-            Rscript code/plot_windows.R {input.cov} {input.snp} {output.out_scatter} {params.chromosomes} {input.chromosomes_highlight} {params.ED} {params.window}
+            Rscript code/plot_windows.R {input.cov} {input.snp} {output.out_scatter} {params.chromosomes} {input.chromosomes_highlight} {params.ED} {params.window} 2> {log}
             """
 
 
@@ -92,9 +104,13 @@ rule plotting_linear:
         window = "{bp}"
     conda: 
         "../envs/R.yaml"
+    log:
+        logs_dir + "plotting/plotting_linear.{bp}bp.log"
+    message:
+        "Plotting results 1_sexDifferences"
     shell:
         """
-        Rscript code/plot_windows_linear.R {input.cov} {input.snp} {output.absolute_out} {output.diff_out} {params.chromosomes} {params.ED} {params.nr_chromosomes} {params.window}
+        Rscript code/plot_windows_linear.R {input.cov} {input.snp} {output.absolute_out} {output.diff_out} {params.chromosomes} {params.ED} {params.nr_chromosomes} {params.window} 2> {log}
         """
 
 
@@ -111,9 +127,13 @@ rule plotting_chr:
 	    ED = expand("{ED}", ED = EDIT_DIST)
     conda: 
         "../envs/R.yaml"
+    log:
+        logs_dir + "plotting/plotting_chr.log"
+    message:
+        "Plotting results 3_sexDifferences"
     shell:
         """
-        Rscript code/scatterplot_chr.R {input.cov} {input.snp} {output.out_scatter2D} {params.chromosomes} {params.ED}
+        Rscript code/scatterplot_chr.R {input.cov} {input.snp} {output.out_scatter2D} {params.chromosomes} {params.ED} 2> {log}
         """
 
 

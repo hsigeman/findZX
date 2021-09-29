@@ -8,6 +8,8 @@ rule proportion_heterozygosity:
     params:
         hetero = expand("het:{u.sample}__{u.unit}", u=heterogametic.itertuples()),
         homo = expand("homo:{u.sample}__{u.unit}", u=homogametic.itertuples())
+    message:
+        "Scores individuals as heterozygotes or homozygotes for all sites in the VCF file"
     resources:
         mem_mb=2048
     shell:
@@ -29,6 +31,8 @@ rule proportion_heterozygosity_window:
         dir = outdir + "variant_calling"
     conda: 
         "../envs/bedtools.yaml"
+    message:
+        "Calculates number of heterozygous sites per individual and 5kb window"
     shell:
         """
         bedtools sort -i {input.windows} > {output.windows_sorted}
@@ -50,6 +54,8 @@ rule proportion_heterozygosity_window_2:
         homo = expand("homo:{u.sample}__{u.unit}", u=homogametic.itertuples())
     conda: 
         "../envs/python_gawk.yaml"
+    message:
+        "Calculates mean heterozygosity per sex and 5kb window"
     shell:
         """
         code/sum_heterozygosity_per_5kb.sh {input} > {output.het_sorted_window_mean}

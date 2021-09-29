@@ -15,6 +15,8 @@ if config['trim_reads']:
             10
         log:
             logs_dir + "trimmomatic/{sample}__{unit}.log",
+        message:
+            "Trimming fastq reads with Trimmomatic. Sample: {wildcards.sample}"
         wrapper:
             "0.74.0/bio/trimmomatic/pe"
 
@@ -36,6 +38,8 @@ if config['trim_and_subsample']:
             10
         log:
             logs_dir + "trimmomatic/{sample}__{unit}.log",
+        message:
+            "Trimming fastq reads with Trimmomatic. Sample: {wildcards.sample}"
         wrapper:
             "0.74.0/bio/trimmomatic/pe"
 
@@ -52,9 +56,13 @@ if config['trim_and_subsample']:
             basepairs= config["subsample_basepairs"],
         conda: 
             "../envs/bbtools.yaml"
+        log: 
+            logs_dir + "subsample/{sample}__{unit}.log",
+        message:
+            "Subsample reads to {params.basepairs} bp. Sample: {wildcards.sample}"
         shell:
             """
-            reformat.sh int=f in1={input.fq1} in2={input.fq2} out1={output.r1} out2={output.r2} samplebasestarget={params.basepairs}
+            reformat.sh int=f in1={input.fq1} in2={input.fq2} out1={output.r1} out2={output.r2} samplebasestarget={params.basepairs} 2> {log}
             """ 
 
 if config['subsample_only']: 
@@ -69,7 +77,11 @@ if config['subsample_only']:
             basepairs= config["subsample_basepairs"],
         conda: 
             "../envs/bbtools.yaml"
+        log: 
+            logs_dir + "subsample/{sample}__{unit}.log",
+        message:
+            "Subsample reads to {params.basepairs} bp. Sample: {wildcards.sample}"
         shell:
             """
-            reformat.sh int=f in1={input.fq1} in2={input.fq2} out1={output.r1} out2={output.r2} samplebasestarget={params.basepairs}
+            reformat.sh int=f in1={input.fq1} in2={input.fq2} out1={output.r1} out2={output.r2} samplebasestarget={params.basepairs} 2> {log}
             """ 

@@ -8,6 +8,8 @@ rule gencov_prepare_fasta:
         MIN_SIZE_SCAFFOLD
     conda: 
         "../envs/bedtools.yaml"
+    message:
+        "Make 5kb genome windows for BEDtools"
     shell:
         """
 	    cat {input} | awk '$2>= {params} {{print $0}}' > {output.filter_fai}
@@ -26,6 +28,8 @@ rule gencov_bedtools:
         outdir + "coverage/" + "gencov.mismatch.{ED}.out"
     conda: 
         "../envs/bedtools.yaml"
+    message:
+        "Calculate genome coverage with BEDtools"
     shell:
         """
         bedtools multicov -bams {input.bam_hetero} {input.bam_homo} -bed {input.bed} -p -q 20 > {output}
@@ -42,6 +46,8 @@ rule normalize_cov_mean:
         homo = expand("homo:{u.sample}__{u.unit}", u=homogametic.itertuples())
     conda: 
         "../envs/python_gawk.yaml"
+    message:
+        "Normalize genome coverage values between samples, and calculate mean value per sex for each 5 kb window"
     shell:
         """
         python3 code/normalize_genCov.py {input} no-synteny {params.hetero} {params.homo} > {output}

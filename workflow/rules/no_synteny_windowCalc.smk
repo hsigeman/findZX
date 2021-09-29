@@ -6,6 +6,8 @@ rule calculate_heterozygosity_chr:
     threads: 1
     conda: 
         "../envs/R.yaml"
+    message: 
+        "Calculating heterozygosity sex differences per chromosome."
     shell:
         """
         Rscript code/calculate_chr.R {input} {output}
@@ -22,6 +24,8 @@ rule calculate_heterozygosity_window:
         "{window}"
     conda: 
         "../envs/R.yaml"
+    message: 
+        "Calculating heterozygosity sex differences. Window size: {wildcards.window}"
     shell:
         """
         Rscript code/calculate_windows_userSpec.R {input} {output} {params}
@@ -36,6 +40,8 @@ rule calculate_ratio_chr:
     threads: 1
     conda: 
         "../envs/R.yaml"
+    message: 
+        "Calculating genome coverage sex differences. Maximum mismatch: {wildcards.ED}. Per chromosome."
     shell:
         """
         Rscript code/calculate_chr.R {input} {output}
@@ -52,6 +58,8 @@ rule calculate_ratio_window:
         window="{window}"
     conda: 
         "../envs/R.yaml"
+    message: 
+        "Calculating genome coverage sex differences. Maximum mismatch: {wildcards.ED}. Window size: {wildcards.window}"
     shell:
         """
         Rscript code/calculate_windows_userSpec.R {input} {output} {params}

@@ -6,6 +6,8 @@ rule map_reads:
         temp(map_dir + "{sample}__{unit}.sorted.tmp.bam"),
     log:
         logs_dir + "bwa_mem/{sample}__{unit}.log",
+    message:
+        "Mapping reads to reference genome. Sample: {wildcards.sample}"
     params:
         index=lambda w, input: os.path.splitext(input.idx[0])[0],
         extra=get_read_group,
@@ -24,6 +26,8 @@ rule samtools_view:
         temp(map_dir + "{sample}__{unit}.sorted.bam"),
     log:
         logs_dir + "samtools_view/{sample}__{unit}.log",
+    message:
+        "Filtering mapped reads, only proper pairs and quality score >20. Sample: {wildcards.sample}"
     params:
         extra="-bf 0x2 -F 260 -q 20" # optional params string
     wrapper:
@@ -38,6 +42,8 @@ rule mark_duplicates:
         metrics=qc_dir + "dedup/{sample}__{unit}.metrics.txt",
     log:
         logs_dir + "picard/dedup/{sample}__{unit}.log",
+    message:
+        "Remove duplicate reads. Sample: {wildcards.sample}"
     params:
         extra="REMOVE_DUPLICATES=true USE_JDK_DEFLATER=true USE_JDK_INFLATER=true TMP_DIR=" + dedup_dir + "/"
     resources:
@@ -55,6 +61,8 @@ rule bamtools_filter:
         tags = ["NM:<={ED}"]
     log:
         logs_dir + "bamtools/{sample}-{unit}.{ED}.log",
+    message:
+        "Filter mapped reads for mismatches. Maximum {wildcards.ED} mismatches. Sample: {wildcards.sample}"
     wrapper:
         "0.74.0/bio/bamtools/filter"
 
@@ -66,6 +74,8 @@ rule samtools_index:
         dedup_dir + "{sample}__{unit}.sorted.dedup.mismatch.{ED}.bam.bai", 
     log:
         logs_dir + "samtools/{sample}-{unit}.{ED}.log",
+    message:
+        "Index BAM file: {wildcards.sample}__{wildcards.unit}.sorted.dedup.mismatch.{wildcards.ED}.bam"
     wrapper:
         "0.74.0/bio/samtools/index"
 
@@ -79,6 +89,8 @@ rule samtools_stats:
         extra="",                       # Optional: extra arguments.
     log:
         logs_dir + "samtools_stats/{sample}__{unit}.{ED}.log",
+    message:
+        "Calculating BAM file statistics: {wildcards.sample}__{wildcards.unit}.sorted.dedup.mismatch.{wildcards.ED}.bam"
     wrapper:
         "0.74.0/bio/samtools/stats"
 
