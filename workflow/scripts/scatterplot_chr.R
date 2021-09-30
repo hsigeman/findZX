@@ -15,7 +15,7 @@ library(ggpubr)
 # Makes a 3D scatterplot of all three variables and colors after length.
 
 set.seed(999)
-source("code/functions.R")
+source("workflow/scripts/functions.R")
 
 args <- commandArgs(trailingOnly = TRUE)
 

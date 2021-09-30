@@ -17,7 +17,7 @@ library(ggpubr)
 
 set.seed(999)
 
-source("code/functions.R")
+source("workflow/scripts/functions.R")
 args <- commandArgs(trailingOnly = TRUE)
 
 file1 = args[1]

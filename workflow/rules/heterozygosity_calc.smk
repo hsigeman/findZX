@@ -14,7 +14,7 @@ rule proportion_heterozygosity:
         mem_mb=2048
     shell:
         """
-        python3 code/heterozygosity_per_indv.py {input} {output.het} {params.hetero} {params.homo} > {log}
+        python3 workflow/scripts/heterozygosity_per_indv.py {input} {output.het} {params.hetero} {params.homo} > {log}
         """
 
 
