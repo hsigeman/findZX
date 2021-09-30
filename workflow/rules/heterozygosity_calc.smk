@@ -6,8 +6,8 @@ rule proportion_heterozygosity:
     log: 
         outdir + "variant_calling/" + ref_genome_name_simple + ".proportion_heterozygosity.log"
     params:
-        hetero = expand("het:{u.sample}__{u.unit}", u=heterogametic.itertuples()),
-        homo = expand("homo:{u.sample}__{u.unit}", u=homogametic.itertuples())
+        hetero = expand("het:{u.sample}__{u.group}", u=heterogametic.itertuples()),
+        homo = expand("homo:{u.sample}__{u.group}", u=homogametic.itertuples())
     message:
         "Scores individuals as heterozygotes or homozygotes for all sites in the VCF file"
     resources:
@@ -50,15 +50,15 @@ rule proportion_heterozygosity_window_2:
         het_sorted_window_mean = outdir + "variant_calling/" + ref_genome_name_simple + ".heterozygosity.5kb.windows.NR.bed",
         het_sexAverage = outdir + "variant_calling/" + ref_genome_name_simple + ".heterozygosity.sexAverage.NR.bed"
     params:
-        hetero = expand("het:{u.sample}__{u.unit}", u=heterogametic.itertuples()),
-        homo = expand("homo:{u.sample}__{u.unit}", u=homogametic.itertuples())
+        hetero = expand("het:{u.sample}__{u.group}", u=heterogametic.itertuples()),
+        homo = expand("homo:{u.sample}__{u.group}", u=homogametic.itertuples())
     conda: 
         "../envs/python_gawk.yaml"
     message:
         "Calculates mean heterozygosity per sex and 5kb window"
     shell:
         """
-        code/sum_heterozygosity_per_5kb.sh {input} > {output.het_sorted_window_mean}
+        workflow/scripts/sum_heterozygosity_per_5kb.sh {input} > {output.het_sorted_window_mean}
 	    
-        python3 code/mean_heterozygosity_per_sex.py {output.het_sorted_window_mean} no-synteny {params.hetero} {params.homo} > {output.het_sexAverage}
+        python3 workflow/scripts/mean_heterozygosity_per_sex.py {output.het_sorted_window_mean} no-synteny {params.hetero} {params.homo} > {output.het_sexAverage}
         """

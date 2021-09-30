@@ -2,15 +2,15 @@ rule confirm_sexing:
     input:
         gencov = outdir + "coverage/" + "gencov.mismatch.{ED}.out",
         het = outdir + "variant_calling/" + ref_genome_name_simple + ".heterozygosity.5kb.windows.NR.bed",
-        stats = expand(dedup_dir + "{u.sample}__{u.unit}.sorted.dedup.mismatch.{{ED}}.samtools.stats.txt", zip, u=units.itertuples())
+        stats = expand(dedup_dir + "{u.sample}__{u.group}.sorted.dedup.mismatch.{{ED}}.samtools.stats.txt", zip, u=units.itertuples())
     output:
         read_length = outdir + "output/no_synteny/plots/" + ".misc/" + "read_length.sorted.nodup.mismatch.{ED}.csv",
         gencov_het = outdir + "output/no_synteny/plots/" + "5_confirmSexing.samplesSeparately.mismatch.{ED}.pdf"
     threads: 1
     params:
         map_dir = dedup_dir + "*.sorted.dedup.mismatch.{ED}.samtools.stats.txt",
-        hetero = expand("{u.sample}__{u.unit}", u=heterogametic.itertuples()),
-        homo = expand("{u.sample}__{u.unit}", u=homogametic.itertuples()),
+        hetero = expand("{u.sample}__{u.group}", u=heterogametic.itertuples()),
+        homo = expand("{u.sample}__{u.group}", u=homogametic.itertuples()),
         chromosomes = CHROMOSOMES
     threads: 1
     conda: 
@@ -21,9 +21,9 @@ rule confirm_sexing:
         "Plotting results 5_confirmSexing"
     shell:
         """
-        python code/read_length.py <(for FILE in $(ls {params.map_dir}); do echo \"${{FILE##*/}}\"; grep \"average length\" $FILE; done) > {output.read_length}
+        python workflow/scripts/read_length.py <(for FILE in $(ls {params.map_dir}); do echo \"${{FILE##*/}}\"; grep \"average length\" $FILE; done) > {output.read_length}
 
-        Rscript code/histogram_indv.R {input.gencov} {input.het} {output.read_length} {output.gencov_het} no-synteny {params.chromosomes} {params.hetero} {params.homo} 2> {log}
+        Rscript workflow/scripts/histogram_indv.R {input.gencov} {input.het} {output.read_length} {output.gencov_het} no-synteny {params.chromosomes} {params.hetero} {params.homo} 2> {log}
         """
 
 
@@ -60,7 +60,7 @@ if not config['chr_highlight']:
             "Plotting results 4_sexDifferences"
         shell:
             """
-            Rscript code/plot_windows.R {input.cov} {input.snp} {output.out_scatter} {params.chromosomes} {input.chromosomes_highlight} {params.ED} {params.window} 2> {log}
+            Rscript workflow/scripts/plot_windows.R {input.cov} {input.snp} {output.out_scatter} {params.chromosomes} {input.chromosomes_highlight} {params.ED} {params.window} 2> {log}
             """
 
 else: 
@@ -85,7 +85,7 @@ else:
             "Plotting results 4_sexDifferences"
         shell:
             """
-            Rscript code/plot_windows.R {input.cov} {input.snp} {output.out_scatter} {params.chromosomes} {input.chromosomes_highlight} {params.ED} {params.window} 2> {log}
+            Rscript workflow/scripts/plot_windows.R {input.cov} {input.snp} {output.out_scatter} {params.chromosomes} {input.chromosomes_highlight} {params.ED} {params.window} 2> {log}
             """
 
 
@@ -110,7 +110,7 @@ rule plotting_linear:
         "Plotting results 1_sexDifferences"
     shell:
         """
-        Rscript code/plot_windows_linear.R {input.cov} {input.snp} {output.absolute_out} {output.diff_out} {params.chromosomes} {params.ED} {params.nr_chromosomes} {params.window} 2> {log}
+        Rscript workflow/scripts/plot_windows_linear.R {input.cov} {input.snp} {output.absolute_out} {output.diff_out} {params.chromosomes} {params.ED} {params.nr_chromosomes} {params.window} 2> {log}
         """
 
 
@@ -133,7 +133,7 @@ rule plotting_chr:
         "Plotting results 3_sexDifferences"
     shell:
         """
-        Rscript code/scatterplot_chr.R {input.cov} {input.snp} {output.out_scatter2D} {params.chromosomes} {params.ED} 2> {log}
+        Rscript workflow/scripts/scatterplot_chr.R {input.cov} {input.snp} {output.out_scatter2D} {params.chromosomes} {params.ED} 2> {log}
         """
 
 

@@ -40,8 +40,8 @@ rule matchScaffold2Chr_snp:
         bestMatch_sexAverage = outdir + "synteny_lastal/" + synteny_abbr + "/" + "heterozygosity.bestMatch.sexAverage.bed",
         bestMatch_small_sexAverage = outdir + "synteny_lastal/" + synteny_abbr + "/" + "heterozygosity.bestMatch.small.sexAverage.bed"
     params:
-        hetero = expand("het:{u.sample}__{u.unit}", u=heterogametic.itertuples()),
-        homo = expand("homo:{u.sample}__{u.unit}", u=homogametic.itertuples())
+        hetero = expand("het:{u.sample}__{u.group}", u=heterogametic.itertuples()),
+        homo = expand("homo:{u.sample}__{u.group}", u=homogametic.itertuples())
     threads: 1
     conda: 
         "../envs/bedtools.yaml"
@@ -68,8 +68,8 @@ rule matchScaffold2Chr_cov:
         bestMatch_sexAverage = outdir + "synteny_lastal/" + synteny_abbr + "/" + "gencov.mismatch.{ED}.norm.sexAverage.out",
         bestMatch_small_sexAverage = outdir + "synteny_lastal/" + synteny_abbr + "/" + "gencov.mismatch.{ED}.norm.sexAverage.small.out"
     params:
-        hetero = expand("het:{u.sample}__{u.unit}", u=heterogametic.itertuples()),
-        homo = expand("homo:{u.sample}__{u.unit}", u=homogametic.itertuples())
+        hetero = expand("het:{u.sample}__{u.group}", u=heterogametic.itertuples()),
+        homo = expand("homo:{u.sample}__{u.group}", u=homogametic.itertuples())
     threads: 1
     conda: 
         "../envs/bedtools.yaml"

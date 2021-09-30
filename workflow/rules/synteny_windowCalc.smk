@@ -10,7 +10,7 @@ rule calculate_heterozygosity_chr:
         "Calculating heterozygosity sex differences per chromosome."
     shell:
         """
-        Rscript code/calculate_chr.R {input} {output}
+        Rscript workflow/scripts/calculate_chr.R {input} {output}
         """
 
 
@@ -28,7 +28,7 @@ rule calculate_heterozygosity_window:
         "Calculating heterozygosity sex differences. Window size: {wildcards.window}"
     shell:
         """
-        Rscript code/calculate_windows_userSpec.R {input} {output} {params}
+        Rscript workflow/scripts/calculate_windows_userSpec.R {input} {output} {params}
         """
 
 
@@ -44,7 +44,7 @@ rule calculate_ratio_chr:
         "Calculating genome coverage sex differences. Mismatch setting: {wildcards.ED}. Per chromosome."
     shell:
         """
-        Rscript code/calculate_chr.R {input} {output}
+        Rscript workflow/scripts/calculate_chr.R {input} {output}
         """
 
 
@@ -62,5 +62,5 @@ rule calculate_ratio_window:
         "Calculating genome coverage sex differences. Mismatch setting: {wildcards.ED}. Window size: {wildcards.window}"
     shell:
         """
-        Rscript code/calculate_windows_userSpec.R {input} {output} {params}
+        Rscript workflow/scripts/calculate_windows_userSpec.R {input} {output} {params}
         """

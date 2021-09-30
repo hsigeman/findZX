@@ -19,10 +19,10 @@ rule gencov_prepare_fasta:
 
 rule gencov_bedtools:
     input:
-        bam_hetero = expand(dedup_dir + "{u.sample}__{u.unit}.sorted.dedup.mismatch.{{ED}}.bam", zip, u=heterogametic.itertuples()),
-        bam_homo = expand(dedup_dir + "{u.sample}__{u.unit}.sorted.dedup.mismatch.{{ED}}.bam", zip, u=homogametic.itertuples()),
-        bai_hetero = expand(dedup_dir + "{u.sample}__{u.unit}.sorted.dedup.mismatch.{{ED}}.bam.bai", zip, u=heterogametic.itertuples()),
-        bai_homo = expand(dedup_dir + "{u.sample}__{u.unit}.sorted.dedup.mismatch.{{ED}}.bam.bai", zip, u=homogametic.itertuples()),
+        bam_hetero = expand(dedup_dir + "{u.sample}__{u.group}.sorted.dedup.mismatch.{{ED}}.bam", zip, u=heterogametic.itertuples()),
+        bam_homo = expand(dedup_dir + "{u.sample}__{u.group}.sorted.dedup.mismatch.{{ED}}.bam", zip, u=homogametic.itertuples()),
+        bai_hetero = expand(dedup_dir + "{u.sample}__{u.group}.sorted.dedup.mismatch.{{ED}}.bam.bai", zip, u=heterogametic.itertuples()),
+        bai_homo = expand(dedup_dir + "{u.sample}__{u.group}.sorted.dedup.mismatch.{{ED}}.bam.bai", zip, u=homogametic.itertuples()),
         bed = outdir + "coverage/" + "genome_5kb_windows.out"
     output:
         outdir + "coverage/" + "gencov.mismatch.{ED}.out"
@@ -42,13 +42,13 @@ rule normalize_cov_mean:
     output:
         outdir + "coverage/" + "gencov.mismatch.{ED}.norm.sexAverage.out"
     params:
-        hetero = expand("het:{u.sample}__{u.unit}", u=heterogametic.itertuples()),
-        homo = expand("homo:{u.sample}__{u.unit}", u=homogametic.itertuples())
+        hetero = expand("het:{u.sample}__{u.group}", u=heterogametic.itertuples()),
+        homo = expand("homo:{u.sample}__{u.group}", u=homogametic.itertuples())
     conda: 
         "../envs/python_gawk.yaml"
     message:
         "Normalize genome coverage values between samples, and calculate mean value per sex for each 5 kb window"
     shell:
         """
-        python3 code/normalize_genCov.py {input} no-synteny {params.hetero} {params.homo} > {output}
+        python3 workflow/scripts/normalize_genCov.py {input} no-synteny {params.hetero} {params.homo} > {output}
         """

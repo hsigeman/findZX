@@ -3,9 +3,9 @@ rule map_reads:
         reads= get_trimmed_reads if config['trim_reads'] | config['trim_and_subsample'] | config['subsample_only'] else get_fastq_new,
         idx=rules.bwa_index.output,
     output:
-        temp(map_dir + "{sample}__{unit}.sorted.tmp.bam"),
+        temp(map_dir + "{sample}__{group}.sorted.tmp.bam"),
     log:
-        logs_dir + "bwa_mem/{sample}__{unit}.log",
+        logs_dir + "bwa_mem/{sample}__{group}.log",
     message:
         "Mapping reads to reference genome. Sample: {wildcards.sample}"
     params:
@@ -21,11 +21,11 @@ rule map_reads:
 
 rule samtools_view:
     input:
-        map_dir + "{sample}__{unit}.sorted.tmp.bam",
+        map_dir + "{sample}__{group}.sorted.tmp.bam",
     output:
-        temp(map_dir + "{sample}__{unit}.sorted.bam"),
+        temp(map_dir + "{sample}__{group}.sorted.bam"),
     log:
-        logs_dir + "samtools_view/{sample}__{unit}.log",
+        logs_dir + "samtools_view/{sample}__{group}.log",
     message:
         "Filtering mapped reads, only proper pairs and quality score >20. Sample: {wildcards.sample}"
     params:
@@ -36,12 +36,12 @@ rule samtools_view:
 
 rule mark_duplicates:
     input:
-        map_dir + "{sample}__{unit}.sorted.bam",
+        map_dir + "{sample}__{group}.sorted.bam",
     output:
-        bam=dedup_dir + "{sample}__{unit}.sorted.dedup.mismatch.unfiltered.bam",
-        metrics=qc_dir + "dedup/{sample}__{unit}.metrics.txt",
+        bam=dedup_dir + "{sample}__{group}.sorted.dedup.mismatch.unfiltered.bam",
+        metrics=qc_dir + "dedup/{sample}__{group}.metrics.txt",
     log:
-        logs_dir + "picard/dedup/{sample}__{unit}.log",
+        logs_dir + "picard/dedup/{sample}__{group}.log",
     message:
         "Remove duplicate reads. Sample: {wildcards.sample}"
     params:
@@ -54,13 +54,13 @@ rule mark_duplicates:
 
 rule bamtools_filter:
     input:
-        dedup_dir + "{sample}__{unit}.sorted.dedup.mismatch.unfiltered.bam",
+        dedup_dir + "{sample}__{group}.sorted.dedup.mismatch.unfiltered.bam",
     output:
-        dedup_dir + "{sample}__{unit}.sorted.dedup.mismatch.0.{ED, [0-9]+}.bam", 
+        dedup_dir + "{sample}__{group}.sorted.dedup.mismatch.0.{ED, [0-9]+}.bam", 
     params:
         tags = ["NM:<={ED}"]
     log:
-        logs_dir + "bamtools/{sample}-{unit}.{ED}.log",
+        logs_dir + "bamtools/{sample}-{group}.{ED}.log",
     message:
         "Filter mapped reads for mismatches. Maximum {wildcards.ED} mismatches. Sample: {wildcards.sample}"
     wrapper:
@@ -69,28 +69,28 @@ rule bamtools_filter:
 
 rule samtools_index:
     input:
-        dedup_dir + "{sample}__{unit}.sorted.dedup.mismatch.{ED}.bam", 
+        dedup_dir + "{sample}__{group}.sorted.dedup.mismatch.{ED}.bam", 
     output:
-        dedup_dir + "{sample}__{unit}.sorted.dedup.mismatch.{ED}.bam.bai", 
+        dedup_dir + "{sample}__{group}.sorted.dedup.mismatch.{ED}.bam.bai", 
     log:
-        logs_dir + "samtools/{sample}-{unit}.{ED}.log",
+        logs_dir + "samtools/{sample}-{group}.{ED}.log",
     message:
-        "Index BAM file: {wildcards.sample}__{wildcards.unit}.sorted.dedup.mismatch.{wildcards.ED}.bam"
+        "Index BAM file: {wildcards.sample}__{wildcards.group}.sorted.dedup.mismatch.{wildcards.ED}.bam"
     wrapper:
         "0.74.0/bio/samtools/index"
 
 
 rule samtools_stats:
     input:
-        dedup_dir + "{sample}__{unit}.sorted.dedup.mismatch.{ED}.bam",
+        dedup_dir + "{sample}__{group}.sorted.dedup.mismatch.{ED}.bam",
     output:
-        dedup_dir + "{sample}__{unit}.sorted.dedup.mismatch.{ED}.samtools.stats.txt",
+        dedup_dir + "{sample}__{group}.sorted.dedup.mismatch.{ED}.samtools.stats.txt",
     params:
         extra="",                       # Optional: extra arguments.
     log:
-        logs_dir + "samtools_stats/{sample}__{unit}.{ED}.log",
+        logs_dir + "samtools_stats/{sample}__{group}.{ED}.log",
     message:
-        "Calculating BAM file statistics: {wildcards.sample}__{wildcards.unit}.sorted.dedup.mismatch.{wildcards.ED}.bam"
+        "Calculating BAM file statistics: {wildcards.sample}__{wildcards.group}.sorted.dedup.mismatch.{wildcards.ED}.bam"
     wrapper:
         "0.74.0/bio/samtools/stats"
 
@@ -98,10 +98,10 @@ rule samtools_stats:
 rule calc_cov:
     input:
         fai = ref_genome + ".fai",
-        stats = dedup_dir + "{sample}__{unit}.sorted.dedup.mismatch.{ED}.samtools.stats.txt",
+        stats = dedup_dir + "{sample}__{group}.sorted.dedup.mismatch.{ED}.samtools.stats.txt",
     output:
-        report(dedup_dir + "{sample}__{unit}.sorted.dedup.mismatch.{ED}_mean_coverage.txt", category = "Coverage")
+        report(dedup_dir + "{sample}__{group}.sorted.dedup.mismatch.{ED}_mean_coverage.txt", category = "Coverage")
     shell:
-        "code/calc_cov.sh {input.stats} {input.fai} > {output}"
+        "workflow/scripts/calc_cov.sh {input.stats} {input.fai} > {output}"
 
 

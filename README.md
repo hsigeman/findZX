@@ -279,7 +279,7 @@ params:
 <summary>Click here to see what the "unit file" (config/units.tsv) <a name="units"></a></summary>
 <p>
 
-| sample                | unit              | fq1                                       | fq2                                       |
+| sample                | group              | fq1                                       | fq2                                       |
 |-------------------    |---------------    |-----------------------------------------  |-----------------------------------------  |
 | subset_SRR9655168     | homogametic       | .test/Example/subset_SRR9655168_1.fq.gz   | .test/Example/subset_SRR9655168_2.fq.gz   |
 | subset_SRR9655169     | homogametic       | .test/Example/subset_SRR9655169_1.fq.gz   | .test/Example/subset_SRR9655169_2.fq.gz   |

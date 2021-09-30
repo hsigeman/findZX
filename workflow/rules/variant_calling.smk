@@ -1,8 +1,8 @@
 rule freebayes_prep:
     input:
         fai = ref_genome + ".fai",
-        samples = expand(dedup_dir + "{u.sample}__{u.unit}.sorted.dedup.mismatch.unfiltered.bam", u=units.itertuples()),
-	samples_bai = expand(dedup_dir + "{u.sample}__{u.unit}.sorted.dedup.mismatch.unfiltered.bam.bai", u=units.itertuples()),
+        samples = expand(dedup_dir + "{u.sample}__{u.group}.sorted.dedup.mismatch.unfiltered.bam", u=units.itertuples()),
+	samples_bai = expand(dedup_dir + "{u.sample}__{u.group}.sorted.dedup.mismatch.unfiltered.bam.bai", u=units.itertuples()),
     output:
         filter_fai = outdir + "variant_calling/" + ref_genome_name_simple + ".filter." + MIN_SIZE_SCAFFOLD + ".list",
         regions = outdir + "variant_calling/" + ref_genome_name_simple + ".freebayes.regions",
@@ -18,7 +18,7 @@ rule freebayes_prep:
     shell:
         """
 	    cat {input.fai} | awk '$2>= {params} {{print $1}}' | sort -k1,1 > {output.filter_fai}
-        python3 code/split_ref_by_bai_datasize.py {input.samples} -r {input.fai} | sed 's/ /\t/g' | bedtools sort > {output.regions} 2> {log}
+        python3 workflow/scripts/split_ref_by_bai_datasize.py {input.samples} -r {input.fai} | sed 's/ /\t/g' | bedtools sort > {output.regions} 2> {log}
         join <(sort {output.regions}) <(sort {output.filter_fai}) | sed 's/ /\t/g' | sed 's/\t/:/' | sed 's/\t/-/' > {output.regions_filter}
         """
 
@@ -26,8 +26,8 @@ rule freebayes_prep:
 rule freebayes:
     input:
         ref = ref_genome,
-        samples = expand(dedup_dir + "{u.sample}__{u.unit}.sorted.dedup.mismatch.unfiltered.bam", u=units.itertuples()),
-        indexes=expand(dedup_dir + "{u.sample}__{u.unit}.sorted.dedup.mismatch.unfiltered.bam.bai", u=units.itertuples()),
+        samples = expand(dedup_dir + "{u.sample}__{u.group}.sorted.dedup.mismatch.unfiltered.bam", u=units.itertuples()),
+        indexes=expand(dedup_dir + "{u.sample}__{u.group}.sorted.dedup.mismatch.unfiltered.bam.bai", u=units.itertuples()),
         regions_filter=outdir + "variant_calling/" + ref_genome_name_simple + ".freebayes.regions.filter"
     output:
         vcf = temp(outdir + "variant_calling/" + ref_genome_name_simple + ".vcf"),
