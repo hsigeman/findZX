@@ -84,6 +84,15 @@ def get_read_group(wildcards):
     """Denote sample name and platform in read group."""
     return r"-M -R '@RG\tID:{sample}__{group}\tSM:{sample}__{group}'".format(**wildcards)
 
+def get_read_group_MapCaller(wildcards):
+    """Denote sample name and platform in read group."""
+    return r"'@RG\tID:{sample}__{group}\tSM:{sample}__{group}'".format(**wildcards)
+
+def get_ID(wildcards):
+    """Denote sample name and platform in read group."""
+    return r"{sample}__{group}".format(**wildcards)
+
+
 
 def get_sample_bams(wildcards):
     """Get all aligned reads of given sample."""
