@@ -27,7 +27,6 @@ synteny_ref_name = synteny_ref[synteny_ref.rindex('/')+1:]
 synteny_ref_name_simple = synteny_ref_name.rpartition('.')[0]
 
 
-
 ##### Output directories #####
 
 
@@ -37,8 +36,11 @@ outdir="results/" + run_name + "/"
 #report: outdir + "output/no_synteny/report/workflow.rst"
 map_dir="results/ref/" + ref_genome_name_simple + "/mapped/"
 dedup_dir="results/ref/" + ref_genome_name_simple + "/dedup/"
-
-
+plots_dir=outdir + "output/no_synteny/plots/"
+tables_dir=outdir + "output/no_synteny/tables/"
+plot_log=logs_dir + "plotting/no_synteny"
+windowCalc_het=outdir + "variant_calling/"
+windowCalc_cov=outdir + "coverage/"
 ##### Target rules #####
 
     

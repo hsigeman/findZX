@@ -6,8 +6,8 @@ rule confirm_sexing:
         het = outdir + "synteny_lastal/" + synteny_abbr + "/" + "heterozygosity.bestMatch.small",
         stats = expand(dedup_dir + "{u.sample}__{u.group}.sorted.dedup.mismatch.{{ED}}.samtools.stats.txt", zip, u=units.itertuples())
     output:
-        read_length = outdir + "output/synteny/" + synteny_abbr + "/plots/.misc/" + "read_length.sorted.nodup.mismatch.{ED}.csv",
-        gencov_het = outdir + "output/synteny/" + synteny_abbr + "/plots/" + "5_confirmSexing.samplesSeparately.mismatch.{ED}.pdf",
+        read_length = plots_dir + ".misc/" + "read_length.sorted.nodup.mismatch.{ED}.csv",
+        gencov_het = plots_dir + "5_confirmSexing.samplesSeparately.mismatch.{ED}.pdf",
     threads: 1
     params:
         map_dir = dedup_dir + "*.sorted.dedup.mismatch.{ED}.samtools.stats.txt",
@@ -18,7 +18,7 @@ rule confirm_sexing:
     conda: 
         "../envs/R.yaml"
     log:
-        logs_dir + "plotting/confirm_sexing_synteny.mismatch.{ED}.log"
+        plot_log + "confirm_sexing_synteny.mismatch.{ED}.log"
     message:
         "Plotting results 5_confirmSexing"
     shell:
@@ -47,9 +47,9 @@ if not config['synteny_chr_highlight']:
             snp = outdir + "output/synteny/" + synteny_abbr + "/tables/" + "diffHeterozygosity.{bp}bp.out",
             chromosomes_highlight = outdir + "output/synteny/" + synteny_abbr + "/highlight_file.list",
         output:
-            out_scatter = report(outdir + "output/synteny/" + synteny_abbr + "/plots/4_sexDifferences.{bp}bp.pdf", category="3. Output plots", caption="../report/scatter_plots.rst"),
-            out_scatter_highlight = outdir + "output/synteny/" + synteny_abbr + "/plots/4_sexDifferences.{bp}bp.highlight.pdf",
-            out = touch(outdir + "output/synteny/" + synteny_abbr + "/plots/.misc/" +  "plotting.{bp}bp.done")
+            out_scatter = report(plots_dir + "4_sexDifferences.{bp}bp.pdf", category="3. Output plots", caption="../report/scatter_plots.rst"),
+            out_scatter_highlight = plots_dir + "4_sexDifferences.{bp}bp.highlight.pdf",
+            out = touch(plots_dir + ".misc/" +  "plotting.{bp}bp.done")
         params:
             chromosomes = CHROMOSOMES,
             ED = expand("{ED}", ED = EDIT_DIST),
@@ -57,7 +57,7 @@ if not config['synteny_chr_highlight']:
         conda: 
             "../envs/R.yaml"
         log:
-            logs_dir + "plotting/4_sexDifferences.synteny.mismatch.{bp}.log"
+            plot_log + "4_sexDifferences.mismatch.{bp}.log"
         message:
             "Plotting results 4_sexDifferences"
         shell:
@@ -68,13 +68,13 @@ if not config['synteny_chr_highlight']:
 else:
     rule plotting:
         input:
-            cov = expand(outdir + "output/synteny/" + synteny_abbr + "/tables/" + "diffGenomeCoverage.mismatch.{ED}.{{bp}}bp.out", ED = EDIT_DIST),
-            snp = outdir + "output/synteny/" + synteny_abbr + "/tables/" + "diffHeterozygosity.{bp}bp.out",
+            cov = expand(tables_dir + "diffGenomeCoverage.mismatch.{ED}.{{bp}}bp.out", ED = EDIT_DIST),
+            snp = tables_dir + "diffHeterozygosity.{bp}bp.out",
             chromosomes_highlight = outdir + "output/synteny/" + synteny_abbr + "/highlight_file.list",
         output:
-            out_scatter = report(outdir + "output/synteny/" + synteny_abbr + "/plots/4_sexDifferences.{bp}bp.window.pdf", category="3. Output plots", caption="../report/scatter_plots.rst"),
-            out_scatter_highlight = report(outdir + "output/synteny/" + synteny_abbr + "/plots/4_sexDifferences.{bp}bp.window.highlight.pdf", category="3. Output plots", caption="../report/scatter_plots_highlight.rst"),
-            out = touch(outdir + "output/synteny/" + synteny_abbr + "/plots/.misc/" +  "plotting.{bp}bp.done")
+            out_scatter = report(plots_dir + "4_sexDifferences.{bp}bp.window.pdf", category="3. Output plots", caption="../report/scatter_plots.rst"),
+            out_scatter_highlight = report(plots_dir + "4_sexDifferences.{bp}bp.window.highlight.pdf", category="3. Output plots", caption="../report/scatter_plots_highlight.rst"),
+            out = touch(plots_dir + ".misc/" +  "plotting.{bp}bp.done")
         params:
             chromosomes = CHROMOSOMES,
             ED = expand("{ED}", ED = EDIT_DIST),
@@ -82,7 +82,7 @@ else:
         conda: 
             "../envs/R.yaml"
         log:
-            logs_dir + "plotting/4_sexDifferences.synteny.mismatch.{bp}.log"
+            plot_log + "4_sexDifferences.mismatch.{bp}.log"
         message:
             "Plotting results 4_sexDifferences"
         shell:
@@ -94,12 +94,12 @@ else:
 
 rule plotting_linear:
     input:
-        cov = expand(outdir + "output/synteny/" + synteny_abbr + "/tables/" + "diffGenomeCoverage.mismatch.{ED}.{{bp}}bp.out", ED = EDIT_DIST),
-        snp = outdir + "output/synteny/" + synteny_abbr + "/tables/" + "diffHeterozygosity.{bp}bp.out"
+        cov = expand(tables_dir + "diffGenomeCoverage.mismatch.{ED}.{{bp}}bp.out", ED = EDIT_DIST),
+        snp = tables_dir + "diffHeterozygosity.{bp}bp.out"
     output:
-        absolute_out = report(outdir + "output/synteny/" + synteny_abbr + "/plots/2_sexesSeparate.genomeWide.{bp}bp.window.pdf", category="3. Output plots",),
-        diff_out = report(outdir + "output/synteny/" + synteny_abbr + "/plots/1_sexDifferences.genomeWide.{bp}bp.window.pdf", category="3. Output plots", caption="../report/linear_plots.rst",),
-        out = touch(outdir + "output/synteny/" + synteny_abbr + "/plots/.misc/" + "plotting.linear.{bp}bp.done")
+        absolute_out = report(plots_dir + "2_sexesSeparate.genomeWide.{bp}bp.window.pdf", category="3. Output plots",),
+        diff_out = report(plots_dir + "1_sexDifferences.genomeWide.{bp}bp.window.pdf", category="3. Output plots", caption="../report/linear_plots.rst",),
+        out = touch(plots_dir + ".misc/" + "plotting.linear.{bp}bp.done")
     params:
         chromosomes = CHROMOSOMES,
 	    ED = expand("{ED}", ED = EDIT_DIST),
@@ -108,7 +108,7 @@ rule plotting_linear:
     conda: 
         "../envs/R.yaml"
     log:
-        logs_dir + "plotting/plotting_linear_synteny.{bp}bp.log"
+        plot_log + "plotting_linear.{bp}bp.log"
     message:
         "Plotting results 1_sexDifferences"
     shell:
@@ -119,19 +119,19 @@ rule plotting_linear:
 
 rule plotting_chr:
     input:
-        cov = expand(outdir + "output/synteny/" + synteny_abbr + "/tables/" + "diffGenomeCoverage.mismatch.{ED}.chr.out", ED = EDIT_DIST),
-        snp = outdir + "output/synteny/" + synteny_abbr + "/tables/" + "diffHeterozygosity.chr.out"
+        cov = expand(tables_dir + "diffGenomeCoverage.mismatch.{ED}.chr.out", ED = EDIT_DIST),
+        snp = tables_dir + "diffHeterozygosity.chr.out"
     output:
-        out_scatter2D = report(outdir + "output/synteny/" + synteny_abbr + "/plots/3_sexDifferences.chromosome.pdf", category="3. Output plots", caption="../report/scatter_2D.rst",),
-#        out_scatter3D = report(outdir + "output/synteny/" + synteny_abbr + "/plots/chr_scatter3D.pdf", category="3. Output plots", caption="../report/scatter_3D.rst",),
-        out = touch(outdir + "output/synteny/" + synteny_abbr + "/plots/.misc/" + "plotting_chr.done")
+        out_scatter2D = report(plots_dir + "3_sexDifferences.chromosome.pdf", category="3. Output plots", caption="../report/scatter_2D.rst",),
+#        out_scatter3D = report(plots_dir + "chr_scatter3D.pdf", category="3. Output plots", caption="../report/scatter_3D.rst",),
+        out = touch(plots_dir + ".misc/" + "plotting_chr.done")
     params:
         chromosomes = CHROMOSOMES,
 	    ED = expand("{ED}", ED = EDIT_DIST)
     conda: 
         "../envs/R.yaml"
     log:
-        logs_dir + "plotting/plotting_chr_synteny.log"
+        plot_log + "plotting_chr.log"
     message:
         "Plotting results 3_sexDifferences"
     shell:
@@ -144,7 +144,7 @@ rule table_readme:
     input:
         "config/output_table_README.md"
     output:
-        outdir + "output/synteny/" + synteny_abbr + "/tables/" + "output_table_README.md"
+        tables_dir + "output_table_README.md"
     shell:
         """
         cp {input} {output}

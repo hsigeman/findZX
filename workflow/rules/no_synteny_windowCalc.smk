@@ -1,8 +1,8 @@
 rule calculate_heterozygosity_chr:
     input:
-        outdir + "variant_calling/" + ref_genome_name_simple + ".heterozygosity.sexAverage.NR.bed"
+        windowCalc_het + ref_genome_name_simple + ".heterozygosity.sexAverage.NR.bed"
     output:
-        outdir + "output/no_synteny/tables/" + "diffHeterozygosity.chr.out"
+        tables_dir + "diffHeterozygosity.chr.out"
     threads: 1
     conda: 
         "../envs/R.yaml"
@@ -16,9 +16,9 @@ rule calculate_heterozygosity_chr:
 
 rule calculate_heterozygosity_window:
     input:
-        outdir + "variant_calling/" + ref_genome_name_simple + ".heterozygosity.sexAverage.NR.bed"
+        windowCalc_het + ref_genome_name_simple + ".heterozygosity.sexAverage.NR.bed"
     output:
-        outdir + "output/no_synteny/tables/" + "diffHeterozygosity.{window}bp.out"
+        tables_dir + "diffHeterozygosity.{window}bp.out"
     threads: 1
     params:
         "{window}"
@@ -34,9 +34,9 @@ rule calculate_heterozygosity_window:
 
 rule calculate_ratio_chr:
     input:
-        outdir + "coverage/" + "gencov.mismatch.{ED}.norm.sexAverage.out"
+        windowCalc_cov + "gencov.mismatch.{ED}.norm.sexAverage.out"
     output:
-        outdir + "output/no_synteny/tables/" + "diffGenomeCoverage.mismatch.{ED}.chr.out"
+        tables_dir + "diffGenomeCoverage.mismatch.{ED}.chr.out"
     threads: 1
     conda: 
         "../envs/R.yaml"
@@ -50,9 +50,9 @@ rule calculate_ratio_chr:
 
 rule calculate_ratio_window:
     input:
-        outdir + "coverage/" + "gencov.mismatch.{ED}.norm.sexAverage.out"
+        windowCalc_cov + "gencov.mismatch.{ED}.norm.sexAverage.out"
     output:
-        outdir + "output/no_synteny/tables/" + "diffGenomeCoverage.mismatch.{ED}.{window}bp.out"
+        tables_dir + "diffGenomeCoverage.mismatch.{ED}.{window}bp.out"
     threads: 1
     params:
         window="{window}"
