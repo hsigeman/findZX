@@ -1,4 +1,4 @@
-sample	unit	fq1	fq2
+sample	group	fq1	fq2
 ERR409918	heterogametic	data/fastq/ERR409918_1.fastq.gz	data/fastq/ERR409918_2.fastq.gz
 ERR409919	heterogametic	data/fastq/ERR409919_1.fastq.gz	data/fastq/ERR409919_2.fastq.gz
 ERR409938	homogametic	data/fastq/ERR409938_1.fastq.gz	data/fastq/ERR409938_2.fastq.gz

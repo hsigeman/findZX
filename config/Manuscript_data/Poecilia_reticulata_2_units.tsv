@@ -1,4 +1,4 @@
-sample	unit	fq1	fq2
+sample	group	fq1	fq2
 ERR1016723	homogametic	data/fastq/ERR1016723_1.fastq.gz	data/fastq/ERR1016723_2.fastq.gz
 ERR1016721	homogametic	data/fastq/ERR1016721_1.fastq.gz	data/fastq/ERR1016721_2.fastq.gz
 ERR1016725	homogametic	data/fastq/ERR1016725_1.fastq.gz	data/fastq/ERR1016725_2.fastq.gz
