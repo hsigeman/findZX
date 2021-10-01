@@ -1,8 +1,9 @@
 rule map_reads:
     input:
         log=logs_dir + "mapcaller/mapcaller_index.log",
+      #  idx=rules.MapCaller_index.output,
         fq1=outdir + "trimmed/{sample}__{group}.1.fastq.gz" if config['trim_reads'] | config['trim_and_subsample'] | config['subsample_only'] else get_fastq_r1,
-        fq2=outdir + "trimmed/{sample}__{group}.1.fastq.gz" if config['trim_reads'] | config['trim_and_subsample'] | config['subsample_only'] else get_fastq_r2,
+        fq2=outdir + "trimmed/{sample}__{group}.2.fastq.gz" if config['trim_reads'] | config['trim_and_subsample'] | config['subsample_only'] else get_fastq_r2,
     output:
         bam=temp(dedup_dir + "{sample}__{group}.sorted.dedup.mismatch.unfiltered.unsorted.bam"),
         vcf=outdir + "variant_calling/" + "{sample}__{group}.vcf"
