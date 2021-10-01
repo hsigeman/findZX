@@ -23,7 +23,7 @@ rule confirm_sexing:
         """
         python workflow/scripts/read_length.py <(for FILE in $(ls {params.map_dir}); do echo \"${{FILE##*/}}\"; grep \"average length\" $FILE; done) > {output.read_length}
 
-        Rscript workflow/scripts/histogram_indv.R {input.gencov} {input.het} {output.read_length} {output.gencov_het} no-synteny {params.chromosomes} {params.hetero} {params.homo} 2>&1 > {log}
+        Rscript workflow/scripts/histogram_indv.R {input.gencov} {input.het} {output.read_length} {output.gencov_het} no-synteny {params.chromosomes} {params.hetero} {params.homo} 2> {log}
         """
 
 
@@ -60,7 +60,7 @@ if not config['chr_highlight']:
             "Plotting results 4_sexDifferences"
         shell:
             """
-            Rscript workflow/scripts/plot_windows.R {input.cov} {input.snp} {output.out_scatter} {params.chromosomes} {input.chromosomes_highlight} {params.ED} {params.window} 2>&1 > {log}
+            Rscript workflow/scripts/plot_windows.R {input.cov} {input.snp} {output.out_scatter} {params.chromosomes} {input.chromosomes_highlight} {params.ED} {params.window} 2> {log}
             """
 
 else: 
@@ -110,7 +110,7 @@ rule plotting_linear:
         "Plotting results 1_sexDifferences"
     shell:
         """
-        Rscript workflow/scripts/plot_windows_linear.R {input.cov} {input.snp} {output.absolute_out} {output.diff_out} {params.chromosomes} {params.ED} {params.nr_chromosomes} {params.window} 2>&1 > {log}
+        Rscript workflow/scripts/plot_windows_linear.R {input.cov} {input.snp} {output.absolute_out} {output.diff_out} {params.chromosomes} {params.ED} {params.nr_chromosomes} {params.window} 2> {log}
         """
 
 
@@ -132,7 +132,7 @@ rule plotting_chr:
         "Plotting results 3_sexDifferences"
     shell:
         """
-        Rscript workflow/scripts/scatterplot_chr.R {input.cov} {input.snp} {output.out_scatter2D} {params.chromosomes} {params.ED} 2>&1 > {log}
+        Rscript workflow/scripts/scatterplot_chr.R {input.cov} {input.snp} {output.out_scatter2D} {params.chromosomes} {params.ED} 2> {log}
         """
 
 
