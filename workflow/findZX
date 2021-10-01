@@ -32,26 +32,33 @@ synteny_ref_name_simple = synteny_ref_name.rpartition('.')[0]
 
 if config['run_mode'] == "careful":
     map_dir="results/ref/" + ref_genome_name_simple + "/mapped/"
+    dedup_dir="results/ref/" + ref_genome_name_simple + "/dedup/"
+    logs_dir="results/" + run_name + "/logs/"
+    qc_dir="results/" + run_name + "/qc/"
+    outdir="results/" + run_name + "/"
+    outputdir="results/" + run_name + "/output/"
+    plots_dir=outputdir + "no_synteny/plots/"
+    tables_dir=outputdir + "no_synteny/tables/"
+    plot_log=logs_dir + "plotting/no_synteny/"
+    windowCalc_het=outdir + "variant_calling/"
+    windowCalc_cov=outdir + "coverage/"
+    cov_dir=outdir + "coverage/"
+    vcf_dir=outdir + "variant_calling/"
 
 if config['run_mode'] == "quick":
     map_dir="results/ref/" + ref_genome_name_simple + "/mapped_quick/"
-
-if config['run_mode'] == "careful":
-    dedup_dir="results/ref/" + ref_genome_name_simple + "/dedup/"
-
-if config['run_mode'] == "quick":
     dedup_dir="results/ref/" + ref_genome_name_simple + "/dedup_quick/"
-
-
-logs_dir="results/" + run_name + "/logs/"
-qc_dir="results/" + run_name + "/qc/"
-outdir="results/" + run_name + "/"
-plots_dir=outdir + "output/no_synteny/plots/"
-tables_dir=outdir + "output/no_synteny/tables/"
-plot_log=logs_dir + "plotting/no_synteny/"
-windowCalc_het=outdir + "variant_calling/"
-windowCalc_cov=outdir + "coverage/"
-
+    logs_dir="results/" + run_name + "/logs_quick/"
+    qc_dir="results/" + run_name + "/qc_quick/"
+    outdir="results/" + run_name + "/"
+    outputdir="results/" + run_name + "/output_quick/"
+    plots_dir= outputdir + "no_synteny/plots/"
+    tables_dir=outputdir + "no_synteny/tables/"
+    plot_log=logs_dir + "plotting/no_synteny/"
+    windowCalc_het=outdir + "variant_calling_quick/"
+    windowCalc_cov=outdir + "coverage_quick/"
+    cov_dir=outdir + "coverage_quick/"  
+    vcf_dir=outdir + "variant_calling_quick/"
 
 ##### Target rules #####
   
@@ -65,14 +72,14 @@ rule all:
     input:
         qc_dir + "fastqc/multiqc.untrimmed.html" if config['trim_reads'] else [],
         qc_dir + "fastqc/multiqc.trimmed.html" if config['trim_reads'] else [],
-        expand(outdir + "output/no_synteny/plots/" + "5_confirmSexing.samplesSeparately.mismatch.{ED}.pdf", ED = EDIT_DIST),
-        outdir + "output/no_synteny/plots/" + ".misc/" + "plotting_chr.done",
-        expand(outdir + "output/no_synteny/plots/" + ".misc/" + "plotting.linear.{window}bp.done", window = window_sizes),
-        expand(outdir + "output/no_synteny/plots/" + ".misc/" + "plotting.linear.{window}bp.done", window = window_sizes),
-        outdir + "output/no_synteny/plots/" + ".misc/" + "plotting_chr.done",
-        expand(outdir + "output/no_synteny/plots/" + ".misc/" + "plotting.{window}bp.done", window = window_sizes),
-        expand(outdir + "output/no_synteny/plots/" + ".misc/" + "plotting.{window}bp.done", window = window_sizes),
-        outdir + "output/no_synteny/tables/" + "output_table_README.md"
+        expand(plots_dir + "5_confirmSexing.samplesSeparately.mismatch.{ED}.pdf", ED = EDIT_DIST),
+        plots_dir + ".misc/" + "plotting_chr.done",
+        expand(plots_dir + ".misc/" + "plotting.linear.{window}bp.done", window = window_sizes),
+        expand(plots_dir + ".misc/" + "plotting.linear.{window}bp.done", window = window_sizes),
+        plots_dir + ".misc/" + "plotting_chr.done",
+        expand(plots_dir + ".misc/" + "plotting.{window}bp.done", window = window_sizes),
+        expand(plots_dir + ".misc/" + "plotting.{window}bp.done", window = window_sizes),
+        tables_dir + "output_table_README.md"
 
 
 ##### Modules #####

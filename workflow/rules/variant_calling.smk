@@ -4,9 +4,9 @@ rule freebayes_prep:
         samples = expand(dedup_dir + "{u.sample}__{u.group}.sorted.dedup.mismatch.unfiltered.bam", u=units.itertuples()),
 	samples_bai = expand(dedup_dir + "{u.sample}__{u.group}.sorted.dedup.mismatch.unfiltered.bam.bai", u=units.itertuples()),
     output:
-        filter_fai = outdir + "variant_calling/" + ref_genome_name_simple + ".filter." + MIN_SIZE_SCAFFOLD + ".list",
-        regions = outdir + "variant_calling/" + ref_genome_name_simple + ".freebayes.regions",
-        regions_filter = outdir + "variant_calling/" + ref_genome_name_simple + ".freebayes.regions.filter"
+        filter_fai = vcf_dir + ref_genome_name_simple + ".filter." + MIN_SIZE_SCAFFOLD + ".list",
+        regions = vcf_dir + ref_genome_name_simple + ".freebayes.regions",
+        regions_filter = vcf_dir + ref_genome_name_simple + ".freebayes.regions.filter"
     params:
         MIN_SIZE_SCAFFOLD
     log:
@@ -28,10 +28,10 @@ rule freebayes:
         ref = ref_genome,
         samples = expand(dedup_dir + "{u.sample}__{u.group}.sorted.dedup.mismatch.unfiltered.bam", u=units.itertuples()),
         indexes=expand(dedup_dir + "{u.sample}__{u.group}.sorted.dedup.mismatch.unfiltered.bam.bai", u=units.itertuples()),
-        regions_filter=outdir + "variant_calling/" + ref_genome_name_simple + ".freebayes.regions.filter"
+        regions_filter= vcf_dir + ref_genome_name_simple + ".freebayes.regions.filter"
     output:
-        vcf = temp(outdir + "variant_calling/" + ref_genome_name_simple + ".vcf"),
-        log = outdir + "variant_calling/freebayes_done.log"
+        vcf = temp(vcf_dir + ref_genome_name_simple + ".vcf"),
+        log = vcf_dir + "freebayes_done.log"
     params:
         extra="--use-best-n-alleles 4 --skip-coverage 1000",         # optional parameters
     log:
@@ -50,11 +50,11 @@ rule freebayes:
 
 rule bgzip_tabix:
     input:
-        vcf = outdir + "variant_calling/" + ref_genome_name_simple + ".vcf",
-        log = outdir + "variant_calling/freebayes_done.log"
+        vcf = vcf_dir + ref_genome_name_simple + ".vcf",
+        log = vcf_dir + "freebayes_done.log"
     output:
-        outdir + "variant_calling/" + ref_genome_name_simple + ".vcf.gz"
-    log: outdir + "variant_calling/" + ref_genome_name_simple + ".vcf.log"
+        vcf_dir + ref_genome_name_simple + ".vcf.gz"
+    log: vcf_dir + ref_genome_name_simple + ".vcf.log"
     conda: 
         "../envs/vcftools_filter.yaml"
     message:
@@ -68,10 +68,10 @@ rule bgzip_tabix:
 
 rule vcftools_filter:
     input:
-        outdir + "variant_calling/" + ref_genome_name_simple + ".vcf.gz"
+        vcf_dir + ref_genome_name_simple + ".vcf.gz"
     output:
-        vcf = temp(outdir + "variant_calling/" + ref_genome_name_simple + ".biallelic.minQ20.minDP3.vcf"),
-        gz = outdir + "variant_calling/" + ref_genome_name_simple + ".biallelic.minQ20.minDP3.vcf.gz"
+        vcf = temp(vcf_dir + ref_genome_name_simple + ".biallelic.minQ20.minDP3.vcf"),
+        gz = vcf_dir + ref_genome_name_simple + ".biallelic.minQ20.minDP3.vcf.gz"
     conda: 
         "../envs/vcftools_filter.yaml"
     message:

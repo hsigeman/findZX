@@ -1,10 +1,10 @@
 rule proportion_heterozygosity:
     input:
-        outdir + "variant_calling/" + ref_genome_name_simple + ".biallelic.minQ20.minDP3.vcf.gz"
+        vcf_dir + ref_genome_name_simple + ".biallelic.minQ20.minDP3.vcf.gz"
     output:
-        het = temp(outdir + "variant_calling/" + ref_genome_name_simple + ".heterozygosity.bed")
+        het = temp(vcf_dir + ref_genome_name_simple + ".heterozygosity.bed")
     log: 
-        outdir + "variant_calling/" + ref_genome_name_simple + ".proportion_heterozygosity.log"
+        vcf_dir + ref_genome_name_simple + ".proportion_heterozygosity.log"
     params:
         hetero = expand("het:{u.sample}__{u.group}", u=heterogametic.itertuples()),
         homo = expand("homo:{u.sample}__{u.group}", u=homogametic.itertuples())
@@ -20,15 +20,15 @@ rule proportion_heterozygosity:
 
 rule proportion_heterozygosity_window:
     input:
-        het = outdir + "variant_calling/" + ref_genome_name_simple + ".heterozygosity.bed",
-        windows = outdir + "coverage/" + "genome_5kb_windows.out"
+        het = vcf_dir + ref_genome_name_simple + ".heterozygosity.bed",
+        windows = cov_dir + "genome_5kb_windows.out"
     output:
-        windows_sorted = temp(outdir + "variant_calling/" + "genome_5kb_windows.out"),
-        het_tmp_window = temp(outdir + "variant_calling/" + ref_genome_name_simple + ".heterozygosity.5kb.windows.tmp"),
-        het_sorted_window = temp(outdir + "variant_calling/" + ref_genome_name_simple + ".heterozygosity.5kb.windows.bed")
+        windows_sorted = temp(vcf_dir + "genome_5kb_windows.out"),
+        het_tmp_window = temp(vcf_dir + ref_genome_name_simple + ".heterozygosity.5kb.windows.tmp"),
+        het_sorted_window = temp(vcf_dir + ref_genome_name_simple + ".heterozygosity.5kb.windows.bed")
     params: 
-        split = outdir + "variant_calling/split_file_",
-        dir = outdir + "variant_calling"
+        split = vcf_dir + "split_file_",
+        dir = vcf_dir 
     conda: 
         "../envs/bedtools.yaml"
     message:
@@ -45,10 +45,10 @@ rule proportion_heterozygosity_window:
 
 rule proportion_heterozygosity_window_2:
     input:
-        outdir + "variant_calling/" + ref_genome_name_simple + ".heterozygosity.5kb.windows.bed"
+        vcf_dir + ref_genome_name_simple + ".heterozygosity.5kb.windows.bed"
     output:
-        het_sorted_window_mean = outdir + "variant_calling/" + ref_genome_name_simple + ".heterozygosity.5kb.windows.NR.bed",
-        het_sexAverage = outdir + "variant_calling/" + ref_genome_name_simple + ".heterozygosity.sexAverage.NR.bed"
+        het_sorted_window_mean = vcf_dir + ref_genome_name_simple + ".heterozygosity.5kb.windows.NR.bed",
+        het_sexAverage = vcf_dir + ref_genome_name_simple + ".heterozygosity.sexAverage.NR.bed"
     params:
         hetero = expand("het:{u.sample}__{u.group}", u=heterogametic.itertuples()),
         homo = expand("homo:{u.sample}__{u.group}", u=homogametic.itertuples())

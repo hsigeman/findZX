@@ -1,18 +1,18 @@
 rule matchScaffold2Chr:
     input:
-        syns = outdir + "synteny_lastal/" + synteny_abbr + "/" + synteny_abbr + "_align_converted",
-        gencov = outdir + "coverage/" + "genome_5kb_windows.out"
+        syns = windowCalc_het + synteny_abbr + "_align_converted",
+        gencov = cov_dir + "genome_5kb_windows.out"
     output:
-        windows = outdir + "synteny_lastal/" + synteny_abbr + "/"  + "genome_windows.out",
-        bestMatch = outdir + "synteny_lastal/" + synteny_abbr + "/" + "bestMatch.list",
-        log = outdir + "synteny_lastal/" + synteny_abbr + "/" + "bestMatch.status"
+        windows = windowCalc_het + "genome_windows.out",
+        bestMatch = windowCalc_het + "bestMatch.list",
+        log = windowCalc_het + "bestMatch.status"
     params:
-        abswindow = dir_path + "/" + outdir + "synteny_lastal/" + synteny_abbr + "/" + "genome_windows.out",
-        absBestMatch = dir_path + "/" + outdir + "synteny_lastal/" + synteny_abbr + "/" + "bestMatch.unfilter.list",
-        okWindows = dir_path + "/" + outdir + "synteny_lastal/" + synteny_abbr + "/" + "okWindows.list",
-        absBestMatchFilter = dir_path + "/" + outdir + "synteny_lastal/" + synteny_abbr + "/" + "bestMatch.list",
+        abswindow = dir_path + "/" + windowCalc_het + "genome_windows.out",
+        absBestMatch = dir_path + "/" + windowCalc_het + "bestMatch.unfilter.list",
+        okWindows = dir_path + "/" + windowCalc_het + "okWindows.list",
+        absBestMatchFilter = dir_path + "/" + windowCalc_het + "bestMatch.list",
         windowsfile = "genome_windows.out",
-        absLog = dir_path + "/" + outdir + "synteny_lastal/" + synteny_abbr + "/" + "bestMatch.status"
+        absLog = dir_path + "/" + windowCalc_het + "bestMatch.status"
     conda: 
         "../envs/bedtools.yaml"
     shell:
@@ -31,14 +31,14 @@ rule matchScaffold2Chr:
 
 rule matchScaffold2Chr_snp:
     input:
-        bestMatch = outdir + "synteny_lastal/" + synteny_abbr + "/" + "bestMatch.list",
-        het = outdir + "variant_calling/" + ref_genome_name_simple + ".heterozygosity.5kb.windows.NR.bed",
-        het_sexAverage = outdir + "variant_calling/" + ref_genome_name_simple + ".heterozygosity.sexAverage.NR.bed"
+        bestMatch = windowCalc_het + "bestMatch.list",
+        het = vcf_dir + ref_genome_name_simple + ".heterozygosity.5kb.windows.NR.bed",
+        het_sexAverage = vcf_dir + ref_genome_name_simple + ".heterozygosity.sexAverage.NR.bed"
     output:
-        bestMatch = outdir + "synteny_lastal/" + synteny_abbr + "/" + "heterozygosity.bestMatch",
-        bestMatch_small = outdir + "synteny_lastal/" + synteny_abbr + "/" + "heterozygosity.bestMatch.small",
-        bestMatch_sexAverage = outdir + "synteny_lastal/" + synteny_abbr + "/" + "heterozygosity.bestMatch.sexAverage.bed",
-        bestMatch_small_sexAverage = outdir + "synteny_lastal/" + synteny_abbr + "/" + "heterozygosity.bestMatch.small.sexAverage.bed"
+        bestMatch = windowCalc_het + "heterozygosity.bestMatch",
+        bestMatch_small = windowCalc_het + "heterozygosity.bestMatch.small",
+        bestMatch_sexAverage = windowCalc_het + "heterozygosity.bestMatch.sexAverage.bed",
+        bestMatch_small_sexAverage = windowCalc_het + "heterozygosity.bestMatch.small.sexAverage.bed"
     params:
         hetero = expand("het:{u.sample}__{u.group}", u=heterogametic.itertuples()),
         homo = expand("homo:{u.sample}__{u.group}", u=homogametic.itertuples())
@@ -59,14 +59,14 @@ rule matchScaffold2Chr_snp:
 
 rule matchScaffold2Chr_cov:
     input:
-        bestMatch = outdir + "synteny_lastal/" + synteny_abbr + "/" + "bestMatch.list",
-        cov = outdir + "coverage/" + "gencov.mismatch.{ED}.out",
-        cov_sexAverage = outdir + "coverage/" + "gencov.mismatch.{ED}.norm.sexAverage.out"
+        bestMatch = windowCalc_het + "bestMatch.list",
+        cov = cov_dir + "gencov.mismatch.{ED}.out",
+        cov_sexAverage = cov_dir + "gencov.mismatch.{ED}.norm.sexAverage.out"
     output:
-        bestMatch = outdir + "synteny_lastal/" + synteny_abbr + "/" + "gencov.mismatch.{ED}.out",
-        bestMatch_small = outdir + "synteny_lastal/" + synteny_abbr + "/" + "gencov.mismatch.{ED}.small.out",
-        bestMatch_sexAverage = outdir + "synteny_lastal/" + synteny_abbr + "/" + "gencov.mismatch.{ED}.norm.sexAverage.out",
-        bestMatch_small_sexAverage = outdir + "synteny_lastal/" + synteny_abbr + "/" + "gencov.mismatch.{ED}.norm.sexAverage.small.out"
+        bestMatch = windowCalc_het + "gencov.mismatch.{ED}.out",
+        bestMatch_small = windowCalc_het + "gencov.mismatch.{ED}.small.out",
+        bestMatch_sexAverage = windowCalc_het + "gencov.mismatch.{ED}.norm.sexAverage.out",
+        bestMatch_small_sexAverage = windowCalc_het + "gencov.mismatch.{ED}.norm.sexAverage.small.out"
     params:
         hetero = expand("het:{u.sample}__{u.group}", u=heterogametic.itertuples()),
         homo = expand("homo:{u.sample}__{u.group}", u=homogametic.itertuples())
