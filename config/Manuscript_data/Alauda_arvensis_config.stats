@@ -1,0 +1,782 @@
+{
+    "total_runtime": 3375.177422761917,
+    "rules": {
+        "lastdb": {
+            "mean-runtime": 443.5060336589813,
+            "min-runtime": 443.5060336589813,
+            "max-runtime": 443.5060336589813
+        },
+        "lastal_syns": {
+            "mean-runtime": 1084.2831342220306,
+            "min-runtime": 1084.2831342220306,
+            "max-runtime": 1084.2831342220306
+        },
+        "maf_convert_syns": {
+            "mean-runtime": 480.44243121147156,
+            "min-runtime": 480.44243121147156,
+            "max-runtime": 480.44243121147156
+        },
+        "highlight_file": {
+            "mean-runtime": 0.017873764038085938,
+            "min-runtime": 0.017873764038085938,
+            "max-runtime": 0.017873764038085938
+        },
+        "table_readme": {
+            "mean-runtime": 0.01240849494934082,
+            "min-runtime": 0.01240849494934082,
+            "max-runtime": 0.01240849494934082
+        },
+        "matchScaffold2Chr": {
+            "mean-runtime": 9.197361469268799,
+            "min-runtime": 9.197361469268799,
+            "max-runtime": 9.197361469268799
+        },
+        "matchScaffold2Chr_cov": {
+            "mean-runtime": 1.894213596979777,
+            "min-runtime": 1.873990774154663,
+            "max-runtime": 1.9116129875183105
+        },
+        "matchScaffold2Chr_snp": {
+            "mean-runtime": 2.0203614234924316,
+            "min-runtime": 2.0203614234924316,
+            "max-runtime": 2.0203614234924316
+        },
+        "calculate_ratio_window": {
+            "mean-runtime": 10.81404415766398,
+            "min-runtime": 9.810980081558228,
+            "max-runtime": 11.869930982589722
+        },
+        "calculate_ratio_chr": {
+            "mean-runtime": 6.556428035100301,
+            "min-runtime": 6.492016553878784,
+            "max-runtime": 6.60709547996521
+        },
+        "calculate_heterozygosity_window": {
+            "mean-runtime": 10.01406717300415,
+            "min-runtime": 8.952123165130615,
+            "max-runtime": 11.423584938049316
+        },
+        "confirm_sexing": {
+            "mean-runtime": 43.790035327275596,
+            "min-runtime": 43.285956144332886,
+            "max-runtime": 44.47949552536011
+        },
+        "calculate_heterozygosity_chr": {
+            "mean-runtime": 5.440489292144775,
+            "min-runtime": 5.440489292144775,
+            "max-runtime": 5.440489292144775
+        },
+        "plotting": {
+            "mean-runtime": 15.061088403066,
+            "min-runtime": 13.529869556427002,
+            "max-runtime": 16.368176698684692
+        },
+        "plotting_linear": {
+            "mean-runtime": 738.0738570690155,
+            "min-runtime": 120.6562910079956,
+            "max-runtime": 1343.6992399692535
+        },
+        "plotting_chr": {
+            "mean-runtime": 19.28804874420166,
+            "min-runtime": 19.28804874420166,
+            "max-runtime": 19.28804874420166
+        },
+        "all": {
+            "mean-runtime": 0.001260995864868164,
+            "min-runtime": 0.001260995864868164,
+            "max-runtime": 0.001260995864868164
+        }
+    },
+    "files": {
+        "results/lastdb/lastdb_Taeniopygia_guttata.taeGut3.2.4.dna.toplevel_final.prj": {
+            "start-time": "Mon Sep 13 09:33:35 2021",
+            "stop-time": "Mon Sep 13 09:40:58 2021",
+            "duration": 443.5060336589813,
+            "priority": 0,
+            "resources": {
+                "_cores": 15,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/synteny_lastal/ZF/ZF_align": {
+            "start-time": "Mon Sep 13 09:40:58 2021",
+            "stop-time": "Mon Sep 13 09:59:02 2021",
+            "duration": 1084.2831342220306,
+            "priority": 0,
+            "resources": {
+                "_cores": 15,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/synteny_lastal/ZF/ZF_align_converted": {
+            "start-time": "Mon Sep 13 09:59:03 2021",
+            "stop-time": "Mon Sep 13 10:07:03 2021",
+            "duration": 480.44243121147156,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/output/synteny/ZF/highlight_file.list": {
+            "start-time": "Mon Sep 13 09:59:03 2021",
+            "stop-time": "Mon Sep 13 09:59:03 2021",
+            "duration": 0.017873764038085938,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/output/synteny/ZF/tables/output_table_README.md": {
+            "start-time": "Mon Sep 13 09:59:03 2021",
+            "stop-time": "Mon Sep 13 09:59:03 2021",
+            "duration": 0.01240849494934082,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/synteny_lastal/ZF/genome_windows.out": {
+            "start-time": "Mon Sep 13 10:07:03 2021",
+            "stop-time": "Mon Sep 13 10:07:12 2021",
+            "duration": 9.197361469268799,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/synteny_lastal/ZF/bestMatch.list": {
+            "start-time": "Mon Sep 13 10:07:03 2021",
+            "stop-time": "Mon Sep 13 10:07:12 2021",
+            "duration": 9.197361469268799,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/synteny_lastal/ZF/bestMatch.status": {
+            "start-time": "Mon Sep 13 10:07:03 2021",
+            "stop-time": "Mon Sep 13 10:07:12 2021",
+            "duration": 9.197361469268799,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/synteny_lastal/ZF/gencov.mismatch.0.2.out": {
+            "start-time": "Mon Sep 13 10:07:12 2021",
+            "stop-time": "Mon Sep 13 10:07:14 2021",
+            "duration": 1.8970370292663574,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/synteny_lastal/ZF/gencov.mismatch.0.2.small.out": {
+            "start-time": "Mon Sep 13 10:07:12 2021",
+            "stop-time": "Mon Sep 13 10:07:14 2021",
+            "duration": 1.8970370292663574,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/synteny_lastal/ZF/gencov.mismatch.0.2.norm.sexAverage.out": {
+            "start-time": "Mon Sep 13 10:07:12 2021",
+            "stop-time": "Mon Sep 13 10:07:14 2021",
+            "duration": 1.8970370292663574,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/synteny_lastal/ZF/gencov.mismatch.0.2.norm.sexAverage.small.out": {
+            "start-time": "Mon Sep 13 10:07:12 2021",
+            "stop-time": "Mon Sep 13 10:07:14 2021",
+            "duration": 1.8970370292663574,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/synteny_lastal/ZF/heterozygosity.bestMatch": {
+            "start-time": "Mon Sep 13 10:07:12 2021",
+            "stop-time": "Mon Sep 13 10:07:14 2021",
+            "duration": 2.0203614234924316,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/synteny_lastal/ZF/heterozygosity.bestMatch.small": {
+            "start-time": "Mon Sep 13 10:07:12 2021",
+            "stop-time": "Mon Sep 13 10:07:14 2021",
+            "duration": 2.0203614234924316,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/synteny_lastal/ZF/heterozygosity.bestMatch.sexAverage.bed": {
+            "start-time": "Mon Sep 13 10:07:12 2021",
+            "stop-time": "Mon Sep 13 10:07:14 2021",
+            "duration": 2.0203614234924316,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/synteny_lastal/ZF/heterozygosity.bestMatch.small.sexAverage.bed": {
+            "start-time": "Mon Sep 13 10:07:12 2021",
+            "stop-time": "Mon Sep 13 10:07:14 2021",
+            "duration": 2.0203614234924316,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/synteny_lastal/ZF/gencov.mismatch.unfiltered.out": {
+            "start-time": "Mon Sep 13 10:07:12 2021",
+            "stop-time": "Mon Sep 13 10:07:14 2021",
+            "duration": 1.873990774154663,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/synteny_lastal/ZF/gencov.mismatch.unfiltered.small.out": {
+            "start-time": "Mon Sep 13 10:07:12 2021",
+            "stop-time": "Mon Sep 13 10:07:14 2021",
+            "duration": 1.873990774154663,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/synteny_lastal/ZF/gencov.mismatch.unfiltered.norm.sexAverage.out": {
+            "start-time": "Mon Sep 13 10:07:12 2021",
+            "stop-time": "Mon Sep 13 10:07:14 2021",
+            "duration": 1.873990774154663,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/synteny_lastal/ZF/gencov.mismatch.unfiltered.norm.sexAverage.small.out": {
+            "start-time": "Mon Sep 13 10:07:12 2021",
+            "stop-time": "Mon Sep 13 10:07:14 2021",
+            "duration": 1.873990774154663,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/synteny_lastal/ZF/gencov.mismatch.0.0.out": {
+            "start-time": "Mon Sep 13 10:07:12 2021",
+            "stop-time": "Mon Sep 13 10:07:14 2021",
+            "duration": 1.9116129875183105,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/synteny_lastal/ZF/gencov.mismatch.0.0.small.out": {
+            "start-time": "Mon Sep 13 10:07:12 2021",
+            "stop-time": "Mon Sep 13 10:07:14 2021",
+            "duration": 1.9116129875183105,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/synteny_lastal/ZF/gencov.mismatch.0.0.norm.sexAverage.out": {
+            "start-time": "Mon Sep 13 10:07:12 2021",
+            "stop-time": "Mon Sep 13 10:07:14 2021",
+            "duration": 1.9116129875183105,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/synteny_lastal/ZF/gencov.mismatch.0.0.norm.sexAverage.small.out": {
+            "start-time": "Mon Sep 13 10:07:12 2021",
+            "stop-time": "Mon Sep 13 10:07:14 2021",
+            "duration": 1.9116129875183105,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/output/synteny/ZF/tables/diffGenomeCoverage.mismatch.unfiltered.50000bp.out": {
+            "start-time": "Mon Sep 13 10:07:14 2021",
+            "stop-time": "Mon Sep 13 10:07:26 2021",
+            "duration": 11.801251411437988,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/output/synteny/ZF/tables/diffGenomeCoverage.mismatch.unfiltered.1000000bp.out": {
+            "start-time": "Mon Sep 13 10:07:14 2021",
+            "stop-time": "Mon Sep 13 10:07:24 2021",
+            "duration": 9.810980081558228,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/output/synteny/ZF/tables/diffGenomeCoverage.mismatch.unfiltered.chr.out": {
+            "start-time": "Mon Sep 13 10:07:14 2021",
+            "stop-time": "Mon Sep 13 10:07:21 2021",
+            "duration": 6.492016553878784,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/output/synteny/ZF/tables/diffGenomeCoverage.mismatch.unfiltered.100000bp.out": {
+            "start-time": "Mon Sep 13 10:07:14 2021",
+            "stop-time": "Mon Sep 13 10:07:25 2021",
+            "duration": 10.785321474075317,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/output/synteny/ZF/tables/diffGenomeCoverage.mismatch.0.2.50000bp.out": {
+            "start-time": "Mon Sep 13 10:07:14 2021",
+            "stop-time": "Mon Sep 13 10:07:26 2021",
+            "duration": 11.869930982589722,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/output/synteny/ZF/tables/diffGenomeCoverage.mismatch.0.2.chr.out": {
+            "start-time": "Mon Sep 13 10:07:14 2021",
+            "stop-time": "Mon Sep 13 10:07:21 2021",
+            "duration": 6.570172071456909,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/output/synteny/ZF/tables/diffGenomeCoverage.mismatch.0.0.1000000bp.out": {
+            "start-time": "Mon Sep 13 10:07:14 2021",
+            "stop-time": "Mon Sep 13 10:07:24 2021",
+            "duration": 9.944966316223145,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/output/synteny/ZF/tables/diffGenomeCoverage.mismatch.0.0.100000bp.out": {
+            "start-time": "Mon Sep 13 10:07:14 2021",
+            "stop-time": "Mon Sep 13 10:07:25 2021",
+            "duration": 10.785137176513672,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/output/synteny/ZF/tables/diffGenomeCoverage.mismatch.0.2.100000bp.out": {
+            "start-time": "Mon Sep 13 10:07:14 2021",
+            "stop-time": "Mon Sep 13 10:07:25 2021",
+            "duration": 10.8324613571167,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/output/synteny/ZF/tables/diffGenomeCoverage.mismatch.0.2.1000000bp.out": {
+            "start-time": "Mon Sep 13 10:07:14 2021",
+            "stop-time": "Mon Sep 13 10:07:24 2021",
+            "duration": 9.93648386001587,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/output/synteny/ZF/tables/diffGenomeCoverage.mismatch.0.0.chr.out": {
+            "start-time": "Mon Sep 13 10:07:14 2021",
+            "stop-time": "Mon Sep 13 10:07:21 2021",
+            "duration": 6.60709547996521,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/output/synteny/ZF/tables/diffGenomeCoverage.mismatch.0.0.50000bp.out": {
+            "start-time": "Mon Sep 13 10:07:14 2021",
+            "stop-time": "Mon Sep 13 10:07:26 2021",
+            "duration": 11.55986475944519,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/output/synteny/ZF/tables/diffHeterozygosity.50000bp.out": {
+            "start-time": "Mon Sep 13 10:07:14 2021",
+            "stop-time": "Mon Sep 13 10:07:26 2021",
+            "duration": 11.423584938049316,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/output/synteny/ZF/plots/.misc/read_length.sorted.nodup.mismatch.unfiltered.csv": {
+            "start-time": "Mon Sep 13 10:07:14 2021",
+            "stop-time": "Mon Sep 13 10:07:58 2021",
+            "duration": 43.285956144332886,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/output/synteny/ZF/plots/5_confirmSexing.samplesSeparately.mismatch.unfiltered.pdf": {
+            "start-time": "Mon Sep 13 10:07:14 2021",
+            "stop-time": "Mon Sep 13 10:07:58 2021",
+            "duration": 43.285956144332886,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/output/synteny/ZF/plots/5_confirmSexing.samplesSeparately.mismatch.unfiltered.small.pdf": {
+            "start-time": "Mon Sep 13 10:07:14 2021",
+            "stop-time": "Mon Sep 13 10:07:58 2021",
+            "duration": 43.285956144332886,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/output/synteny/ZF/plots/.misc/read_length.sorted.nodup.mismatch.0.0.csv": {
+            "start-time": "Mon Sep 13 10:07:14 2021",
+            "stop-time": "Mon Sep 13 10:07:58 2021",
+            "duration": 43.60465431213379,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/output/synteny/ZF/plots/5_confirmSexing.samplesSeparately.mismatch.0.0.pdf": {
+            "start-time": "Mon Sep 13 10:07:14 2021",
+            "stop-time": "Mon Sep 13 10:07:58 2021",
+            "duration": 43.60465431213379,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/output/synteny/ZF/plots/5_confirmSexing.samplesSeparately.mismatch.0.0.small.pdf": {
+            "start-time": "Mon Sep 13 10:07:14 2021",
+            "stop-time": "Mon Sep 13 10:07:58 2021",
+            "duration": 43.60465431213379,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/output/synteny/ZF/tables/diffHeterozygosity.100000bp.out": {
+            "start-time": "Mon Sep 13 10:07:21 2021",
+            "stop-time": "Mon Sep 13 10:07:30 2021",
+            "duration": 9.66649341583252,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/output/synteny/ZF/plots/.misc/read_length.sorted.nodup.mismatch.0.2.csv": {
+            "start-time": "Mon Sep 13 10:07:21 2021",
+            "stop-time": "Mon Sep 13 10:08:05 2021",
+            "duration": 44.47949552536011,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/output/synteny/ZF/plots/5_confirmSexing.samplesSeparately.mismatch.0.2.pdf": {
+            "start-time": "Mon Sep 13 10:07:21 2021",
+            "stop-time": "Mon Sep 13 10:08:05 2021",
+            "duration": 44.47949552536011,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/output/synteny/ZF/plots/5_confirmSexing.samplesSeparately.mismatch.0.2.small.pdf": {
+            "start-time": "Mon Sep 13 10:07:21 2021",
+            "stop-time": "Mon Sep 13 10:08:05 2021",
+            "duration": 44.47949552536011,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/output/synteny/ZF/tables/diffHeterozygosity.1000000bp.out": {
+            "start-time": "Mon Sep 13 10:07:21 2021",
+            "stop-time": "Mon Sep 13 10:07:30 2021",
+            "duration": 8.952123165130615,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/output/synteny/ZF/tables/diffHeterozygosity.chr.out": {
+            "start-time": "Mon Sep 13 10:07:24 2021",
+            "stop-time": "Mon Sep 13 10:07:29 2021",
+            "duration": 5.440489292144775,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/output/synteny/ZF/plots/4_sexDifferences.50000bp.window.pdf": {
+            "start-time": "Mon Sep 13 10:07:26 2021",
+            "stop-time": "Mon Sep 13 10:07:42 2021",
+            "duration": 16.368176698684692,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/output/synteny/ZF/plots/4_sexDifferences.50000bp.window.highlight.pdf": {
+            "start-time": "Mon Sep 13 10:07:26 2021",
+            "stop-time": "Mon Sep 13 10:07:42 2021",
+            "duration": 16.368176698684692,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/output/synteny/ZF/plots/.misc/plotting.50000bp.done": {
+            "start-time": "Mon Sep 13 10:07:26 2021",
+            "stop-time": "Mon Sep 13 10:07:42 2021",
+            "duration": 16.368176698684692,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/output/synteny/ZF/plots/2_sexesSeparate.genomeWide.50000bp.window.pdf": {
+            "start-time": "Mon Sep 13 10:07:26 2021",
+            "stop-time": "Mon Sep 13 10:29:50 2021",
+            "duration": 1343.6992399692535,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/output/synteny/ZF/plots/1_sexDifferences.genomeWide.50000bp.window.pdf": {
+            "start-time": "Mon Sep 13 10:07:26 2021",
+            "stop-time": "Mon Sep 13 10:29:50 2021",
+            "duration": 1343.6992399692535,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/output/synteny/ZF/plots/.misc/plotting.linear.50000bp.done": {
+            "start-time": "Mon Sep 13 10:07:26 2021",
+            "stop-time": "Mon Sep 13 10:29:50 2021",
+            "duration": 1343.6992399692535,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/output/synteny/ZF/plots/3_sexDifferences.chromosome.pdf": {
+            "start-time": "Mon Sep 13 10:07:29 2021",
+            "stop-time": "Mon Sep 13 10:07:49 2021",
+            "duration": 19.28804874420166,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/output/synteny/ZF/plots/.misc/plotting_chr.done": {
+            "start-time": "Mon Sep 13 10:07:29 2021",
+            "stop-time": "Mon Sep 13 10:07:49 2021",
+            "duration": 19.28804874420166,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/output/synteny/ZF/plots/2_sexesSeparate.genomeWide.1000000bp.window.pdf": {
+            "start-time": "Mon Sep 13 10:07:30 2021",
+            "stop-time": "Mon Sep 13 10:09:31 2021",
+            "duration": 120.6562910079956,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/output/synteny/ZF/plots/1_sexDifferences.genomeWide.1000000bp.window.pdf": {
+            "start-time": "Mon Sep 13 10:07:30 2021",
+            "stop-time": "Mon Sep 13 10:09:31 2021",
+            "duration": 120.6562910079956,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/output/synteny/ZF/plots/.misc/plotting.linear.1000000bp.done": {
+            "start-time": "Mon Sep 13 10:07:30 2021",
+            "stop-time": "Mon Sep 13 10:09:31 2021",
+            "duration": 120.6562910079956,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/output/synteny/ZF/plots/4_sexDifferences.1000000bp.window.pdf": {
+            "start-time": "Mon Sep 13 10:07:30 2021",
+            "stop-time": "Mon Sep 13 10:07:43 2021",
+            "duration": 13.529869556427002,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/output/synteny/ZF/plots/4_sexDifferences.1000000bp.window.highlight.pdf": {
+            "start-time": "Mon Sep 13 10:07:30 2021",
+            "stop-time": "Mon Sep 13 10:07:43 2021",
+            "duration": 13.529869556427002,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/output/synteny/ZF/plots/.misc/plotting.1000000bp.done": {
+            "start-time": "Mon Sep 13 10:07:30 2021",
+            "stop-time": "Mon Sep 13 10:07:43 2021",
+            "duration": 13.529869556427002,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/output/synteny/ZF/plots/2_sexesSeparate.genomeWide.100000bp.window.pdf": {
+            "start-time": "Mon Sep 13 10:07:30 2021",
+            "stop-time": "Mon Sep 13 10:20:00 2021",
+            "duration": 749.8660402297974,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/output/synteny/ZF/plots/1_sexDifferences.genomeWide.100000bp.window.pdf": {
+            "start-time": "Mon Sep 13 10:07:30 2021",
+            "stop-time": "Mon Sep 13 10:20:00 2021",
+            "duration": 749.8660402297974,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/output/synteny/ZF/plots/.misc/plotting.linear.100000bp.done": {
+            "start-time": "Mon Sep 13 10:07:30 2021",
+            "stop-time": "Mon Sep 13 10:20:00 2021",
+            "duration": 749.8660402297974,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/output/synteny/ZF/plots/4_sexDifferences.100000bp.window.pdf": {
+            "start-time": "Mon Sep 13 10:07:30 2021",
+            "stop-time": "Mon Sep 13 10:07:46 2021",
+            "duration": 15.285218954086304,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/output/synteny/ZF/plots/4_sexDifferences.100000bp.window.highlight.pdf": {
+            "start-time": "Mon Sep 13 10:07:30 2021",
+            "stop-time": "Mon Sep 13 10:07:46 2021",
+            "duration": 15.285218954086304,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        },
+        "results/Alauda_arvensis/output/synteny/ZF/plots/.misc/plotting.100000bp.done": {
+            "start-time": "Mon Sep 13 10:07:30 2021",
+            "stop-time": "Mon Sep 13 10:07:46 2021",
+            "duration": 15.285218954086304,
+            "priority": 0,
+            "resources": {
+                "_cores": 1,
+                "_nodes": 1
+            }
+        }
+    }
+}
