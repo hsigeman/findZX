@@ -20,6 +20,7 @@ CHROMOSOMES_HIGHLIGHT = config['synteny_chr_highlight']
 
 ref_genome_name = ref_genome[ref_genome.rindex('/')+1:]
 ref_genome_name_simple = ref_genome_name.rpartition('.')[0]
+ref_genome_dir = ref_genome.rpartition('/')[0]
 
 synteny_ref_name = synteny_ref[synteny_ref.rindex('/')+1:]
 synteny_ref_name_simple = synteny_ref_name.rpartition('.')[0]
@@ -39,10 +40,9 @@ tables_dir=outdir + "output/synteny/" + synteny_abbr + "/tables/"
 plot_log=logs_dir + "plotting/synteny/" + synteny_abbr + "/"
 windowCalc_het=outdir + "synteny_lastal/" + synteny_abbr + "/"
 windowCalc_cov=outdir + "synteny_lastal/" + synteny_abbr + "/"
+
 ##### Target rules #####
 
-
-#if config['stop_after_trim'] & config['trim_reads']:
 if config['trim_reads']:
     rule multiqc_stop:
         input:
@@ -66,19 +66,23 @@ rule all:
 
 ##### Modules #####
 
-
 include: "rules/qc.smk"
 include: "rules/trimming.smk"
-include: "rules/ref.smk"
-include: "rules/mapping.smk"
-include: "rules/coverage.smk"
-include: "rules/variant_calling.smk"
 include: "rules/heterozygosity_calc.smk"
-#include: "rules/no_synteny_windowCalc.smk"
-#include: "rules/no_synteny_plotting.smk"
 include: "rules/synteny_lastal.smk"
 include: "rules/synteny_matchWindows.smk"
 include: "rules/synteny_windowCalc.smk"
 include: "rules/synteny_plotting.smk"
 include: "rules/consensus_genome.smk"
 include: "rules/assembly.smk"
+
+if config['run_mode'] == "careful":
+    include: "rules/ref.smk"
+    include: "rules/mapping.smk"
+    include: "rules/coverage.smk"
+    include: "rules/variant_calling.smk"
+if config['run_mode'] == "quick":
+    include: "rules/mapping_quick.smk"
+    include: "rules/ref_quick.smk"
+    include: "rules/coverage_quick.smk"
+    include: "rules/variant_calling_quick.smk"

@@ -1,8 +1,12 @@
 ####################################################
 ####################################################
-####           XYZWfinder config file           ####
+####             findZX config file             ####
 ####################################################
 ####################################################
+
+
+# FindZX can be run in two different ways. Set this variable to either "quick" or "careful" to select which one.
+run_mode: "quick" # Select "quick" or "careful"
 
 
 ####################################################
@@ -59,10 +63,10 @@ window_sizes:
 
 
 # Set to TRUE (else FALSE) if you want to trim files (but not subsample):
-trim_reads: FALSE 
+trim_reads: TRUE 
 
 # Set to TRUE (else FALSE) if you want to both trim and subsample reads:
-trim_and_subsample: TRUE
+trim_and_subsample: FALSE
 
 # Set to TRUE (else FALSE) if you want to subsample but not trim reads:
 subsample_only: FALSE

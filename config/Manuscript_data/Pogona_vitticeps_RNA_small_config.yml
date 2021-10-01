@@ -1,6 +1,8 @@
 # Specify max number of cores
 threads_max: 14
 
+# FindZX can be run in two different ways. Set this variable to either "quick" or "careful" to select which one.
+run_mode: "careful" # Select "quick" or "careful"
 
 # Path to sample information file
 units: config/Manuscript_data/Pogona_vitticeps_RNA_units_small.tsv

@@ -39,15 +39,13 @@ map_dir="results/ref/" + ref_genome_name_simple + "/mapped/"
 dedup_dir="results/ref/" + ref_genome_name_simple + "/dedup/"
 plots_dir=outdir + "output/no_synteny/plots/"
 tables_dir=outdir + "output/no_synteny/tables/"
-plot_log=logs_dir + "plotting/no_synteny"
+plot_log=logs_dir + "plotting/no_synteny/"
 windowCalc_het=outdir + "variant_calling/"
 windowCalc_cov=outdir + "coverage/"
+
+
 ##### Target rules #####
-
-    
-
-
-#if config['stop_after_trim'] & config['trim_reads']:
+  
 if config['trim_reads']:
     rule multiqc_stop:
         input:
@@ -68,23 +66,23 @@ rule all:
         outdir + "output/no_synteny/tables/" + "output_table_README.md"
 
 
-
-
-
-
-
 ##### Modules #####
-
 
 include: "rules/qc.smk"
 include: "rules/trimming.smk"
-include: "rules/ref.smk"
-include: "rules/mapping.smk"
-include: "rules/coverage.smk"
-include: "rules/variant_calling.smk"
 include: "rules/heterozygosity_calc.smk"
 include: "rules/no_synteny_windowCalc.smk"
 include: "rules/no_synteny_plotting.smk"
 include: "rules/consensus_genome.smk"
 include: "rules/assembly.smk"
 
+if config['run_mode'] == "careful":
+    include: "rules/ref.smk"
+    include: "rules/mapping.smk"
+    include: "rules/coverage.smk"
+    include: "rules/variant_calling.smk"
+if config['run_mode'] == "quick":
+    include: "rules/mapping_quick.smk"
+    include: "rules/ref_quick.smk"
+    include: "rules/coverage_quick.smk"
+    include: "rules/variant_calling_quick.smk"

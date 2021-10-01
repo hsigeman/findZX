@@ -23,7 +23,7 @@ rule confirm_sexing:
         """
         python workflow/scripts/read_length.py <(for FILE in $(ls {params.map_dir}); do echo \"${{FILE##*/}}\"; grep \"average length\" $FILE; done) > {output.read_length}
 
-        Rscript workflow/scripts/histogram_indv.R {input.gencov} {input.het} {output.read_length} {output.gencov_het} no-synteny {params.chromosomes} {params.hetero} {params.homo} 2> {log}
+        Rscript workflow/scripts/histogram_indv.R {input.gencov} {input.het} {output.read_length} {output.gencov_het} no-synteny {params.chromosomes} {params.hetero} {params.homo} 2>&1 > {log}
         """
 
 
@@ -60,7 +60,7 @@ if not config['chr_highlight']:
             "Plotting results 4_sexDifferences"
         shell:
             """
-            Rscript workflow/scripts/plot_windows.R {input.cov} {input.snp} {output.out_scatter} {params.chromosomes} {input.chromosomes_highlight} {params.ED} {params.window} 2> {log}
+            Rscript workflow/scripts/plot_windows.R {input.cov} {input.snp} {output.out_scatter} {params.chromosomes} {input.chromosomes_highlight} {params.ED} {params.window} 2>&1 > {log}
             """
 
 else: 
@@ -85,7 +85,7 @@ else:
             "Plotting results 4_sexDifferences"
         shell:
             """
-            Rscript workflow/scripts/plot_windows.R {input.cov} {input.snp} {output.out_scatter} {params.chromosomes} {input.chromosomes_highlight} {params.ED} {params.window} 2> {log}
+            Rscript workflow/scripts/plot_windows.R {input.cov} {input.snp} {output.out_scatter} {params.chromosomes} {input.chromosomes_highlight} {params.ED} {params.window} 2>&1 > {log}
             """
 
 
@@ -110,7 +110,7 @@ rule plotting_linear:
         "Plotting results 1_sexDifferences"
     shell:
         """
-        Rscript workflow/scripts/plot_windows_linear.R {input.cov} {input.snp} {output.absolute_out} {output.diff_out} {params.chromosomes} {params.ED} {params.nr_chromosomes} {params.window} 2> {log}
+        Rscript workflow/scripts/plot_windows_linear.R {input.cov} {input.snp} {output.absolute_out} {output.diff_out} {params.chromosomes} {params.ED} {params.nr_chromosomes} {params.window} 2>&1 > {log}
         """
 
 
@@ -120,7 +120,6 @@ rule plotting_chr:
         snp = tables_dir + "diffHeterozygosity.chr.out"
     output:
         out_scatter2D = report(plots_dir + "3_sexDifferences.chromosome.pdf", category="3. Output plots", caption="../report/scatter_2D.rst",),
- #       out_scatter3D = report(plots_dir + "chr_scatter3D.pdf", category="3. Output plots", caption="../report/scatter_3D.rst",),
         out = touch(outdir + "output/no_synteny/plots/" + ".misc/" + "plotting_chr.done")
     params:
         chromosomes = CHROMOSOMES,
@@ -133,7 +132,7 @@ rule plotting_chr:
         "Plotting results 3_sexDifferences"
     shell:
         """
-        Rscript workflow/scripts/scatterplot_chr.R {input.cov} {input.snp} {output.out_scatter2D} {params.chromosomes} {params.ED} 2> {log}
+        Rscript workflow/scripts/scatterplot_chr.R {input.cov} {input.snp} {output.out_scatter2D} {params.chromosomes} {params.ED} 2>&1 > {log}
         """
 
 

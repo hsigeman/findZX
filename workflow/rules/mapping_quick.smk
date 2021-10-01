@@ -16,7 +16,8 @@ rule map_reads:
         logs_dir + "mapcaller/{sample}__{group}.log",
     threads: threads_max
     shell:
-        "MapCaller -i {params.ref} -f {input.fq1} -f2 {input.fq2} -bam {output.bam} -vcf {output.vcf} -ad 1 -t {threads}"
+        "MapCaller -i {params.ref} -f {input.fq1} -f2 {input.fq2} -bam {output.bam} -vcf {output.vcf} -ad 1 -dup 1 -t {threads}"
+
 
 rule add_readgroup:
     input:
@@ -32,8 +33,7 @@ rule add_readgroup:
     message:
         "Add RG. Sample: {wildcards.sample}"
     shell:
-        "samtools addreplacerg {input} -r {params} > {output}"
-
+        "samtools addreplacerg {input} -r {params} | samtools view -bS > {output}"
 
 
 rule samtools_sort:
@@ -44,6 +44,7 @@ rule samtools_sort:
     params:
         extra = "-m 4G",
         tmp_dir = "/tmp/"
+    threads: threads_max
     log:
         logs_dir + "samtools_sort/{sample}__{group}.log",
     message:

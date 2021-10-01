@@ -123,7 +123,6 @@ rule plotting_chr:
         snp = tables_dir + "diffHeterozygosity.chr.out"
     output:
         out_scatter2D = report(plots_dir + "3_sexDifferences.chromosome.pdf", category="3. Output plots", caption="../report/scatter_2D.rst",),
-#        out_scatter3D = report(plots_dir + "chr_scatter3D.pdf", category="3. Output plots", caption="../report/scatter_3D.rst",),
         out = touch(plots_dir + ".misc/" + "plotting_chr.done")
     params:
         chromosomes = CHROMOSOMES,

@@ -18,6 +18,7 @@ units = pd.read_table(config["units"], dtype=str).set_index(
     ["sample", "group"], drop=False
 )
 
+validate(units, schema="../schemas/units.schema.yaml")
 
 units.index = units.index.set_levels(
     [i.astype(str) for i in units.index.levels]
@@ -30,13 +31,9 @@ heterogametic = units[units["group"] == "heterogametic"]
 
 ##### Wildcard constraints #####
 
-
 wildcard_constraints:
     sample="|".join(units["sample"]),
     group="|".join(units["group"]),
-
-
-
 
 ##### Helper functions #####
 
@@ -65,6 +62,19 @@ def get_trimmed_reads(wildcards):
         # paired-end sample
         return expand(
             outdir + "trimmed/{sample}__{group}.{nr}.fastq.gz",
+            nr=[1, 2],
+            **wildcards
+        )
+    # single end sample
+    return outdir + "trimmed/{sample}__{group}.fastq.gz".format(**wildcards)
+
+
+def get_nodup_reads(wildcards):
+    """Get trimmed reads of given sample-group."""
+    if not is_single_end(**wildcards):
+        # paired-end sample
+        return expand(
+            outdir + "reads_nodup/{sample}__{group}.{nr}.fastq.gz",
             nr=[1, 2],
             **wildcards
         )

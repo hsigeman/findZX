@@ -2,6 +2,11 @@
 threads_max: 18
 mem_max: 16000 
 
+
+# FindZX can be run in two different ways. Set this variable to either "quick" or "careful" to select which one.
+run_mode: "careful" # Select "quick" or "careful"
+
+
 # Path to sample information file
 units: config/Manuscript_data/Anolis_carolinensis_units.tsv
 
