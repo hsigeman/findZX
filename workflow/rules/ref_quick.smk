@@ -17,19 +17,19 @@ rule MapCaller_index:
     input:
         ref_genome,
     output:
-        ref_genome_dir + "/" + ref_genome_name_simple + ".bwt",
+        ref_genome_dir + "/" + ref_genome_name_simple + "_mapcaller.bwt",
     log:
         logs_dir + "mapcaller/mapcaller_index.log",
     params: 
         name=ref_genome_name_simple,
-        dir=ref_genome_dir + "/"
+        dir=ref_genome_dir + "/",
+        idx=ref_genome_dir + "/" + ref_genome_name_simple + "_mapcaller"
     conda: 
         "../envs/mapcaller.yaml"
     message:
         "Index reference genome (MapCaller)"
     shell:
         """
-        MapCaller index {input} {params.name}
-        mv {params.name}* {params.dir}
+        MapCaller index {input} {params.idx}
         touch {output}
         """

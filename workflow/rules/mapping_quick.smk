@@ -1,7 +1,6 @@
 rule map_reads:
     input:
         log=logs_dir + "mapcaller/mapcaller_index.log",
-      #  idx=rules.MapCaller_index.output,
         fq1=outdir + "trimmed/{sample}__{group}.1.fastq.gz" if config['trim_reads'] | config['trim_and_subsample'] | config['subsample_only'] else get_fastq_r1,
         fq2=outdir + "trimmed/{sample}__{group}.2.fastq.gz" if config['trim_reads'] | config['trim_and_subsample'] | config['subsample_only'] else get_fastq_r2,
     output:
@@ -10,7 +9,7 @@ rule map_reads:
     conda: 
         "../envs/mapcaller.yaml"
     params:
-        ref=ref_genome_dir + "/" + ref_genome_name_simple,
+        ref=ref_genome_dir + "/" + ref_genome_name_simple + "_mapcaller",
         id="{sample}__{group}"
     log:
         logs_dir + "mapcaller/{sample}__{group}.log",
