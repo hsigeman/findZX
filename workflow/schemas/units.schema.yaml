@@ -1,0 +1,30 @@
+$schema: "http://json-schema.org/draft-07/schema#"
+
+description: >-
+  an entry in the sample sheet
+
+# columns that the unit file can have and which type they should be
+properties:
+  sample:
+    type: string
+    description: 
+      Sample name/identifier
+  group:
+    type: string
+    description: 
+      Heterogametic/homogametic identifier
+  fq1:
+    type: string
+    description: 
+      Path to forward read of sample
+  fq2:
+    type: string
+    description: 
+      Path to reverse read of sample     
+
+# columns that the unit file must have to pass schema validation
+required:
+  - sample
+  - group
+  - fq1
+  - fq2
