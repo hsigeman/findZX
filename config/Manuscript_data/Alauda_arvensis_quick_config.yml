@@ -10,7 +10,7 @@ run_mode: "quick" # Select "quick" or "careful"
 units: config/Manuscript_data/Alauda_arvensis_units.tsv
 
 # Name of analysis. The result files will be stored under "results/{run_name}"
-run_name: "Alauda_arvensis_consensus_quick" 
+run_name: "Alauda_arvensis_quick" 
 
 # Homogametic reference genome of the studied species (not .gz format)
 ref_genome: "../data/external_raw/genome/skylark_min1kb.fasta" 
