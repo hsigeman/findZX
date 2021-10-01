@@ -61,4 +61,14 @@ get_fastq_pe:
 pigz:
   n: 12
   time: 04:00:00
+samtools_sort:
+  n: 18
+  time: 04:00:00
+MapCaller_index:
+  n: 2
+  time: 04:00:00
+add_readgroup:
+  n: 2
+  time: 04:00:00
+
 
