@@ -33,7 +33,7 @@ rule add_readgroup:
     message:
         "Add RG. Sample: {wildcards.sample}"
     shell:
-        "samtools addreplacerg {input} -r {params} | samtools view -bS > {output}"
+        "samtools addreplacerg {input} -r {params} | samtools view -bS - > {output}"
 
 
 rule samtools_sort:
