@@ -28,13 +28,23 @@ synteny_ref_name_simple = synteny_ref_name.rpartition('.')[0]
 
 ##### Output directories #####
 
-map_dir="results/ref/" + ref_genome_name_simple + "/mapped/"
-dedup_dir="results/ref/" + ref_genome_name_simple + "/dedup/"
+
+if config['run_mode'] == "careful":
+    map_dir="results/ref/" + ref_genome_name_simple + "/mapped/"
+
+if config['run_mode'] == "quick":
+    map_dir="results/ref/" + ref_genome_name_simple + "/mapped_quick/"
+
+if config['run_mode'] == "careful":
+    dedup_dir="results/ref/" + ref_genome_name_simple + "/dedup/"
+
+if config['run_mode'] == "quick":
+    dedup_dir="results/ref/" + ref_genome_name_simple + "/dedup_quick/"
+
 lastdb_dir="results/lastdb/"
 logs_dir="results/" + run_name + "/logs/"
 qc_dir="results/" + run_name + "/qc/"
 outdir="results/" + run_name + "/"
-#report: outdir + "output/synteny/" + synteny_abbr + "/report/workflow.rst"
 plots_dir=outdir + "output/synteny/" + synteny_abbr + "/plots/"
 tables_dir=outdir + "output/synteny/" + synteny_abbr + "/tables/"
 plot_log=logs_dir + "plotting/synteny/" + synteny_abbr + "/"
