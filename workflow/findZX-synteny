@@ -40,8 +40,8 @@ if config['run_mode'] == "careful":
     plots_dir=outputdir + "synteny/" + synteny_abbr + "/plots/"
     tables_dir=outputdir + "synteny/" + synteny_abbr + "/tables/"
     plot_log=logs_dir + "plotting/no_synteny/"
-    windowCalc_het=outdir + "variant_calling/"
-    windowCalc_cov=outdir + "coverage/"
+    windowCalc_het=outdir + "synteny_lastal/" + synteny_abbr + "/"
+    windowCalc_cov=outdir + "synteny_lastal/" + synteny_abbr + "/"
     cov_dir=outdir + "coverage/"
     vcf_dir=outdir + "variant_calling/"
 

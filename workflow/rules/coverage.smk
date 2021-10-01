@@ -2,8 +2,8 @@ rule gencov_prepare_fasta:
     input:
         ref_genome + ".fai",
     output:
-        filter_fai = outdir + "coverage/" + ref_genome_name_simple + ".filter." + MIN_SIZE_SCAFFOLD + ".fasta.fai",
-        windows = outdir + "coverage/" + "genome_5kb_windows.out"
+        filter_fai = cov_dir + ref_genome_name_simple + ".filter." + MIN_SIZE_SCAFFOLD + ".fasta.fai",
+        windows = cov_dir + "genome_5kb_windows.out"
     params:
         MIN_SIZE_SCAFFOLD
     conda: 
@@ -25,7 +25,7 @@ rule gencov_bedtools:
         bai_homo = expand(dedup_dir + "{u.sample}__{u.group}.sorted.dedup.mismatch.{{ED}}.bam.bai", zip, u=homogametic.itertuples()),
         bed = outdir + "coverage/" + "genome_5kb_windows.out"
     output:
-        outdir + "coverage/" + "gencov.mismatch.{ED}.out"
+        cov_dir + "gencov.mismatch.{ED}.out"
     conda: 
         "../envs/bedtools.yaml"
     message:
@@ -38,9 +38,9 @@ rule gencov_bedtools:
 
 rule normalize_cov_mean:
     input:
-        outdir + "coverage/" + "gencov.mismatch.{ED}.out"
+        cov_dir + "gencov.mismatch.{ED}.out"
     output:
-        outdir + "coverage/" + "gencov.mismatch.{ED}.norm.sexAverage.out"
+        cov_dir + "gencov.mismatch.{ED}.norm.sexAverage.out"
     params:
         hetero = expand("het:{u.sample}__{u.group}", u=heterogametic.itertuples()),
         homo = expand("homo:{u.sample}__{u.group}", u=homogametic.itertuples())
