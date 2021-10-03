@@ -16,7 +16,7 @@ rule bgzip_tabix:
         vcf_dir + "{sample}__{group}.ID.vcf"
     output:
         vcf_dir + "{sample}__{group}.vcf.gz"
- #   log: vcf_dir + ref_genome_name_simple + ".vcf.log"
+#   log: vcf_dir + ref_genome_name_simple + ".vcf.log"
     conda: 
         "../envs/vcftools_filter.yaml"
     message:
@@ -32,26 +32,8 @@ rule merge_vcf:
         bam_hetero = expand(vcf_dir + "{u.sample}__{u.group}.vcf.gz", zip, u=heterogametic.itertuples()),
         bam_homo = expand(vcf_dir + "{u.sample}__{u.group}.vcf.gz", zip, u=homogametic.itertuples()),
     output:
-        vcf= vcf_dir + ref_genome_name_simple + ".vcf.gz"
-    conda: 
-        "../envs/modify_genome.yaml"
-    shell: 
-        "bcftools merge {input.bam_hetero} {input.bam_homo} -Oz -o {output}"
-
-
-rule vcftools_filter:
-    input:
-        vcf_dir + ref_genome_name_simple + ".vcf.gz"
-    output:
-        vcf = temp(vcf_dir + ref_genome_name_simple + ".biallelic.minQ20.minDP3.vcf"),
-        gz = vcf_dir + ref_genome_name_simple + ".biallelic.minQ20.minDP3.vcf.gz"
+        vcf= vcf_dir + ref_genome_name_simple + ".biallelic.minQ20.minDP3.vcf.gz"
     conda: 
         "../envs/vcftools_filter.yaml"
-    message:
-        "Filter VCF file"
-    shell:
-        """
-        vcftools --gzvcf {input} --recode --stdout > {output.vcf}
-        bgzip -c {output.vcf} > {output.gz}
-        tabix -p vcf {output.gz}
-        """
+    shell: 
+        "vcf-merge {input.bam_hetero} {input.bam_homo} -R \"0/0\" | bgzip -c > {output}"
