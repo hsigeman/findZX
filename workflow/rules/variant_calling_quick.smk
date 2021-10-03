@@ -2,7 +2,7 @@ rule add_ID_to_VCF:
     input:
         vcf_dir + "{sample}__{group}.vcf"
     output:
-        vcf_dir + "{sample}__{group}.ID.vcf"
+        temp(vcf_dir + "{sample}__{group}.ID.vcf")
     params:
         get_ID
     shell:

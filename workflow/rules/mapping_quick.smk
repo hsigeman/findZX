@@ -5,7 +5,7 @@ rule map_reads:
         fq2=outdir + "trimmed/{sample}__{group}.2.fastq.gz" if config['trim_reads'] | config['trim_and_subsample'] | config['subsample_only'] else get_fastq_r2,
     output:
         bam=temp(dedup_dir + "{sample}__{group}.sorted.dedup.mismatch.unfiltered.unsorted.bam"),
-        vcf=vcf_dir + "{sample}__{group}.vcf"
+        vcf=temp(vcf_dir + "{sample}__{group}.vcf")
     conda: 
         "../envs/mapcaller.yaml"
     params:
@@ -22,7 +22,7 @@ rule add_readgroup:
     input:
         dedup_dir + "{sample}__{group}.sorted.dedup.mismatch.unfiltered.unsorted.bam"
     output:
-        dedup_dir + "{sample}__{group}.sorted.dedup.mismatch.unfiltered.unsorted.RG.bam"
+        temp(dedup_dir + "{sample}__{group}.sorted.dedup.mismatch.unfiltered.unsorted.RG.bam")
     params:
         get_read_group_MapCaller
     conda: 
