@@ -32,8 +32,8 @@ rule merge_vcf:
         bam_hetero = expand(vcf_dir + "{u.sample}__{u.group}.vcf.gz", zip, u=heterogametic.itertuples()),
         bam_homo = expand(vcf_dir + "{u.sample}__{u.group}.vcf.gz", zip, u=homogametic.itertuples()),
     output:
-        vcf= vcf_dir + ref_genome_name_simple + ".biallelic.minQ20.minDP3.vcf.gz"
+        vcf_dir + ref_genome_name_simple + ".biallelic.minQ20.minDP3.vcf.gz"
     conda: 
-        "../envs/vcftools_filter.yaml"
+        "../envs/modify_genome.yaml"
     shell: 
-        "vcf-merge {input.bam_hetero} {input.bam_homo} -R \"0/0\" | bgzip -c > {output}"
+        "bcftools merge {input.bam_hetero} {input.bam_homo} -0 -Oz -o {output}"
