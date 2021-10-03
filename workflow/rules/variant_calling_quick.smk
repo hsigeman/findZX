@@ -8,7 +8,7 @@ rule add_ID_to_VCF:
     shell:
         """
         sed 's/unknown/{params}/' {input} | grep "^#" | sed -e "s/Number=[A-Z]/Number=1/" > {output}
-        grep -v "#" {input} | grep PASS | sed -e "s/RC=[0-9];//" | sed -e "s/RC=[0-9]+;//" >> {output}
+        grep -v "#" {input} | awk '$7=="PASS" || $7=="q10" {{print}}' | sed -e "s/RC=[0-9];//" | sed -e "s/RC=[0-9]+;//" >> {output}
         """
 
 rule bgzip_tabix:
