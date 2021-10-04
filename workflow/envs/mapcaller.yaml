@@ -2,4 +2,4 @@ channels:
   - conda-forge
   - bioconda
 dependencies:
-  - mapcaller=0.9.9.40
+  - mapcaller=0.9.9.41

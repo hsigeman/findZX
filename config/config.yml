@@ -6,7 +6,7 @@
 
 
 # FindZX can be run in two different ways. Set this variable to either "quick" or "careful" to select which one.
-run_mode: "quick" # Select "quick" or "careful"
+run_mode: "careful" # Select "quick" or "careful"
 
 
 ####################################################
