@@ -37,7 +37,10 @@ bamtools_filter:
   time: 04:00:00
 freebayes:
   n: 18
-  time: 6-00:00:00
+  time: 3-00:00:00
+platypus:
+  n: 18
+  time: 3-00:00:00
 proportion_heterozygosity_window:
   n: 2
   time: 04:00:00

@@ -1,4 +1,4 @@
-rule freebayes:
+rule platypus:
     input:
         ref = ref_genome,
         samples = expand(dedup_dir + "{u.sample}__{u.group}.sorted.dedup.mismatch.unfiltered.bam", u=units.itertuples()),
