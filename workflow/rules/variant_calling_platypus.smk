@@ -17,7 +17,7 @@ rule freebayes:
         "Variant calling (platypus-variant)"
     shell:
         """
-        platypus callVariants --bamFiles={params.files} --refFile={input.ref} --output={output.vcf} 
+        platypus callVariants --bamFiles={params.files} --refFile={input.ref} --output={output.vcf} --nCPU={threads}
         echo "DONE" > {output.log}
         """
 
