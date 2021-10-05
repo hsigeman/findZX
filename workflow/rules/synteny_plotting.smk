@@ -33,7 +33,7 @@ rule highlight_file:
     params: 
         highlight_chr=config['synteny_chr_highlight'] 
     output: 
-        tables_dir + "/../highlight_file.list"
+        outputdir + "highlight_file.list"
     shell: 
         """
         echo {params.highlight_chr} | tr " " "\n" > {output}
@@ -45,7 +45,7 @@ if not config['synteny_chr_highlight']:
         input:
             cov = expand(tables_dir + "diffGenomeCoverage.mismatch.{ED}.{{bp}}bp.out", ED = EDIT_DIST),
             snp = tables_dir + "diffHeterozygosity.{bp}bp.out",
-            chromosomes_highlight = tables_dir + "/../highlight_file.list"
+            chromosomes_highlight = outputdir + "highlight_file.list"
         output:
             out_scatter = report(plots_dir + "4_sexDifferences.{bp}bp.pdf", category="3. Output plots", caption="../report/scatter_plots.rst"),
             out_scatter_highlight = plots_dir + "4_sexDifferences.{bp}bp.highlight.pdf",
@@ -70,7 +70,7 @@ else:
         input:
             cov = expand(tables_dir + "diffGenomeCoverage.mismatch.{ED}.{{bp}}bp.out", ED = EDIT_DIST),
             snp = tables_dir + "diffHeterozygosity.{bp}bp.out",
-            chromosomes_highlight = tables_dir + "/../highlight_file.list"
+            chromosomes_highlight = outputdir + "highlight_file.list"
         output:
             out_scatter = report(plots_dir + "4_sexDifferences.{bp}bp.window.pdf", category="3. Output plots", caption="../report/scatter_plots.rst"),
             out_scatter_highlight = report(plots_dir + "4_sexDifferences.{bp}bp.window.highlight.pdf", category="3. Output plots", caption="../report/scatter_plots_highlight.rst"),
