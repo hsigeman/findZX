@@ -64,10 +64,9 @@ edit_distance:
     - unfiltered # Do not edit this one
 
 window_sizes:
-    - 25000
     - 50000
     - 100000
-
+    - 1000000
 
 # The Mimimum size of scaffolds in the reference genome to be considered. 
 minSizeScaffold: "10000"
