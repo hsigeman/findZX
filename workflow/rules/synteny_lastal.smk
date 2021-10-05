@@ -24,7 +24,7 @@ rule lastal_syns:
         log = lastdb_dir + "lastdb_" + synteny_ref_name_simple + ".log",
 #        db_ext = lastdb_dir + "lastdb_" + synteny_ref_name_simple + ".prj",
     output:
-        windowCalc_het + synteny_abbr + "_align"
+        temp(windowCalc_het + synteny_abbr + "_align")
     params:
         db = lastdb_dir + "lastdb_" + synteny_ref_name_simple
     threads: threads_max
