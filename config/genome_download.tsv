@@ -1,1 +1,0 @@
-curl -o - https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/269/505/GCA_000269505.2_DroMir_2.2/GCA_000269505.2_DroMir_2.2_genomic.fna.gz | gunzip > GCA_000269505.2_DroMir_2.2.fasta

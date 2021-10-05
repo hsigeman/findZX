@@ -29,10 +29,10 @@ mem_max: 8000
 ########################
 
 # Path to sample information file (sample ID's, sex and fastq files):
-units: "config/units.tsv" 
+units: ".test/units.tsv" 
 
 # Path to homogametic reference genome (not .gz format):
-ref_genome: ".test/Example/AloPal_v1_subset.fasta" 
+ref_genome: ".test/AloPal_v1_subset.fasta" 
 
 ########################
 # Plotting settings - XYZWfinder (without synteny)

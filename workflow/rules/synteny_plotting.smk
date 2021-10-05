@@ -141,7 +141,7 @@ rule plotting_chr:
 
 rule table_readme:
     input:
-        "config/output_table_README.md"
+        "workflow/report/output_table_README.md"
     output:
         tables_dir + "output_table_README.md"
     shell:

@@ -101,7 +101,7 @@ if config['run_mode'] == "careful":
     include: "rules/ref.smk"
     include: "rules/mapping.smk"
     include: "rules/coverage.smk"
-    include: "rules/variant_calling.smk"
+    include: "rules/variant_calling_platypus.smk"
 if config['run_mode'] == "quick":
     include: "rules/mapping_quick.smk"
     include: "rules/ref_quick.smk"

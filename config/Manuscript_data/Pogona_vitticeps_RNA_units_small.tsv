@@ -1,7 +1,0 @@
-sample	unit	fq1	fq2
-SRR13616444	homogametic	data/fastq/SRR13616444_1.fastq.gz	data/fastq/SRR13616444_2.fastq.gz
-SRR13616445	homogametic	data/fastq/SRR13616445_1.fastq.gz	data/fastq/SRR13616445_2.fastq.gz
-SRR13616446	homogametic	data/fastq/SRR13616446_1.fastq.gz	data/fastq/SRR13616446_2.fastq.gz
-SRR13616447	heterogametic	data/fastq/SRR13616447_1.fastq.gz	data/fastq/SRR13616447_2.fastq.gz
-SRR13616448	heterogametic	data/fastq/SRR13616448_1.fastq.gz	data/fastq/SRR13616448_2.fastq.gz
-SRR13616449	heterogametic	data/fastq/SRR13616449_1.fastq.gz	data/fastq/SRR13616449_2.fastq.gz

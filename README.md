@@ -85,7 +85,7 @@ FindZX is a pipeline based on [snakemake](https://snakemake.readthedocs.io/en/st
 
 ### Data
 
-In this example, we will identify sex-linked regions in the [mantled howler monkey](https://en.wikipedia.org/wiki/Mantled_howler) using small subsets of the following files (all located in ./.test/Example): 
+In this example, we will identify sex-linked regions in the [mantled howler monkey](https://en.wikipedia.org/wiki/Mantled_howler) using small subsets of the following files (all located in ./.test): 
 
 - WGS reads from 2 female ([SRR9655168](https://www.ncbi.nlm.nih.gov/sra/SRR9655168), [SRR9655169](https://www.ncbi.nlm.nih.gov/sra/SRR9655169)) and 2 male ([SRR9655170](https://www.ncbi.nlm.nih.gov/sra/SRR9655170), [SRR9655171](https://www.ncbi.nlm.nih.gov/sra/SRR9655171)) mantled howler monkeys
 - [Mantled howler monkey reference genome](https://www.ncbi.nlm.nih.gov/assembly/GCA_004027835.1/) (AloPal_v1_subset.fasta)
@@ -103,7 +103,7 @@ Before starting analyses, make sure that you have activated the conda environmen
 
 To run **findZX** (using only the mantled howler monkey reference genome), run this code: 
 
-    snakemake -s workflow/findZX --configfile config/config.yml --cores 1 -R all --use-conda -k 
+    snakemake -s workflow/findZX --configfile .test/config.yml --cores 1 -R all --use-conda -k 
 
 
 *--configfile* specifies the [configuration file](#test_config) where data paths and settings are listed
@@ -120,7 +120,7 @@ To run **findZX** (using only the mantled howler monkey reference genome), run t
 
 To run **findZX-synteny** (where the data will be lifted-over to genome positions in the human reference genome), run this code: 
 
-    snakemake -s workflow/findZX-synteny --configfile config/config.yml --cores 1 -R all -k --use-conda
+    snakemake -s workflow/findZX-synteny --configfile .test/config.yml --cores 1 -R all -k --use-conda
 
 
 Did the analyses finish without errors? If so, great! If not, let us know in the Issues section of the GitHub page and we will look into it. 
@@ -128,22 +128,22 @@ Did the analyses finish without errors? If so, great! If not, let us know in the
 
 ### Configuration file <a name="test_config"></a>
 
-Next, we will look at the configuration file that is needed for findZX to run (in this example we are using **config/config.yml**). The configuration file contain information about what data and settings we want to use for our analysis. 
+Next, we will look at the configuration file that is needed for findZX to run (in this example we are using **.test/config.yml**). The configuration file contain information about what data and settings we want to use for our analysis. 
 
 **Here are the most important variables in the configuration file:** 
 
 - *run_name: "AloPal_test"*     # Specify an output directory where findZX will store the output
 
-- *units: config/units.tsv* # Specify the path to a tabular (tab-separated) ["unit file"](#units), containing information about the samples used for analysis
+- *units: .test/units.tsv* # Specify the path to a tabular (tab-separated) ["unit file"](#units), containing information about the samples used for analysis
 
-- *ref_genome: ".test/Example/AloPal_v1_subset.fasta"*      # Path to the monkey reference genome
+- *ref_genome: ".test/AloPal_v1_subset.fasta"*      # Path to the monkey reference genome
 
-- *synteny_ref: ".test/Example/Homo_sapiens.GRCh38_subset.fasta"*       # Path to the human reference genome (only used by findZX-synteny)
+- *synteny_ref: ".test/Homo_sapiens.GRCh38_subset.fasta"*       # Path to the human reference genome (only used by findZX-synteny)
 
 - *synteny_abbr: "HS"*      # An abbreviation for Homo sapiens (useful in case you want to use several different synteny species; only used by findZX-synteny)
  
 <details>
-<summary>Click here to see the entire configuration file (config/config.yml)</summary>
+<summary>Click here to see the entire configuration file (.test/config.yml)</summary>
 <p>
 
 ```bash
@@ -176,10 +176,10 @@ mem_max: 8000
 ########################
 
 # Path to sample information file (sample ID's, sex and fastq files):
-units: "config/units.tsv" 
+units: ".test/units.tsv" 
 
 # Path to homogametic reference genome (not .gz format):
-ref_genome: ".test/Example/AloPal_v1_subset.fasta" 
+ref_genome: ".test/AloPal_v1_subset.fasta" 
 
 ########################
 # Plotting settings - findZX (without synteny)
@@ -211,7 +211,7 @@ trim_reads: TRUE
 ########################
 
 # If snakemake-synteny is used, specify the path to the synteny-species reference genome (not .gz format)
-synteny_ref: ".test/Example/Homo_sapiens.GRCh38_subset.fasta"
+synteny_ref: ".test/Homo_sapiens.GRCh38_subset.fasta"
 
 # Synteny-species abbreviation (can be anything)
 synteny_abbr: "HS"
@@ -276,15 +276,15 @@ params:
 
 
 <details>
-<summary>Click here to see what the "unit file" (config/units.tsv) <a name="units"></a></summary>
+<summary>Click here to see what the "unit file" (.test/units.tsv) <a name="units"></a></summary>
 <p>
 
 | sample                | group              | fq1                                       | fq2                                       |
 |-------------------    |---------------    |-----------------------------------------  |-----------------------------------------  |
-| subset_SRR9655168     | homogametic       | .test/Example/subset_SRR9655168_1.fq.gz   | .test/Example/subset_SRR9655168_2.fq.gz   |
-| subset_SRR9655169     | homogametic       | .test/Example/subset_SRR9655169_1.fq.gz   | .test/Example/subset_SRR9655169_2.fq.gz   |
-| subset_SRR9655170     | heterogametic     | .test/Example/subset_SRR9655170_1.fq.gz   | .test/Example/subset_SRR9655170_2.fq.gz   |
-| subset_SRR9655171     | heterogametic     | .test/Example/subset_SRR9655171_1.fq.gz   | .test/Example/subset_SRR9655171_2.fq.gz   |
+| subset_SRR9655168     | homogametic       | .test/subset_SRR9655168_1.fq.gz   | .test/subset_SRR9655168_2.fq.gz   |
+| subset_SRR9655169     | homogametic       | .test/subset_SRR9655169_1.fq.gz   | .test/subset_SRR9655169_2.fq.gz   |
+| subset_SRR9655170     | heterogametic     | .test/subset_SRR9655170_1.fq.gz   | .test/subset_SRR9655170_2.fq.gz   |
+| subset_SRR9655171     | heterogametic     | .test/subset_SRR9655171_1.fq.gz   | .test/subset_SRR9655171_2.fq.gz   |
 
 </p>
 </details> 
@@ -343,8 +343,8 @@ All output plots are multi-page PDF files, where the last page also contain a fi
 
 To render an interactive HTML report for all output plots (with longer descriptions of each plot), use this command: 
 
-    snakemake -s workflow/findZX --configfile config/config.yml --cores 1 -R all -k --use-conda --report report.html
-    snakemake -s workflow/findZX-synteny --configfile config/config.yml --cores 1 -R all -k --use-conda --report report_synteny.html
+    snakemake -s workflow/findZX --configfile .test/config.yml --cores 1 -R all -k --use-conda --report report.html
+    snakemake -s workflow/findZX-synteny --configfile .test/config.yml --cores 1 -R all -k --use-conda --report report_synteny.html
 
 Open the files "report.html" and "report_synteny.html" to check out the reports. 
 
@@ -358,7 +358,7 @@ In this example, we ran the entire pipeline from start to finish in one go. When
 
 Then, rerun only the trimming and quality control steps using this command (choose findZX or findZX-synteny): 
 
-    snakemake -s workflow/findZX{-synteny} --configfile config/config.yml -k --cores 1 --use-conda -R multiqc_stop --notemp
+    snakemake -s workflow/findZX{-synteny} --configfile .test/config.yml -k --cores 1 --use-conda -R multiqc_stop --notemp
 
 *-R multiqc_stop* tells snakemake to stop the pipeline after trimming and quality control
 
@@ -371,7 +371,7 @@ Once the pipeline has finished, open the following files to inspect if the trimm
 
 If it was not, the trimming settings can be changed in the configuration file (config/config.yaml). If it was, start the pipeline again using the normal command (as above): 
 
-    snakemake -s workflow/findZX{-synteny} --configfile config/config.yml --cores 1 -R all -k --use-conda
+    snakemake -s workflow/findZX{-synteny} --configfile .test/config.yml --cores 1 -R all -k --use-conda
 
 
 ***
@@ -397,12 +397,12 @@ To run findZX with your own data, simply create a configuration file and a tabul
 
 #### Creating a configuration and unit file
 
-Use the template configuration files used for running the test dataset (config/config.yml) and edit where approriate. The configuration file must include the location of the tabular unit file containing information about the samples to be analysed (config/units.tsv; see above).
+Use the template configuration files used for running the test dataset (.test/config.yml) and edit where approriate. The configuration file must include the location of the tabular unit file containing information about the samples to be analysed (.test/units.tsv; see above).
 
 Examples (these files can be located anywhere and have other names):
 
-- **config/config.yml** # Specify paths to reference genome etc. 
-- **config/units.tsv** # Sample information and paths to fastq files. Each sample needs to be categorized as either "homogametic" or "heterogametic". 
+- **.test/config.yml** # Specify paths to reference genome etc. 
+- **.test/units.tsv** # Sample information and paths to fastq files. Each sample needs to be categorized as either "homogametic" or "heterogametic". 
 
 #### Additional (optional) files and settings
 
@@ -426,7 +426,7 @@ FindZX will generate genome coverage statistics based on BAM-files that are filt
 
 If the pipeline is run on a server cluster (e.g. SLURM), a configuration file is needed (example cluster.yaml), and the command to start the pipeline should be written like this: 
 
-    snakemake -s workflow/findZX{-synteny} -j 15 -R all --configfile config/config.yml --cluster-config cluster.yaml --cluster " sbatch -A {cluster.account} -t {cluster.time} -n {cluster.n} "
+    snakemake -s workflow/findZX{-synteny} -j 15 -R all --configfile .test/config.yml --cluster-config cluster.yaml --cluster " sbatch -A {cluster.account} -t {cluster.time} -n {cluster.n} "
  
 *-j* specifies the number of jobs that can be run simultaneously.  
 
@@ -454,7 +454,7 @@ If not, try to deactivate and activate the conda environment again.
 When only using one sample of each sex, combined with a reference genome constructed from one of these samples, the genome coverage results for heavily resticted number of mismatches may be suboptimal. Especially if the organism has a very high heterozygosity. This can be solved by creating a consensus genome, incorporating variants from both samples. This can be done by running the pipeline like this:
 
 
-    snakemake -s workflow/findZX{-synteny} -j 15 -R modify_genome --configfile config.yml --use-conda -k
+    snakemake -s workflow/findZX{-synteny} -j 15 -R modify_genome --configfile .test/config.yml --use-conda -k
  
 This will produce a consensus genome (in this directory: results/RUN_NAME/consensus_genome/), named the same as the reference genome with *'_nonRefAf_consensus'* added before the *'.fasta'* sufix. The whole pipeline can then be re-run with the new consensus genome. Remember to change the config-file to specify this new reference genome, as well as give it a new run name (to not overwrite the old analysis) and re-run the pipeline as above. The consensus genome can be created before running the whole pipeline, or after. 
 
