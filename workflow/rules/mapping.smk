@@ -45,7 +45,7 @@ rule mark_duplicates:
     message:
         "Remove duplicate reads. Sample: {wildcards.sample}"
     params:
-        extra="REMOVE_DUPLICATES=true USE_JDK_DEFLATER=true USE_JDK_INFLATER=true TMP_DIR=" + dedup_dir + "/"
+        extra="REMOVE_DUPLICATES=true USE_JDK_DEFLATER=true USE_JDK_INFLATER=true MAX_FILE_HANDLES_FOR_READ_ENDS_MAP=1000 TMP_DIR=" + dedup_dir + "/"
     resources:
         mem_mb=mem_max
     wrapper:
