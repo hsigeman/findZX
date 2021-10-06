@@ -97,7 +97,7 @@ rule plotting_linear:
         cov = expand(tables_dir + "diffGenomeCoverage.mismatch.{ED}.{{bp}}bp.out", ED = EDIT_DIST),
         snp = tables_dir + "diffHeterozygosity.{bp}bp.out"
     output:
-        absolute_out = report(plots_dir + "2_sexesSeparate.genomeWide.{bp}bp.window.pdf", category="3. Output plots",),
+        absolute_out = report(plots_dir + "2_sexesSeparate.genomeWide.{bp}bp.window.pdf", category="3. Output plots", caption="../report/linear_plots_sexesSeparate.rst"),
         diff_out = report(plots_dir + "1_sexDifferences.genomeWide.{bp}bp.window.pdf", category="3. Output plots", caption="../report/linear_plots.rst",),
         out = touch(plots_dir + ".misc/" + "plotting.linear.{bp}bp.done")
     params:
