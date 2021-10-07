@@ -5,6 +5,12 @@ mem_max: 16000
 # Path to sample information file
 units: config/Manuscript_data/Alouatta_palliata_units.tsv
 
+
+# FindZX can be run in two different ways. Set this variable to either "quick" or "careful" to select which one.
+run_mode: "careful" # Select "quick" or "careful"
+#run_mode: "quick" # Select "quick" or "careful"
+
+
 # Name of analysis. The result files will be stored under "results/{run_name}"
 run_name: "Alouatta_palliata_subsample" 
 
