@@ -25,7 +25,7 @@ chr_highlight:
     - NC_024342.1 # Chromosomes to be highlighted. Remove if not wanted.
 
 
-trim_reads: TRUE # Set to TRUE if you want to trim reads
+trim_reads: FALSE # Set to TRUE if you want to trim reads
 # Set to TRUE (else FALSE) if you want to both trim and subsample reads:
 trim_and_subsample: FALSE
 
