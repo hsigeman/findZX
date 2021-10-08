@@ -11,7 +11,7 @@ run_mode: "careful" # Select "quick" or "careful"
 units: config/Manuscript_data/Poecilia_reticulata_units_2M_2F.tsv
 
 # Name of analysis. The result files will be stored under "results/{run_name}"
-run_name: "Poecilia_reticulata_2" 
+run_name: "Poecilia_reticulata_2M_2F" 
 
 # Homogametic reference genome of the studied species (not .gz format)
 ref_genome: "../data/external_raw/genome/Guppy_female_1.0.fasta" 
