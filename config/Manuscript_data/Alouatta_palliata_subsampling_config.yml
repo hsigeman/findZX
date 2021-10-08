@@ -2,16 +2,17 @@
 threads_max: 18
 mem_max: 16000 
 
+# Path to sample information file
+units: config/Manuscript_data/Alouatta_palliata_units.tsv
+
+
 # FindZX can be run in two different ways. Set this variable to either "quick" or "careful" to select which one.
 run_mode: "careful" # Select "quick" or "careful"
 #run_mode: "quick" # Select "quick" or "careful"
 
 
-# Path to sample information file
-units: config/Manuscript_data/Alouatta_palliata_units.tsv
-
 # Name of analysis. The result files will be stored under "results/{run_name}"
-run_name: "Alouatta_palliata" 
+run_name: "Alouatta_palliata_subsample" 
 
 # Homogametic reference genome of the studied species (not .gz format)
 ref_genome: "../data/external_raw/genome/AloPal_v1.fasta" 
@@ -26,10 +27,10 @@ chr_highlight:
 #    - PVKV010001533.1
 
 
-trim_reads: TRUE # Set to TRUE if you want to trim reads
+trim_reads: FALSE # Set to TRUE if you want to trim reads
 
 # Set to TRUE (else FALSE) if you want to both trim and subsample reads:
-trim_and_subsample: FALSE
+trim_and_subsample: TRUE
 
 # Set to TRUE (else FALSE) if you want to subsample but not trim reads:
 subsample_only: FALSE
@@ -41,12 +42,6 @@ subsample_only: FALSE
 subsample_basepairs: 8427197943
 
 
-
-
-# How do you know what setting to use? Use this script: 
-# ./code/subsampling_cov_calv.sh <REF.fasta> <WANTED_COV> 
-
-
 ############# snakefile-synteny variables #############
 
 # If snakemake-synteny is used, specify the path to the synteny-species reference genome (not .gz format)
@@ -56,7 +51,7 @@ synteny_ref: "../data/external_raw/genome/Homo_sapiens.GRCh38.dna_rm.toplevel.no
 synteny_abbr: "HS"
 
 # List of chromosomes in the synteny-species reference genome that should be plotted (and highlighted) in the end (optional) 
-synteny_chr_file: "config/Manuscript_data/HS_chromosomes.list"
+synteny_chr_file: "None"
 synteny_chr_highlight:
     - X
     - 3
@@ -74,7 +69,7 @@ edit_distance:
 window_sizes:
     - 50000
     - 100000
- #   - 1000000
+    - 1000000
 
 
 # The Mimimum size of scaffolds in the reference genome to be considered. 
