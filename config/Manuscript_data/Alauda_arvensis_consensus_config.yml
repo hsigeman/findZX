@@ -60,31 +60,31 @@ subsample_basepairs: 15360127635 # 5x cov
 
 
 # If snakemake-synteny is used, specify the path to the synteny-species reference genome (not .gz format)
-synteny_ref: "../data/external_raw/genome/Gallus_gallus.GRCg6a.dna.toplevel.noW.fa"
+#synteny_ref: "../data/external_raw/genome/Gallus_gallus.GRCg6a.dna.toplevel.noW.fa"
 
 # Synteny-species abbreviation (can be anything)
-synteny_abbr: "GG"
+#synteny_abbr: "GG"
 
 # List of chromosomes in the synteny-species reference genome that should be plotted (and highlighted) in the end (optional) 
-synteny_chr_file: "config/Manuscript_data/CH_chromosomes.list"
-synteny_chr_highlight:
-    - Z
-    - 3
-    - 5
+#synteny_chr_file: "config/Manuscript_data/CH_chromosomes.list"
+#synteny_chr_highlight:
+#    - Z
+#    - 3
+#    - 5
 
 
 # If snakemake-synteny is used, specify the path to the synteny-species reference genome (not .gz format)
-#synteny_ref: "../data/external_raw/genome/AnoCar2.0.fasta"
+synteny_ref: "../data/external_raw/genome/AnoCar2.0.fasta"
 
 # Synteny-species abbreviation (can be anything)
-#synteny_abbr: "AC"
+synteny_abbr: "AC"
 
 # List of chromosomes in the synteny-species reference genome that should be plotted (and highlighted) in the end (optional) 
 #synteny_chr_file: #"config/Manuscript_data/Anolis_carolinensis_chromosomes.list"
-#synteny_chr_highlight:
-#    - 1
-#    - 2
-#    - GL343193.1
+synteny_chr_highlight:
+    - 1
+    - 2
+    - GL343193.1
 
 
 
