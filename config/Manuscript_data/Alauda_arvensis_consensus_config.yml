@@ -80,7 +80,7 @@ synteny_ref: "../data/external_raw/genome/AnoCar2.0.fasta"
 synteny_abbr: "AC"
 
 # List of chromosomes in the synteny-species reference genome that should be plotted (and highlighted) in the end (optional) 
-#synteny_chr_file: #"config/Manuscript_data/Anolis_carolinensis_chromosomes.list"
+synteny_chr_file: #"config/Manuscript_data/Anolis_carolinensis_chromosomes.list"
 synteny_chr_highlight:
     - 1
     - 2
