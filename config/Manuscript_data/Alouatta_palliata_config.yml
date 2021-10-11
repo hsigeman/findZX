@@ -50,16 +50,29 @@ subsample_basepairs: 8427197943
 ############# snakefile-synteny variables #############
 
 # If snakemake-synteny is used, specify the path to the synteny-species reference genome (not .gz format)
-synteny_ref: "../data/external_raw/genome/Homo_sapiens.GRCh38.dna_rm.toplevel.noY.fasta"
+#synteny_ref: "../data/external_raw/genome/Homo_sapiens.GRCh38.dna_rm.toplevel.noY.fasta"
 
 # Synteny-species abbreviation (can be anything)
-synteny_abbr: "HS"
+#synteny_abbr: "HS"
 
 # List of chromosomes in the synteny-species reference genome that should be plotted (and highlighted) in the end (optional) 
-synteny_chr_file: "config/Manuscript_data/HS_chromosomes.list"
+#synteny_chr_file: "config/Manuscript_data/HS_chromosomes.list"
+#synteny_chr_highlight:
+#    - X
+#    - 3
+
+# If snakemake-synteny is used, specify the path to the synteny-species reference genome (not .gz format)
+synteny_ref: "../data/external_raw/genome/Suricata_suricatta.meerkat_22Aug2017_6uvM2_HiC.dna_rm.toplevel.edit.fa"
+
+# Synteny-species abbreviation (can be anything)
+synteny_abbr: "SS"
+
+# List of chromosomes in the synteny-species reference genome that should be plotted (and highlighted) in the end (optional) 
+synteny_chr_file: "config/Manuscript_data/SS_chromosomes.list"
 synteny_chr_highlight:
     - X
-    - 3
+    - 5
+
 
 
 ############# Other optional variables ##########
