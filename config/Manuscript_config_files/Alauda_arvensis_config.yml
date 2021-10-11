@@ -1,6 +1,6 @@
-## ================================= ##
-## findZX config file (test dataset) ##
-## ================================= ##
+## =================== ##
+## findZX config file  ##
+## =================== ##
 
 # Variables marked with "[findZX]" or "[findZX-synteny]" are only used when deploying 
 # the pipeline with either snakefile. Other variables are used for all analyses. 
@@ -9,7 +9,7 @@ run_mode: careful
   # Set this to "careful" (default run mode) 
   # or "quick" (experimental run mode)
 
-threads_max: 2
+threads_max: 18
 mem_max: 8000 
   # Specify maximum number of cores [threads_max] and memory [mem_max] allocation
 
@@ -17,26 +17,26 @@ mem_max: 8000
 # ============================ #
 # Analysis name and input data #
 
-run_name: howler_monkey_test_dataset 
+run_name: Alauda_arvensis 
   # Select an analysis name. Output files will be stored under "results/[run_name]"
 
-units: .test/units.tsv
+units: config/Manuscript_config_files/Alauda_arvensis_units.tsv
   # Path to sample information file
 
-ref_genome: .test/AloPal_v1_subset.fasta 
+ref_genome: ../data/external_raw/genome/skylark_min1kb.fasta 
   # Path to study-species reference genome (not .gz format)
 
-synteny_ref: .test/Example/Homo_sapiens.GRCh38_subset.fasta
+synteny_ref: 
   # [findZX-synteny] Path to synteny-species reference genome (not .gz format)
 
-synteny_name: H_sapiens
+synteny_name: 
   # [findZX-synteny] Synteny-species name (can be any string, will be used for file and directory names)
 
 
 # ================= #
 # Plotting settings #
 
-window_sizes: [25000, 50000, 100000]
+window_sizes: [50000, 100000, 1000000]
   # Choose genome window sizes for plotting (as many as you want)
   # Optimal sizes depend on reference genome fragmentation and size of the sex-linked region
   # Recommended sizes to start are: [50000, 100000, 1000000] (i.e. 50 kb, 100 kb, 1Mb)
@@ -44,13 +44,13 @@ window_sizes: [25000, 50000, 100000]
 chr_file: None
   # [findZX] Specify a file with list of chromosomes to only plot these (otherwise leave as "None")
 
-chr_highlight: [PVKV010001784.1, PVKV010001533.1]
+chr_highlight: 
   # [findZX] Specify chromosomes/scaffolds to highlight in plot type 4, or leave empty
 
 synteny_chr_file: None
   # [findZX-synteny] Specify a file with list of chromosomes to only plot these (otherwise leave as "None")
 
-synteny_chr_highlight: ["X:20513966-20718999", "3:167499270-167708345"]
+synteny_chr_highlight:
   # [findZX-synteny] Specify chromosomes/scaffolds to highlight in plot type 4, or leave empty
 
 
@@ -70,7 +70,7 @@ trim_and_subsample: false
 subsample_only: false
   # Set to true for subsampling of reads (but not trimming)
 
-subsample_basepairs: 1888226
+subsample_basepairs: 
   # Specify the total number of basepairs to extract from both fastq files
   # Will be used if [trim_and_subsample] or [subsample_basepairs] is set to "true"
 

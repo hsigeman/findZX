@@ -1,7 +1,5 @@
 include: "rules/common.smk"
 
-#report: "report/workflow.rst" # Text
-
 dir_path = os.getcwd()
 
 threads_max=config['threads_max']
@@ -9,13 +7,15 @@ mem_max=config['mem_max']
 run_name=config['run_name']
 ref_genome=config['ref_genome']
 synteny_ref=config['synteny_ref']
-synteny_abbr=config['synteny_abbr']
 
 
 ##### Config variables #####
 
 window_sizes=config['window_sizes']
-EDIT_DIST = config["edit_distance"]
+EDIT_DIST = config["mismatch_settings"]
+
+EDIT_DIST.append("unfiltered")
+
 MIN_SIZE_SCAFFOLD = config["minSizeScaffold"]
 CHROMOSOMES = config['chr_file']
 CHROMOSOMES_HIGHLIGHT = config['chr_highlight']

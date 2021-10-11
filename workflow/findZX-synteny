@@ -7,13 +7,14 @@ mem_max=config['mem_max']
 run_name=config['run_name']
 ref_genome=config['ref_genome']
 synteny_ref=config['synteny_ref']
-synteny_abbr=config['synteny_abbr']
+synteny_abbr=config['synteny_name']
 
 
 ##### Config variables #####
 
 window_sizes=config['window_sizes']
-EDIT_DIST = config["edit_distance"]
+EDIT_DIST = config["mismatch_settings"]
+EDIT_DIST.append("unfiltered")
 MIN_SIZE_SCAFFOLD = config["minSizeScaffold"]
 CHROMOSOMES = config['synteny_chr_file']
 CHROMOSOMES_HIGHLIGHT = config['synteny_chr_highlight']
