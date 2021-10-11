@@ -6,8 +6,6 @@ threads_max=config['threads_max']
 mem_max=config['mem_max']
 run_name=config['run_name']
 ref_genome=config['ref_genome']
-synteny_ref=config['synteny_ref']
-
 
 ##### Config variables #####
 
@@ -23,9 +21,6 @@ CHROMOSOMES_HIGHLIGHT = config['chr_highlight']
 ref_genome_name = ref_genome[ref_genome.rindex('/')+1:]
 ref_genome_name_simple = ref_genome_name.rpartition('.')[0]
 ref_genome_dir = ref_genome.rpartition('/')[0]
-
-synteny_ref_name = synteny_ref[synteny_ref.rindex('/')+1:]
-synteny_ref_name_simple = synteny_ref_name.rpartition('.')[0]
 
 
 ##### Output directories #####
