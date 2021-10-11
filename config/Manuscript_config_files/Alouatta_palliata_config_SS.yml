@@ -17,19 +17,19 @@ mem_max: 8000
 # ============================ #
 # Analysis name and input data #
 
-run_name: Alouatta_palliata_1M_1F 
+run_name: Alouatta_palliata 
   # Select an analysis name. Output files will be stored under "results/[run_name]"
 
-units: config/Manuscript_config_files/Alouatta_palliata_units_1M_1F.tsv
+units: config/Manuscript_config_files/Alouatta_palliata_units.tsv
   # Path to sample information file
 
 ref_genome: ../data/external_raw/genome/AloPal_v1.fasta
   # Path to study-species reference genome (not .gz format)
 
-synteny_ref: ../data/external_raw/genome/Homo_sapiens.GRCh38.dna_rm.toplevel.noY.fasta
+synteny_ref: ../data/external_raw/genome/Suricata_suricatta.meerkat_22Aug2017_6uvM2_HiC.dna_rm.toplevel.edit.fa
   # [findZX-synteny] Path to synteny-species reference genome (not .gz format)
 
-synteny_name: HS
+synteny_name: SS
   # [findZX-synteny] Synteny-species name (can be any string, will be used for file and directory names)
 
 
@@ -47,10 +47,10 @@ chr_file: None
 chr_highlight: 
   # [findZX] Specify chromosomes/scaffolds to highlight in plot type 4, or leave empty
 
-synteny_chr_file: config/Manuscript_config_files/HS_chromosomes.list
+synteny_chr_file: config/Manuscript_config_files/SS_chromosomes.list
   # [findZX-synteny] Specify a file with list of chromosomes to only plot these (otherwise leave as "None")
 
-synteny_chr_highlight: [X, 3]
+synteny_chr_highlight: [X, 5]
   # [findZX-synteny] Specify chromosomes/scaffolds to highlight in plot type 4, or leave empty
 
 

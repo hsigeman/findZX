@@ -47,7 +47,7 @@ chr_file: None
 chr_highlight: 
   # [findZX] Specify chromosomes/scaffolds to highlight in plot type 4, or leave empty
 
-synteny_chr_file: config/Manuscript_config_files/CH_chromosomes.list
+synteny_chr_file: config/Manuscript_config_files/GG_chromosomes.list
   # [findZX-synteny] Specify a file with list of chromosomes to only plot these (otherwise leave as "None")
 
 synteny_chr_highlight: [Z, 3, 4, 5]
