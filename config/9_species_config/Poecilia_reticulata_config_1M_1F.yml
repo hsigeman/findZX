@@ -20,7 +20,7 @@ mem_max: 8000
 run_name: Poecilia_reticulata_1M_1F 
   # Select an analysis name. Output files will be stored under "results/[run_name]"
 
-units: config/manuscript_config_files/Poecilia_reticulata_units_1M_1F.tsv
+units: config/9_species_config/Poecilia_reticulata_units_1M_1F.tsv
   # Path to sample information file
 
 ref_genome: ../data/external_raw/genome/Guppy_female_1.0.fasta
@@ -41,7 +41,7 @@ window_sizes: [50000, 100000, 1000000]
   # Optimal sizes depend on reference genome fragmentation and size of the sex-linked region
   # Recommended sizes to start are: [50000, 100000, 1000000] (i.e. 50 kb, 100 kb, 1Mb)
 
-chr_file: config/manuscript_config_files/Poecilia_reticulata_chromosomes.list
+chr_file: config/9_species_config/chromosome_files/Poecilia_reticulata_chromosomes.list
   # [findZX] Specify a file with list of chromosomes to only plot these (otherwise leave as "None")
 
 chr_highlight: [NC_024342.1]

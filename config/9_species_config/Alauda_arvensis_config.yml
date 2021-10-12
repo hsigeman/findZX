@@ -20,7 +20,7 @@ mem_max: 8000
 run_name: Alauda_arvensis 
   # Select an analysis name. Output files will be stored under "results/[run_name]"
 
-units: config/manuscript_config_files/Alauda_arvensis_units.tsv
+units: config/9_species_config/Alauda_arvensis_units.tsv
   # Path to sample information file
 
 ref_genome: ../data/external_raw/genome/skylark_min1kb.fasta 

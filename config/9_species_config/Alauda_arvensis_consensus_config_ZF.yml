@@ -20,7 +20,7 @@ mem_max: 8000
 run_name: Alauda_arvensis_consensus 
   # Select an analysis name. Output files will be stored under "results/[run_name]"
 
-units: config/manuscript_config_files/Alauda_arvensis_units.tsv
+units: config/9_species_config/Alauda_arvensis_units.tsv
   # Path to sample information file
 
 ref_genome: results/Alauda_arvensis/consensus_genome/skylark_min1kb_nonRefAf_consensus.fasta 
@@ -47,7 +47,7 @@ chr_file: None
 chr_highlight: 
   # [findZX] Specify chromosomes/scaffolds to highlight in plot type 4, or leave empty
 
-synteny_chr_file: config/manuscript_config_files/ZF_chromosomes.list
+synteny_chr_file: config/9_species_config/chromosome_files/ZF_chromosomes.list
   # [findZX-synteny] Specify a file with list of chromosomes to only plot these (otherwise leave as "None")
 
 synteny_chr_highlight: [Z, 3, 4A, 5]
