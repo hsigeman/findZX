@@ -17,7 +17,7 @@ mem_max: 8000
 # ============================ #
 # Analysis name and input data #
 
-run_name: Alauda_arvensis 
+run_name: Alauda_arvensis_consensus 
   # Select an analysis name. Output files will be stored under "results/[run_name]"
 
 units: config/Manuscript_config_files/Alauda_arvensis_units.tsv
