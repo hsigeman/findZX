@@ -1,4 +1,4 @@
-# cluster.yaml - cluster configuration file for annotation workflow
+# cluster.yml - cluster configuration file for findZX
 __default__:
   account: snic2020-15-249 # enter your snic compute project account ID
   time: 02:00:00
