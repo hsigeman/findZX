@@ -1,0 +1,5 @@
+sample	group	fq1	fq2
+ERR1016723	homogametic	data/fastq/ERR1016723_1.fastq.gz	data/fastq/ERR1016723_2.fastq.gz
+ERR1016721	homogametic	data/fastq/ERR1016721_1.fastq.gz	data/fastq/ERR1016721_2.fastq.gz
+ERR1016729	heterogametic	data/fastq/ERR1016729_1.fastq.gz	data/fastq/ERR1016729_2.fastq.gz
+ERR1016727	heterogametic	data/fastq/ERR1016727_1.fastq.gz	data/fastq/ERR1016727_2.fastq.gz
