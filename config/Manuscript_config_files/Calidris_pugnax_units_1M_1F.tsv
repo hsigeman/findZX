@@ -1,3 +1,0 @@
-sample	group	fq1	fq2
-ERR1001618	homogametic	data/fastq/ERR1001618_1.fastq.gz	data/fastq/ERR1001618_2.fastq.gz
-ERR1001620	heterogametic	data/fastq/ERR1001620_1.fastq.gz	data/fastq/ERR1001620_2.fastq.gz
