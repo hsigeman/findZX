@@ -11,9 +11,7 @@ ref_genome=config['ref_genome']
 
 window_sizes=config['window_sizes']
 EDIT_DIST = config["mismatch_settings"]
-
 EDIT_DIST.append("unfiltered")
-
 MIN_SIZE_SCAFFOLD = config["minSizeScaffold"]
 CHROMOSOMES = config['chr_file']
 CHROMOSOMES_HIGHLIGHT = config['chr_highlight']
