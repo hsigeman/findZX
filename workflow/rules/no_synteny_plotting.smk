@@ -85,7 +85,7 @@ else:
             "Plotting results 4_sexDifferences"
         shell:
             """
-            Rscript workflow/scripts/plot_windows.R {input.cov} {input.snp} {output.out_scatter} {params.chromosomes} {input.chromosomes_highlight} {params.ED} {params.window} 2>&1 > {log}
+            Rscript workflow/scripts/plot_windows.R {input.cov} {input.snp} {output.out_scatter} {params.chromosomes} {input.chromosomes_highlight} {params.ED} {params.window} 2 > {log}
             """
 
 
