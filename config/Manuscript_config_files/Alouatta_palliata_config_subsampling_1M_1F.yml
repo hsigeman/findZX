@@ -20,7 +20,7 @@ mem_max: 8000
 run_name: Alouatta_palliata_subsample_1M_1F 
   # Select an analysis name. Output files will be stored under "results/[run_name]"
 
-units: config/Manuscript_config_files/Alouatta_palliata_units_1M_1F.tsv
+units: config/manuscript_config_files/Alouatta_palliata_units_1M_1F.tsv
   # Path to sample information file
 
 ref_genome: ../data/external_raw/genome/AloPal_v1.fasta
@@ -47,7 +47,7 @@ chr_file: None
 chr_highlight: 
   # [findZX] Specify chromosomes/scaffolds to highlight in plot type 4, or leave empty
 
-synteny_chr_file: config/Manuscript_config_files/HS_chromosomes.list
+synteny_chr_file: config/manuscript_config_files/HS_chromosomes.list
   # [findZX-synteny] Specify a file with list of chromosomes to only plot these (otherwise leave as "None")
 
 synteny_chr_highlight: [X, 3]
