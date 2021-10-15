@@ -21,7 +21,7 @@ FindZX is a Snakemake-based pipeline which detects and visualizes sex chromosome
 The pipeline can be deployed using two different scripts (see below for details). With the basic script (**findZX**), WGS reads from samples are trimmed and aligned to a reference genome (which can be generated from the WGS data if no reference genome for the study species is available). This is followed by calculations of sex-specific genome coverage and heterozygosity statistics for each chromosome/scaffold in the reference genome, as well as across genome windows of modifiable sizes (e.g. 100 kb and 1 Mb windows). The other script (**findZX-synteny**) includes an additional step: a genome coordinate lift-over to a reference genome of another species. This allows users to inspect sex-linked regions over larger contiguous chromosome regions, while also providing between-species synteny information.
 
 <div align="center">
-<p align="center"><img width="50%" src="figures/flowchart.pdf"></p>
+<p align="center"><img width="50%" src="figures/flowchart.png"></p>
 
 Flowchart showing the main computational steps of findZX/findZX-synteny
 
