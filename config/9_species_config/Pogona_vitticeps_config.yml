@@ -23,7 +23,7 @@ run_name: Pogona_vitticeps
 units: config/9_species_config/Pogona_vitticeps_units.tsv
   # Path to sample information file
 
-ref_genome: results/Alauda_arvensis/consensus_genome/skylark_min1kb_nonRefAf_consensus.fasta 
+ref_genome: ../data/external_raw/genome/Pogona_vitticeps.fasta 
   # Path to study-species reference genome (not .gz format)
 
 synteny_ref: ../data/external_raw/genome/Gallus_gallus.GRCg6a.dna.toplevel.noW.fa
