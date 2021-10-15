@@ -23,35 +23,20 @@ ref_genome_dir = ref_genome.rpartition('/')[0]
 
 ##### Output directories #####
 
-if config['run_mode'] == "careful":
-    map_dir="results/ref/" + ref_genome_name_simple + "/mapped/"
-    dedup_dir="results/ref/" + ref_genome_name_simple + "/dedup/"
-    logs_dir="results/" + run_name + "/logs/"
-    qc_dir="results/" + run_name + "/qc/"
-    outdir="results/" + run_name + "/"
-    outputdir="results/" + run_name + "/output/"
-    plots_dir=outputdir + "no_synteny/plots/"
-    tables_dir=outputdir + "no_synteny/tables/"
-    plot_log=logs_dir + "plotting/no_synteny/"
-    windowCalc_het=outdir + "variant_calling/"
-    windowCalc_cov=outdir + "coverage/"
-    cov_dir=outdir + "coverage/"
-    vcf_dir=outdir + "variant_calling/"
+map_dir="results/ref/" + ref_genome_name_simple + "/mapped/"
+dedup_dir="results/ref/" + ref_genome_name_simple + "/dedup/"
+logs_dir="results/" + run_name + "/logs/"
+qc_dir="results/" + run_name + "/qc/"
+outdir="results/" + run_name + "/"
+outputdir="results/" + run_name + "/output/"
+plots_dir=outputdir + "no_synteny/plots/"
+tables_dir=outputdir + "no_synteny/tables/"
+plot_log=logs_dir + "plotting/no_synteny/"
+windowCalc_het=outdir + "variant_calling/"
+windowCalc_cov=outdir + "coverage/"
+cov_dir=outdir + "coverage/"
+vcf_dir=outdir + "variant_calling/"
 
-if config['run_mode'] == "quick":
-    map_dir="results/ref/" + ref_genome_name_simple + "/mapped_quick/"
-    dedup_dir="results/ref/" + ref_genome_name_simple + "/dedup_quick/"
-    logs_dir="results/" + run_name + "/logs_quick/"
-    qc_dir="results/" + run_name + "/qc_quick/"
-    outdir="results/" + run_name + "/"
-    outputdir="results/" + run_name + "/output_quick/"
-    plots_dir= outputdir + "no_synteny/plots/"
-    tables_dir=outputdir + "no_synteny/tables/"
-    plot_log=logs_dir + "plotting/no_synteny/"
-    windowCalc_het=outdir + "variant_calling_quick/"
-    windowCalc_cov=outdir + "coverage_quick/"
-    cov_dir=outdir + "coverage_quick/"  
-    vcf_dir=outdir + "variant_calling_quick/"
 
 ##### Target rules #####
   
@@ -84,14 +69,7 @@ include: "rules/no_synteny_windowCalc.smk"
 include: "rules/no_synteny_plotting.smk"
 include: "rules/consensus_genome.smk"
 include: "rules/assembly.smk"
-
-if config['run_mode'] == "careful":
-    include: "rules/ref.smk"
-    include: "rules/mapping.smk"
-    include: "rules/coverage.smk"
-    include: "rules/variant_calling_platypus.smk"
-if config['run_mode'] == "quick":
-    include: "rules/mapping_quick.smk"
-    include: "rules/ref_quick.smk"
-    include: "rules/coverage_quick.smk"
-    include: "rules/variant_calling_quick.smk"
+include: "rules/ref.smk"
+include: "rules/mapping.smk"
+include: "rules/coverage.smk"
+include: "rules/variant_calling_platypus.smk"

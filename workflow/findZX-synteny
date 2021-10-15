@@ -31,36 +31,19 @@ synteny_ref_name_simple = synteny_ref_name.rpartition('.')[0]
 
 lastdb_dir = "results/lastdb/"
 
-if config['run_mode'] == "careful":
-    map_dir="results/ref/" + ref_genome_name_simple + "/mapped/"
-    dedup_dir="results/ref/" + ref_genome_name_simple + "/dedup/"
-    logs_dir="results/" + run_name + "/logs/"
-    qc_dir="results/" + run_name + "/qc/"
-    outdir="results/" + run_name + "/"
-    outputdir="results/" + run_name + "/output/" + "synteny/" + synteny_abbr + "/"
-    plots_dir=outputdir + "plots/"
-    tables_dir=outputdir + "tables/"
-    plot_log=logs_dir + "plotting/no_synteny/"
-    windowCalc_het=outdir + "synteny_lastal/" + synteny_abbr + "/"
-    windowCalc_cov=outdir + "synteny_lastal/" + synteny_abbr + "/"
-    cov_dir=outdir + "coverage/"
-    vcf_dir=outdir + "variant_calling/"
-
-
-if config['run_mode'] == "quick":
-    map_dir="results/ref/" + ref_genome_name_simple + "/mapped_quick/"
-    dedup_dir="results/ref/" + ref_genome_name_simple + "/dedup_quick/"
-    logs_dir="results/" + run_name + "/logs_quick/"
-    qc_dir="results/" + run_name + "/qc_quick/"
-    outdir="results/" + run_name + "/"
-    outputdir="results/" + run_name + "/output_quick/"
-    plots_dir= outputdir + "synteny/" + synteny_abbr + "/plots/"
-    tables_dir=outputdir + "synteny/" + synteny_abbr + "/tables/"
-    plot_log=logs_dir + "plotting/no_synteny/"
-    windowCalc_het=outdir + "synteny_lastal_quick/" + synteny_abbr + "/"
-    windowCalc_cov=outdir + "synteny_lastal_quick/" + synteny_abbr + "/"
-    cov_dir=outdir + "coverage_quick/"  
-    vcf_dir=outdir + "variant_calling_quick/"
+map_dir="results/ref/" + ref_genome_name_simple + "/mapped/"
+dedup_dir="results/ref/" + ref_genome_name_simple + "/dedup/"
+logs_dir="results/" + run_name + "/logs/"
+qc_dir="results/" + run_name + "/qc/"
+outdir="results/" + run_name + "/"
+outputdir="results/" + run_name + "/output/" + "synteny/" + synteny_abbr + "/"
+plots_dir=outputdir + "plots/"
+tables_dir=outputdir + "tables/"
+plot_log=logs_dir + "plotting/no_synteny/"
+windowCalc_het=outdir + "synteny_lastal/" + synteny_abbr + "/"
+windowCalc_cov=outdir + "synteny_lastal/" + synteny_abbr + "/"
+cov_dir=outdir + "coverage/"
+vcf_dir=outdir + "variant_calling/"
 
 
 ##### Target rules #####
@@ -97,14 +80,7 @@ include: "rules/synteny_windowCalc.smk"
 include: "rules/synteny_plotting.smk"
 include: "rules/consensus_genome.smk"
 include: "rules/assembly.smk"
-
-if config['run_mode'] == "careful":
-    include: "rules/ref.smk"
-    include: "rules/mapping.smk"
-    include: "rules/coverage.smk"
-    include: "rules/variant_calling_platypus.smk"
-if config['run_mode'] == "quick":
-    include: "rules/mapping_quick.smk"
-    include: "rules/ref_quick.smk"
-    include: "rules/coverage_quick.smk"
-    include: "rules/variant_calling_quick.smk"
+include: "rules/ref.smk"
+include: "rules/mapping.smk"
+include: "rules/coverage.smk"
+include: "rules/variant_calling_platypus.smk"
