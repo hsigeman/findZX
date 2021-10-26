@@ -75,5 +75,5 @@ mean_sexes = pn.concat([heterogametic_mean, homogametic_mean], axis=1)
 
 gencov_mean_sexes = pn.merge(gencov.loc[:,chr_columns],mean_sexes, left_index=True, right_index=True)
 
-sys.stdout.write(gencov_mean_sexes.to_csv(header=None, index=None, sep='\t'))
+sys.stdout.write(gencov_mean_sexes.to_csv(header=None, index=None, sep='\t', na_rep="NaN"))
 
