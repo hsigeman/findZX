@@ -324,7 +324,7 @@ To render an interactive HTML report for all output plots (with longer descripti
 
 Open the files "report.html" and "report_synteny.html" to check out the reports. 
 
-For more information about the results, check out our bioRxiv preprint (ADD LINK). 
+For more information about the results, see our bioRxiv [preprint](https://www.biorxiv.org/content/10.1101/2021.10.18.464774v1). 
 
 ### Stop findZX after trimming to inspect the trimming results
 
@@ -356,7 +356,7 @@ If it was not, the trimming settings can be changed in the configuration file (.
 
 If you haven't already done so, please take a look at the [previous section](#test) where all steps required to run findZX is explained. There, you can also take a look at the format of the [configuration file](#test_config) and [unit file](#units) needed for findZX to run. 
 
-Additional examples of configuration and unit files are found in **config/9_species_config**. This directory contain all configuration and unit files used to analyse data from the nine species from our [preprint](ADD LINK). 
+Additional examples of configuration and unit files are found in **config/9_species_config**. This directory contain all configuration and unit files used to analyse data from the nine species from our [preprint](https://www.biorxiv.org/content/10.1101/2021.10.18.464774v1). 
 
 To run findZX with your own data, simply create a configuration file and a tabular unit file (see examples [above](#test)). Then start the pipeline with the following command: 
 
