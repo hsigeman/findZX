@@ -43,13 +43,13 @@ vcf_dir=outdir + "variant_calling/"
 if config['trim_reads']:
     rule multiqc_stop:
         input:
-            qc_dir + "fastqc/multiqc.untrimmed.html" if config['trim_reads'] else [],
-            qc_dir + "fastqc/multiqc.trimmed.html" if config['trim_reads'] else [],
+            qc_dir + "fastqc/multiqc.untrimmed.html" if config['trim_reads'] | config['trim_and_subsample'] else [],
+            qc_dir + "fastqc/multiqc.trimmed.html" if config['trim_reads'] | config['trim_and_subsample'] else [],
 
 rule all:
     input:
-        qc_dir + "fastqc/multiqc.untrimmed.html" if config['trim_reads'] else [],
-        qc_dir + "fastqc/multiqc.trimmed.html" if config['trim_reads'] else [],
+        qc_dir + "fastqc/multiqc.untrimmed.html" if config['trim_reads'] | config['trim_and_subsample'] else [],
+        qc_dir + "fastqc/multiqc.trimmed.html" if config['trim_reads'] | config['trim_and_subsample'] else [],
         expand(plots_dir + "5_confirmSexing.samplesSeparately.mismatch.{ED}.pdf", ED = EDIT_DIST),
         plots_dir + ".misc/" + "plotting_chr.done",
         expand(plots_dir + ".misc/" + "plotting.linear.{window}bp.done", window = window_sizes),
