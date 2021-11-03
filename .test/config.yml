@@ -22,7 +22,7 @@ units: .test/units.tsv
 ref_genome: .test/AloPal_v1_subset.fasta 
   # Path to study-species reference genome (not .gz format)
 
-synteny_ref: .test/Example/Homo_sapiens.GRCh38_subset.fasta
+synteny_ref: .test/Homo_sapiens.GRCh38_subset.fasta
   # [findZX-synteny] Path to synteny-species reference genome (not .gz format)
 
 synteny_name: H_sapiens
@@ -40,7 +40,7 @@ window_sizes: [25000, 50000, 100000]
 chr_file: None
   # [findZX] Specify a file with list of chromosomes to only plot these (otherwise leave as "None")
 
-chr_highlight: [PVKV010001784.1, PVKV010001533.1]
+chr_highlight: [None]
   # [findZX] Specify chromosomes/scaffolds to highlight in plot type 4, or leave empty
 
 synteny_chr_file: None
@@ -57,10 +57,10 @@ synteny_chr_highlight: ["X:20513966-20718999", "3:167499270-167708345"]
 ## Set all to "false" to disable trimming and subsampling
 ## Only one variable is allowed to be "true"
 
-trim_reads: true 
+trim_reads: false 
   # Set to true for trimming of reads
 
-trim_and_subsample: false
+trim_and_subsample: true
   # Set to true for trimming and subsampling of reads
 
 subsample_only: false
