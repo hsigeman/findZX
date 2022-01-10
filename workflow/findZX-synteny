@@ -48,7 +48,7 @@ vcf_dir=outdir + "variant_calling/"
 
 ##### Target rules #####
 
-if config['trim_reads']:
+if config['trim_reads'] | config['trim_and_subsample']:
     rule multiqc_stop:
         input:
             qc_dir + "fastqc/multiqc.untrimmed.html" if config['trim_reads'] | config['trim_and_subsample'] else [],
