@@ -21,8 +21,12 @@ rule multiqc:
         logs_dir + "fastqc/multiqc.log",
     message:
         "Running MultiQC on the untrimmed fastq files"
-    wrapper:
-        "0.74.0/bio/multiqc"
+    params: 
+        qc_dir + "fastqc/multiqc.untrimmed.html"
+    conda: 
+        "../envs/multiqc.yaml"
+    shell:
+        "multiqc {input} -n {params} -f"
 
 
 rule fastqc_2:
@@ -47,7 +51,11 @@ rule multiqc_2:
         report(qc_dir + "fastqc/multiqc.trimmed.html", category="1. Quality control", caption="../report/multiqc_trimmed.rst",),
     log:
         logs_dir + "fastqc/multiqc.trimmed.log",
+    params: 
+        qc_dir + "fastqc/multiqc.trimmed.html"
     message:
-        "Running MultiQC on the untrimmed fastq files"
-    wrapper:
-        "0.74.0/bio/multiqc"
+        "Running MultiQC on the trimmed fastq files"
+    conda: 
+        "../envs/multiqc.yaml"
+    shell:
+        "multiqc {input} -n {params} -f"
