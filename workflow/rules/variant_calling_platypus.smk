@@ -56,3 +56,18 @@ rule vcftools_filter:
         bgzip -c {output.vcf} > {output.gz}
         tabix -p vcf {output.gz}
         """
+
+rule het_calc:
+    input:
+        vcf_dir + ref_genome_name_simple + ".biallelic.minQ20.minDP3.vcf.gz"
+    output:
+        vcf_dir + ref_genome_name_simple + ".biallelic.minQ20.minDP3.het",
+    conda: 
+        "../envs/vcftools_filter.yaml"
+    message:
+        "Filter VCF file"
+    shell:
+        """
+        vcftools --gzvcf {input} --het --stdout > {output}
+        """
+

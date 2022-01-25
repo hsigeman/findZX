@@ -59,6 +59,9 @@ rule all:
         expand(plots_dir + ".misc/" + "plotting.{window}bp.done", window = window_sizes),
         tables_dir + "output_table_README.md",
         qc_dir + "assembly_stats/" + ref_genome_name_simple + "_stats.txt",
+        vcf_dir + ref_genome_name_simple + ".biallelic.minQ20.minDP3.het",
+        expand(cov_dir + "deeptools/perSampleCoverage_{ED}.png", ED = EDIT_DIST),
+        expand(cov_dir + "mosdepth_by_threshold/coverageMerged_{ED}.output.bed",ED = EDIT_DIST),
 
 
 ##### Modules #####
