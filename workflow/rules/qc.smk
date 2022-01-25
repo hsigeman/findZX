@@ -59,3 +59,17 @@ rule multiqc_2:
         "../envs/multiqc.yaml"
     shell:
         "multiqc {input} -n {params} -f"
+
+
+rule run_assembly_stats:
+    input:
+        assembly=ref_genome,
+    output:
+        assembly_stats=qc_dir + "assembly_stats/" + ref_genome_name_simple + "_stats.txt",
+    params:
+        extra="-t -l " + "MIN_SIZE_SCAFFOLD",
+    log:
+        logs_dir + "assembly_stats/" + ref_genome_name_simple + ".assembly-stats.log",
+    threads: 1
+    wrapper:
+        "v0.86.0/bio/assembly-stats"

@@ -57,7 +57,8 @@ rule all:
         plots_dir + ".misc/" + "plotting_chr.done",
         expand(plots_dir + ".misc/" + "plotting.{window}bp.done", window = window_sizes),
         expand(plots_dir + ".misc/" + "plotting.{window}bp.done", window = window_sizes),
-        tables_dir + "output_table_README.md"
+        tables_dir + "output_table_README.md",
+        qc_dir + "assembly_stats/" + ref_genome_name_simple + "_stats.txt",
 
 
 ##### Modules #####
