@@ -61,7 +61,6 @@ rule all:
         qc_dir + "assembly_stats/" + ref_genome_name_simple + "_stats.txt",
         vcf_dir + ref_genome_name_simple + ".biallelic.minQ20.minDP3.het",
         expand(cov_dir + "mosdepth_by_threshold/perSampleCoverage_{ED}.html", ED = EDIT_DIST),
-        expand(cov_dir + "deeptools/perSampleCoverage_{ED}.png", ED = EDIT_DIST),
 
 
 ##### Modules #####

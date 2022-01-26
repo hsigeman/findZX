@@ -97,7 +97,7 @@ rule bedops_merge:
 
 rule normalize_cov_mean:
     input:
-        cov_dir + "mosdepth_by_threshold/coverageMerged_mismatch.{ED}.bed"
+        cov_dir + "gencov.mismatch.{ED}.out"
     output:
         cov_dir + "gencov.mismatch.{ED}.norm.sexAverage.out"
     params:
