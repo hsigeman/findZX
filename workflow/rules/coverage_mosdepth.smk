@@ -58,40 +58,48 @@ rule mosdepth_plot:
     input:
         expand(cov_dir + "mosdepth_by_threshold/{u.sample}__{u.group}.mismatch.{{ED}}.mosdepth.global.dist.txt", u=units.itertuples()),
     output:
-        cov_dir + "mosdepth_by_threshold/perSampleCoverage_{ED}.html",
+        out_all=cov_dir + "mosdepth_by_threshold/perSampleCoverage_{ED}.html",
     conda: 
         "../envs/python_gawk.yaml"
     shell:
-        "python workflow/scripts/plot-dist.py {input} -o {output}" 
-
+        """
+        python workflow/scripts/plot-dist.py {input} -o {output} 
+        """
 
 rule bedops_merge_prep: 
     input:
-        cov_dir + "mosdepth_by_threshold/{sample}__{group}.mismatch.{ED}.regions.bed.gz"
+        cov=cov_dir + "mosdepth_by_threshold/{sample}__{group}.mismatch.{ED}.regions.bed.gz",
+        thresholds=cov_dir + "mosdepth_by_threshold/{sample}__{group}.mismatch.{ED}.thresholds.bed.gz"
     output:
-        temp(cov_dir + "mosdepth_by_threshold/{sample}__{group}.mismatch.{ED}.regions.bed")
-    shell:
-        "gunzip -c {input} | sort -k1,1 -k2,2g > {output}"
-
-
-rule bedops_merge: 
-    input:
-        bed_hetero=expand(cov_dir + "mosdepth_by_threshold/{u.sample}__{u.group}.mismatch.{{ED}}.regions.bed",zip, u=heterogametic.itertuples()),
-        bed_homo=expand(cov_dir + "mosdepth_by_threshold/{u.sample}__{u.group}.mismatch.{{ED}}.regions.bed",zip, u=homogametic.itertuples()),
-        windows=cov_dir + "genome_5kb_windows.out"
-    output:
-        union=temp(cov_dir + "mosdepth_by_threshold/coverageMerged_{ED}.union.bed"),
-        partition=temp(cov_dir + "mosdepth_by_threshold/coverageMerged_{ED}.partition.bed"),
-        combined=temp(cov_dir + "mosdepth_by_threshold/coverageMerged_{ED}.combined.bed"),
-        out=cov_dir + "gencov.mismatch.{ED}.out"
+        cov=temp(cov_dir + "mosdepth_by_threshold/{sample}__{group}.mismatch.{ED}.regions.bed"),
+        thresholds=temp(cov_dir + "mosdepth_by_threshold/{sample}__{group}.mismatch.{ED}.thresholds.bed"),
+        cov_filtered_tmp=cov_dir + "mosdepth_by_threshold/{sample}__{group}.mismatch.{ED}.regions.filtered.tmp",
+        cov_filtered=cov_dir + "mosdepth_by_threshold/{sample}__{group}.mismatch.{ED}.regions.filtered.bed"
     conda: 
-        "../envs/bedops.yaml"
+        "../envs/bedtools.yaml"
     shell:
         """
-        bedops --everything {input.bed_hetero} {input.bed_homo} > {output.union}
-        bedops --partition {output.union} > {output.partition}
-        bedmap --echo --echo-map-id --delim '\t' {output.partition} {output.union} | sed 's/;/\t/g' | awk '$3-$2=="5000" {{print}}' > {output.combined}
-        bedops --element-of 1 {output.combined} {input.windows} > {output.out}
+        gunzip -c {input.cov} | sort -k1,1 -k2,2g > {output.cov}
+        gunzip -c {input.thresholds} | sort -k1,1 -k2,2g | awk '$5>2500 {{print}}' > {output.thresholds}
+        bedtools intersect -a {output.cov} -b {output.thresholds} -wa > {output.cov_filtered_tmp}
+        bedtools intersect -a {output.cov} -b {output.thresholds} -v -wa | awk '{{print $1,$2,$3,"NaN"}}' | sed 's/ /\t/g' >> {output.cov_filtered_tmp}
+        cat {output.cov_filtered_tmp} | bedtools sort | awk '$3-$2==5000 {{print}}' > {output.cov_filtered}
+        """
+
+rule merge_bedfiles: 
+    input:
+        bed_hetero=expand(cov_dir + "mosdepth_by_threshold/{u.sample}__{u.group}.mismatch.{{ED}}.regions.filtered.bed",zip, u=heterogametic.itertuples()),
+        bed_homo=expand(cov_dir + "mosdepth_by_threshold/{u.sample}__{u.group}.mismatch.{{ED}}.regions.filtered.bed",zip, u=homogametic.itertuples()),
+        windows=cov_dir + "genome_5kb_windows.out"
+    output:
+        values=cov_dir + "mosdepth_by_threshold/coverageMerged_{ED}.valuesOnly.bed",
+        out=cov_dir + "gencov.mismatch.{ED}.out"
+    conda: 
+        "../envs/bedtools.yaml"
+    shell:
+        """
+        awk '{{a[FNR]=a[FNR]?a[FNR]" "$4:$4}}END{{for(i=1;i<=length(a);i++)print a[i]}}' {input.bed_hetero} {input.bed_homo} | sed 's/ /\t/g' > {output.values}
+        paste {input.windows} {output.values} > {output.out}
         """
 
 
