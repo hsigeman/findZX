@@ -62,7 +62,6 @@ rule all:
         vcf_dir + ref_genome_name_simple + ".biallelic.minQ20.minDP3.het",
         expand(cov_dir + "mosdepth_by_threshold/perSampleCoverage_{ED}.html", ED = EDIT_DIST),
         expand(cov_dir + "deeptools/perSampleCoverage_{ED}.png", ED = EDIT_DIST),
-        expand(cov_dir + "mosdepth_by_threshold/coverageMerged_{ED}.output.bed",ED = EDIT_DIST),
 
 
 ##### Modules #####
@@ -76,5 +75,6 @@ include: "rules/consensus_genome.smk"
 include: "rules/assembly.smk"
 include: "rules/ref.smk"
 include: "rules/mapping.smk"
-include: "rules/coverage.smk"
+#include: "rules/coverage.smk"
+include: "rules/coverage_mosdepth.smk"
 include: "rules/variant_calling_platypus.smk"
