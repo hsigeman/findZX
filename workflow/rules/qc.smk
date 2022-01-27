@@ -67,7 +67,7 @@ rule run_assembly_stats:
     output:
         assembly_stats=qc_dir + "assembly_stats/" + ref_genome_name_simple + "_stats.txt",
     params:
-        extra="-s -l " + "MIN_SIZE_SCAFFOLD",
+        extra="-s",
     log:
         logs_dir + "assembly_stats/" + ref_genome_name_simple + ".assembly-stats.log",
     threads: 1
