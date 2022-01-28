@@ -46,7 +46,7 @@ gencov = pn.read_csv(sys.argv[1], sep='\t', header=None)
 sample_index_start = 3
 chr_columns = [0,1,2]
 
-slc = np.r_[1:2]
+slc = gencov.r_[1:2]
 gencov[slc] = gencov[slc].astype(int)
 
 samples = list(range(sample_index_start, sample_index_start + nr_samples))
