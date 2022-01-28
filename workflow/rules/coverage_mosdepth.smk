@@ -83,7 +83,7 @@ rule bedops_merge_prep:
         "../envs/bedtools.yaml"
     params: 
         min_cov_perc=0.9,
-        max_cov_perc=0.1
+        max_cov_perc=0.1,
     shell:
         """
         gunzip -c {input.cov} | sort -k1,1 -k2,2g > {output.cov}
@@ -99,11 +99,14 @@ rule merge_bedfiles:
         bed_homo=expand(cov_dir + "mosdepth_by_threshold/{u.sample}__{u.group}.mismatch.{{ED}}.regions.filtered.bed",zip, u=homogametic.itertuples()),
     output:
         out=cov_dir + "gencov.mismatch.{ED}.out"
+    params:
+        min_cov=min_cov,
+        max_cov=max_cov
     conda: 
         "../envs/bedtools.yaml"
     shell:
         """
-        bedtools unionbedg -i {input.bed_hetero} {input.bed_homo} > {output.out}
+        bedtools unionbedg -i {input.bed_hetero} {input.bed_homo} | awk '{{for(i=4;i<=NF;i++)if($i>{params.max_cov})$i="NaN"}}1' | awk '{{for(i=4;i<=NF;i++)if($i<{params.min_cov})$i="NaN"}}1' > {output.out}
         """
 
 
