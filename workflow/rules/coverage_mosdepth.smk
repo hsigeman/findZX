@@ -83,7 +83,7 @@ rule bedops_merge_prep:
         "../envs/bedtools.yaml"
     params: 
         min_cov_perc=0.9,
-        max_cov_perc=0.9
+        max_cov_perc=0.1
     shell:
         """
         gunzip -c {input.cov} | sort -k1,1 -k2,2g > {output.cov}
