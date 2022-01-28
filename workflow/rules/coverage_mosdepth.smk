@@ -109,7 +109,6 @@ rule merge_bedfiles:
         bedtools unionbedg -i {input.bed_hetero} {input.bed_homo} | awk '{{for(i=4;i<=NF;i++)if($i>{params.max_cov})$i="NaN"}}1' | awk '{{for(i=4;i<=NF;i++)if($i<{params.min_cov})$i="NaN"}}1' > {output.out}
         """
 
-
 rule normalize_cov_mean:
     input:
         cov_dir + "gencov.mismatch.{ED}.out"
@@ -124,5 +123,5 @@ rule normalize_cov_mean:
         "Normalize genome coverage values between samples, and calculate mean value per sex for each 5 kb window"
     shell:
         """
-        python3 workflow/scripts/normalize_genCov.py {input} no-synteny {params.hetero} {params.homo} > {output}
+        python3 workflow/scripts/normalize_genCov.py {input} no-synteny {params.hetero} {params.homo} | awk '{{print $1,int($2),int($3),$4,$5}}' | sed 's/ /\t/g' > {output}
         """
