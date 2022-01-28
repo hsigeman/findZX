@@ -97,16 +97,13 @@ rule merge_bedfiles:
     input:
         bed_hetero=expand(cov_dir + "mosdepth_by_threshold/{u.sample}__{u.group}.mismatch.{{ED}}.regions.filtered.bed",zip, u=heterogametic.itertuples()),
         bed_homo=expand(cov_dir + "mosdepth_by_threshold/{u.sample}__{u.group}.mismatch.{{ED}}.regions.filtered.bed",zip, u=homogametic.itertuples()),
-        windows=cov_dir + "genome_5kb_windows.out"
     output:
-        values=cov_dir + "mosdepth_by_threshold/coverageMerged_{ED}.valuesOnly.bed",
         out=cov_dir + "gencov.mismatch.{ED}.out"
     conda: 
         "../envs/bedtools.yaml"
     shell:
         """
-        awk '{{a[FNR]=a[FNR]?a[FNR]" "$4:$4}}END{{for(i=1;i<=length(a);i++)print a[i]}}' {input.bed_hetero} {input.bed_homo} | sed 's/ /\t/g' > {output.values}
-        paste {input.windows} {output.values} > {output.out}
+        bedtools unionbedg -i {input.bed_hetero} {input.bed_homo} > {output.out}
         """
 
 
