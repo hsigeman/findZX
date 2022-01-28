@@ -74,6 +74,15 @@ subsample_basepairs:
   # ./code/subsampling_cov_calv.sh <REF.fasta> <WANTED_COV> 
 
 
+# ==================================== #
+# Filtering of genome coverage values  #
+# 90% of the bp within 5 kb windows must be between these values
+
+min_cov: 0
+  # Select minimum coverage value (for no minimum filtering is done if min_cov_perc is 0)
+max_cov: 10000000
+  # Select minimum coverage value (for no maximum filtering, set an unrealistically high value, e.g. 1000000)
+
 # ========================== #
 # findZX-specific parameters # 
 # ===== (edit if needed) ===== #

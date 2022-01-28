@@ -55,8 +55,12 @@ homogametic_sex = list(range(sample_index_start + nr_heterogametic, sample_index
 gencov_mean = gencov.loc[:,samples].mean()
 gencov_std = gencov.loc[:,samples].std()
 
-outlier_lower_limit = gencov_mean - gencov_std*3
-outlier_upper_limit = gencov_mean + gencov_std*3
+#outlier_lower_limit = gencov_mean - gencov_std*3
+#outlier_upper_limit = gencov_mean + gencov_std*3
+
+# Edit: Remove filtering, as this is done using the genome coverage thresholds instead
+outlier_lower_limit = float('-inf')
+outlier_upper_limit = float('inf')
 
 gencov_upper_mask = gencov.loc[:,samples] > outlier_upper_limit
 gencov_lower_mask = gencov.loc[:,samples] < outlier_lower_limit
@@ -67,6 +71,8 @@ gencov_upper_masked = gencov.loc[:,samples].mask(gencov_upper_mask)
 
 # Normalize and take mean over each sex
 gencov_norm = gencov_upper_masked.div(gencov_masked.mean())	
+
+
 
 heterogametic_mean = gencov_norm.loc[:,heterogametic_sex].mean(axis=1)
 homogametic_mean = gencov_norm.loc[:,homogametic_sex].mean(axis=1)

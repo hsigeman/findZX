@@ -11,7 +11,7 @@ library(ggExtra)
 # histograms for genome coverage and heterozygosity and heatmaps of genome
 # coverage vs heterozygosity, genome coverage vs length, heterozygosity vs length.
 #
-# Heterozygosity is given for each variable site. 1 = heterozygot, 0 = homozygot,
+# Heterozygosity is given for each variable site. 1 = heterozygote, 0 = homozygote,
 # na = missing data.
 
 # Outputs a coverage file where the windows with a coverage in the range of N1
@@ -51,7 +51,7 @@ nr_samples <- length(sample_names)
 for (i in 1:nr_samples) {
   sample_read_len <- read_len[read_len == sample_names[i],][1,2]
   
-  cov[,(i+3)] <- cov[,(i+3)]*sample_read_len/5000
+#  cov[,(i+3)] <- cov[,(i+3)]*sample_read_len/5000
 }
 
 ################################################################################
@@ -73,15 +73,15 @@ cov_het <- merge(cov_het,
 cov_het <- as.data.frame(cov_het)
 cov <- as.data.frame(cov)
 
-for (i in 1:nr_samples) {
+#for (i in 1:nr_samples) {
   
-  outliers <- boxplot(cov_het[,(i+3)], plot = FALSE)$stats[5]
-  cov_het[,(i+3)][cov_het[,(i+3)] > outliers] = NA
+#  outliers <- boxplot(cov_het[,(i+3)], plot = FALSE)$stats[5]
+#  cov_het[,(i+3)][cov_het[,(i+3)] > outliers] = NA
   
-  outliers <- boxplot(cov[,(i+3)], plot = FALSE)$stats[5]
-  cov[,(i+3)][cov[,(i+3)] > outliers] = NA
+#  outliers <- boxplot(cov[,(i+3)], plot = FALSE)$stats[5]
+#  cov[,(i+3)][cov[,(i+3)] > outliers] = NA
   
-}
+#}
 
 if (file.exists(chr_file)) {
   

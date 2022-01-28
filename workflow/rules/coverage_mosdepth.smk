@@ -32,6 +32,10 @@ rule mosdepth_make_bed:
         """
 
 
+min_cov=str(config['min_cov'])
+max_cov=str(config['max_cov'])
+
+
 rule mosdepth_by_threshold:
     input:
         bam=dedup_dir + "{sample}__{group}.sorted.dedup.mismatch.{ED}.bam",
@@ -46,8 +50,8 @@ rule mosdepth_by_threshold:
         logs_dir + "mosdepth_by_threshold/{sample}__{group}.mismatch.{ED}.log",
     params:
         by="5000",  # optional, window size,  specifies --by for mosdepth.region.dist.txt and regions.bed.gz
-        thresholds="1,5,10,30",  # optional, specifies --thresholds for thresholds.bed.gz
-        extra= "--no-per-base -Q 20 -x --use-median"
+        thresholds= min_cov + "," + max_cov,  # optional, specifies --thresholds for thresholds.bed.gz
+        extra= "--no-per-base -Q 20 -x"
     # additional decompression threads through `--threads`
     threads: 4  # This value - 1 will be sent to `--threads`
     wrapper:
@@ -69,7 +73,7 @@ rule mosdepth_plot:
 rule bedops_merge_prep: 
     input:
         cov=cov_dir + "mosdepth_by_threshold/{sample}__{group}.mismatch.{ED}.regions.bed.gz",
-        thresholds=cov_dir + "mosdepth_by_threshold/{sample}__{group}.mismatch.{ED}.thresholds.bed.gz"
+        thresholds=cov_dir + "mosdepth_by_threshold/{sample}__{group}.mismatch.{ED}.thresholds.bed.gz",
     output:
         cov=temp(cov_dir + "mosdepth_by_threshold/{sample}__{group}.mismatch.{ED}.regions.bed"),
         thresholds=temp(cov_dir + "mosdepth_by_threshold/{sample}__{group}.mismatch.{ED}.thresholds.bed"),
@@ -77,10 +81,13 @@ rule bedops_merge_prep:
         cov_filtered=cov_dir + "mosdepth_by_threshold/{sample}__{group}.mismatch.{ED}.regions.filtered.bed"
     conda: 
         "../envs/bedtools.yaml"
+    params: 
+        min_cov_perc=0.9,
+        max_cov_perc=0.9
     shell:
         """
         gunzip -c {input.cov} | sort -k1,1 -k2,2g > {output.cov}
-        gunzip -c {input.thresholds} | sort -k1,1 -k2,2g | awk '$5>2500 {{print}}' > {output.thresholds}
+        gunzip -c {input.thresholds} | sort -k1,1 -k2,2g | awk -v min={params.min_cov_perc} '$5/5000>min {{print}}' | awk -v max={params.max_cov_perc} '$6/5000<max {{print}}'> {output.thresholds}
         bedtools intersect -a {output.cov} -b {output.thresholds} -wa > {output.cov_filtered_tmp}
         bedtools intersect -a {output.cov} -b {output.thresholds} -v -wa | awk '{{print $1,$2,$3,"NaN"}}' | sed 's/ /\t/g' >> {output.cov_filtered_tmp}
         cat {output.cov_filtered_tmp} | bedtools sort | awk '$3-$2==5000 {{print}}' > {output.cov_filtered}
