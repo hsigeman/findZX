@@ -106,7 +106,7 @@ rule merge_bedfiles:
         "../envs/bedtools.yaml"
     shell:
         """
-        bedtools unionbedg -i {input.bed_hetero} {input.bed_homo} | awk '{{for(i=4;i<=NF;i++)if($i>{params.max_cov})$i="NaN"}}1' | awk '{{for(i=4;i<=NF;i++)if($i<{params.min_cov})$i="NaN"}}1' > {output.out}
+        bedtools unionbedg -i {input.bed_hetero} {input.bed_homo} | awk '{{for(i=4;i<=NF;i++)if($i>{params.max_cov})$i="NaN"}}1' | awk '{{for(i=4;i<=NF;i++)if($i<{params.min_cov})$i="NaN"}}1' | sed 's/ /\t/g' > {output.out}
         """
 
 rule normalize_cov_mean:
