@@ -40,6 +40,7 @@ rule mosdepth_by_threshold:
     input:
         bam=dedup_dir + "{sample}__{group}.sorted.dedup.mismatch.{ED}.bam",
         bai=dedup_dir + "{sample}__{group}.sorted.dedup.mismatch.{ED}.bam.bai",
+        windows=cov_dir + "genome_5kb_windows.out",
     output:
         cov_dir + "mosdepth_by_threshold/{sample}__{group}.mismatch.{ED}.mosdepth.global.dist.txt",
         cov_dir + "mosdepth_by_threshold/{sample}__{group}.mismatch.{ED}.mosdepth.region.dist.txt",
@@ -49,7 +50,7 @@ rule mosdepth_by_threshold:
     log:
         logs_dir + "mosdepth_by_threshold/{sample}__{group}.mismatch.{ED}.log",
     params:
-        by="5000",  # optional, window size,  specifies --by for mosdepth.region.dist.txt and regions.bed.gz
+        by=cov_dir + "genome_5kb_windows.out", # optional, window size,  specifies --by for mosdepth.region.dist.txt and regions.bed.gz
         thresholds= min_cov + "," + max_cov,  # optional, specifies --thresholds for thresholds.bed.gz
         extra= "--no-per-base -Q 20 -x"
     # additional decompression threads through `--threads`
