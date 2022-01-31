@@ -1,0 +1,3 @@
+sample	group	fq1	fq2
+ERR409918	heterogametic	data/fastq/ERR409918_1.fastq.gz	data/fastq/ERR409918_2.fastq.gz
+ERR409943	homogametic	data/fastq/ERR409943_1.fastq.gz	data/fastq/ERR409943_2.fastq.gz
