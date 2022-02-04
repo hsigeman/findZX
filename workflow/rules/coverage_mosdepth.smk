@@ -51,12 +51,13 @@ rule mosdepth_by_threshold:
         logs_dir + "mosdepth_by_threshold/{sample}__{group}.mismatch.{ED}.log",
     conda: 
         "../envs/mosdepth.yaml"
+    threads: 3
     params:
         thresholds= min_cov + "," + max_cov, 
         prefix=cov_dir + "mosdepth_by_threshold/{sample}__{group}.mismatch.{ED}"
     shell:
         """
-        mosdepth -b {input.windows} -n -x -Q 20 -T {params.thresholds} {params.prefix} {input.bam}
+        mosdepth -t {threads} -b {input.windows} -n -x -Q 20 -T {params.thresholds} {params.prefix} {input.bam}
         """
 
 
