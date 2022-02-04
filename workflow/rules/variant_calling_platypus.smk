@@ -76,12 +76,12 @@ rule het_calc_genome:
         het=vcf_dir + ref_genome_name_simple + ".biallelic.minQ20.minDP3.het",
         assembly_stats=qc_dir + "assembly_stats/" + ref_genome_name_simple + "_stats.txt",
     output:
-        report(vcf_dir + ref_genome_name_simple + ".heterozygosity.perc.csv", category="4. Stats"),
+        report(vcf_dir + ref_genome_name_simple + ".heterozygosity.perc.csv", category="01 Sample and reference genome statistics", caption="../report/het_perc.rst"),
     message:
         "Calculate heterozygosity"
     shell:
         """
-        length=$(cat {input.assembly_stats} | grep total_length | cut -f 3) 
+        length=$(cat {input.assembly_stats} | cut -f 2 | tail -n 1) 
         echo "Sample,Heterozygous_sites,Genome_length,Percentage_heterozygosity" > {output}
         cat {input.het} | grep -v INDV | awk -v var="$length" '{{print $1,($4-$2),var,($4-$2)/var*100}}' | sed 's/ /,/g' >> {output}
         """

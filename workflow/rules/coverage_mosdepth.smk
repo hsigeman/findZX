@@ -49,14 +49,15 @@ rule mosdepth_by_threshold:
         summary=cov_dir + "mosdepth_by_threshold/{sample}__{group}.mismatch.{ED}.mosdepth.summary.txt", 
     log:
         logs_dir + "mosdepth_by_threshold/{sample}__{group}.mismatch.{ED}.log",
+    conda: 
+        "../envs/mosdepth.yaml"
     params:
-        by=cov_dir + "genome_5kb_windows.out", # optional, window size,  specifies --by for mosdepth.region.dist.txt and regions.bed.gz
-        thresholds= min_cov + "," + max_cov,  # optional, specifies --thresholds for thresholds.bed.gz
-        extra= "--no-per-base -Q 20 -x"
-    # additional decompression threads through `--threads`
-    threads: 4  # This value - 1 will be sent to `--threads`
-    wrapper:
-        "v0.86.0/bio/mosdepth"
+        thresholds= min_cov + "," + max_cov, 
+        prefix=cov_dir + "mosdepth_by_threshold/{sample}__{group}.mismatch.{ED}"
+    shell:
+        """
+        mosdepth -b {input.windows} -n -x -Q 20 -T {params.thresholds} {params.prefix} {input.bam}
+        """
 
 
 rule mosdepth_plot:

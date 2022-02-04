@@ -35,23 +35,6 @@ ED3 = args[10]
 CHR_NR = args[11]
 WINDOW = args[12]
 
-#minRange = 800000
-#setwd("~/Dropbox (MEEL)/PhD/Subprojects/6 Sylvioidea neosc-scan/9 Sexchromoscanner/code/")
-#file1 = "../results/bella/aloatta/aloatta.HS.gencov.nodup.nm.0.0.1Mbp.out"
-#file2 = "../results/bella/aloatta/aloatta.HS.gencov.nodup.nm.0.2.1Mbp.out"
-#file3 = "../results/bella/aloatta/aloatta.HS.gencov.nodup.nm.all.1Mbp.out"
-#filesnp = "../results/bella/aloatta/aloatta.HS.diffHeterozygosity.1Mbp.out"
-#circlize_out = "test.circlize.pdf"
-#scatter_out = "test.scatter.pdf"
-#chr_file = "chr.txt"
-#source("functions.R")
-#ED1 = "0.0"
-#ED2 = "0.2"
-#ED3 = "all"
-#CHR_NR = 5
-#highlight_file = "highlight.txt"
-
-
 
 ED1 = gsub("\\.", "-", ED1)
 ED2 = gsub("\\.", "-", ED2)
@@ -678,15 +661,6 @@ print(c)
 print(data)
 dev.off()
 
-#png(file=diff_out_base, width = 1100, height = 800)
-#print(c)
-#print(data)
-#dev.off()
-
-
-#diff_out_base2 = gsub("\\.pdf", "", diff_out)
-#ggsave(sprintf("%s.png", diff_out_base2), plot = c, device = png(), width = 14, height = 10, dpi = 900)
-
 
 
 p.cov3 <- p.cov3 + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
@@ -705,13 +679,4 @@ pdf(file=sprintf("%s.verticalXaxis.pdf", diff_out_base2), width = 14, height = 1
 print(d)
 print(data)
 dev.off()
-
-
-#png(file=absolute_out_base, width = 1200, height = 800)
-#print(d)
-#dev.off()
-
-#diff_out_base2 = gsub("\\.pdf", "", diff_out)
-#ggsave(sprintf("%s.verticalXaxis.png", diff_out_base2), plot = d, device = png(), width = 14, height = 12, dpi = 900)
-
 

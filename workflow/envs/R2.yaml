@@ -1,0 +1,8 @@
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+   - r-tibble=3.1.6
+   - r-sjplot=2.8.10
+   - r-ggplot2=3.3.3
+   - r-cowplot=1.1.1

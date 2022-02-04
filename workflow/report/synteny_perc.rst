@@ -1,0 +1,1 @@
+Proportion of 5kb windows in the study-species reference genome that was sucessfully matched with the synteny-species reference genome. 

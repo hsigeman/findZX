@@ -123,10 +123,6 @@ theme_description <- function(...) {
 }
 theme_description <- calc_element("plot.title", theme_description())
 
-
-
-
-
 plist <- list()
 
 for (i in 1:nr_samples) {
@@ -194,11 +190,6 @@ for (i in 1:nr_samples) {
   # Calcualte half of the x value for the highest bin
   max_x <- hist_stats_hg$x[max_bin]
   halfMax_x <- max_x / 2
-  
-  #g <- g + geom_vline(xintercept = halfMax_x, 
-  #                    color = "blue") + 
-  #  geom_vline(xintercept = max_x, 
-  #             color = "red")
   
 ########################### HISTOGRAM HETEROZYGOSITY ###########################
   

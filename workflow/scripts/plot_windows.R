@@ -1,4 +1,3 @@
-#library(circlize)
 library(doBy)
 library(data.table)
 library(ggplot2)
@@ -33,33 +32,15 @@ ED2 = args[9]
 ED3 = args[10]
 WINDOW = args[11]
 
-#minRange = 800000
-#setwd("~/Dropbox (MEEL)/PhD/Subprojects/6 Sylvioidea neosc-scan/9 Sexchromoscanner/code/")
-#file1 = "../results/bella/aloatta/aloatta.HS.gencov.nodup.nm.0.0.1Mbp.out"
-#file2 = "../results/bella/aloatta/aloatta.HS.gencov.nodup.nm.0.2.1Mbp.out"
-#file3 = "../results/bella/aloatta/aloatta.HS.gencov.nodup.nm.all.1Mbp.out"
-#filesnp = "../results/bella/aloatta/aloatta.HS.diffHeterozygosity.1Mbp.out"
-#circlize_out = "test.circlize.pdf"
-#scatter_out = "test.scatter.pdf"
-#chr_file = "chr.txt"
-#source("functions.R")
-#ED1 = "0.0"
-#ED2 = "0.2"
-#ED3 = "all"
-#CHR_NR = 5
-#highlight_file = "highlight.txt"
-
 ED1 = gsub("\\.", "-", ED1)
 ED2 = gsub("\\.", "-", ED2)
 ED3 = gsub("\\.", "-", ED3)
 ED1 = gsub("$", " mismatches", ED1)
 ED2 = gsub("$", " mismatches", ED2)
 
-
 ED1 = gsub("0-0", "0", ED1)
 ED1 = gsub("0-", "<= ", ED1)
 ED2 = gsub("0-", "<= ", ED2)
-
 
 file1_base = gsub(".out$", "", file1)
 file2_base = gsub(".out$", "", file2)
@@ -95,12 +76,6 @@ snp_table   <- read.table( filesnp,
                            header=TRUE, 
                            fill=TRUE, 
                            stringsAsFactor=FALSE)
-
-
-#cov_1_table <- subset(cov_1_table, c((cov_1_table$end - cov_1_table$start) > minRange ))
-#cov_2_table <- subset(cov_2_table, c((cov_2_table$end - cov_2_table$start) > minRange ))
-#cov_3_table <- subset(cov_3_table, c((cov_3_table$end - cov_3_table$start) > minRange ))
-#snp_table <- subset(snp_table, c((snp_table$end - snp_table$start) > minRange ))
 
 if ( dim( cov_1_table )[1] == 0) {
   
@@ -164,7 +139,6 @@ if ( dim( cov_1_table )[1] == 0) {
     
   }
   
-  
   cov_1 <- gen_data_4plotting( cov_1_table, c("chr", "range", "diff"))
   cov.select.1 <- cov_1$df
   max.cov.1 <- cov_1$max
@@ -211,8 +185,6 @@ if ( dim( cov_1_table )[1] == 0) {
   snp.select$factor <- ordered( snp.select$factor, 
                                 levels = chromosome)
   
-  
-
   ################################################################################
   ################################ SCATTER PLOT ##################################
   ################################################################################
@@ -231,8 +203,6 @@ if ( dim( cov_1_table )[1] == 0) {
                       snp.select, 
                       by = c("factor", "x"))
   colnames(cov.select) <- c("Chromosomes", "window", "cov1", "cov2", "cov3", "hetDiff")
-  
-
 
   cov.select$highlight_col <- as.character(cov.select$Chromosomes)
   if ( file.exists( highlight_file ) ) {
@@ -245,7 +215,6 @@ if ( dim( cov_1_table )[1] == 0) {
     cov.select <- cov.select[order(factor(cov.select$highlight_col, levels=unique(all_chr))),]
     
   }
-
 
   point_colors <- c("#A4A0A0",
     "#33a02c",               
@@ -375,10 +344,7 @@ title <- ggdraw() + draw_label(sprintf("Sex differences (heterogametic-homogamet
 
     p <- plot_grid(title, p, nrow = 2, rel_heights = c(0.15, 1))
 
-    
     l <- plot_grid(legend)
-    
-
   
   ################################################################################
   ################################ SCATTER PLOT ##################################
@@ -417,7 +383,6 @@ title <- ggdraw() + draw_label(sprintf("Sex differences (heterogametic-homogamet
                              window ~ Chromosomes + highlight_col, 
                              FUN = max)
 
-  
   # Combine all statistics
   chr.stats = merge(cov1_chr_mean, 
                     cov1_chr_sd)
@@ -435,7 +400,6 @@ title <- ggdraw() + draw_label(sprintf("Sex differences (heterogametic-homogamet
                     hetDiff_chr_sd)
   chr.stats = merge(chr.stats, 
                     chr_max)
-  
   
   chr.stats <- chr.stats[order(chr.stats$highlight_col),]
   chr.stats.A <- subset(chr.stats, chr.stats$highlight_col=="Autosomes")
@@ -551,7 +515,6 @@ title <- ggdraw() + draw_label(sprintf("Mean sex differences (heterogametic-homo
   print(data)
   dev.off()
   
-  
   if ( file.exists( highlight_file ) ) {
     cov.select$highlight_col <- factor(cov.select$highlight_col, levels = unique(cov.select$highlight_col))
     
@@ -572,8 +535,6 @@ title <- ggdraw() + draw_label(sprintf("Mean sex differences (heterogametic-homo
     
     legend <- get_legend(cov1_plot)
     
-
-
     cov1_plot <- cov1_plot +
       theme(legend.position="none")
     
@@ -623,15 +584,6 @@ title <- ggdraw() + draw_label(sprintf("Sex differences (heterogametic-homogamet
     
     l <- plot_grid(legend)
     
-    
-    #colnames(max_per_chr) <- c("Chromosomes","length")
-    #chr.stats <- join(chr.stats,max_per_chr)
-    
-
-    
-  #  Max <- tapply(cov.select$window, cov.select$Chromosomes,max)
-    #Max
-  #  chr.stats <- data.frame(chr.stats, max.per.group=rep(Max, table(chr.stats$Chromosomes)))
     x_range <- max(chr.stats$cov1.mean) - min(chr.stats$cov1.mean)
     y_range <- max(chr.stats$hetDiff.mean) - min(chr.stats$hetDiff.mean)
 
@@ -704,8 +656,6 @@ title <- ggdraw() + draw_label(sprintf("Sex differences (heterogametic-homogamet
       text_size_colour +
       theme(legend.position="none") + 
       scale_size_continuous(range = c(2, 8))
- 
-
 
 title <- ggdraw() + draw_label(sprintf("Mean sex differences (heterogametic-homogametic) per chromosome/scaffold (across %s bp windows)", WINDOW),     
     fontfamily = title_theme$family,
@@ -719,7 +669,6 @@ title <- ggdraw() + draw_label(sprintf("Mean sex differences (heterogametic-homo
                    labels = c("D","E","F"))
 
     c <- plot_grid(title, c, nrow = 2, rel_heights = c(0.15, 1))
-
 
   data <- ggdraw() + draw_label(paste0("Dashed lines are median values across all windows"),     
     fontfamily = theme_description$family,
@@ -750,6 +699,4 @@ title <- ggdraw() + draw_label(sprintf("Mean sex differences (heterogametic-homo
     dev.off()  
     
   }
-  
- 
 }

@@ -16,7 +16,7 @@ rule multiqc:
     input:
         expand(qc_dir + "fastqc/{u.sample}__{u.group}.untrimmed_fastqc.zip", u=units.itertuples()),
     output:
-        report(qc_dir + "fastqc/multiqc.untrimmed.html", category="1. Quality control", caption="../report/multiqc_untrimmed.rst",),
+        report(qc_dir + "fastqc/multiqc.untrimmed.html", category="00 MultiQC reports", caption="../report/multiqc_untrimmed.rst",),
     log:
         logs_dir + "fastqc/multiqc.log",
     message:
@@ -48,7 +48,7 @@ rule multiqc_2:
         expand(qc_dir + "fastqc/{u.sample}__{u.group}.trimmed_fastqc.zip",
             u=units.itertuples()),
     output:
-        report(qc_dir + "fastqc/multiqc.trimmed.html", category="1. Quality control", caption="../report/multiqc_trimmed.rst",),
+        report(qc_dir + "fastqc/multiqc.trimmed.html", category="00 MultiQC reports", caption="../report/multiqc_trimmed.rst",),
     log:
         logs_dir + "fastqc/multiqc.trimmed.log",
     params: 
@@ -65,9 +65,9 @@ rule run_assembly_stats:
     input:
         assembly=ref_genome,
     output:
-        assembly_stats=qc_dir + "assembly_stats/" + ref_genome_name_simple + "_stats.txt",
+        assembly_stats=report(qc_dir + "assembly_stats/" + ref_genome_name_simple + "_stats.txt", category="01 Sample and reference genome statistics", caption="../report/assembly_stats.rst"),
     params:
-        extra="-s",
+        extra="-t",
     log:
         logs_dir + "assembly_stats/" + ref_genome_name_simple + ".assembly-stats.log",
     threads: 1

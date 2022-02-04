@@ -86,11 +86,11 @@ rule synteny_stats:
         bestMatch = windowCalc_het + "bestMatch.list",
         ref_stats = qc_dir + "assembly_stats/" + ref_genome_name_simple + "_stats.txt",
     output:
-        bestMatch = windowCalc_het + "synteny_stats.out",
+        report(windowCalc_het + "synteny_stats.out", category="01 Sample and reference genome statistics", caption="../report/synteny_perc.rst"),
     threads: 1
     shell:
         """
         ref_length=$(cat {input.ref_stats} | cut -f 2 | tail -n 1) 
-        match_bp=$(cat {input.bestMatch} | cut -f 1-3 | sort | uniq | awk '{{print $3-$2}}' | paste -sd+ - | bc)
-        echo "scale=2; $match_bp/$ref_length" | bc > {output}
+        match_bp=$(cat {input.bestMatch} | cut -f 1-3 | sort | uniq | awk '{{print $3-$2}}' | paste -sd+ - | bc )
+        echo "scale=2; ${{match_bp}}/${{ref_length}}" | bc | awk '{{printf "%f", $0}}'> {output}
         """
