@@ -57,7 +57,7 @@ synteny_chr_highlight: [Z, 3, 4, 5]
 ## Set all to "false" to disable trimming and subsampling
 ## Only one variable is allowed to be "true"
 
-trim_reads: true 
+trim_reads: false 
   # Set to true for trimming of reads
 
 trim_and_subsample: false
@@ -77,9 +77,9 @@ subsample_basepairs:
 # Filtering of genome coverage values  #
 # 90% of the bp within 5 kb windows must be between these values
 
-min_cov: 0
+min_cov: 5
   # Select minimum coverage value (for no minimum filtering is done if min_cov_perc is 0)
-max_cov: 10000000
+max_cov: 60
   # Select minimum coverage value (for no maximum filtering, set an unrealistically high value, e.g. 1000000)
 
 

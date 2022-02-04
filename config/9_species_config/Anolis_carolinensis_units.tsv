@@ -1,3 +1,0 @@
-sample	group	fq1	fq2
-SRR5508303	homogametic	data/fastq/SRR5508303_1.fastq.gz	data/fastq/SRR5508303_2.fastq.gz
-SRR5508304	heterogametic	data/fastq/SRR5508304_1.fastq.gz	data/fastq/SRR5508304_2.fastq.gz
