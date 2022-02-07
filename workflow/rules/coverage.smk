@@ -27,18 +27,41 @@ rule gencov_bedtools:
     output:
         cov_dir + "gencov.mismatch.{ED}.out"
     conda: 
-        "../envs/bedtools.yaml"
+        "../envs/samtools.yaml"
     message:
         "Calculate genome coverage with BEDtools"
     shell:
         """
-        bedtools multicov -bams {input.bam_hetero} {input.bam_homo} -bed {input.bed} -p -q 20 > {output}
+        samtools bedcov {input.bed} {input.bam_hetero} {input.bam_homo} -Q 20 > {output}
+        """
+
+min_cov=str(config['min_cov'])
+max_cov=str(config['max_cov'])
+
+
+rule mask_coverage:
+    input:
+        cov_dir + "gencov.mismatch.{ED}.out"
+    output:
+        cov_dir + "gencov.mismatch.{ED}.mask.out"
+    params:
+        hetero = expand("het:{u.sample}__{u.group}", u=heterogametic.itertuples()),
+        homo = expand("homo:{u.sample}__{u.group}", u=homogametic.itertuples()),
+        min=min_cov,
+        max=max_cov
+    conda: 
+        "../envs/python_gawk.yaml"
+    message:
+        "Masking outlier values"
+    shell:
+        """
+        cat {input} | awk '{{for (i = 4; i <= NF; i++) if ($i > 0) $i = $i/5000 ;print}}' | awk '{{for (i = 4; i <= NF; i++) if ($i < {params.min}) $i = "NaN" ;print}}' | awk '{{for (i = 4; i <= NF; i++) if ($i > {params.max}) $i = "NaN" ;print}}' | sed 's/ /\t/g' > {output}
         """
 
 
 rule normalize_cov_mean:
     input:
-        cov_dir + "gencov.mismatch.{ED}.out"
+        cov_dir + "gencov.mismatch.{ED}.mask.out"
     output:
         cov_dir + "gencov.mismatch.{ED}.norm.sexAverage.out"
     params:

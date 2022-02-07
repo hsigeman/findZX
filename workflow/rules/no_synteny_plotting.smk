@@ -1,6 +1,6 @@
 rule confirm_sexing:
     input:
-        gencov = windowCalc_cov + "gencov.mismatch.{ED}.out",
+        gencov = windowCalc_cov + "gencov.mismatch.{ED}.mask.out",
         het = windowCalc_het + ref_genome_name_simple + ".heterozygosity.5kb.windows.NR.bed",
         stats = expand(dedup_dir + "{u.sample}__{u.group}.sorted.dedup.mismatch.{{ED}}.samtools.stats.txt", zip, u=units.itertuples())
     output:

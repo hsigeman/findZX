@@ -60,7 +60,7 @@ rule matchScaffold2Chr_snp:
 rule matchScaffold2Chr_cov:
     input:
         bestMatch = windowCalc_het + "bestMatch.list",
-        cov = cov_dir + "gencov.mismatch.{ED}.out",
+        cov = cov_dir + "gencov.mismatch.{ED}.mask.out",
         cov_sexAverage = cov_dir + "gencov.mismatch.{ED}.norm.sexAverage.out"
     output:
         bestMatch = windowCalc_het + "gencov.mismatch.{ED}.out",

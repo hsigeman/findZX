@@ -41,6 +41,7 @@ rule mosdepth_by_threshold:
         bam=dedup_dir + "{sample}__{group}.sorted.dedup.mismatch.{ED}.bam",
         bai=dedup_dir + "{sample}__{group}.sorted.dedup.mismatch.{ED}.bam.bai",
         windows=cov_dir + "genome_5kb_windows.out",
+        filter_fai = cov_dir + ref_genome_name_simple + ".filter." + MIN_SIZE_SCAFFOLD + ".fasta.fai",
     output:
         cov_dir + "mosdepth_by_threshold/{sample}__{group}.mismatch.{ED}.mosdepth.global.dist.txt",
         cov_dir + "mosdepth_by_threshold/{sample}__{group}.mismatch.{ED}.mosdepth.region.dist.txt",
@@ -57,7 +58,7 @@ rule mosdepth_by_threshold:
         prefix=cov_dir + "mosdepth_by_threshold/{sample}__{group}.mismatch.{ED}"
     shell:
         """
-        mosdepth -t {threads} -b {input.windows} -n -x -Q 20 -T {params.thresholds} {params.prefix} {input.bam}
+        cat {input.filter_fai} | cut -f 1 | parallel -j {threads} mosdepth -c {{}} -b <(grep {{}} {input.windows} -n -x -Q 20 -T {params.thresholds} {params.prefix}_{{}} {input.bam}
         """
 
 

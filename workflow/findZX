@@ -59,7 +59,6 @@ rule all:
         qc_dir + "assembly_stats/" + ref_genome_name_simple + "_stats.txt",
         vcf_dir + ref_genome_name_simple + ".biallelic.minQ20.minDP3.het",
         vcf_dir + ref_genome_name_simple + ".heterozygosity.perc.csv",
-#       expand(cov_dir + "mosdepth_by_threshold/perSampleCoverage_{ED}.html", ED = EDIT_DIST),
 
 
 ##### Modules #####
@@ -73,6 +72,6 @@ include: "rules/consensus_genome.smk"
 include: "rules/assembly.smk"
 include: "rules/ref.smk"
 include: "rules/mapping.smk"
-#include: "rules/coverage.smk"
-include: "rules/coverage_mosdepth.smk"
+include: "rules/coverage.smk"
+#include: "rules/coverage_mosdepth.smk"
 include: "rules/variant_calling_platypus.smk"
