@@ -56,6 +56,7 @@ rule all:
         expand(plots_dir + ".misc/" + "linear.model.{window}bp.done", window = window_sizes),
         expand(plots_dir + ".misc/" + "plotting.{window}bp.done", window = window_sizes),
         tables_dir + "output_table_README.md",
+        expand(cov_dir + "gencov.mismatch.{ED}.mask.out", ED = EDIT_DIST),
         qc_dir + "assembly_stats/" + ref_genome_name_simple + "_stats.txt",
         vcf_dir + ref_genome_name_simple + ".biallelic.minQ20.minDP3.het",
         vcf_dir + ref_genome_name_simple + ".heterozygosity.perc.csv",

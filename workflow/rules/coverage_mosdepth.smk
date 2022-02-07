@@ -59,6 +59,7 @@ rule mosdepth_by_threshold:
     shell:
         """
         cat {input.filter_fai} | cut -f 1 | parallel -j {threads} mosdepth -c {{}} -b <(grep {{}} {input.windows} -n -x -Q 20 -T {params.thresholds} {params.prefix}_{{}} {input.bam}
+        c
         """
 
 
