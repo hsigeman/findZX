@@ -99,6 +99,7 @@ rule linear_models:
         out = touch(plots_dir + ".misc/" +  "linear.model.{bp}bp.done")
     params:
         chromosomes = CHROMOSOMES,
+        nr_chromosomes = 50,
         ED = expand("{ED}", ED = EDIT_DIST),
         window = "{bp}"
     conda: 
@@ -109,7 +110,7 @@ rule linear_models:
         "Linear model analyses"
     shell:
         """
-        Rscript workflow/scripts/linear_model_plotting_and_stats.R {input.cov} {input.snp} {output.plot} {output.table} {params.chromosomes} {input.chromosomes_highlight} {params.ED} {params.window} 2> {log}
+        Rscript workflow/scripts/linear_model_plotting_and_stats_test.R {input.cov} {input.snp} {output.plot} {output.table} {params.chromosomes} {input.chromosomes_highlight} {params.ED} {params.window} {params.nr_chromosomes} 2> {log}
         """
 
 rule plotting_linear:

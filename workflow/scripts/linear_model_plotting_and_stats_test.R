@@ -1,6 +1,7 @@
 library(sjPlot)
 library(ggplot2)
 library(cowplot)
+library(data.table)
 
 set.seed(999)
 
@@ -39,6 +40,9 @@ filesnp_base = gsub(".out$", "", filesnp)
 plot_out_base = gsub(".pdf$", "", plot_out)
 table_out_base = gsub(".html$", "", table_out)
 
+CHR_NR <- as.integer(CHR_NR)
+
+
 ################################################################################
 ################################# READ FILES ###################################
 ################################################################################
@@ -67,72 +71,72 @@ snp_table   <- read.table( filesnp,
                            fill=TRUE, 
                            stringsAsFactor=FALSE)
 
-if ( dim( cov_1_table )[1] == 0) {
-  
-  print("Warning: No chromosome/scaffold longer than the specified window size! Check output based 
-        on chromosome instead.")
-  
-} else {
-  
+
   if ( file.exists( chr_file ) ) {
     
-    #chromosome <- read.csv(chr_file, 
-    #                       header = FALSE, 
-    #                       sep = ",")
-    chromosome <- read.delim(chr_file, header = FALSE)
+    chromosome <- read.delim(chr_file, 
+                             header = FALSE)
     chromosome$V1 <- trimws(chromosome$V1, which = c("both", "left", "right"), whitespace = "[ \t\r\n]")
     chromosome <- chromosome$V1
     cov_1_table <- cov_1_table[ cov_1_table$chr %in% chromosome, ]
+    cov_2_table <- cov_2_table[ cov_2_table$chr %in% chromosome, ]
+    cov_3_table <- cov_3_table[ cov_3_table$chr %in% chromosome, ]
+    snp_table <- snp_table[ snp_table$chr %in% chromosome, ]
     
   }
-  
-  nr_factors <- c( length( unique( cov_1_table$chr ) ),
-                   length( unique( cov_2_table$chr ) ),
-                   length( unique( cov_3_table$chr ) ),
-                   length( unique( snp_table$chr )) )
-  
-  # Makes sure that all tables have the same chromosomes
-  while ( min( nr_factors ) != max( nr_factors ) ) {
-    
-    nr_factors_min <- which.min(nr_factors)
-    
-    if ( nr_factors_min == 1 ) {
-      
-      cov_2_table <- cov_2_table[ cov_2_table$chr %in% unique(cov_1_table$chr), ]
-      cov_3_table <- cov_3_table[ cov_3_table$chr %in% unique(cov_1_table$chr), ]
-      snp_table <- snp_table[ snp_table$chr %in% unique(cov_1_table$chr), ]
-      
-    } else if ( nr_factors_min == 2 ) {
-      
-      cov_1_table <- cov_1_table[ cov_1_table$chr %in% unique(cov_2_table$chr), ]
-      cov_3_table <- cov_3_table[ cov_3_table$chr %in% unique(cov_2_table$chr), ]
-      snp_table <- snp_table[ snp_table$chr %in% unique(cov_2_table$chr), ]
-      
-    } else if ( nr_factors_min == 3 ) {
-      
-      cov_1_table <- cov_1_table[ cov_1_table$chr %in% unique(cov_3_table$chr), ]
-      cov_2_table <- cov_2_table[ cov_2_table$chr %in% unique(cov_3_table$chr), ]
-      snp_table <- snp_table[ snp_table$chr %in% unique(cov_3_table$chr), ]
-      
-    } else if ( nr_factors_min == 4 ) {
-      
-      cov_1_table <- cov_1_table[ cov_1_table$chr %in% unique(snp_table$chr), ]
-      cov_2_table <- cov_2_table[ cov_2_table$chr %in% unique(snp_table$chr), ]
-      cov_3_table <- cov_3_table[ cov_3_table$chr %in% unique(snp_table$chr), ]
-      
-    }
-    
-    nr_factors <- c( length(unique(cov_1_table$chr)),
-                     length(unique(cov_2_table$chr)),
-                     length(unique(cov_3_table$chr)),
-                     length(unique(snp_table$chr)))
-    
-  }
-  
-  ################################################################################
-  ############################# STATISTIC TEST ################################
-  ################################################################################
-  
+
+
+
+################################################################################
+############################# FILTER MISSING ROWS ##############################
+################################################################################
+
+cov1_range <- cov_1_table[c(1,2)]
+cov2_range <- cov_2_table[c(1,2)]
+cov3_range <- cov_3_table[c(1,2)]
+snp_range <- snp_table[c(1,2)]
+
+
+ok_ranges <- merge(cov1_range, cov2_range, by =c("chr", "range"))
+ok_ranges <- merge(ok_ranges, cov3_range, by =c("chr", "range"))
+ok_ranges <- merge(ok_ranges, snp_range, by =c("chr", "range"))
+
+cov_1_table <- merge(cov_1_table, ok_ranges, by =c("chr", "range"))
+cov_2_table <- merge(cov_2_table, ok_ranges, by =c("chr", "range"))
+cov_3_table <- merge(cov_3_table, ok_ranges, by =c("chr", "range"))
+snp_table <- merge(snp_table, ok_ranges, by =c("chr", "range"))
+
+
+################################################################################
+############################# ORDER CHROMOSOMES ################################
+################################################################################
+
+alldata <- rbind(cov_1_table, cov_2_table, cov_3_table, snp_table)
+
+
+# Order after scaffold length if no chromosome file is given
+if ( !file.exists(chr_file) ) {
+  max_per_chr <- setDT( alldata )[, .SD[ which.max(range) ], 
+                                  by=chr]
+  max_per_chr <- as.data.frame( max_per_chr[,1:2] )
+  chromosome <- max_per_chr[ order( -max_per_chr$range ), ][,1]
+  len_chr <- dim(max_per_chr)[1]
+} else { len_chr <- length(chromosome)
+
+}
+
+
+cov_1_table$chr <- ordered(cov_1_table$chr, 
+                           levels = chromosome)
+cov_2_table$chr <- ordered(cov_2_table$chr, 
+                           levels = chromosome)
+cov_3_table$chr <- ordered(cov_3_table$chr, 
+                           levels = chromosome)
+snp_table$chr <- ordered(snp_table$chr, 
+                         levels = chromosome)
+
+
+
   cov_1_table$diff_Zscaled <- (cov_1_table$diff - mean(cov_1_table$diff)) / sd(cov_1_table$diff)
   fit_cov1 <- lm(diff_Zscaled ~ chr -1, data = cov_1_table)
   
@@ -145,7 +149,44 @@ if ( dim( cov_1_table )[1] == 0) {
   snp_table$diff_Zscaled <- (snp_table$diff - mean(snp_table$diff)) / sd(snp_table$diff)
   fit_snp <- lm(diff_Zscaled ~ chr -1, data = snp_table)
 
+  
+
+  outname <- sprintf("%s.html", table_out_base)
+  tab_model(fit_cov1, fit_cov2, fit_cov3, fit_snp, 
+            title = "Results from linear models - chromosomes with significant values differ between sexes", 
+            dv.labels = c(sprintf("Genome coverage %s", ED1), sprintf("Genome coverage %s", ED2), sprintf("Genome coverage %s", ED3), "Heterozygosity"),
+            CSS = list(css.separatorcol = 'padding-right:2.5em; padding-left:2.5em;'), file = outname)
+
+
+################################################################################
+  ############################# SUBSETTING ################################
   ################################################################################
+
+if ( !file.exists(chr_file) & (len_chr > CHR_NR)) {
+  nr_chr <- CHR_NR
+  chromosome <- as.factor(chromosome[1:nr_chr])
+} 
+
+cov_1_table <- cov_1_table[cov_1_table$chr %in% chromosome,]
+cov_2_table <- cov_2_table[cov_2_table$chr %in% chromosome,]
+cov_3_table <- cov_3_table[cov_3_table$chr %in% chromosome,]
+snp_table <- snp_table[snp_table$chr %in% chromosome,]
+
+
+cov_1_table$diff_Zscaled <- (cov_1_table$diff - mean(cov_1_table$diff)) / sd(cov_1_table$diff)
+fit_cov1 <- lm(diff_Zscaled ~ chr -1, data = cov_1_table)
+  
+cov_2_table$diff_Zscaled <- (cov_2_table$diff - mean(cov_2_table$diff)) / sd(cov_2_table$diff)
+fit_cov2 <- lm(diff_Zscaled ~ chr -1, data = cov_2_table)
+  
+cov_3_table$diff_Zscaled <- (cov_3_table$diff - mean(cov_3_table$diff)) / sd(cov_3_table$diff)
+fit_cov3 <- lm(diff_Zscaled ~ chr -1, data = cov_3_table)
+  
+snp_table$diff_Zscaled <- (snp_table$diff - mean(snp_table$diff)) / sd(snp_table$diff)
+fit_snp <- lm(diff_Zscaled ~ chr -1, data = snp_table)
+
+  
+################################################################################
   ############################# PLOTTING ################################
   ################################################################################
 
@@ -208,10 +249,4 @@ if ( dim( cov_1_table )[1] == 0) {
   print(data)
   dev.off()  
 
-  outname <- sprintf("%s.html", table_out_base)
-  tab_model(fit_cov1, fit_cov2, fit_cov3, fit_snp, 
-            title = "Results from linear models - chromosomes with significant values differ between sexes", 
-            dv.labels = c(sprintf("Genome coverage %s", ED1), sprintf("Genome coverage %s", ED2), sprintf("Genome coverage %s", ED3), "Heterozygosity"),
-            CSS = list(css.separatorcol = 'padding-right:2.5em; padding-left:2.5em;'), file = outname)
   
-}
