@@ -113,7 +113,7 @@ rule linear_models:
         "Linear model analyses"
     shell:
         """
-        Rscript workflow/scripts/linear_model_plotting_and_stats_test.R {input.cov} {input.snp} {output.plot} {output.table} {params.chromosomes} {input.chromosomes_highlight} {params.ED} {params.window} {params.nr_chromosomes} 2> {log}
+        Rscript workflow/scripts/linear_model_plotting_and_stats.R {input.cov} {input.snp} {output.plot} {output.table} {params.chromosomes} {input.chromosomes_highlight} {params.ED} {params.window} {params.nr_chromosomes} 2> {log}
         """
 
 rule plotting_linear:
