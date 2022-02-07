@@ -57,7 +57,7 @@ synteny_chr_highlight: [X, 3]
 ## Set all to "false" to disable trimming and subsampling
 ## Only one variable is allowed to be "true"
 
-trim_reads: true 
+trim_reads: false 
   # Set to true for trimming of reads
 
 trim_and_subsample: false
