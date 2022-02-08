@@ -32,10 +32,10 @@ synteny_name:
 # ================= #
 # Plotting settings #
 
-window_sizes: [50000, 100000, 1000000]
+window_sizes: [100000, 1000000]
   # Choose genome window sizes for plotting (as many as you want)
   # Optimal sizes depend on reference genome fragmentation and size of the sex-linked region
-  # Recommended sizes to start are: [50000, 100000, 1000000] (i.e. 50 kb, 100 kb, 1Mb)
+  # Recommended sizes to start are: [100000, 1000000] (i.e. 100 kb, 1Mb)
 
 chr_file: config/9_species_config/chromosome_files/Poecilia_reticulata_chromosomes.list
   # [findZX] Specify a file with list of chromosomes to only plot these (otherwise leave as "None")
