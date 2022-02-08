@@ -32,7 +32,7 @@ synteny_name: HS
 # ================= #
 # Plotting settings #
 
-window_sizes: [100000]
+window_sizes: [100000, 1000000]
   # Choose genome window sizes for plotting (as many as you want)
   # Optimal sizes depend on reference genome fragmentation and size of the sex-linked region
   # Recommended sizes to start are: [100000, 1000000] (i.e. 100 kb, 1Mb)
