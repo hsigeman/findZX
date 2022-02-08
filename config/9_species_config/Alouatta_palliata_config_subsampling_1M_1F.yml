@@ -60,7 +60,7 @@ synteny_chr_highlight: [X, 3]
 trim_reads: false 
   # Set to true for trimming of reads
 
-trim_and_subsample: false
+trim_and_subsample: true
   # Set to true for trimming and subsampling of reads
 
 subsample_only: false
