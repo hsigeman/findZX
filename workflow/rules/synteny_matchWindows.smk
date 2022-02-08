@@ -80,3 +80,29 @@ rule matchScaffold2Chr_cov:
         bedtools intersect -a {input.bestMatch} -b {input.cov_sexAverage} -wa -wb > {output.bestMatch_sexAverage}
         cut -f 8,9,10,14- {output.bestMatch_sexAverage} > {output.bestMatch_small_sexAverage}
         """
+
+
+rule synteny_stats:
+    input:
+        bestMatch = windowCalc_het + "bestMatch.list",
+        windows = cov_dir + "genome_5kb_windows.out",
+        ref_stats = qc_dir + "assembly_stats/" + ref_genome_name_simple + "_stats.txt",
+    output:
+        report(windowCalc_het + "synteny_stats.out", category="01 Sample and reference genome statistics", caption="../report/synteny_perc.rst"),
+    threads: 1
+    params:
+        synteny_ref=synteny_ref,
+        ref_genome_name=ref_genome_name,
+        MIN_SIZE_SCAFFOLD=MIN_SIZE_SCAFFOLD
+    shell:
+        """
+        ref_length=$(cat {input.ref_stats} | cut -f 2 | tail -n 1) 
+        window_length=$(cat {input.windows} | cut -f 2-3 | awk '{{print $2-$1}}' | paste -sd+ - | bc) 
+        match_bp=$(cat {input.bestMatch} | cut -f 1-3 | sort | uniq | awk '{{print $3-$2}}' | paste -sd+ - | bc )
+        echo "Study-species reference genome: {params.ref_genome_name}" > {output}
+        echo "Synteny-species reference genome: {params.synteny_ref}" >> {output}
+        echo "Total length of study-species reference genome: $ref_length bp" >> {output}
+        echo "scale=2; ${{match_bp}}/${{ref_length}}" | bc | awk '{{printf "%f",  $0}}' | awk '{{print "Prop. of synteny-species reference genome length matched to synteny-species:", $0}}'>> {output}
+        echo "Total length of study-species reference genome 5kb windows (only scaffolds longer than {params.MIN_SIZE_SCAFFOLD} bp): $window_length bp" >> {output}
+        echo "scale=2; ${{match_bp}}/${{window_length}}" | bc | awk '{{printf "%f", $0}}' | awk '{{print "Prop. of synteny-species reference genome 5kb windows matched:",$0}}' >> {output}
+        """

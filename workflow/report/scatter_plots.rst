@@ -7,4 +7,3 @@ The first set of plots (page 1: A-C) show sex differences in genome coverage and
 The second set of plots (page 2:D-F) show mean (± standard deviation) sex differences in genome coverage and heterozygosity per chromosome/scaffold, calculated from the genome windows from A-C. 
 
 The last page (page 3) contain information on what files were used to generate this plot.
-

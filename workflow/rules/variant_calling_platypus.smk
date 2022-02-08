@@ -56,3 +56,34 @@ rule vcftools_filter:
         bgzip -c {output.vcf} > {output.gz}
         tabix -p vcf {output.gz}
         """
+
+
+rule het_calc:
+    input:
+        vcf_dir + ref_genome_name_simple + ".biallelic.minQ20.minDP3.vcf.gz"
+    output:
+        vcf_dir + ref_genome_name_simple + ".biallelic.minQ20.minDP3.het",
+    conda: 
+        "../envs/vcftools_filter.yaml"
+    message:
+        "Filter VCF file"
+    shell:
+        """
+        vcftools --gzvcf {input} --het --stdout > {output}
+        """
+
+
+rule het_calc_genome:
+    input:
+        het=vcf_dir + ref_genome_name_simple + ".biallelic.minQ20.minDP3.het",
+        assembly_stats=qc_dir + "assembly_stats/" + ref_genome_name_simple + "_stats.txt",
+    output:
+        report(vcf_dir + ref_genome_name_simple + ".heterozygosity.perc.csv", category="01 Sample and reference genome statistics", caption="../report/het_perc.rst"),
+    message:
+        "Calculate heterozygosity"
+    shell:
+        """
+        length=$(cat {input.assembly_stats} | cut -f 2 | tail -n 1) 
+        echo "Sample,Heterozygous_sites,Genome_length,Percentage_heterozygosity" > {output}
+        cat {input.het} | grep -v INDV | awk -v var="$length" '{{print $1,($4-$2),var,($4-$2)/var*100}}' | sed 's/ /,/g' >> {output}
+        """
