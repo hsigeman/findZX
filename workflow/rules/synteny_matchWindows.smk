@@ -100,7 +100,8 @@ rule synteny_stats:
         match_bp=$(cat {input.bestMatch} | cut -f 1-3 | sort | uniq | awk '{{print $3-$2}}' | paste -sd+ - | bc )
         echo "Study-species reference genome: {params.ref_genome_name}" > {output}
         echo "Synteny-species reference genome: {params.synteny_ref}" >> {output}
+        echo "Total length of study-species reference genome: $ref_length bp" >> {output}
         echo "scale=2; ${{match_bp}}/${{ref_length}}" | bc | awk '{{printf "%f",  $0}}' | awk '{{print "Prop. of synteny-species reference genome length matched to synteny-species:", $0}}'>> {output}
+        echo "Total length of study-species reference genome 5kb windows (only scaffolds longer than {params.MIN_SIZE_SCAFFOLD} bp): $window_length bp" >> {output}
         echo "scale=2; ${{match_bp}}/${{window_length}}" | bc | awk '{{printf "%f", $0}}' | awk '{{print "Prop. of synteny-species reference genome 5kb windows matched:",$0}}' >> {output}
-        echo "Minimum scaffold length to be included in windows: {params.MIN_SIZE_SCAFFOLD} bp" >> {output}
         """
