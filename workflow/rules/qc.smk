@@ -16,7 +16,7 @@ rule multiqc:
     input:
         expand(qc_dir + "fastqc/{u.sample}__{u.group}.untrimmed_fastqc.zip", u=units.itertuples()),
     output:
-        report(qc_dir + "fastqc/multiqc.untrimmed.html", category="1. Quality control", caption="../report/multiqc_untrimmed.rst",),
+        report(qc_dir + "fastqc/multiqc.untrimmed.html", category="00 MultiQC reports", caption="../report/multiqc_untrimmed.rst",),
     log:
         logs_dir + "fastqc/multiqc.log",
     message:
@@ -48,7 +48,7 @@ rule multiqc_2:
         expand(qc_dir + "fastqc/{u.sample}__{u.group}.trimmed_fastqc.zip",
             u=units.itertuples()),
     output:
-        report(qc_dir + "fastqc/multiqc.trimmed.html", category="1. Quality control", caption="../report/multiqc_trimmed.rst",),
+        report(qc_dir + "fastqc/multiqc.trimmed.html", category="00 MultiQC reports", caption="../report/multiqc_trimmed.rst",),
     log:
         logs_dir + "fastqc/multiqc.trimmed.log",
     params: 

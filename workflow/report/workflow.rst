@@ -26,10 +26,6 @@ Configuration file settings
 
 - Window sizes (bp): ``{{ snakemake.config["window_sizes"] }}``
 
-- Minimum coverage: ``{{ snakemake.config["min_cov"] }}x``
-
-- Maximum coverage: ``{{ snakemake.config["max_cov"] }}x``
-
 - Mismatch settings: ``{{ snakemake.config["mismatch_settings"] }}``
 
 - Minimum size of scaffolds to plot: ``{{ snakemake.config["minSizeScaffold"] }} bp``
@@ -151,7 +147,7 @@ All output plots are multi-page PDF files, where the last page contain informati
 
 * Files (one for each selected mismatch setting): ``6_confirmSexing.samplesSeparately.mismatch.{{ snakemake.config["mismatch_settings"] }}.pdf`` 
 
-* Description: These plot are based on per-individual coverage and heterozygosity values for all 5 kb windows, and can be used to (a) confirm, or identify mistakes, in the sexing of invididuals and (b) estimate suitable genome coverage filtering parameters.
+* Description: These plot are based on per-individual coverage and heterozygosity values for all 5 kb windows, and can be used to (a) confirm, or identify mistakes, in the sexing of invididuals and to (b) identify samples where the alignment was not successful (i.e. low coverage).  
 
 ----
 
