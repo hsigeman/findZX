@@ -210,7 +210,7 @@ if ( dim( cov_1_table )[1] == 0) {
 
   outname <- sprintf("%s.html", table_out_base)
   tab_model(fit_cov1, fit_cov2, fit_cov3, fit_snp, 
-            title = "Results from linear models - chromosomes with significant differences between sexes", 
+            title = "Results from linear models: Testing which chromosomes have significant differences between sexes (significantly different from 0)", 
             dv.labels = c(sprintf("Genome coverage %s", ED1), sprintf("Genome coverage %s", ED2), sprintf("Genome coverage %s", ED3), "Heterozygosity"),
             CSS = list(css.separatorcol = 'padding-right:2.5em; padding-left:2.5em;'), file = outname)
   
