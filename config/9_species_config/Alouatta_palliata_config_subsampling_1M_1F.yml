@@ -16,7 +16,7 @@ mem_max: 8000
 run_name: Alouatta_palliata_subsample_1M_1F 
   # Select an analysis name. Output files will be stored under "results/[run_name]"
 
-units: config/9_species_config/Alouatta_palliata_units_1M_1F.tsv
+units: config/9_species_config/Alouatta_palliata_units_1M_1F_subset.tsv
   # Path to sample information file
 
 ref_genome: ../data/external_raw/genome/AloPal_v1.fasta
