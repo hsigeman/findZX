@@ -191,7 +191,7 @@ if ( dim( cov_1_table )[1] == 0) {
     fontface = theme_description$face,
     size = theme_description$size)
   
-  title <- ggdraw() + draw_label(sprintf("Linear Model Estimates and 95% CI"),     
+  title <- ggdraw() + draw_label("Linear Model Estimates and 95% CI",     
                                  fontfamily = title_theme$family,
                                  fontface = title_theme$face,
                                  size = title_theme$size)
