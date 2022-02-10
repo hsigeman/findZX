@@ -40,8 +40,13 @@ window_sizes: [50000, 100000, 1000000]
 chr_file: None
   # [findZX] Specify a file with list of chromosomes to only plot these (otherwise leave as "None")
 
-chr_highlight: [PVKV010001784.1, PVKV010001533.1]
+chr_highlight: [NW_018150853.1, NW_018150853.1, NW_018150973.1, NW_018151224.1]
   # [findZX] Specify chromosomes/scaffolds to highlight in plot type 4, or leave empty
+
+# NW_018150872.1  = contig2638 = CEMB01002638.1 = scf000179
+# NW_018150853.1 = contig11940 = scf0000160 = CEMB01011940.1 (part of chromosome 17)
+# NW_018150973.1 = contig37558 = CEMB01037558.1 = scf000280
+# NW_018151224.1 = contig17046 = CEMB01017046.1 = scf000531
 
 synteny_chr_file: config/9_species_config/chromosome_files/GG_chromosomes.list
   # [findZX-synteny] Specify a file with list of chromosomes to only plot these (otherwise leave as "None")

@@ -130,20 +130,20 @@ if ( dim( cov_1_table )[1] == 0) {
   }
   
   ################################################################################
-  ############################# STATISTIC TEST ################################
+  ############################# STATISTICAL TEST ################################
   ################################################################################
   
-  cov_1_table$diff_Zscaled <- (cov_1_table$diff - mean(cov_1_table$diff)) / sd(cov_1_table$diff)
-  fit_cov1 <- lm(diff_Zscaled ~ chr -1, data = cov_1_table)
+  #cov_1_table$diff_Zscaled <- (cov_1_table$diff - mean(cov_1_table$diff)) / sd(cov_1_table$diff)
+  fit_cov1 <- lm(diff ~ chr -1, data = cov_1_table)
   
-  cov_2_table$diff_Zscaled <- (cov_2_table$diff - mean(cov_2_table$diff)) / sd(cov_2_table$diff)
-  fit_cov2 <- lm(diff_Zscaled ~ chr -1, data = cov_2_table)
+  #cov_2_table$diff_Zscaled <- (cov_2_table$diff - mean(cov_2_table$diff)) / sd(cov_2_table$diff)
+  fit_cov2 <- lm(diff ~ chr -1, data = cov_2_table)
   
-  cov_3_table$diff_Zscaled <- (cov_3_table$diff - mean(cov_3_table$diff)) / sd(cov_3_table$diff)
-  fit_cov3 <- lm(diff_Zscaled ~ chr -1, data = cov_3_table)
+  #cov_3_table$diff_Zscaled <- (cov_3_table$diff - mean(cov_3_table$diff)) / sd(cov_3_table$diff)
+  fit_cov3 <- lm(diff ~ chr -1, data = cov_3_table)
   
-  snp_table$diff_Zscaled <- (snp_table$diff - mean(snp_table$diff)) / sd(snp_table$diff)
-  fit_snp <- lm(diff_Zscaled ~ chr -1, data = snp_table)
+ # snp_table$diff_Zscaled <- (snp_table$diff - mean(snp_table$diff)) / sd(snp_table$diff)
+  fit_snp <- lm(diff ~ chr -1, data = snp_table)
 
   ################################################################################
   ############################# PLOTTING ################################
@@ -175,9 +175,9 @@ if ( dim( cov_1_table )[1] == 0) {
   theme_description <- calc_element("plot.title", theme_description())
 
   plotLM <- plot_models(
-    fit_cov1, fit_cov2, fit_cov3, fit_snp, vline.color = "black",
+    fit_cov1, fit_cov2, fit_cov3, fit_snp, vline.color = "black", dot.size = 3, axis.title = paste0("Mean value across ", WINDOW, "bp windows"),
     m.labels = c(sprintf("Genome coverage %s", ED1), sprintf("Genome coverage %s", ED2), sprintf("Genome coverage %s", ED3), "Heterozygosity"),
-    show.values = FALSE, show.p = FALSE, p.shape = TRUE, legend.title = "Measurement"
+    show.values = FALSE, show.p = FALSE, p.shape = FALSE, legend.title = "Measurement"
   ) + text_size_colour 
  
    data <- ggdraw() + draw_label(paste0("Data points from tables: \n", file1, " \n ",
@@ -186,12 +186,12 @@ if ( dim( cov_1_table )[1] == 0) {
                                  fontface = theme_description$face,
                                  size = theme_description$size)
   
-  data2 <- ggdraw() + draw_label(paste0("Results from linear models in HTML file: ", sprintf("%s.html", table_out_base)),     
+  data2 <- ggdraw() + draw_label(paste0("Mean, standard error and 95% CI values are in the HTML file: ", sprintf("%s.html", table_out_base)),     
     fontfamily = theme_description$family,
     fontface = theme_description$face,
     size = theme_description$size)
   
-  title <- ggdraw() + draw_label("Linear Model Estimates and 95% CI",     
+   title <- ggdraw() + draw_label(paste0("Per chromosome/scaffold mean sex differences and 95% CI (window size:", WINDOW, ")"), 
                                  fontfamily = title_theme$family,
                                  fontface = title_theme$face,
                                  size = title_theme$size)
@@ -209,8 +209,10 @@ if ( dim( cov_1_table )[1] == 0) {
   dev.off()  
 
   outname <- sprintf("%s.html", table_out_base)
-  tab_model(fit_cov1, fit_cov2, fit_cov3, fit_snp, 
-            title = "Results from linear models: Testing which chromosomes have significant differences between sexes (significantly different from 0)", 
+  tab_model(fit_cov1, fit_cov2, fit_cov3, fit_snp,  show.se = TRUE, show.p = FALSE, show.obs = FALSE, show.r2 = FALSE, 
+    linebreak = TRUE, show.ci = 0.95, string.ci = "95% CI",
+            string.est = "Mean value",string.pred = "Chromosome/Scaffold",
+            title = paste0("Per chromosome/scaffold mean values, standard error values, and 95% confidence intervals. \n Based on data with window size: ", WINDOW, "bp"), 
             dv.labels = c(sprintf("Genome coverage %s", ED1), sprintf("Genome coverage %s", ED2), sprintf("Genome coverage %s", ED3), "Heterozygosity"),
             CSS = list(css.separatorcol = 'padding-right:2.5em; padding-left:2.5em;'), file = outname)
   
