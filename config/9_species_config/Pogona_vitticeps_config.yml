@@ -40,7 +40,7 @@ window_sizes: [50000, 100000, 1000000]
 chr_file: None
   # [findZX] Specify a file with list of chromosomes to only plot these (otherwise leave as "None")
 
-chr_highlight: [NW_018150853.1, NW_018150853.1, NW_018150973.1, NW_018151224.1]
+chr_highlight: [CEMB01002638.1, CEMB01011940.1, CEMB01037558.1, CEMB01017046.1]
   # [findZX] Specify chromosomes/scaffolds to highlight in plot type 4, or leave empty
 
 # NW_018150872.1  = contig2638 = CEMB01002638.1 = scf000179
