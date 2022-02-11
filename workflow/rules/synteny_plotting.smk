@@ -7,7 +7,7 @@ rule confirm_sexing:
         stats = expand(dedup_dir + "{u.sample}__{u.group}.sorted.dedup.mismatch.{{ED}}.samtools.stats.txt", zip, u=units.itertuples())
     output:
         read_length = plots_dir + ".misc/" + "read_length.sorted.nodup.mismatch.{ED}.csv",
-        gencov_het = report(plots_dir + "6_confirmSexing.samplesSeparately.mismatch.{ED}.pdf", category="Output plot type 6 (\"confirm sexing\")", subcategory="mismatch option: {ED}", caption="../report/confirm_sexing.rst")
+        gencov_het = report(plots_dir + "5_confirmSexing.samplesSeparately.mismatch.{ED}.pdf", category="Output plot type 5 (\"confirm sexing\")", subcategory="mismatch option: {ED}", caption="../report/confirm_sexing.rst")
     threads: 1
     params:
         map_dir = dedup_dir + "*.sorted.dedup.mismatch.{ED}.samtools.stats.txt",
@@ -49,7 +49,8 @@ if not config['synteny_chr_highlight']:
         output:
             out_scatter = report(plots_dir + "4_sexDifferences.{bp}bp.pdf", category="Output plot type 4 (scatter plots)", subcategory = "window size: {bp} bp", caption="../report/scatter_plots.rst",),
             out_scatter_highlight = plots_dir + "4_sexDifferences.{bp}bp.highlight.pdf",
-            out = touch(plots_dir + ".misc/" +  "plotting.{bp}bp.done")
+            out = touch(plots_dir + ".misc/" +  "plotting.{bp}bp.done"),
+            table = report(tables_dir + "sexDifferences_mean_SD.{bp}bp.window.tsv", category = "Output tables", subcategory = "window size: {bp} bp", caption="../report/scatter_plot_table.rst"),
         params:
             chromosomes = CHROMOSOMES,
             ED = expand("{ED}", ED = EDIT_DIST),
@@ -62,7 +63,7 @@ if not config['synteny_chr_highlight']:
             "Plotting results 4_sexDifferences"
         shell:
             """
-            Rscript workflow/scripts/plot_windows.R {input.cov} {input.snp} {output.out_scatter} {params.chromosomes} {input.chromosomes_highlight} {params.ED} {params.window} 2> {log}
+            Rscript workflow/scripts/plot_windows.R {input.cov} {input.snp} {output.out_scatter} {params.chromosomes} {input.chromosomes_highlight} {params.ED} {params.window} {output.table} 2> {log}
             """
 
 else:
@@ -74,7 +75,8 @@ else:
         output:
             out_scatter = report(plots_dir + "4_sexDifferences.{bp}bp.window.pdf", category="Output plot type 4 (scatter plots)", subcategory = "window size: {bp} bp", caption="../report/scatter_plots.rst",),
             out_scatter_highlight = report(plots_dir + "4_sexDifferences.{bp}bp.window.highlight.pdf", category="Output plot type 4 (scatter plots)", subcategory = "window size: {bp} bp", caption="../report/scatter_plots_highlight.rst"),
-            out = touch(plots_dir + ".misc/" +  "plotting.{bp}bp.done")
+            out = touch(plots_dir + ".misc/" +  "plotting.{bp}bp.done"),
+            table = report(tables_dir + "sexDifferences_mean_SD.{bp}bp.window.tsv", category = "Output tables", subcategory = "window size: {bp} bp", caption="../report/scatter_plot_table.rst"),
         params:
             chromosomes = CHROMOSOMES,
             ED = expand("{ED}", ED = EDIT_DIST),
@@ -87,34 +89,34 @@ else:
             "Plotting results 4_sexDifferences"
         shell:
             """
-            Rscript workflow/scripts/plot_windows.R {input.cov} {input.snp} {output.out_scatter} {params.chromosomes} {input.chromosomes_highlight} {params.ED} {params.window} 2> {log}
+            Rscript workflow/scripts/plot_windows.R {input.cov} {input.snp} {output.out_scatter} {params.chromosomes} {input.chromosomes_highlight} {params.ED} {params.window} {output.table} 2> {log}
             """
 
 
-rule linear_models:
-    input:
-        cov = expand(tables_dir + "diffGenomeCoverage.mismatch.{ED}.{{bp}}bp.out", ED = EDIT_DIST),
-        snp = tables_dir + "diffHeterozygosity.{bp}bp.out",
-        chromosomes_highlight = outputdir + "highlight_file.list"
-    output:
-        plot = report(plots_dir + "5_linear_model.plot.{bp}bp.pdf", category="Output plot type 5 (linear models)", subcategory = "window size: {bp} bp", caption="../report/linear_models.rst"),
-        table = report(tables_dir + "linear_model_results_estimate_CI.{bp}bp.html", category = "Output tables", subcategory = "window size: {bp} bp", caption="../report/linear_models_html.rst"),
-        out = touch(plots_dir + ".misc/" +  "linear.model.{bp}bp.done")
-    params:
-        chromosomes = CHROMOSOMES,
-        nr_chromosomes = 50,
-        ED = expand("{ED}", ED = EDIT_DIST),
-        window = "{bp}"
-    conda: 
-        "../envs/R2.yaml"
-    log:
-        plot_log + "linear.models.{bp}.log"
-    message:
-        "Linear model analyses"
-    shell:
-        """
-        Rscript workflow/scripts/linear_model_plotting_and_stats.R {input.cov} {input.snp} {output.plot} {output.table} {params.chromosomes} {input.chromosomes_highlight} {params.ED} {params.window} {params.nr_chromosomes} 2> {log}
-        """
+#rule linear_models:
+#    input:
+#        cov = expand(tables_dir + "diffGenomeCoverage.mismatch.{ED}.{{bp}}bp.out", ED = EDIT_DIST),
+#        snp = tables_dir + "diffHeterozygosity.{bp}bp.out",
+#        chromosomes_highlight = outputdir + "highlight_file.list"
+#    output:
+#        plot = report(plots_dir + "5_linear_model.plot.{bp}bp.pdf", category="Output plot type 5 (linear models)", subcategory = "window size: {bp} bp", caption="../report/linear_models.rst"),
+#        table = report(tables_dir + "linear_model_results_estimate_CI.{bp}bp.html", category = "Output tables", subcategory = "window size: {bp} bp", caption="../report/linear_models_html.rst"),
+#        out = touch(plots_dir + ".misc/" +  "linear.model.{bp}bp.done")
+#    params:
+#        chromosomes = CHROMOSOMES,
+#        nr_chromosomes = 50,
+#        ED = expand("{ED}", ED = EDIT_DIST),
+#        window = "{bp}"
+#    conda: 
+#        "../envs/R2.yaml"
+#    log:
+#        plot_log + "linear.models.{bp}.log"
+#    message:
+#        "Linear model analyses"
+#    shell:
+#        """
+#        Rscript workflow/scripts/linear_model_plotting_and_stats.R {input.cov} {input.snp} {output.plot} {output.table} {params.chromosomes} {input.chromosomes_highlight} {params.ED} {params.window} {params.nr_chromosomes} 2> {log}
+#        """
 
 rule plotting_linear:
     input:
@@ -123,7 +125,9 @@ rule plotting_linear:
     output:
         absolute_out = report(plots_dir + "2_sexesSeparate.genomeWide.{bp}bp.window.pdf", category="Output plot type 2 (genome-wide sexes separately)", subcategory = "window size: {bp} bp", caption="../report/linear_plots_sexesSeparate.rst",),
         diff_out = report(plots_dir + "1_sexDifferences.genomeWide.{bp}bp.window.pdf", category="Output plot type 1 (genome-wide sex differences)", subcategory = "window size: {bp} bp", caption="../report/linear_plots.rst",),
-        out = touch(plots_dir + ".misc/" + "plotting.linear.{bp}bp.done")
+        out = touch(plots_dir + ".misc/" + "plotting.linear.{bp}bp.done"),
+        outlier_cov=report(expand(tables_dir + "diffGenomeCoverage.mismatch.{ED}.{{bp}}bp.outlier.out", ED = EDIT_DIST), category = "Output tables", subcategory = "window size: {bp} bp", caption="../report/outlier_windows.rst",),
+        outlier_snp=report(tables_dir + "diffHeterozygosity.{bp}bp.outlier.out", category = "Output tables", subcategory = "window size: {bp} bp", caption="../report/outlier_windows_het.rst",),
     params:
         chromosomes = CHROMOSOMES,
         ED = expand("{ED}", ED = EDIT_DIST),
@@ -137,7 +141,7 @@ rule plotting_linear:
         "Plotting results 1_sexDifferences"
     shell:
         """
-        Rscript workflow/scripts/plot_windows_linear.R {input.cov} {input.snp} {output.absolute_out} {output.diff_out} {params.chromosomes} {params.ED} {params.nr_chromosomes} {params.window} 2> {log}
+        Rscript workflow/scripts/plot_windows_linear.R {input.cov} {input.snp} {output.absolute_out} {output.diff_out} {params.chromosomes} {params.ED} {params.nr_chromosomes} {params.window} {output.outlier_cov} {output.outlier_snp} 2> {log}
         """
 
 

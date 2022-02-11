@@ -18,7 +18,6 @@ EDIT_DIST.append("unfiltered")
 MIN_SIZE_SCAFFOLD = config["minSizeScaffold"]
 CHROMOSOMES = config['synteny_chr_file']
 CHROMOSOMES_HIGHLIGHT = config['synteny_chr_highlight']
-match_bp = config['match_bp']
 
 ref_genome_name = ref_genome[ref_genome.rindex('/')+1:]
 ref_genome_name_simple = ref_genome_name.rpartition('.')[0]
@@ -60,10 +59,10 @@ rule all:
     input:
         qc_dir + "fastqc/multiqc.untrimmed.html" if config['trim_reads'] | config['trim_and_subsample'] else [],
         qc_dir + "fastqc/multiqc.trimmed.html" if config['trim_reads'] | config['trim_and_subsample'] else [],
-        expand(plots_dir + "6_confirmSexing.samplesSeparately.mismatch.{ED}.pdf", ED = EDIT_DIST),
+        expand(plots_dir + "5_confirmSexing.samplesSeparately.mismatch.{ED}.pdf", ED = EDIT_DIST),
         plots_dir + ".misc/" + "plotting_chr.done",
         expand(plots_dir + ".misc/" + "plotting.linear.{window}bp.done", window = window_sizes),
-        expand(plots_dir + ".misc/" + "linear.model.{window}bp.done", window = window_sizes),
+#        expand(plots_dir + ".misc/" + "linear.model.{window}bp.done", window = window_sizes),
         plots_dir + ".misc/" + "plotting_chr.done",
         expand(plots_dir + ".misc/" + "plotting.{window}bp.done", window = window_sizes),
         tables_dir + "output_table_README.md",

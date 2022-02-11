@@ -56,7 +56,6 @@ synteny_chr_file: config/9_species_config/chromosome_files/GG_chromosomes.list
 synteny_chr_highlight: [17, 23]
   # [findZX-synteny] Specify chromosomes/scaffolds to highlight in plot type 4, or leave empty
 
-match_bp: 100
 
 # ================================== #
 # Trimming and subsampling of reads  #

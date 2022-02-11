@@ -32,6 +32,7 @@ ED1 = args[8]
 ED2 = args[9]
 ED3 = args[10]
 WINDOW = args[11]
+table = args[12]
 
 #minRange = 800000
 #setwd("~/Dropbox (MEEL)/PhD/Subprojects/6 Sylvioidea neosc-scan/9 Sexchromoscanner/code/")
@@ -727,6 +728,11 @@ title <- ggdraw() + draw_label(sprintf("Mean sex differences (heterogametic-homo
     fontface = theme_description$face,
     size = theme_description$size)
 
+  data <- ggdraw() + draw_label(paste0("Mean and standard deviation values (panels D-F) are in table: \n", table, " \n "),     
+    fontfamily = theme_description$family,
+    fontface = theme_description$face,
+    size = theme_description$size)
+
   data2 <- ggdraw() + draw_label(paste0("Data points from tables: \n", file1, " \n ",
    file2, " \n ", file3, " \n ", filesnp),     
     fontfamily = theme_description$family,
@@ -750,6 +756,18 @@ title <- ggdraw() + draw_label(sprintf("Mean sex differences (heterogametic-homo
     print(data)
     dev.off()  
     
+    chr.stats2 <- chr.stats
+    chr.stats2 = subset(chr.stats2, select = -c(highlight_col) )
+    names(chr.stats2) <- c('Chromosomes', 
+                           paste0("Mean genome coverage difference (", ED1, ")"), paste0("SD genome coverage difference (", ED1, ")"), 
+                           paste0("Mean genome coverage difference (", ED2, ")"), paste0("SD genome coverage difference (", ED2, ")"),
+                           paste0("Mean genome coverage difference (", ED3, ")"), paste0("SD genome coverage difference (", ED3, ")"),
+                           'Mean heterozygosity difference', 'SD heterozygosity difference', paste0("Number of", WINDOW, "bp windows"))
+    
+    table_name <- sprintf("%s", table)
+    write.table(chr.stats2, file = table_name, sep = "\t", quote = FALSE, row.names = F)
+
+
   }
   
  

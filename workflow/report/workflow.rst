@@ -6,9 +6,9 @@ This HTML document describe output from the findZX pipeline. (a) This page inclu
 
 - Instructions on how to run findZX is found on the `GitHub page`_:
 
-- [findZX] refers to if the following snakemake file was used for the analysis: ``snakemake -s workflow/findZX``-synteny
+- [findZX] refers to if the following snakemake file was used for the analysis: ``snakemake -s workflow/findZX``
 
-- [findZX] refers to if the following snakemake file was used for the analysis: ``snakemake -s workflow/findZX-synteny``
+- [findZX-synteny] refers to if the following snakemake file was used for the analysis: ``snakemake -s workflow/findZX-synteny``
 
 
 ----
@@ -136,18 +136,13 @@ All output plots are multi-page PDF files, where the last page contain informati
 * Description: Scatter plots showing between-sex genome coverage and percentage of heterozygosity differences. Dashed lines mark the genome-wide median across all genome windows. The first set of plots (page 1: A-C) show sex differences in genome coverage and heterozygosity across genome window. The second set of plots (page 2:D-F) show mean (± standard deviation) sex differences in genome coverage and heterozygosity per chromosome/scaffold, calculated from the genome windows from A-C.
 
 
-`Output plot type 5 (linear models)`_:
+`Output plot type 5 ("confirm sexing")`_:
 
-* Files (one for each selected window size): ``5_linear_model.plot.{{ snakemake.config["window_sizes"] }}bp.pdf``
+* Files (one for each selected mismatch setting): ``5_confirmSexing.samplesSeparately.mismatch.{{ snakemake.config["mismatch_settings"] }}.pdf`` 
 
-* Description: Estimates and 95% CI for linear models, testing which chromosomes siginificantly differ between sexes.
+* These plot are based on per-individual coverage and heterozygosity values for all 5 kb windows, and can be used to (a) confirm, or identify mistakes, in the sexing of invididuals and to (b) identify samples where the alignment was not successful (i.e. low coverage). 
 
-
-`Output plot type 6 ("confirm sexing")`_:
-
-* Files (one for each selected mismatch setting): ``6_confirmSexing.samplesSeparately.mismatch.{{ snakemake.config["mismatch_settings"] }}.pdf`` 
-
-* Description: These plot are based on per-individual coverage and heterozygosity values for all 5 kb windows, and can be used to (a) confirm, or identify mistakes, in the sexing of invididuals and to (b) identify samples where the alignment was not successful (i.e. low coverage).  
+* Description: Histogram of (A) genome coverage and (B) heterozygosity per 5 kb window. (C) Heatmap of genome coverage and heterozygosity values per 5 kb window. Heatmaps of (D) genome coverage and (E) heterozygosity (on the x-axis) and scaffold length (on the y-axis). (F) Heatmap of genome coverage values along the 50 largest chromosomes/scaffolds (or a selected list of chromosomes/scaffolds). 
 
 ----
 
@@ -161,17 +156,17 @@ Selected `Output tables`_ are attached to this HTML file. All output tables are 
 
 For every selected window size, the following tables are attached:
 
-- Test statistics from linear models, testing which chromosomes/scaffolds have sex differences (Z-transformed genome coverage and heterozygosity values) that are significantly different from zero: ``linear_model_results_estimate_CI.{{ snakemake.config["window_sizes"] }}.html``
-
-	* Test statistics same as in `Output plot type 5 (linear models)`_
-
 - Genome windows where genome coverage is significantly different between sexes (outside 95% CI, one file for each mismatch setting): ``diffGenomeCoverage.mismatch.{{ snakemake.config["mismatch_settings"] }}.{{ snakemake.config["window_sizes"] }}bp.outlier.out``
 
 	* Outliers are red and blue data points in `Output plot type 1 (genome-wide sex differences)`_
 
-- Genome windows where heterozygosity is significantly different between sexes (outside 95% CI): ``diffHeterozygosity.{{ snakemake.config["window_sizes"] }}bp.outlier.out``
+- Genome windows where heterozygosity is significantly different between sexes (outside 95% CI): ``diffHeterozygosity.{{ snakemake.config["window_sizes"] }}bp.outlier.out`` panels B-D.
  
-	* Outliers are red and blue data points in `Output plot type 1 (genome-wide sex differences)`_
+	* Outliers are red and blue data points in `Output plot type 1 (genome-wide sex differences)`_ panel A.
+
+- Mean and standard deviation values per chromosome/scaffold : ``sexDifferences_mean_std_dev.{{ snakemake.config["window_sizes"] }}bp.window.tsv``
+
+	* Same values as panels D-F in `Output plot type 4 (scatter plots)`_
 
 
 .. _preprint: https://www.biorxiv.org/content/10.1101/2021.10.18.464774v1

@@ -13,7 +13,7 @@ rule matchScaffold2Chr:
         absBestMatchFilter = dir_path + "/" + windowCalc_het + "bestMatch.list",
         windowsfile = "genome_windows.out",
         absLog = dir_path + "/" + windowCalc_het + "bestMatch.status",
-        match_bp = match_bp,
+        match_bp = 500,
     conda: 
         "../envs/bedtools.yaml"
     shell:
