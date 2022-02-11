@@ -446,6 +446,7 @@ title <- ggdraw() + draw_label(sprintf("Sex differences (heterogametic-homogamet
   cov.select.SC <- subset(cov.select, cov.select$highlight_col!="Autosomes")
   cov.select <- rbind(cov.select.A, cov.select.SC)
   
+  
   x_range <- max(chr.stats$cov1.mean) - min(chr.stats$cov1.mean)
   y_range <- max(chr.stats$hetDiff.mean) - min(chr.stats$hetDiff.mean)
 

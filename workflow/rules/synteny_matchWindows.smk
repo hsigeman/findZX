@@ -12,7 +12,8 @@ rule matchScaffold2Chr:
         okWindows = dir_path + "/" + windowCalc_het + "okWindows.list",
         absBestMatchFilter = dir_path + "/" + windowCalc_het + "bestMatch.list",
         windowsfile = "genome_windows.out",
-        absLog = dir_path + "/" + windowCalc_het + "bestMatch.status"
+        absLog = dir_path + "/" + windowCalc_het + "bestMatch.status".
+        match_bp = match_bp,
     conda: 
         "../envs/bedtools.yaml"
     shell:
@@ -23,7 +24,7 @@ rule matchScaffold2Chr:
 
         cat {params.absBestMatch} | cut -f 8-10 | sort | uniq -c | awk '$1<=2 {{print}}' | awk '{{print $2,$3,$4}}' | sed 's/ /\t/g' | sort | uniq | bedtools sort > {params.okWindows}
 
-        bedtools intersect -a <(<{params.absBestMatch} awk '{{print $8,$9,$10,$0}}' | sed 's/ /\t/g' | sort -k1,1 | bedtools sort) -b {params.okWindows} -f 1 -r -wa | cut -f 4- | awk '$4>500 {{print}}'> {params.absBestMatchFilter}
+        bedtools intersect -a <(<{params.absBestMatch} awk '{{print $8,$9,$10,$0}}' | sed 's/ /\t/g' | sort -k1,1 | bedtools sort) -b {params.okWindows} -f 1 -r -wa | cut -f 4- | awk '$4>{params.match_bp} {{print}}'> {params.absBestMatchFilter}
 
         echo "DONE" > {params.absLog}
         """

@@ -18,6 +18,7 @@ EDIT_DIST.append("unfiltered")
 MIN_SIZE_SCAFFOLD = config["minSizeScaffold"]
 CHROMOSOMES = config['synteny_chr_file']
 CHROMOSOMES_HIGHLIGHT = config['synteny_chr_highlight']
+match_bp = config['match_bp']
 
 ref_genome_name = ref_genome[ref_genome.rindex('/')+1:]
 ref_genome_name_simple = ref_genome_name.rpartition('.')[0]

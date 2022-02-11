@@ -47,6 +47,8 @@ chr_highlight: [CEMB01002638.1, CEMB01011940.1, CEMB01037558.1, CEMB01017046.1]
 # NW_018150853.1 = contig11940 = scf0000160 = CEMB01011940.1 (part of chromosome 17)
 # NW_018150973.1 = contig37558 = CEMB01037558.1 = scf000280
 # NW_018151224.1 = contig17046 = CEMB01017046.1 = scf000531
+# Using this table: https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/900/067/755/GCF_900067755.1_pvi1.1/GCF_900067755.1_pvi1.1_assembly_structure/Primary_Assembly/component_localID2acc
+# And gene information from Deakin et al. 2016 (Additional File 5)
 
 synteny_chr_file: config/9_species_config/chromosome_files/GG_chromosomes.list
   # [findZX-synteny] Specify a file with list of chromosomes to only plot these (otherwise leave as "None")
@@ -54,6 +56,7 @@ synteny_chr_file: config/9_species_config/chromosome_files/GG_chromosomes.list
 synteny_chr_highlight: [17, 23]
   # [findZX-synteny] Specify chromosomes/scaffolds to highlight in plot type 4, or leave empty
 
+match_bp: 200
 
 # ================================== #
 # Trimming and subsampling of reads  #

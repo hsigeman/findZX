@@ -1,1 +1,1 @@
-Percentage (%) of heterozygous sites for each sample (heterozygous sites/genome length)
+Percentage (%) of heterozygous sites for each sample
