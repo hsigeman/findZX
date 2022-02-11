@@ -762,7 +762,7 @@ title <- ggdraw() + draw_label(sprintf("Mean sex differences (heterogametic-homo
                            paste0("Mean genome coverage difference (", ED1, ")"), paste0("SD genome coverage difference (", ED1, ")"), 
                            paste0("Mean genome coverage difference (", ED2, ")"), paste0("SD genome coverage difference (", ED2, ")"),
                            paste0("Mean genome coverage difference (", ED3, ")"), paste0("SD genome coverage difference (", ED3, ")"),
-                           'Mean heterozygosity difference', 'SD heterozygosity difference', paste0("Number of", WINDOW, "bp windows"))
+                           'Mean heterozygosity difference', 'SD heterozygosity difference', paste0("Number of ", WINDOW, "bp windows"))
     
     table_name <- sprintf("%s", table)
     write.table(chr.stats2, file = table_name, sep = "\t", quote = FALSE, row.names = F)
