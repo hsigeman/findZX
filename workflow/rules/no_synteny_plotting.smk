@@ -21,7 +21,7 @@ rule confirm_sexing:
         "Plotting results 6_confirmSexing"
     shell:
         """
-        python workflow/scripts/read_length.py <(for FILE in $(ls {params.map_dir}); do echo \"${{FILE##*/}}\"; grep \"average length\" $FILE; done) > {output.read_length}
+        python3 workflow/scripts/read_length.py <(for FILE in $(ls {params.map_dir}); do echo \"${{FILE##*/}}\"; grep \"average length\" $FILE; done) > {output.read_length}
 
         Rscript workflow/scripts/histogram_indv.R {input.gencov} {input.het} {output.read_length} {output.gencov_het} no-synteny {params.chromosomes} {params.hetero} {params.homo} 2> {log}
         """
