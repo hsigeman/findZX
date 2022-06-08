@@ -140,6 +140,7 @@ for (i in 1:nr_samples) {
                aes(x = cov_het[,x], 
                    y = cov_het[,y])) + 
     geom_bin2d(na.rm = TRUE) + 
+    geom_point(alpha = 0) +
     labs(x = "genome coverage", 
          y = "heterozygosity") + 
     text_size_colour +
@@ -153,7 +154,8 @@ for (i in 1:nr_samples) {
   gl <- ggplot(data = cov_het, 
                aes(x = cov_het[,x], 
                    y = length/1000000)) + 
-    geom_bin2d(na.rm = TRUE) + 
+    geom_bin2d(na.rm = TRUE) +
+    geom_point(alpha = 0) +
     labs(x = "genome coverage", 
          y = "scaffold length (Mb)") + 
     text_size_colour +
@@ -167,6 +169,7 @@ for (i in 1:nr_samples) {
                aes(x = cov_het[,y], 
                    y = length/1000000)) + 
     geom_bin2d(na.rm = TRUE) + 
+    geom_point(alpha = 0) +
     labs(x = "heterozygosity", 
          y = "scaffold length (Mb)") + 
     text_size_colour +
